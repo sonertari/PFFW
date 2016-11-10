@@ -1,0 +1,125 @@
+#!/bin/sh
+
+# Copyright (c) 2016 Soner Tari.  All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this
+#    software must display the following acknowledgement: This
+#    product includes software developed by Soner Tari
+#    and its contributors.
+# 4. Neither the name of Soner Tari nor the names of
+#    its contributors may be used to endorse or promote products
+#    derived from this software without specific prior written
+#    permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+# IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+# IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+# INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+# NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+# THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ARCH=amd64
+
+ROOT_PATH=$(pwd)
+VERSION='5.9'
+SUBVERSION=_$(date +%Y%m%d)
+VMAJ=${VERSION%%\.*}
+VMIN=${VERSION##*\.}
+
+TMP=tmp
+
+SITE_DIR=site
+SITE_CONTENTS="install.site install.sub root.mail etc"
+SITE_FILE=site${VMAJ}${VMIN}.tgz
+
+PROJECT_NAME=pffw
+
+LOCALE_PATH=locale
+LOCALES_LIST="tr_TR"
+
+WEBIF=webif
+WEBIF_FILE=pffw-$WEBIF-${VMAJ}.${VMIN}.tar.gz
+
+CONFIG=config
+CONFIG_FILE=pffw-$CONFIG-${VMAJ}.${VMIN}.tar.gz
+
+PKG_PATH=packages
+
+CD_PATH=cd/${ARCH}
+INSTALL_SETS_PATH=${VERSION}/${ARCH}
+BOOT_IMG=$INSTALL_SETS_PATH/cdbr
+ISO_FILE=pffw${VMAJ}${VMIN}${SUBVERSION}_${ARCH}.iso
+SYS_ID="OpenBSD ${VERSION} ${ARCH}"
+VOL_ID="PFFW ${VERSION}${SUBVERSION} ${ARCH}"
+PREP_ID="Soner Tari <sonertari@gmail.org>"
+PUBLISH_ID="Copyright (c) 2016 Soner Tari, The PFFW project"
+APP_ID="PFFW is a pf firewall running on OpenBSD ${VERSION}"
+
+echo $SYS_ID
+echo $VOL_ID
+echo $APP_ID
+echo "========================="
+
+echo "Cloning $PROJECT_NAME git repo:"
+
+mkdir $ROOT_PATH/$TMP/
+cd $ROOT_PATH/$TMP/
+rm -rf .
+git clone $ROOT_PATH
+
+echo "Generating gettext translations:"
+
+for locale in $LOCALES_LIST; do
+	cd $ROOT_PATH/$TMP/$PROJECT_NAME/src/View/$LOCALE_PATH/$locale/LC_MESSAGES
+	msgfmt -o pffw.mo pffw.po
+done
+
+echo "Creating $WEBIF package: $WEBIF_FILE"
+
+cd $ROOT_PATH/$TMP/$PROJECT_NAME
+rm -rf $PROJECT_NAME
+mv src $PROJECT_NAME
+tar czf $ROOT_PATH/$TMP/$WEBIF_FILE $PROJECT_NAME
+ln -fs $ROOT_PATH/$TMP/$WEBIF_FILE $ROOT_PATH/$CD_PATH/$PKG_PATH/$WEBIF_FILE
+
+echo "Creating $CONFIG package: $CONFIG_FILE"
+
+cd $ROOT_PATH/$TMP/$PROJECT_NAME
+tar czf $ROOT_PATH/$TMP/$CONFIG_FILE $CONFIG
+ln -fs $ROOT_PATH/$TMP/$CONFIG_FILE $ROOT_PATH/$CD_PATH/$PKG_PATH/$CONFIG_FILE
+
+echo "Creating site package: $SITE_FILE"
+
+cd $ROOT_PATH/$SITE_DIR
+rm -f *.tgz
+rm -rf etc
+ln -s $ROOT_PATH/$TMP/$PROJECT_NAME/meta/etc
+tar czhf $SITE_FILE $SITE_CONTENTS
+ln -fs $ROOT_PATH/$SITE_DIR/$SITE_FILE $ROOT_PATH/$CD_PATH/$INSTALL_SETS_PATH/$SITE_FILE
+
+echo "Creating CD image: $ISO_FILE"
+
+cd $ROOT_PATH
+mkhybrid -f -l -T -r -L \
+	-c boot.catalog \
+	-sysid "$SYS_ID" \
+	-p "$PREP_ID" \
+	-P "$PUBLISH_ID" \
+	-V "$VOL_ID" \
+	-A "$APP_ID" \
+	-b $BOOT_IMG \
+	-o $ISO_FILE \
+	$CD_PATH
+

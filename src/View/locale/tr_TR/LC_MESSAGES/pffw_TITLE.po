@@ -1,0 +1,709 @@
+# Copyright (C) 2016 Soner Tari, The PFFW project
+# This file is distributed under the same license as PFFW.
+# Soner Tari <sonertari@gmail.com>, 2016.
+msgid ""
+msgstr ""
+"Project-Id-Version: PFFW 5.9\n"
+"Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Team: Turkish <>\n"
+"PO-Revision-Date: 2016-10-27 22:49+0300\n"
+
+msgid "%MEM"
+msgstr "%BELLEK"
+
+msgid "<RULE_TYPE> rule"
+msgstr "<RULE_TYPE> kuralı"
+
+msgid "Action"
+msgstr "İşlem"
+
+msgid "Active IPs (arp table)"
+msgstr "Geçerli IP'ler (arp tablosu)"
+
+msgid "Adaptive Timeouts"
+msgstr "Değişken Zaman Aşımları"
+
+msgid "Address Family"
+msgstr "Adres Ailesi"
+
+msgid "Admin e-mail"
+msgstr "Yönetici e-posta adresi"
+
+msgid "All rights reserved."
+msgstr "Tüm hakları saklıdır."
+
+msgid "Allow Opts"
+msgstr "Seçeneklere İzin Ver"
+
+msgid "Anchor"
+msgstr "Çapa"
+
+msgid "Archives"
+msgstr "Arşivler"
+
+msgid "Assign Priority"
+msgstr "Öncelik Ata"
+
+msgid "Assign Tag"
+msgstr "Tag Ata"
+
+msgid "Automatic config"
+msgstr "Otomatik yapılandırma"
+
+msgid "Bandwidth"
+msgstr "Band Genişliği"
+
+msgid "Block Option"
+msgstr "Engelleme Seçenekleri"
+
+msgid "Block Policy"
+msgstr "Engelleme Kuralı"
+
+msgid "Broadcast address"
+msgstr "Yayım adresi"
+
+msgid "COMMAND"
+msgstr "KOMUT"
+
+msgid "CPU Load"
+msgstr "İşlemci Yükü"
+
+msgid "Category"
+msgstr "Sınıf"
+
+msgid "Comment"
+msgstr "Yorum"
+
+msgid "Copyright"
+msgstr "Telif hakkı"
+
+msgid "Current Password"
+msgstr "Mevcut Parola"
+
+msgid "Data Transfer"
+msgstr "Veri Aktarımı"
+
+msgid "Date"
+msgstr "Tarih"
+
+msgid "DateTime"
+msgstr "TarihSaat"
+
+msgid "Day"
+msgstr "Gün"
+
+msgid "Debug"
+msgstr "Hata Ayıklama"
+
+msgid "Default"
+msgstr "Öntanım"
+
+msgid "Delete"
+msgstr "Sil"
+
+msgid "Delete ruleset"
+msgstr "Kural listesini sil"
+
+msgid "Destination"
+msgstr "Hedef"
+
+msgid "Destination Port"
+msgstr "Hedef Kapı"
+
+msgid "Direction"
+msgstr "Yön"
+
+msgid "Disk I/O"
+msgstr "Disk Yazma/Okuma"
+
+msgid "Divert Host"
+msgstr "Yön Değiştirme Adresi"
+
+msgid "Divert Port"
+msgstr "Yön Değiştirme Kapısı"
+
+msgid "Divert Reply"
+msgstr "Yön Değiştirmeye Cevap"
+
+msgid "ERROR"
+msgstr "HATA"
+
+msgid "Edit"
+msgstr "Düzenle"
+
+msgid "Edit <RULE_TYPE> Rule <RULE_NUMBER>"
+msgstr "<RULE_TYPE> Kuralı <RULE_NUMBER> Düzenleme"
+
+msgid "Enable Source Track"
+msgstr "Kaynak Takibini Aç"
+
+msgid "Enforce TOS"
+msgstr "TOS Uygula"
+
+msgid "Export To pflow"
+msgstr "Pflow'a Aktar"
+
+msgid "External Interface"
+msgstr "Dış Arayüz"
+
+msgid "External interface"
+msgstr "Dış arayüz"
+
+msgid "Fan"
+msgstr "Fan"
+
+msgid "File"
+msgstr "Dosya"
+
+msgid "Fingerprints File"
+msgstr "Parmakizi Dosyası"
+
+msgid "Flag"
+msgstr "Bayrak"
+
+msgid "Flags"
+msgstr "Bayraklar"
+
+msgid "Force HTTPs"
+msgstr "HTTPs Uygula"
+
+msgid "Forwarders"
+msgstr "İletilenler"
+
+msgid "Fragment"
+msgstr "Parça"
+
+msgid "Frags"
+msgstr "Parçalar"
+
+msgid "From Redirect Host"
+msgstr "Tekrar Yönlendirme Adresinden"
+
+msgid "GROUP"
+msgstr "GRUP"
+
+msgid "Gateway"
+msgstr "Ağ geçidi"
+
+msgid "Graph files"
+msgstr "Grafik dosyaları"
+
+msgid "Group"
+msgstr "Grup"
+
+msgid "Help Boxes"
+msgstr "Yardım Kutuları"
+
+msgid "Host Id"
+msgstr "Adres Kimliği"
+
+msgid "Hostname"
+msgstr "Sistem Adı"
+
+msgid "Hosts"
+msgstr "Bilgisayarlar"
+
+msgid "Hour"
+msgstr "Saat"
+
+msgid "ICMP Timeouts"
+msgstr "ICMP Zaman Aşımları"
+
+msgid "ICMP Type"
+msgstr "ICMP Türü"
+
+msgid "ICMP6 Type"
+msgstr "ICMP6 Türü"
+
+msgid "INFORMATION"
+msgstr "BİLGİ"
+
+msgid "IP range"
+msgstr "IP aralığı"
+
+msgid "Id"
+msgstr "Kimlik"
+
+msgid "Identifier"
+msgstr "Tanımlayıcı"
+
+msgid "Inline Rules"
+msgstr "Aynısatır Kuralları"
+
+msgid "Inline rules"
+msgstr "Aynısatır kuralları"
+
+msgid "Interface"
+msgstr "Arayüz"
+
+msgid "Interface Binding"
+msgstr "Arayüz Bağlantısı"
+
+msgid "Interfaces"
+msgstr "Arayüzler"
+
+msgid "Internal Interface"
+msgstr "Yerel Arayüz"
+
+msgid "Internal interface"
+msgstr "Yerel arayüz"
+
+msgid "Interval"
+msgstr "Zaman Aralığı"
+
+msgid "Label"
+msgstr "Etiket"
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "Leases"
+msgstr "Kiralanan IP adresleri"
+
+msgid "Level"
+msgstr "Seviye"
+
+msgid "Limit"
+msgstr "Sınır"
+
+msgid "Line"
+msgstr "Satır"
+
+msgid "Line number"
+msgstr "Satır numarası"
+
+msgid "Lines per page"
+msgstr "Satır sayısı"
+
+msgid "Listen on"
+msgstr "Dinlenen arayüz"
+
+msgid "Load ruleset"
+msgstr "Kural listesini yükle"
+
+msgid "Log"
+msgstr "Kayıt"
+
+msgid "Log Interface"
+msgstr "Kayıt Arayüzü"
+
+msgid "Log Level"
+msgstr "Kayıt Seviyesi"
+
+msgid "Logging"
+msgstr "Kayıt"
+
+msgid "Logout"
+msgstr "Çıkış"
+
+msgid "Loopback Interface"
+msgstr "Döngü Arayüzü"
+
+msgid "Match All"
+msgstr "Hepsini Eşle"
+
+msgid "Match Priority"
+msgstr "Öncelik Eşle"
+
+msgid "Match TOS"
+msgstr "TOS Eşle"
+
+msgid "Match Tagged"
+msgstr "Tag Eşle"
+
+msgid "Max"
+msgstr "En fazla"
+
+msgid "Max Addresses"
+msgstr "En Fazla Adres Sayısı"
+
+msgid "Max Anchor Nesting"
+msgstr "En Fazla İçiçe Çapa Sayısı"
+
+msgid "Max Connection"
+msgstr "En Fazla Bağlantı"
+
+msgid "Max Connection Rate"
+msgstr "En Yüksek Bağlantı Hızı"
+
+msgid "Max MSS"
+msgstr "En Yüksek MSS"
+
+msgid "Max Single Host States"
+msgstr "Tek Adres için En Fazla Durum Sayısı"
+
+msgid "Max States"
+msgstr "En Fazla Durum Sayısı"
+
+msgid "Max-mss"
+msgstr "En yüksek-mss"
+
+msgid "Mbuf Statistics"
+msgstr "Mbuf İstatistikleri"
+
+msgid "Memory Usage"
+msgstr "Bellek Kullanımı"
+
+msgid "Min"
+msgstr "En az"
+
+msgid "Min TTL"
+msgstr "En düşük TTL"
+
+msgid "Min-ttl"
+msgstr "En düşük-ttl"
+
+msgid "Month"
+msgstr "Ay"
+
+msgid "Move down"
+msgstr "Aşağı taşı"
+
+msgid "Move up"
+msgstr "Yukarı taşı"
+
+msgid "Name"
+msgstr "Ad"
+
+msgid "Name server"
+msgstr "Ad sunucusu"
+
+msgid "Nameserver"
+msgstr "Ad sunucu"
+
+msgid "Network Protocol Usage"
+msgstr "Ağ Protokol Kullanımı"
+
+msgid "New Password"
+msgstr "Yeni Parola"
+
+msgid "New Password Again"
+msgstr "Tekrar Yeni Parola"
+
+msgid "No pfsync"
+msgstr "Pfsync olmadan"
+
+msgid "Number of Processes"
+msgstr "Süreç Sayısı"
+
+msgid "Number of lines"
+msgstr "Satır sayısı"
+
+msgid "Number of processes"
+msgstr "Süreç Sayısı"
+
+msgid "OS"
+msgstr "Sistem"
+
+msgid "Once"
+msgstr "Bir Defa"
+
+msgid "Optimization"
+msgstr "Optimizasyon"
+
+msgid "Option"
+msgstr "Seçenek"
+
+msgid "Options"
+msgstr "Seçenekler"
+
+msgid "Other Timeouts"
+msgstr "Diğer Zaman Aşımları"
+
+msgid "Overload"
+msgstr "Aşırı yükleme"
+
+msgid "PRI"
+msgstr "ÖNC"
+
+msgid "Packet Filter"
+msgstr "Paket Eleği"
+
+msgid "Parent"
+msgstr "Veli"
+
+msgid "Partitions Usages"
+msgstr "Disk Bölüm Kullanımları"
+
+msgid "Password"
+msgstr "Parola"
+
+msgid "Pfctl Timeout"
+msgstr "Pfctl Zaman Aşımı"
+
+msgid "Probability"
+msgstr "Olasılık"
+
+msgid "Process"
+msgstr "Süreç"
+
+msgid "Process CPU Load"
+msgstr "Süreç İşlemci Yükü"
+
+msgid "Proto"
+msgstr "Proto"
+
+msgid "Protocol"
+msgstr "Protokol"
+
+msgid "Qlimit"
+msgstr "Kuyruk Boyu"
+
+msgid "Queue"
+msgstr "Kuyruk"
+
+msgid "Quick"
+msgstr "Hemen Uygula"
+
+msgid "Reassemble"
+msgstr "Birleştir"
+
+msgid "Received on Interface"
+msgstr "Alınan Arayüz"
+
+msgid "Redirect Address Family"
+msgstr "Tekrar Yönlendirme Adres Ailesi"
+
+msgid "Redirect Host"
+msgstr "Tekrar Yönlendirme Adresi"
+
+msgid "Redirect Options"
+msgstr "Tekrar Yönlendirme Seçenekleri"
+
+msgid "Redirect Port"
+msgstr "Tekrar Yönlendirme Kapısı"
+
+msgid "Refresh interval"
+msgstr "Yenileme aralığı"
+
+msgid "Regexp"
+msgstr "Düzenli ifade"
+
+msgid "Reload Rate"
+msgstr "Tekrar Yükleme Sıklığı"
+
+msgid "Resource not available"
+msgstr "Kaynağa ulaşılamıyor"
+
+msgid "Restart network"
+msgstr "Ağı tekrar başlat"
+
+msgid "Route Host"
+msgstr "Yönlendirme Adresi"
+
+msgid "Route Type"
+msgstr "Yönlendirme Türü"
+
+msgid "Routing Table"
+msgstr "Yönlendirme Tablosu"
+
+msgid "Rule"
+msgstr "Kural"
+
+msgid "Rule number"
+msgstr "Kural numarası"
+
+msgid "Rules file"
+msgstr "Kural dosyası"
+
+msgid "Ruleset Optimization"
+msgstr "Kural Listesi Optimizasyonu"
+
+msgid "STARTED"
+msgstr "BAŞLANGIÇ"
+
+msgid "Save ruleset"
+msgstr "Kural listesini kaydet"
+
+msgid "Scrub Options"
+msgstr "Kazıma Seçenekleri"
+
+msgid "Select Option Type"
+msgstr "Seçenek Türünü Seçin"
+
+msgid "Selected"
+msgstr "Seçili"
+
+msgid "Session Timeout"
+msgstr "Oturum Zaman Aşımı"
+
+msgid "Size"
+msgstr "Boyut"
+
+msgid "Skip Interfaces"
+msgstr "Atlanacak Arayüzler"
+
+msgid "Sloppy Tracker"
+msgstr "Detaysız Takip"
+
+msgid "Source"
+msgstr "Kaynak"
+
+msgid "Source Port"
+msgstr "Kaynak Kapısı"
+
+msgid "Source Track Timeout"
+msgstr "Kaynak Takip Zaman Aşımı"
+
+msgid "Source->Destination"
+msgstr "Kaynak->Hedef"
+
+msgid "Src Nodes"
+msgstr "Kaynak Noktalar"
+
+msgid "State"
+msgstr "Durum"
+
+msgid "State Defaults"
+msgstr "Durum Öntanımları"
+
+msgid "State Policy"
+msgstr "Durum Kuralları"
+
+msgid "State Searches vs Packets"
+msgstr "Durum Aramaları ve Paketler"
+
+msgid "State Statistics"
+msgstr "Durum İstatistikleri"
+
+msgid "Stateful Filtering"
+msgstr "Durum Takip Eden Elek"
+
+msgid "States"
+msgstr "Durumlar"
+
+msgid "Static Port"
+msgstr "Sabit Kapı"
+
+msgid "Statistics and uncompressed log files"
+msgstr "İstatistik ve açılmış kayıt dosyaları"
+
+msgid "Subnet mask"
+msgstr "Altağ şablonu"
+
+msgid "System"
+msgstr "Sistem"
+
+msgid "TCP Flags"
+msgstr "TCP Bayrakları"
+
+msgid "TCP Timeouts"
+msgstr "TCP Zaman Aşımları"
+
+msgid "TIME"
+msgstr "SÜRE"
+
+msgid "Table Entries"
+msgstr "Tablo Girdileri"
+
+msgid "Tables"
+msgstr "Tablolar"
+
+msgid "Target"
+msgstr "Hedef"
+
+msgid "Temperature"
+msgstr "Sıcaklık"
+
+msgid "Time"
+msgstr "Saat"
+
+msgid "Time server"
+msgstr "Zaman sunucu"
+
+msgid "Timeout"
+msgstr "Zaman Aşımı"
+
+msgid "Timespan"
+msgstr "Zaman aralığı"
+
+msgid "To Redirect Host"
+msgstr "Tekrar Yönlendirme Hedef Adresi"
+
+msgid "Type"
+msgstr "Tür"
+
+msgid "UDP Timeouts"
+msgstr "UDP Zaman Aşımları"
+
+msgid "USER"
+msgstr "KULLANICI"
+
+msgid "Upload rules file"
+msgstr "Kural dosyasını karşıya yükle"
+
+msgid "Upload ruleset"
+msgstr "Kural listesini karşıya yükle"
+
+msgid "User"
+msgstr "Kullanıcı"
+
+msgid "User name"
+msgstr "Kullanıcı adı"
+
+msgid "Value"
+msgstr "Değer"
+
+msgid "Values"
+msgstr "Değerler"
+
+msgid "WARNING"
+msgstr "UYARI"
+
+msgid "add file"
+msgstr "dosya ekle"
+
+msgid "add host or network"
+msgstr "adres veya ağ ekle"
+
+msgid "end"
+msgstr "son"
+
+msgid "height"
+msgstr "yükseklik"
+
+msgid "is not running"
+msgstr "çalışmıyor"
+
+msgid "is running"
+msgstr "çalışıyor"
+
+msgid "modified"
+msgstr "değişmiş"
+
+msgid "negated"
+msgstr "ters çevir"
+
+msgid "primary"
+msgstr "birincil"
+
+msgid "secondary"
+msgstr "ikincil"
+
+msgid "secs"
+msgstr "sn"
+
+msgid "size"
+msgstr "boyut"
+
+msgid "start"
+msgstr "başlangıç"
+
+msgid "timespan"
+msgstr "zaman aralığı"
+
+msgid "to"
+msgstr "hedef"
+
+msgid "total"
+msgstr "toplam"
+
+msgid "uploaded"
+msgstr "karşıdan yüklenmiş"
+
+msgid "width"
+msgstr "genişlik"
