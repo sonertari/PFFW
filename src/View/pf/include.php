@@ -72,6 +72,7 @@ $pfMenu = array(
 			'system' => _MENU('System'),
 			'hosts' => _MENU('Hosts'),
 			'ifs' => _MENU('Interfaces'),
+			'rules' => _MENU('Rules'),
 			'states' => _MENU('States'),
 			'queues' => _MENU('Queues'),
 			),
@@ -108,7 +109,6 @@ $pfMenu = array(
         'Name' => _MENU('Rules'),
         'Perms' => $ADMIN,
         'SubMenu' => array(
-			'info' => _MENU('Info'),
 			'editor' => _MENU('Editor'),
 			'write' => _MENU('Display & Install'),
 			'files' => _MENU('Load & Save'),
