@@ -1,4 +1,53 @@
 # PFFW
 
-PFFW is a pf firewall running on OpenBSD 5.9.
+PFFW is a pf firewall running on OpenBSD 5.9. PFFW is expected to be used on production systems.
+
+You can find a couple of screenshots on the [wiki](https://github.com/sonertari/PFFW/wiki).
+
+The installation CD iso file for amd64 arch is available for download at [pffw59\_20161111\_amd64.iso](https://drive.google.com/file/d/0B3F7Ueq0mFlYeWJaQkJCT0hKSWs/view?usp=sharing).
+
+## Features
+
+PFFW includes the following software, along side what is already available in a basic OpenBSD 5.9 installation:
+
+- PFRE: Packet Filter Rule Editor (daughter project)
+- Apache Web server
+- PHP
+- ISC DNS server
+- Symon system monitoring software
+
+The web user interface of PFFW helps you manage your firewall:
+
+- System, network, and service configuration can be achieved on the web interface.
+- Pf rules are maintained using PFRE.
+- Information on hosts, interfaces, pf rules, states, and queues are provided in tabular form.
+- Pf logs can be viewed and downloaded on the web interface. Compressed log files are supported too.
+- Pf statistics collected over logs are displayed in bar charts and top lists. Statistics over compressed log files are supported too.
+- You can monitor interfaces, packet transfer, pf states, and kernel memory management on the graphs.
+- The web interface supports English and Turkish.
+
+## How to install
+
+Download the installation iso file mentioned above and follow the instructions in the installation guide available in the iso file. Below are the same instructions.
+
+PFFW installation is very intuitive and easy, just follow the instructions on the screen and answer the questions asked. You are advised to accept the default answers to all the questions. In fact, the installation can be completed by accepting default answers all the way from the first question until the last. The only obvious exceptions are network configuration and password setup.
+
+Auto allocator will provide a partition layout recommended for your disk. Suggested partitioning should be suitable for most installations, simply accept it.
+
+Make sure you configure two network interfaces. You will be asked to choose internal and external interfaces later on.
+
+All of the install sets and software packages are selected by default, simply accept the selections
+
+If the installation script finds an already existing file which needs to be updated, it saves the old file as filename.orig. To update all such files, accept the default 'a' answer when asked.
+
+Installation logs can be found under the /root directory.
+
+You can access the web administration interface using the IP address of the system's internal interface you have selected during installation. You can log in to the system over ssh from internal network.
+
+Web interface user names are admin and user. Both are set to the same password you have provided during installation.
+
+References:
+
+1. See [supported hardware](http://openbsd.org/amd64.html).
+2. See [OpenBSD installation guide](http://openbsd.org/faq/faq4.html).
 
