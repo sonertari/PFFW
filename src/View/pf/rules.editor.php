@@ -161,7 +161,7 @@ require_once($VIEW_PATH.'/header.php');
                 <?php
                 foreach ($ruleCategoryNames as $category => $name) {
                     ?>
-                    <option value="<?php echo $category; ?>" label="<?php echo $category; ?>" <?php echo (filter_input(INPUT_POST, 'category') == $category || $show == $category ? 'selected' : ''); ?>><?php echo $name; ?></option>
+                    <option value="<?php echo $category; ?>" <?php echo (filter_input(INPUT_POST, 'category') == $category || $show == $category ? 'selected' : ''); ?>><?php echo $name; ?></option>
                     <?php
                 }
                 ?>
