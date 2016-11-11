@@ -23,7 +23,7 @@
  */
 
 /**
- * To satisfy Controller().
+ * Satisfies Controller.
  * 
  * This is due to common code used by all. Otherwise, the Controller cannot display help windows.
  */
@@ -36,12 +36,11 @@ function PrintHelpWindow($msg, $width= 'auto', $type= 'INFO')
 /**
  * Applies configuration.
  * 
- * @param bool $auto Whether to apply auto features too.
  * @return bool TRUE on success, FALSE on fail.
  */
-function ApplyConfig($auto)
+function ApplyConfig()
 {
-	global $Config, $Re_Ip, $View;
+	global $Config, $View;
 
 	try {
 		$mygate= $Config['Mygate'];
@@ -87,12 +86,8 @@ function ApplyConfig($auto)
 			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting symon ifs: $lanif, $wanif");
 		}
 
-		/// @attention There is an issue with sysctl on OpenBSD 5.9; it does not return on chrooted install environment
-		// Hence, the following symon configuration which require the use of sysctl should be run during normal operation instead
-		if ($auto) {
-			if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
-				pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
-			}
+		if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
+			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
 		}
 
 		return TRUE;
@@ -100,25 +95,6 @@ function ApplyConfig($auto)
 	catch (Exception $e) {
 		echo 'Caught exception: ', $e->getMessage(), "\n";
 		return FALSE;
-	}
-}
-
-/**
- * Applies configuration which cannot be completed during installation.
- */
-function FirstBootTasks()
-{
-	// Run symon script to create rrd files again for cpu and sensor probes
-	exec('/bin/sh /usr/local/share/examples/symon/c_smrrds.sh all');
-
-	// Disable rc.local line which leads to this function call
-	$file= '/etc/rc.local';
-	if (copy($file, $file.'.bak')) {
-		$re= '|^(\h*/var/www/htdocs/pffw/Installer/install\.php\h+-f\h*)|ms';
-		$contents= preg_replace($re, '#${1}', file_get_contents($file), 1, $count);
-		if ($contents !== NULL && $count === 1) {
-			file_put_contents($file, $contents);
-		}
 	}
 }
 

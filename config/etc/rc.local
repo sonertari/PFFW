@@ -7,14 +7,11 @@
 
 # Add your local startup actions here.
 
-/var/www/htdocs/pffw/Installer/install.php -f
-# The line above should have been commented out after first boot
-
 /bin/mkdir -p /var/tmp/pffw/
 
 echo '\nStarting PFFW services...'
 
-# Start Apache web server
+# Start Apache Web server
 if [ -x /usr/local/sbin/httpd ]; then
 	echo 'Web server'
 	/usr/local/sbin/httpd -u -DSSL >/dev/null 2>&1
