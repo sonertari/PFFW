@@ -73,7 +73,7 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 	+ Download the required packages.
 	+ Copy them to the appropriate locations to fix the broken links in the project.
 
-Note that you can strip down xbase and xfonts install sets to reduce the size of the iso file. See the PFFW installation iso above for examples.
+Note that you can strip down xbase and xfont install sets to reduce the size of the iso file. See the PFFW installation iso above for examples.
 
 Now you can run the createiso script which should produce an iso file in the same folder as itself.
 
