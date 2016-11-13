@@ -17,4 +17,3 @@ Web arayüzü kullanıcı adları admin ve user'dır. İkisinin parolası da kur
 Kaynaklar:
 [1] Desteklenen donanımlar için bkz. http://openbsd.org/amd64.html
 [2] OpenBSD kurulum detayları için bkz. http://openbsd.org/faq/faq4.html
-

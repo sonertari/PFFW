@@ -36,7 +36,7 @@ Auto allocator will provide a partition layout recommended for your disk. Sugges
 
 Make sure you configure two network interfaces. You will be asked to choose internal and external interfaces later on.
 
-All of the install sets and software packages are selected by default, simply accept the selections
+All of the install sets and software packages are selected by default, simply accept the selections.
 
 If the installation script finds an already existing file which needs to be updated, it saves the old file as filename.orig. To update all such files, accept the default 'a' answer when asked.
 
