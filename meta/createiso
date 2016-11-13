@@ -41,7 +41,7 @@ VMIN=${VERSION##*\.}
 TMP=tmp
 
 SITE_DIR=site
-SITE_CONTENTS="install.site install.sub root.mail etc"
+SITE_CONTENTS="install.site install.sub root.mail"
 SITE_FILE=site${VMAJ}${VMIN}.tgz
 
 PROJECT_NAME=pffw
@@ -104,8 +104,6 @@ echo "Creating site install set: $SITE_FILE"
 
 cd $ROOT_PATH/$SITE_DIR
 rm -f *.tgz
-rm -rf etc
-ln -s $ROOT_PATH/$TMP/$PROJECT_NAME/meta/etc
 tar czhf $SITE_FILE $SITE_CONTENTS
 ln -fs $ROOT_PATH/$SITE_DIR/$SITE_FILE $ROOT_PATH/$CD_PATH/$INSTALL_SETS_PATH/$SITE_FILE
 
