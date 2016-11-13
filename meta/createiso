@@ -100,7 +100,7 @@ cd $ROOT_PATH/$TMP/$PROJECT_NAME
 tar czf $ROOT_PATH/$TMP/$CONFIG_FILE $CONFIG
 ln -fs $ROOT_PATH/$TMP/$CONFIG_FILE $ROOT_PATH/$CD_PATH/$PKG_PATH/$CONFIG_FILE
 
-echo "Creating site package: $SITE_FILE"
+echo "Creating site install set: $SITE_FILE"
 
 cd $ROOT_PATH/$SITE_DIR
 rm -f *.tgz

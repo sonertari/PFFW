@@ -10,7 +10,7 @@ The installation CD iso file for amd64 arch is available for download at [pffw59
 
 PFFW includes the following software, along side what is already available in a basic OpenBSD 5.9 installation:
 
-- PFRE: Packet Filter Rule Editor (daughter project)
+- PFRE: Packet Filter Rule Editor
 - Apache Web server
 - PHP
 - ISC DNS server
@@ -50,4 +50,30 @@ References:
 
 1. See [supported hardware](http://openbsd.org/amd64.html).
 2. See [OpenBSD installation guide](http://openbsd.org/faq/faq4.html).
+
+## How to build
+
+The purpose in this section will be to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 5.9 and have installed git on it.
+
+The createiso script:
+
+- Clones the git repo of the project to a tmp folder.
+- Generates gettext translations.
+- Prepares the site install set.
+- And finally creates the iso file.
+
+However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence needs to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run createiso, you need to do a couple of things:
+
+- Install sets:
+	+ Obtain the sources of OpenBSD 5.9.
+	+ Copy the PFFW files under `openbsd/pffw/distrib/miniroot` and `/openbsd/pffw/sbin/disklabel` to the OpenBSD sources to replace the original files. You are advised to compare the original files with the PFFW versions before replacing.
+	+ Build an OpenBSD 5.9 release, as described in [faq5](http://www.openbsd.org/faq/faq5.html).
+	+ Copy the required install sets to the appropriate locations to fix the broken links in the project.
+- Packages:
+	+ Download the required packages.
+	+ Copy them to the appropriate locations to fix the broken links in the project.
+
+Note that you can strip down xbase and xfonts install sets to reduce the size of the iso file. See the PFFW installation iso above for examples.
+
+Now you can run the createiso script which should produce an iso file in the same folder as itself.
 
