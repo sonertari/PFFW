@@ -615,6 +615,7 @@ __EOT
 			php-*)
 				ln -s /usr/local/bin/php-5.6 /usr/local/bin/php
 				pkg_add php-pcntl
+				pkg_add php-mcrypt
 				;;
 			esac
 			;;

@@ -1,5 +1,6 @@
 # Hand-crafted specification for PFFW configuration files.
 etc/mail/aliases,644,root,wheel
+etc/php-5.6/mcrypt.ini,644,root,bin
 etc/php-5.6/pcntl.ini,644,root,bin
 etc/ssl/private/server.key,644,root,bin
 etc/ssl/server.crt,644,root,bin
@@ -26,5 +27,4 @@ var/log/monitoring.log,640,root,wheel
 var/log/named.log,640,root,wheel
 var/named/etc/named.conf,640,root,_bind
 var/www/conf/modules/php-5.6.conf,644,root,daemon
-var/www/conf/.htpasswd,644,root,wheel
 var/www/conf/httpd.conf,644,root,daemon

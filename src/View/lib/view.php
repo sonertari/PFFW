@@ -22,6 +22,8 @@
  * View base class.
  */
 
+require_once $VIEW_PATH.'/lib/phpseclib/Net/SSH2.php';
+
 class View
 {
 	public $Model= 'model';
@@ -41,7 +43,7 @@ class View
 	 */
 	function Controller(&$output)
 	{
-		global $SRC_ROOT;
+		global $SRC_ROOT, $UseSSH;
 
 		$return= FALSE;
 		try {
@@ -57,33 +59,65 @@ class View
 				
 				// Init command output
 				$outputArray= array();
-				/// @bug http://bugs.php.net/bug.php?id=49847, fixed/closed in SVN on 141009
-				exec($cmdline, $outputArray, $retval);
 
-				// (exit status 0 in shell) == (TRUE in php)
-				if ($retval === 0) {
-					$return= TRUE;
-				}
+				$executed= TRUE;
+				if ($UseSSH) {
+					// Subsequent calls use the encrypted password in the cookie, so we should decrypt it first.
+					$ciphertext_base64= $_COOKIE['passwd'];
+					$ciphertext_dec = base64_decode($ciphertext_base64);
 
-				$output= array();
-				$errorStr= '';
+					$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC);
+					$iv_dec = substr($ciphertext_dec, 0, $iv_size);
 
-				$decoded= json_decode($outputArray[0]);
-				if ($decoded !== NULL && is_array($decoded)) {
-					$output= explode("\n", $decoded[0]);
-					$errorStr= $decoded[1];
+					$ciphertext_dec = substr($ciphertext_dec, $iv_size);
+
+					$passwd = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['cryptKey'], $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
+
+					$ssh = new Net_SSH2(gethostname());
+
+					if ($ssh->login($_SESSION['USER'], $passwd)) {
+						$outputArray[0]= $ssh->exec($cmdline);
+					} else {
+						$msg= 'SSH login failed';
+						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+						PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
+						$executed= FALSE;
+					}
 				} else {
-					$msg= "Failed decoding output: $outputArray[0]";
-					pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
-					PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
+					/// @bug http://bugs.php.net/bug.php?id=49847, fixed/closed in SVN on 141009
+					exec($cmdline, $outputArray);
 				}
+ 
+				if ($executed) {
+					$output= array();
+					$errorStr= '';
+					$retval= 1;
 
-				// Show error, if any
-				if ($errorStr !== '') {
-					$error= explode("\n", $errorStr);
+					$decoded= json_decode($outputArray[0]);
+					if ($decoded !== NULL && is_array($decoded)) {
+						$output= explode("\n", $decoded[0]);
+						$errorStr= $decoded[1];
+						$retval= $decoded[2];
+					} else {
+						$msg= "Failed decoding output: $outputArray[0]";
+						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+						PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
+					}
 
-					pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($cmdline)");
-					PrintHelpWindow(_NOTICE('FAILED') . ':<br>' . implode('<br>', $error), 'auto', 'ERROR');
+					// Show error, if any
+					if ($errorStr !== '') {
+						$error= explode("\n", $errorStr);
+
+						pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($cmdline)");
+						PrintHelpWindow(_NOTICE('FAILED') . ':<br>' . implode('<br>', $error), 'auto', 'ERROR');
+					}
+
+					// (exit status 0 in shell) == (TRUE in php)
+					if ($retval === 0) {
+						$return= TRUE;
+					} else {
+						pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: ($cmdline)");
+					}
 				}
 			}
 		}
@@ -93,7 +127,36 @@ class View
 		}
 		return $return;
 	}
-	
+
+	/**
+	 * Checks the given user:password pair by testing login.
+	 * 
+	 * @param string $user User name.
+	 * @param string $passwd SHA encrypted password.
+	 * @return bool TRUE if passwd matches, FALSE otherwise.
+	 */
+	function CheckAuthentication($user, $passwd)
+	{
+		$hostname= gethostname();
+
+		$ssh = new Net_SSH2($hostname);
+
+		if ($ssh->login($user, $passwd)) {
+			/// @attention Trim the newline
+			$output= trim($ssh->exec('hostname'));
+			if ($hostname == $output) {
+				return TRUE;
+			} else {
+				pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "SSH test command failed: $hostname == $output");
+			}
+		} else {
+			$msg= 'Authentication failed';
+			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $msg);
+			PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
+		}
+		return FALSE;
+	}
+
 	/**
 	 * Escapes the arguments passed to Controller() and builds the command line.
 	 *

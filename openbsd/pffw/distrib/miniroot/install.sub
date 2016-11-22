@@ -1705,6 +1705,9 @@ user_setup() {
 			;;
 		sshd|uucp|www|named|proxy|nobody|ftp)
 			;;
+		admin|user)
+			# Reserved for the WUI
+			;;
 		[a-z]*([a-z0-9_]))
 			((${#resp} <= 31)) && break
 			;;

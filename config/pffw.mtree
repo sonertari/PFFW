@@ -30,7 +30,6 @@ conf			type=dir mode=0755 uname=root gname=daemon
 modules			type=dir mode=0755 uname=root gname=daemon
 php-5.6.conf	type=file mode=0644 uname=root gname=daemon
 ..	#var/www/conf/modules
-.htpasswd		type=file mode=0644 uname=root gname=wheel
 httpd.conf		type=file mode=0644 uname=root gname=daemon
 ..	#var/www/conf
 htdocs			type=dir mode=0755 uname=root gname=wheel
@@ -56,6 +55,7 @@ aliases			type=file mode=0644 uname=root gname=wheel
 pfre			type=dir mode=0755 uname=root gname=wheel
 ..	#etc/pfre
 php-5.6			type=dir mode=0755 uname=root gname=wheel
+mcrypt.ini		type=file mode=0644 uname=root gname=wheel
 pcntl.ini		type=file mode=0644 uname=root gname=wheel
 ..	#etc/php-5.6
 ssl			type=dir mode=0755 uname=root gname=wheel

@@ -336,11 +336,11 @@ function readline2($prompt= '')
 }
 
 /**
- * Sets admin and user passwords on the WUI.
+ * Create admin and user.
  *
  * Password should have at least 8 alphanumeric chars.
  */
-function SetWuiPasswd()
+function CreateUsers()
 {
 	global $View;
 	
@@ -357,21 +357,24 @@ function SetWuiPasswd()
 		if ($passwd === AskPass()) {
 			if (preg_match('/^\w{8,}$/', $passwd)) {
 				echo "\n";
+
+				$sha1Passwd= sha1($passwd);
+
 				// Update admin password
-				if ($View->Controller($output, 'SetPassword', 'admin', sha1($passwd))) {
-					pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User password changed: admin');
+				if ($View->Controller($output, 'CreateUser', 'admin', $sha1Passwd, 1000)) {
+					pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: admin');
 					// Update user password
-					if ($View->Controller($output, 'SetPassword', 'user', sha1($passwd))) {
-						pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User password changed: user');
+					if ($View->Controller($output, 'CreateUser', 'user', $sha1Passwd, 1001)) {
+						pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: user');
 					}
 					else {
-						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Password change failed: user');
+						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: user');
 					}
 				}
 				else {
-					pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Password change failed: admin');
+					pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: admin');
 				}
-				echo "Successfully set admin and user passwords.\n\n";
+				echo "Successfully created admin and user.\n\n";
 				break;
 			}
 			else {

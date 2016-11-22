@@ -35,9 +35,12 @@ if (count($_POST)) {
 		if (in_array(filter_input(INPUT_POST, 'User'), $ALL_USERS)) {
 			if (filter_input(INPUT_POST, 'NewPassword') === filter_input(INPUT_POST, 'ReNewPassword')) {
 				if (preg_match('/^\w{8,}$/', filter_input(INPUT_POST, 'NewPassword'))) {
-					/// @attention Admin can change other users' passwords without needing to know their passwords
-					if (($_SESSION['USER'] == 'admin' && filter_input(INPUT_POST, 'User') != 'admin') ||
-						$View->Controller($Output, 'CheckAuthentication', filter_input(INPUT_POST, 'User'), sha1(filter_input(INPUT_POST, 'CurrentPassword')))) {
+
+					/// @attention Admin can change other users' passwords without needing to know their current passwords
+					if (($_SESSION['USER'] == 'admin' && filter_input(INPUT_POST, 'User') != 'admin')
+							|| $View->CheckAuthentication(filter_input(INPUT_POST, 'User'), sha1(filter_input(INPUT_POST, 'CurrentPassword')))) {
+
+						// Encrypt passwords before passing down, plaintext passwords should never be visible, not even in the doas logs
 						if ($View->Controller($Output, 'SetPassword', filter_input(INPUT_POST, 'User'), sha1(filter_input(INPUT_POST, 'NewPassword')))) {
 							PrintHelpWindow(_NOTICE('User password changed') . ': ' . filter_input(INPUT_POST, 'User'));
 							pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User password changed: '.filter_input(INPUT_POST, 'User'));
@@ -135,6 +138,16 @@ if (count($_POST)) {
 			header('Location: http://'.filter_input(INPUT_SERVER, 'SERVER_ADDR').filter_input(INPUT_SERVER, 'REQUEST_URI'));
 			exit;
 		}
+		else if (filter_has_var(INPUT_POST, 'DisableUseSSH')) {
+			if ($View->Controller($Output, 'SetUseSSH', 'FALSE')) {
+				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Disable UseSSH');
+			}
+		}
+		else if (filter_has_var(INPUT_POST, 'EnableUseSSH')) {
+			if ($View->Controller($Output, 'SetUseSSH', 'TRUE')) {
+				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Enable UseSSH');
+			}
+		}
 		// Reset defaults to their new values
 		require($VIEW_PATH.'/lib/setup.php');
 	}
@@ -158,8 +171,8 @@ SwitchView('system', 'System');
 				<?php
 				PrintHelpBox(_HELPBOX('Here you can change the web administration interface passwords for admin and user. Passwords should have at least 8 alphanumeric characters.
 
-Admin can change the user password without knowing the current user password. But if you forget the admin password, you should run the following on the command line to set the password to soner123:
-<code>/usr/local/bin/htpasswd -b -s /var/www/conf/.htpasswd admin $(/bin/echo -n soner123 | sha1 -)</code>'));
+Admin can change the user password without knowing the current user password. But if you forget the admin password, you should login to the system as root and run the following on the command line to set the password to soner123:
+<code>/usr/bin/chpass -a "admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh"</code>'));
 				?>
 			</td>
 		</tr>
@@ -189,6 +202,45 @@ Admin can change the user password without knowing the current user password. Bu
 			</td>
 		</tr>
 	</form>
+	<tr class="evenline">
+		<td class="title">
+			<?php echo _TITLE('Force HTTPs').':' ?>
+		</td>
+		<td>
+			<form action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF') ?>" method="post">
+				<?php
+				$Button= $ForceHTTPs ? 'Disable' : 'Enable';
+				$ButtonValue= $ForceHTTPs ? _CONTROL('Disable') : _CONTROL('Enable');
+				$confirmMsg= str_replace('<BUTTON_VALUE>', $ButtonValue, _CONTROL('Are you sure you want to <BUTTON_VALUE> secure HTTP?'));
+				?>
+				<input type="submit" name="<?php echo $Button ?>ForceHTTPs" value="<?php echo $ButtonValue ?>" onclick="return confirm('<?php echo $confirmMsg ?>')"/>
+			</form>
+		</td>
+		<td class="none">
+			<?php
+			PrintHelpBox(_HELPBOX('If enabled, authentication pages are forced to use secure connections. Make sure you have a working SSL setup in the web server configuration, otherwise you cannot even log in to the web user interface. It is advised to use secure HTTP.'));
+			?>
+		</td>
+	</tr>
+	<tr class="oddline">
+		<td class="title">
+			<?php echo _TITLE('Use SSH').':' ?>
+		</td>
+		<td>
+			<form action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF') ?>" method="post">
+				<?php
+				$Button= $UseSSH ? 'Disable' : 'Enable';
+				$ButtonValue= $UseSSH ? _CONTROL('Disable') : _CONTROL('Enable');
+				?>
+				<input type="submit" name="<?php echo $Button ?>UseSSH" value="<?php echo $ButtonValue ?>"/>
+			</form>
+		</td>
+		<td class="none">
+			<?php
+			PrintHelpBox(_HELPBOX('This setting allows you to choose the method used while running the controller. Controller commands can be executed using either of the following two methods: (1) Executing the controller directly on the command line or (2) Openning an SSH connection to the system and calling the controller over this secure channel.'));
+			?>
+		</td>
+	</tr>
 	<tr class="evenline">
 		<td class="title">
 			<?php echo _TITLE('Log Level').':' ?>
@@ -292,26 +344,6 @@ Admin can change the user password without knowing the current user password. Bu
 	</tr>
 	<tr class="oddline">
 		<td class="title">
-			<?php echo _TITLE('Force HTTPs').':' ?>
-		</td>
-		<td>
-			<form action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF') ?>" method="post">
-				<?php
-				$Button= $ForceHTTPs ? 'Disable' : 'Enable';
-				$ButtonValue= $ForceHTTPs ? _CONTROL('Disable') : _CONTROL('Enable');
-				$confirmMsg= str_replace('<BUTTON_VALUE>', $ButtonValue, _CONTROL('Are you sure you want to <BUTTON_VALUE> secure HTTP?'));
-				?>
-				<input type="submit" name="<?php echo $Button ?>ForceHTTPs" value="<?php echo $ButtonValue ?>" onclick="return confirm('<?php echo $confirmMsg ?>')"/>
-			</form>
-		</td>
-		<td class="none">
-			<?php
-			PrintHelpBox(_HELPBOX('If enabled, authentication pages are forced to use secure connections. Make sure you have a working SSL setup in the web server configuration, otherwise you cannot even log in to the web user interface. It is advised to use secure HTTP.'));
-			?>
-		</td>
-	</tr>
-	<tr class="evenline">
-		<td class="title">
 			<?php echo _TITLE('Max Anchor Nesting').':' ?>
 		</td>
 		<td>
@@ -326,7 +358,7 @@ Admin can change the user password without knowing the current user password. Bu
 			?>
 		</td>
 	</tr>
-	<tr class="oddline">
+	<tr class="evenline">
 		<td class="title">
 			<?php echo _TITLE('Pfctl Timeout').':' ?>
 		</td>
@@ -338,7 +370,7 @@ Admin can change the user password without knowing the current user password. Bu
 		</td>
 		<td class="none">
 			<?php
-			PrintHelpBox(_HELPWINDOW('Pfctl commands are executed in a separate process, which returns pfctl output in a message. Parent process times out waiting for an output message after this many seconds. This approach is necessary in case pfctl is stuck or taking too long (and it is on certain cases).
+			PrintHelpBox(_HELPBOX('Pfctl commands are executed in a separate process, which returns pfctl output in a message. Parent process times out waiting for an output message after this many seconds. This approach is necessary in case pfctl is stuck or taking too long (and it is on certain cases).
 
 <b>Setting this timeout to 0 may fail the execution of all pfctl commands, effectively disabling rule tests.<b>'));
 			?>

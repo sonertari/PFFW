@@ -103,7 +103,9 @@ $MonthNumbers= array(
 
 /// General tcpdump command used everywhere.
 /// @todo All system binaries called should be defined like this.
-$TCPDUMP= '/usr/sbin/tcpdump -nettt -r';
+/// @attention Redirect stderr to /dev/null to hush tcpdump warning: "tcpdump: WARNING: snaplen raised from 116 to 160".
+/// Otherwise that warning goes in front of the data.
+$TCPDUMP= 'exec 2>/dev/null; /usr/sbin/tcpdump -nettt -r';
 
 $Re_Ip= '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
 

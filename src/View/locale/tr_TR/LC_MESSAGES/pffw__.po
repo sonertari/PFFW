@@ -66,6 +66,9 @@ msgstr "Sıkıştırılmış"
 msgid "Configure an interface"
 msgstr "Arayüzü yapılandır"
 
+msgid "Create user"
+msgstr "Kullanıcı yarat"
+
 msgid "Datetime wrong"
 msgstr "Tarih-saat hatalı"
 
@@ -494,6 +497,9 @@ msgstr "Sistem adını ayarla"
 
 msgid "Set system nameserver"
 msgstr "Sistem ad sunucusunu ayarla"
+
+msgid "Set use SSH"
+msgstr "SSH kullanımını ayarla"
 
 msgid "Set user password"
 msgstr "Kullanıcı parolasını ayarla"

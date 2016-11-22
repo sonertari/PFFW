@@ -639,6 +639,9 @@ msgstr "Kural dosyasını karşıya yükle"
 msgid "Upload ruleset"
 msgstr "Kural listesini karşıya yükle"
 
+msgid "Use SSH"
+msgstr "SSH Kullan"
+
 msgid "User"
 msgstr "Kullanıcı"
 

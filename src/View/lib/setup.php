@@ -28,6 +28,9 @@ $ShowHelpBox= TRUE;
 /// Default session timeout in secs.
 $SessionTimeout= 300;
 
+/// Whether to run Controller commands over SSH.
+$UseSSH= TRUE;
+
 /// Default reload rate in seconds for dynamic pages, e.g. live pages.
 $DefaultReloadRate= 10;
 

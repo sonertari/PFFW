@@ -91,7 +91,7 @@ require_once($VIEW_PATH . '/header.php');
 				<td class="right" ><?php echo $r['bytes'] ?></td>
 				<td class="right" ><?php echo $r['states'] ?></td>
 				<td class="right" ><?php echo $r['stateCreations'] ?></td>
-				<td><?php echo $r['rule'] ?></td>
+				<td><?php echo htmlentities($r['rule']) ?></td>
 				<td><?php echo $r['inserted'] ?></td>
 			</tr>
 			<?php

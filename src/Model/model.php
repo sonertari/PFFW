@@ -41,9 +41,6 @@ class Model
 	/// Max number of iterations to try while starting or stopping processes.
 	const PROC_STAT_TIMEOUT= 100;
 	
-	/// Apache password file pathname.
-	protected $passwdFile= '/var/www/conf/.htpasswd';
-	
 	/**
 	 * Argument lists and descriptions of commands.
 	 *
@@ -103,11 +100,11 @@ class Model
 					'desc'	=>	_('Get ext_if'),
 					),
 				
-				'CheckAuthentication'	=>	array(
-					'argv'	=>	array(NAME, SHA1STR),
-					'desc'	=>	_('Check authentication'),
+				'CreateUser'	=>	array(
+					'argv'	=>	array(NAME, SHA1STR, NUM),
+					'desc'	=>	_('Create user'),
 					),
-				
+
 				'SetPassword'	=>	array(
 					'argv'	=>	array(NAME, SHA1STR),
 					'desc'	=>	_('Set user password'),
@@ -136,6 +133,11 @@ class Model
 				'SetForceHTTPs'=>	array(
 					'argv'	=>	array(NAME),
 					'desc'	=>	_('Set force HTTPs'),
+					),
+
+				'SetUseSSH'=>	array(
+					'argv'	=>	array(NAME),
+					'desc'	=>	_('Set use SSH'),
 					),
 
 				'SetMaxAnchorNesting'=>	array(
@@ -414,46 +416,49 @@ class Model
 	}
 
 	/**
-	 * Checks the given user:password pair against the one in .htpasswd file.
+	 * Creates a system user.
 	 * 
-	 * Note that the passwords in .htpasswd are double encrypted.
-	 *
+	 * Note that passwords are double encrypted.
+	 * 
 	 * @param string $user User name.
 	 * @param string $passwd SHA encrypted password.
-	 * @return bool TRUE if passwd matches, FALSE otherwise.
+	 * @param int $uid User id.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
-	function CheckAuthentication($user, $passwd)
+	function CreateUser($user, $passwd, $uid)
 	{
-		/// @warning Args should never be empty, htpasswd expects 2 args
-		$passwd= $passwd == '' ? "''" : $passwd;
+		exec("/bin/cat /etc/master.passwd | /usr/bin/grep -E '^$user:' 2>&1", $output, $retval);
 
-		/// Passwords in htpasswd file are SHA encrypted.
-		exec("/usr/local/bin/htpasswd -bn -s '' $passwd 2>&1", $output, $retval);
-		if ($retval === 0) {
-			$htpasswd= ltrim($output[0], ':');
-		
-			/// @warning Have to trim newline chars, or passwds do not match
-			$passwdfile= file($this->passwdFile, FILE_IGNORE_NEW_LINES);
-			
-			// Do not use preg_match() here. If there is more than one line (passwd) for a user in passwdFile,
-			// this array method ensures that only one password apply to each user, the last one in passwdFile.
-			// This should never happen actually, but in any case.
-			$passwdlist= array();
-			foreach ($passwdfile as $nvp) {
-				list($u, $p)= explode(':', $nvp, 2);
-				$passwdlist[$u]= $p;
-			}
+		// If the user does not exist
+		if ($retval !== 0 && count($output) == 0) {
+			$uline= "$user:$(/usr/bin/encrypt $passwd):$uid:$uid::0:0:PFFW $user:/home/$user:/bin/ksh";
+			exec("/bin/echo $uline >>/etc/master.passwd 2>&1", $output, $retval);
 
-			if ($passwdlist[$user] === $htpasswd) {
-				return TRUE;
+			if ($retval === 0) {
+				$gline= "$user:*:$uid:";
+				exec("/bin/echo $gline >>/etc/group 2>&1", $output, $retval);
+
+				if ($retval === 0) {
+					exec("/bin/mkdir -p /home/$user 2>&1", $output, $retval);
+
+					if ($retval === 0) {
+						exec("cd /etc/skel; /bin/cp -pR . /home/$user 2>&1", $output, $retval);
+						return TRUE;
+					}
+				}
 			}
 		}
-		Error(_('Authentication failed'));
+
+		$errout= implode("\n", $output);
+		Error($errout);
+		pfrec_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Create user failed: $errout");
 		return FALSE;
 	}
 
 	/**
-	 * Sets user's password in .htpasswd file.
+	 * Sets user's password in the system password file.
+	 * 
+	 * Note that passwords are double encrypted.
 	 * 
 	 * @param string $user User name.
 	 * @param string $passwd SHA encrypted password.
@@ -461,14 +466,24 @@ class Model
 	 */
 	function SetPassword($user, $passwd)
 	{
-		/// Passwords in htpasswd file are SHA encrypted.
-		exec("/usr/local/bin/htpasswd -b -s $this->passwdFile $user $passwd 2>&1", $output, $retval);
+		exec("/bin/cat /etc/master.passwd | /usr/bin/grep -E '^$user:' 2>&1", $output, $retval);
 		if ($retval === 0) {
-			return TRUE;
+			$line= $output[0];
+			if (preg_match("/^$user:[^:]+(:.+)$/", $line, $match)) {
+				unset($output);
+				$cmdline= '/usr/bin/chpass -a "' . $user . ':$(/usr/bin/encrypt ' . $passwd . ')' . $match[1] . '"';
+				pfrec_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "cmdline: $cmdline");
+
+				exec($cmdline, $output, $retval);
+				if ($retval === 0) {
+					return TRUE;
+				}
+			}
 		}
+
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set password failed: $errout");
+		pfrec_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set password failed: $errout");
 		return FALSE;
 	}
 
@@ -548,6 +563,20 @@ class Model
 		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/lib/setup.php', '\$ForceHTTPs', $bool.';');
 	}
 
+	/**
+	 * Enables or disables SSH.
+	 * 
+	 * @param bool $bool TRUE to enable, FALSE otherwise.
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function SetUseSSH($bool)
+	{
+		global $ROOT, $TEST_DIR_SRC;
+		
+		// Append semi-colon to new value, this setting is a PHP line
+		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/View/lib/setup.php', '\$UseSSH', $bool.';');
+	}
+	
 	/**
 	 * Sets the max number of nested anchors allowed.
 	 * 

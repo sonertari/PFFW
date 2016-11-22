@@ -159,9 +159,10 @@ else {
 	pffwc_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Method does not exist: $ErrorStr");
 }
 
-/// @attention Always return errors, success or fail
-// Return an encoded array, so that the caller can easily separate output and error messages
-$msg= array($Output, $Error);
+/// @attention Always return errors, success or fail.
+/// @attention We need to include $retval in the array too, because phpseclib exec() does not provide access to retval.
+// Return an encoded array, so that the caller can easily separate output, error, and retval
+$msg= array($Output, $Error, $retval);
 $encoded= json_encode($msg);
 
 if ($encoded !== NULL) {
