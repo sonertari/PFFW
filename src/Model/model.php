@@ -443,7 +443,11 @@ class Model
 
 					if ($retval === 0) {
 						exec("cd /etc/skel; /bin/cp -pR . /home/$user 2>&1", $output, $retval);
-						return TRUE;
+
+						if ($retval === 0) {
+							exec("/usr/sbin/pwd_mkdb -p /etc/master.passwd 2>&1", $output, $retval);
+							return TRUE;
+						}
 					}
 				}
 			}
