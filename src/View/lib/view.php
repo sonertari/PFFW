@@ -93,7 +93,7 @@ class View
 					$errorStr= '';
 					$retval= 1;
 
-					$decoded= json_decode($outputArray[0]);
+					$decoded= json_decode($outputArray[0], TRUE);
 					if ($decoded !== NULL && is_array($decoded)) {
 						$output= explode("\n", $decoded[0]);
 						$errorStr= $decoded[1];
@@ -282,7 +282,7 @@ class View
 		<?php
 		if ($running && $this->Model != 'pf') {
 			$this->Controller($output, 'GetProcList');
-			$this->PrintProcessTable(unserialize($output[0]), $printcount);
+			$this->PrintProcessTable(json_decode($output[0], TRUE), $printcount);
 		}
 	}
 
@@ -410,7 +410,7 @@ class View
 	function PrintStats($file= '')
 	{
 		$this->Controller($output, 'GetProcStatLines', $file);
-		$stats= unserialize($output[0]);
+		$stats= json_decode($output[0], TRUE);
 		PrintNVPs($stats, _STATS('General Statistics'));
 	}
 

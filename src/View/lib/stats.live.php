@@ -31,9 +31,8 @@ SetRefreshInterval();
 $View->Controller($Output, 'GetDefaultLogFile');
 $LogFile= $Output[0];
 
-$DateArray['Month']= exec('/bin/date +%m');
-$DateArray['Day']= exec('/bin/date +%d');
-$DateArray['Hour']= exec('/bin/date +%H');
+$View->Controller($Output, 'GetDateTime');
+$DateArray= json_decode($Output[0], TRUE);
 
 $GraphType= 'Horizontal';
 
@@ -50,8 +49,8 @@ $Date= $View->FormatDate($DateArray);
 
 $ViewStatsConf= $StatsConf[$View->Model];
 
-$View->Controller($Output, 'GetStats', $LogFile, serialize($DateArray), 'COLLECT');
-$Stats= unserialize($Output[0]);
+$View->Controller($Output, 'GetStats', $LogFile, json_encode($DateArray), 'COLLECT');
+$Stats= json_decode($Output[0], TRUE);
 $DateStats= $Stats['Date'];
 
 require_once($VIEW_PATH . '/header.php');

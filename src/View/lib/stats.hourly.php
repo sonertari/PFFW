@@ -95,8 +95,8 @@ $Date= $View->FormatDate($DateArray);
 
 $ViewStatsConf= $StatsConf[$View->Model];
 
-$View->Controller($Output, 'GetStats', $LogFile, serialize($DateArray), 'COLLECT');
-$Stats= unserialize($Output[0]);
+$View->Controller($Output, 'GetStats', $LogFile, json_encode($DateArray), 'COLLECT');
+$Stats= json_decode($Output[0], TRUE);
 $DateStats= $Stats['Date'];
 
 require_once($VIEW_PATH . '/header.php');

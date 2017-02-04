@@ -124,6 +124,10 @@ $ArgTypes= array(
 		'func'	=> 'IsDateTime',
 		'desc'	=> _('Datetime wrong'),
 		),
+	TAIL		=>	array(
+		'func'	=> 'IsTailNumber',
+		'desc'	=> _('Tail number wrong'),
+		),
 );
 
 $MonthDays= array(
@@ -179,9 +183,10 @@ function IsStr($str)
 
 function IsSerializedArray($str)
 {
-	// Serialized arrays passed to the Model are small enough to warrant this unserialize() and array check
+	// Serialized arrays passed to the Model are small enough to warrant this json_decode() and array check
 	// Otherwise, this is not true for the return values of the Model, especially logs and statistics
-	return is_array(unserialize($str));
+	// XXX: Was unserialize() before, redundant now.
+	return is_array(json_decode($str, TRUE));
 }
 
 function IsIPList($iplist)
@@ -254,6 +259,16 @@ function IsDateTime($datetime)
 		}
 	}
 	return FALSE;
+}
+
+function IsTailNumber($str)
+{
+	if (IsNumber($str)) {
+		/// @bug tail(1) on OpenBSD 5.9 amd64 gets stuck with: echo soner | /usr/bin/tail -99999999
+		/// @link https://marc.info/?l=openbsd-bugs&m=148586652218524&w=2
+		/// @attention Never allow large numbers here, otherwise the system becomes unusuable.
+		return $str < 1000;
+	}
 }
 
 /**

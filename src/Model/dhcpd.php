@@ -290,7 +290,7 @@ class Dhcpd extends Model
 				$logs[]= $cols;
 			}
 		}
-		return Output(serialize($logs));
+		return Output(json_encode($logs));
 	}
 
 	/**
@@ -342,7 +342,7 @@ class Dhcpd extends Model
 				$logs[]= $cols;
 			}
 		}
-		return Output(serialize($logs));
+		return Output(json_encode($logs));
 	}
 }
 ?>

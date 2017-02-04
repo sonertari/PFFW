@@ -135,16 +135,17 @@ class Graph {
 	$this->graph_vars->parse($lexer);
     }
 
-    function render() {
-	$this->_save();
-	if (isset($this->template)) {
-	    print '
-<img src="../symon/graph.php?'. $this->_url() . '" class="graph">
-';
+    function render($html= true) {
+		$this->_save();
+		if (isset($this->template)) {
+			if ($html) {
+				print '<img src="../symon/graph.php?' . $this->_url() . '" class="graph">';
+			}
+		}
+		return $this->_url();
 	}
-    }
 
-    function _url() {
+	function _url() {
 	if (!isset($this->url)) {
 	    runtime_error("graph: internal error : need to save the graph before an url can be requested");
 	    return '';

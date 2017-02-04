@@ -110,8 +110,8 @@ $_SESSION[$View->Model][$Submenu]['GraphStyle']= $GraphStyle;
 
 $ViewStatsConf= $StatsConf[$View->Model];
 
-$View->Controller($Output, 'GetStats', $LogFile, serialize($DateArray), $GraphStyle == 'Hourly' ? 'COLLECT' : '');
-$Stats= unserialize($Output[0]);
+$View->Controller($Output, 'GetStats', $LogFile, json_encode($DateArray), $GraphStyle == 'Hourly' ? 'COLLECT' : '');
+$Stats= json_decode($Output[0], TRUE);
 $DateStats= $Stats['Date'];
 
 require_once($VIEW_PATH . '/header.php');

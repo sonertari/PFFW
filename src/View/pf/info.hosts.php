@@ -50,7 +50,7 @@ SwitchView('dhcpd', 'DHCP Server');
 	PrintTableHeaders('arp');
 
 	if ($View->Controller($Output, 'GetArpTable')) {
-		$ArpTable= unserialize($Output[0]);
+		$ArpTable= json_decode($Output[0], TRUE);
 		$LineCount= 1;
 		foreach ($ArpTable as $Cols) {
 			?>
@@ -71,7 +71,7 @@ SwitchView('dhcpd', 'DHCP Server');
 	PrintTableHeaders('lease');
 
 	if ($View->Controller($Output, 'GetLeases')) {
-		$Leases= unserialize($Output[0]);
+		$Leases= json_decode($Output[0], TRUE);
 		$LineCount= 1;
 		foreach ($Leases as $Cols) {
 			?>

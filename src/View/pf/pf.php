@@ -65,16 +65,16 @@ class Pf extends View
 
 		PrintLogHeaderForm($StartLine, $StateCount, $LinesPerPage, $SearchRegExp, '');
 		$this->Controller($output, 'GetStateList', $HeadStart, $LinesPerPage, $SearchRegExp);
-		$output= unserialize($output[0]);
+		$states= json_decode($output[0], TRUE);
 
-		$total= count($output);
+		$total= count($states);
 		if ($total > 0) {
 			?>
 			<table id="logline">
 			<?php
 			$this->PrintStatesTableHeader();
 			$linenum= 0;
-			foreach ($output as $cols) {
+			foreach ($states as $cols) {
 				$class= ($linenum++ % 2 == 0) ? 'evenline' : 'oddline';
 				?>
 				<tr class="<?php echo $class ?>">

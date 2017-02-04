@@ -84,6 +84,7 @@ define('URL',			32768);
 define('EMAIL',			65536);
 define('DATETIME',		131072);
 define('IPRANGE',		262144);
+define('TAIL',			524288);
 
 $Output= '';
 $Error= '';
@@ -134,6 +135,46 @@ function Error($msg)
 	else {
 		$Error.= "\n".$msg;
 	}
+}
+
+function convertBinary($value)
+{
+	$g= round($value / 1073741824);
+	if ($g) {
+		return $g . 'G';
+	}
+
+	$m= round($value / 1048576);
+	if ($m) {
+		return $m . 'M';
+	}
+
+	$k= round($value / 1024);
+	if ($k) {
+		return $k . 'K';
+	}
+
+	return $value;
+}
+
+function convertDecimal($value)
+{
+	$g= round($value / 1000000000);
+	if ($g) {
+		return $g . 'G';
+	}
+
+	$m= round($value / 1000000);
+	if ($m) {
+		return $m . 'M';
+	}
+
+	$k= round($value / 1000);
+	if ($k) {
+		return $k . 'K';
+	}
+
+	return $value;
 }
 
 /**

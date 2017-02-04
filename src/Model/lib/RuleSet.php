@@ -258,7 +258,7 @@ class RuleSet
 	/** 
 	 * Validates the ruleset.
 	 * 
-	 * Since encoding and decoding the rules array produces an array with the elements we need,
+	 * Since encoding and decoding the rules array produce an array with the elements we need,
 	 * we reload the already loaded ruleset using json encode and decode functions. The load
 	 * method validates the rules in the ruleset.
 	 *

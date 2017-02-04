@@ -276,7 +276,7 @@ class System extends Model
 			if (($contents= $this->GetFile($file)) !== FALSE) {
 				$re= '^\s*(inet|dhcp)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)\s*$';
 				if (preg_match("/$re/m", $contents, $match)) {
-					return serialize(array_slice($match, 1));
+					return json_encode(array_slice($match, 1));
 				}
 			}
 		}
@@ -366,12 +366,12 @@ class System extends Model
 			foreach ($ifs as $if) {
 				$config['Ifs'][$if]= array();
 				if (($output= $this->_getIfConfig($if)) !== FALSE) {
-					$config['Ifs'][$if]= unserialize($output);
+					$config['Ifs'][$if]= json_decode($output, TRUE);
 				}
 			}
 		}
 		
-		return Output(serialize($config));
+		return Output(json_encode($config));
 	}
 
 	/**

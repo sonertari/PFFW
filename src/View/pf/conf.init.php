@@ -42,6 +42,9 @@ else if (filter_has_var(INPUT_POST, 'Reinitialize')) {
 else if (filter_has_var(INPUT_POST, 'Delete')) {
 	if ($View->Controller($Output, 'DeleteStats')) {
 		PrintHelpWindow(_NOTICE('Statistics deleted.'), 'auto', 'INFO');
+		// Unset session log file, because it does not exist anymore
+		/// @todo We should delete all such View log files, not just of pf, e.g. using $_SESSION[$View->Model]['LogFile']
+		unset($_SESSION['pf']['LogFile']);
 	}
 	else {
 		PrintHelpWindow(_NOTICE('Statistics delete failed.'), 'auto', 'ERROR');

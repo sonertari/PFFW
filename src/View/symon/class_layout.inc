@@ -259,7 +259,9 @@ class Layout {
 		}
 	}
 
-	function render() {
+	function render($html= true) {
+		global $cache;
+		
 		$LinkNames = array(
 			_TITLE('CPU Load'),
 			_TITLE('Temperature'),
@@ -278,6 +280,8 @@ class Layout {
 			_TITLE('Number of Processes'),
 			_TITLE('Process CPU Load'),
 		);
+		
+		$graphs= array();
 
 		reset($this->groups);
 		if (is_array($this->groups)) {
@@ -289,16 +293,23 @@ class Layout {
 					$LinkName= $group;
 				}
 
-				print '	<div class="group">
-							<h3 class="header"><a name="'. $group . '">' . _($LinkName) . '</a></h3>
+				if ($html) {
+					print '	<div class="group">
+							<h3 class="header"><a name="' . $group . '">' . _($LinkName) . '</a></h3>
 						</div>';
+				}
+
 				reset($items);
 				foreach($items as $item) {
-					$item->render();
+					$graphs[$LinkName]= $item->render($html);
 				}
-				print '<div class="item-footer"></div>';
+
+				if ($html) {
+					print '<div class="item-footer"></div>';
+				}
 			}
 		}
+		return $graphs;
 	}
 
 	function getgrouptitles() {

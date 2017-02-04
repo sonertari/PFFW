@@ -104,7 +104,7 @@ if ($n > 1) {
 	echo "</div>\n";
 }
 
-$l->render($session);
+$graphs = $l->render();
 
 if ($View->GraphHelpMsg !== '') {
 	$View->GraphHelpMsg.= "\n\n";

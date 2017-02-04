@@ -150,9 +150,19 @@ class Model
 					'desc'	=>	_('Set pfctl timeout'),
 					),
 
+				'GetReloadRate'=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get reload rate'),
+					),
+
 				'SetReloadRate'=>	array(
 					'argv'	=>	array(NUM),
 					'desc'	=>	_('Set reload rate'),
+					),
+
+				'GetDateTime'	=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get datetime'),
 					),
 
 				'GetPhyIfs'		=>	array(
@@ -186,12 +196,12 @@ class Model
 					),
 
 				'GetLogs'	=>	array(
-					'argv'	=>	array(FILEPATH, NUM, NUM, REGEXP|NONE),
+					'argv'	=>	array(FILEPATH, NUM, TAIL, REGEXP|NONE),
 					'desc'	=>	_('Get lines'),
 					),
 
 				'GetLiveLogs'	=>	array(
-					'argv'	=>	array(FILEPATH, NUM, REGEXP|NONE),
+					'argv'	=>	array(FILEPATH, TAIL, REGEXP|NONE),
 					'desc'	=>	_('Get tail'),
 					),
 
@@ -253,7 +263,7 @@ class Model
 		$cmd= preg_replace('/<PROC>/', escapeshellarg($this->Proc), $this->psCmd);
 		exec($cmd, $output, $retval);
 		if ($retval === 0) {
-			return Output(serialize($this->SelectProcesses($output)));
+			return Output(json_encode($this->SelectProcesses($output)));
 		}
 		Error(implode("\n", $output));
 		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Process list failed for $this->Proc");
@@ -455,7 +465,7 @@ class Model
 
 		$errout= implode("\n", $output);
 		Error($errout);
-		pfrec_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Create user failed: $errout");
+		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Create user failed: $errout");
 		return FALSE;
 	}
 
@@ -476,7 +486,7 @@ class Model
 			if (preg_match("/^$user:[^:]+(:.+)$/", $line, $match)) {
 				unset($output);
 				$cmdline= '/usr/bin/chpass -a "' . $user . ':$(/usr/bin/encrypt ' . $passwd . ')' . $match[1] . '"';
-				pfrec_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "cmdline: $cmdline");
+				pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "cmdline: $cmdline");
 
 				exec($cmdline, $output, $retval);
 				if ($retval === 0) {
@@ -487,7 +497,7 @@ class Model
 
 		$errout= implode("\n", $output);
 		Error($errout);
-		pfrec_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set password failed: $errout");
+		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set password failed: $errout");
 		return FALSE;
 	}
 
@@ -609,6 +619,20 @@ class Model
 		
 		// Append semi-colon to new value, this setting is a PHP line
 		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/lib/setup.php', '\$PfctlTimeout', $timeout.';');
+	}
+	
+	/**
+	 * Gets default reload rate.
+	 * 
+	 * @return string Reload rate in seconds.
+	 */
+	function GetReloadRate()
+	{
+		global $VIEW_PATH;
+
+		require($VIEW_PATH.'/lib/setup.php');
+		
+		return Output($DefaultReloadRate);
 	}
 	
 	/**
@@ -846,6 +870,22 @@ class Model
 	}
 
 	/**
+	 * Gets system datetime.
+	 *
+	 * @return array Datetime.
+	 */
+	function GetDateTime()
+	{
+		$dateArray= array();
+		$dateArray['Month']= exec('/bin/date +%m');
+		$dateArray['Day']= exec('/bin/date +%d');
+		$dateArray['Hour']= exec('/bin/date +%H');
+		$dateArray['Minute']= exec('/bin/date +%M');
+
+		return Output(json_encode($dateArray));
+	}
+
+	/**
 	 * Extracts physical interface names from ifconfig output.
 	 *
 	 * Removes non-physical interfaces from the output.
@@ -1031,7 +1071,7 @@ class Model
 		foreach ($filelist as $filepath) {
 			$result[$filepath]= $this->_getLogStartDate($filepath);
 		}
-		return Output(serialize($result));
+		return Output(json_encode($result));
 	}
 
 	/**
@@ -1187,7 +1227,7 @@ class Model
 			
 			$stats[$conf['Title']]= trim($this->RunShellCommand($cmd));
 		}
-		return Output(serialize($stats));
+		return Output(json_encode($stats));
 	}
 
 	/**
@@ -1245,6 +1285,7 @@ class Model
 		$cmd= $StatsConf[$this->Name]['Total']['Cmd'];
 
 		if ($tail > -1) {
+			/// @attention Normally would never allow large $tail numbers here, but this $tail is computed in the code.
 			$cmd.= " | /usr/bin/tail -$tail";
 		}
 
@@ -1262,18 +1303,18 @@ class Model
 	 */
 	function GetAllStats($logfile, $collecthours= '')
 	{
-		$date= serialize(array('Month' => '', 'Day' => ''));
+		$date= json_encode(array('Month' => '', 'Day' => ''));
 		/// @attention We need $stats return value of GetStats() because of $collecthours constraint
 		$stats= $this->_getStats($logfile, $date, $collecthours);
 		
 		// Do not get $stats here, just $briefstats
 		$this->GetSavedStats($logfile, $dummy, $briefstats);
-		$briefstats= serialize($briefstats);
+		$briefstats= json_encode($briefstats);
 		
-		// Use serialized stats as array elements to prevent otherwise extra unserialize() for $stats,
+		// Use serialized stats as array elements to prevent otherwise extra json_decode() for $stats,
 		// which is already serialized by GetStat() above.
-		// They are ordinary strings now, this serialize() should be quite fast
-		return Output(serialize(
+		// They are ordinary strings now, this json_encode() should be quite fast
+		return Output(json_encode(
 				array(
 					'stats' 	=> $stats,
 					'briefstats'=> $briefstats,
@@ -1297,7 +1338,7 @@ class Model
 
 	function _getStats($logfile, $date, $collecthours= '')
 	{
-		$date= unserialize($date);
+		$date= json_decode($date, TRUE);
 
 		$stats= array();
 		$briefstats= array();
@@ -1339,7 +1380,7 @@ class Model
 				}
 			}
 		}
-		return serialize($stats);
+		return json_encode($stats);
 	}
 
 	/**
@@ -1480,7 +1521,7 @@ class Model
 		$statsfile= $this->GetStatsFileName($logfile);
 		if (($filecontents= $this->GetFile($statsfile)) !== FALSE) {
 			if ($serialized_stats= preg_replace("|^(<filestat>.*</filestat>\s)|m", '', $filecontents)) {
-				$allstats= unserialize($serialized_stats);
+				$allstats= json_decode($serialized_stats, TRUE);
 				if (isset($allstats['stats']) && isset($allstats['briefstats'])) {
 					$stats= $allstats['stats'];
 					$briefstats= $allstats['briefstats'];
@@ -1516,7 +1557,7 @@ class Model
 		if (file_exists($statsfile)) {
 			$filestatline= $this->RunShellCommand("/usr/bin/head -1 $statsfile");
 			if (preg_match('|^<filestat>(.*)</filestat>$|', $filestatline, $match)) {
-				$fileinfo= unserialize($match[1]);
+				$fileinfo= json_decode($match[1], TRUE);
 				
 				$linecount= $fileinfo['linecount'];
 				$filestat= $fileinfo['stat'];
@@ -1566,14 +1607,14 @@ class Model
 		
 		$savestats=
 			'<filestat>'.
-			serialize(
+			json_encode(
 				array(
 					'linecount'	=> $linecount,
 					'stat'		=> stat($origfile),
 					)
 			).
 			'</filestat>'."\n".
-			serialize(
+			json_encode(
 				array(
 					'stats' 	=> $stats,
 					'briefstats'=> $briefstats,

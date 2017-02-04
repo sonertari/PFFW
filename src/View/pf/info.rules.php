@@ -20,49 +20,8 @@
 
 require_once('pf.php');
 
-function parse($lines)
-{
-	$rules= array();
-	$r= array();
-
-	//@0 match in all scrub (no-df)
-	//  [ Evaluations: 1558      Packets: 16048     Bytes: 7312376     States: 2     ]
-	//  [ Inserted: uid 0 pid 7529 State Creations: 0     ]
-	foreach ($lines as $line) {
-		if (preg_match('/^@(\d+)\s+(.*)$/', $line, $match)) {
-			if (count($r) > 0) {
-				if (!isset($r['number'])) {
-					$r['number']= '';
-				}
-				$rules[]= $r;
-			}
-
-			$r= array(
-				'number' => $match[1],
-				'rule' => $match[2],
-				);
-		} elseif (preg_match('/^\s*\[\s*Evaluations:\s*(\d+)\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*States:\s*(\d+)\s*\]/', $line, $match)) {
-			$r['evaluations']= convertDecimal($match[1]);
-			$r['packets']= convertDecimal($match[2]);
-			$r['bytes']= convertBinary($match[3]);
-			$r['states']= convertDecimal($match[4]);
-		} elseif (preg_match('/^\s*\[\s*Inserted:\s*(.*)\s*State Creations:\s*(\d+)\s*\]/', $line, $match)) {
-			$r['inserted']= $match[1];
-			$r['stateCreations']= convertDecimal($match[2]);
-		} else {
-			pffwwui_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Failed parsing rule line: $line");
-		}
-	}
-	
-	if (count($r) > 0) {
-		$rules[]= $r;
-	}
-	
-	return $rules;
-}
-
 $View->Controller($Output, 'GetPfRulesInfo');
-$rules= parse($Output);
+$rules= json_decode($Output[0], TRUE);
 
 $Reload= TRUE;
 require_once($VIEW_PATH . '/header.php');

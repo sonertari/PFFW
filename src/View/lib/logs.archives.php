@@ -48,7 +48,7 @@ PrintLogHeaderForm($StartLine, $LogSize, $LinesPerPage, $SearchRegExp, $CustomHi
 	PrintTableHeaders($View->Model);
 
 	$View->Controller($Output, 'GetLogs', $LogFile, $HeadStart, $LinesPerPage, $SearchRegExp);
-	$Logs= unserialize($Output[0]);
+	$Logs= json_decode($Output[0], TRUE);
 	
 	$LineCount= $StartLine + 1;
 	foreach ($Logs as $Logline) {

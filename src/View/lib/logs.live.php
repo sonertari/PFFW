@@ -50,7 +50,7 @@ PrintLiveLogHeaderForm();
 	PrintTableHeaders($View->Model);
 
 	$View->Controller($Logs, 'GetLiveLogs', $LogFile, $LinesPerPage, $SearchRegExp);
-	$Logs= unserialize($Logs[0]);
+	$Logs= json_decode($Logs[0], TRUE);
 
 	$LineCount= 1;
 	if ($LogSize > $LinesPerPage ) {

@@ -52,6 +52,11 @@ class Symon extends Model
 					'argv'	=>	array(NAME, NAME),
 					'desc'	=>	_('Set symon conf'),
 					),
+				
+				'RenderLayout'=>	array(
+					'argv'	=>	array(NAME, NUM|NONE, NUM|NONE),
+					'desc'	=>	_('Render layout'),
+					),
 				)
 			);
 	}
@@ -104,6 +109,66 @@ class Symon extends Model
 		$retval&= $this->ReplaceRegexp('/etc/symux.conf', $re, '${1}'.$conf.'	${3}');
 
 		return $retval;
+	}
+
+	/**
+	 * Generates graphs for the given layout.
+	 * 
+	 * This is a hacky workaround until we move symon code in the View to the Model.
+	 * 
+	 * @param string $layout Layout name.
+	 * @return array Graph titles and files.
+	 */
+	function RenderLayout($layout, $width= 700, $heigth= 250)
+	{
+		/// XXX
+		global $SRC_ROOT, $symon, $cache, $session, $chr2html, $runtime;
+		
+		/// XXX
+		/// For classifying gettext strings into files.
+		function _TITLE($str)
+		{
+			return _($str);
+		}
+
+		require_once ("$SRC_ROOT/View/symon/class_session.inc");
+		require_once ("$SRC_ROOT/View/symon/class_layout.inc");
+
+		$session->getform('start');
+		$session->getform('end');
+		$session->getform('width', $width);
+		$session->getform('heigth', $heigth);
+		$session->getform('layout');
+		$session->getform('timespan');
+		$session->getform('size', 'custom');
+
+		$l = new Layout($layout);
+
+		$graphs = $l->render(false);
+
+		require_once("$SRC_ROOT/View/symon/class_rrdtool.inc");
+
+		foreach ($graphs as $title => $g) {
+			if (preg_match("/^([0-9a-f]+)/", $g, $match)) {
+				$key = $match[1];
+				$filename = $cache->getfilename($key);
+				$extension = get_extension($filename);
+
+				if ($extension == 'txt') {
+					$definition = load($filename);
+					$cache->expire_key($key);
+					$rrdtool = new RRDTool();
+					$graph_file = $cache->obtain_filecache($key);
+					$result = $rrdtool->graph($graph_file, $definition);
+
+				} else {
+					$graph_file = $filename;
+					$result = 1;
+				}
+			}
+		}
+
+		return Output(json_encode($graphs));
 	}
 }
 ?>

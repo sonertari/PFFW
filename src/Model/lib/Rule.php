@@ -251,7 +251,7 @@ class Rule
 	 * The rule array should have only the elements defined in typedef struct, and those elements only.
 	 * Extra elements are considered invalid. We delete the key in the rule after applying the validation method,
 	 * because after applying all defined validation methods, we'd like to see if there are any extra elements left
-	 * which are not defined in typedef. This method is easier than diffing the rule array agains the typedef.
+	 * which are not defined in typedef. This method is easier than diffing the rule array against the typedef.
 	 * Note that the rule array we operate on is the clone of the actual rule array, hence we can freely delete elements.
 	 *
 	 * If a key in typedef is marked as 'require', it should exist in the rule array, otherwise is an error.

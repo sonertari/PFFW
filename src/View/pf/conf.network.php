@@ -167,7 +167,7 @@ SwitchView('system', 'System');
 				$IfConfigured= '<br />('._('unconfigured').')';
 				$CanDelete= FALSE;
 			}
-			list($IfType, $IfIp, $IfMask, $IfBc, $IfOpt)= unserialize($Output[0]);
+			list($IfType, $IfIp, $IfMask, $IfBc, $IfOpt)= json_decode($Output[0], TRUE);
 
 			$Class= $Row++ % 2 == 0 ? 'evenline' : 'oddline';
 			?>

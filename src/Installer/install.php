@@ -63,7 +63,7 @@ $View->Model= 'system';
 $UseSSH= FALSE;
 
 if ($View->Controller($Output, 'GetConfig')) {
-	$Config= unserialize($Output[0]);
+	$Config= json_decode($Output[0], TRUE);
 
 	if (InitIfs()) {
 		if (!$Auto) {

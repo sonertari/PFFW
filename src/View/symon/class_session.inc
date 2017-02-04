@@ -54,14 +54,16 @@ class Session {
 	return $this->vars;
     }
 
-    function getform($name) {
+    function getform($name, $val= '') {
 	global $symon, $View, $Submenu;
 
-	if ($Submenu) {
-		$session= &$_SESSION[$View->Model]['Graphs'][$Submenu];
-	}
-	else {
-		$session= &$_SESSION[$View->Model]['Graphs'];
+	if (isset($_SESSION)) {
+		if ($Submenu) {
+			$session= &$_SESSION[$View->Model]['Graphs'][$Submenu];
+		}
+		else {
+			$session= &$_SESSION[$View->Model]['Graphs'];
+		}
 	}
 
 	if (isset($_REQUEST[$name])) {
@@ -72,6 +74,10 @@ class Session {
 
 	if (isset($session[$name])) {
 		$value= $session[$name];
+	}
+	
+	if ($val != '') {
+		$value= $val;
 	}
 
 	if (!isset($value)) {

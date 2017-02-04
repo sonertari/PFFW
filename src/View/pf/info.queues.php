@@ -20,42 +20,8 @@
 
 require_once ('pf.php');
 
-function parse($lines)
-{
-	$queues= array();
-	$q= array();
-
-	//queue std on em1 bandwidth 100M qlimit 50
-	//  [ pkts:          0  bytes:          0  dropped pkts:      0 bytes:      0 ]
-	//  [ qlength:   0/ 50 ]
-	foreach ($lines as $line) {
-		if (preg_match('/^queue\s+(\S+)/', $line, $match)) {
-			if (!isset($q['name'])) {
-				$q['name']= '';
-			}
-			$queues[]= $q;
-
-			$q= array('name' => $match[1]);
-		} elseif (preg_match('/^\s*\[\s*pkts:\s*(\d+)\s*bytes:\s*(\d+)\s*dropped pkts:\s*(\d+)\s*bytes:\s*(\d+)\s*\]/', $line, $match)) {
-			$q['pkts']= convertDecimal($match[1]);
-			$q['bytes']= convertBinary($match[2]);
-			$q['droppedPkts']= convertDecimal($match[3]);
-			$q['droppedBytes']= convertBinary($match[4]);
-		} elseif (preg_match('/^\s*\[\s*qlength:\s*(\d+)\s*\/\s*(\d+)\s*/', $line, $match)) {
-			$q['length']= $match[1] . '/' . $match[2];
-		} else {
-			pffwwui_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Failed parsing queue line: $line");
-		}
-	}
-	
-	if (count($q) > 0) {
-		$queues[]= $q;
-	}
-	return $queues;
-}
-
 $View->Controller($Output, 'GetPfQueueInfo');
-$queues= parse($Output);
+$queues= json_decode($Output[0], TRUE);
 
 $Reload= TRUE;
 require_once($VIEW_PATH . '/header.php');

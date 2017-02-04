@@ -130,7 +130,7 @@ class Pf extends Model
 					),
 
 				'GetStateList'	=>	array(
-					'argv'	=>	array(NUM, NUM, REGEXP|NONE),
+					'argv'	=>	array(NUM, TAIL, REGEXP|NONE),
 					'desc'	=>	_('Get pf states'),
 					),
 				)
@@ -275,46 +275,191 @@ class Pf extends Model
 	/**
 	 * Gets pf queue info.
 	 * 
-	 * @return mixed Output of the command on success, FALSE on fail.
+	 * @return mixed Parsed output of the command on success, FALSE on fail.
 	 */
 	function GetPfQueueInfo()
 	{
-		return $this->RunPfInfoCmd('/sbin/pfctl -s queue -v');
+		exec('/sbin/pfctl -s queue -v', $output, $retval);
+		if ($retval === 0) {
+			return Output(json_encode($this->parsePfQueueInfo($output)));
+		}
+		return FALSE;
 	}
 
+	function parsePfQueueInfo($lines)
+	{
+		$queues= array();
+		$q= array();
+
+		//queue std on em1 bandwidth 100M qlimit 50
+		//  [ pkts:          0  bytes:          0  dropped pkts:      0 bytes:      0 ]
+		//  [ qlength:   0/ 50 ]
+		foreach ($lines as $line) {
+			if (preg_match('/^queue\s+(\S+)/', $line, $match)) {
+				if (!isset($q['name'])) {
+					$q['name']= '';
+				}
+				$queues[]= $q;
+
+				$q= array('name' => $match[1]);
+			} elseif (preg_match('/^\s*\[\s*pkts:\s*(\d+)\s*bytes:\s*(\d+)\s*dropped pkts:\s*(\d+)\s*bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$q['pkts']= convertDecimal($match[1]);
+				$q['bytes']= convertBinary($match[2]);
+				$q['droppedPkts']= convertDecimal($match[3]);
+				$q['droppedBytes']= convertBinary($match[4]);
+			} elseif (preg_match('/^\s*\[\s*qlength:\s*(\d+)\s*\/\s*(\d+)\s*/', $line, $match)) {
+				$q['length']= $match[1] . '/' . $match[2];
+			} else {
+				pffwwui_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Failed parsing queue line: $line");
+			}
+		}
+
+		if (count($q) > 0) {
+			$queues[]= $q;
+		}
+		return $queues;
+	}
+	
 	/**
 	 * Gets pf interfaces info.
 	 * 
 	 * @attention Do not use the following line: return $this->RunPfInfoCmd('/sbin/pfctl -s Interfaces -vv');
 	 * See GetPfInfo() for the details of this bug.
 	 * 
-	 * @return mixed Output of the command on success, FALSE on fail.
+	 * @return mixed Parsed output of the command on success, FALSE on fail.
 	 */
 	function GetPfIfsInfo()
 	{
 		exec('/sbin/pfctl -s Interfaces -vv', $output, $retval);
 		if ($retval === 0) {
-			return Output(implode("\n", $output));
+			return Output(json_encode($this->parsePfIfsInfo($output)));
 		}
 		return FALSE;
 	}
 
+	function parsePfIfsInfo($lines)
+	{
+		$ifs= array();
+		$i= array();
+
+		//all
+		//	Cleared:     Thu Jan  1 02:00:01 1970
+		//	References:  [ States:  13                 Rules: 1                  ]
+		//	In4/Pass:    [ Packets: 0                  Bytes: 0                  ]
+		//	In4/Block:   [ Packets: 0                  Bytes: 0                  ]
+		//	Out4/Pass:   [ Packets: 0                  Bytes: 0                  ]
+		//	Out4/Block:  [ Packets: 0                  Bytes: 0                  ]
+		//	In6/Pass:    [ Packets: 0                  Bytes: 0                  ]
+		//	In6/Block:   [ Packets: 0                  Bytes: 0                  ]
+		//	Out6/Pass:   [ Packets: 0                  Bytes: 0                  ]
+		//	Out6/Block:  [ Packets: 0                  Bytes: 0                  ]
+		foreach ($lines as $line) {
+			if (preg_match('/^([\w\s\(\)]+)$/', $line, $match)) {
+				if (count($i) > 0) {
+					if (!isset($i['name'])) {
+						$i['name']= '';
+					}
+					$ifs[]= $i;
+				}
+
+				$i= array('name' => $match[1]);
+			} elseif (preg_match('/^\s*Cleared:\s*(.*)\s*$/', $line, $match)) {
+				$i['cleared']= $match[1];
+			} elseif (preg_match('/^\s*References:\s*\[\s*States:\s*(\d+)\s*Rules:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['states']= convertDecimal($match[1]);
+				$i['rules']= convertDecimal($match[2]);
+			} elseif (preg_match('/^\s*In4\/Pass:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['in4PassPackets']= convertDecimal($match[1]);
+				$i['in4PassBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*In4\/Block:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['in4BlockPackets']= convertDecimal($match[1]);
+				$i['in4BlockBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*Out4\/Pass:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['out4PassPackets']= convertDecimal($match[1]);
+				$i['out4PassBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*Out4\/Block:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['out4BlockPackets']= convertDecimal($match[1]);
+				$i['out4BlockBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*In6\/Pass:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['in6PassPackets']= convertDecimal($match[1]);
+				$i['in6PassBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*In6\/Block:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['in6BlockPackets']= convertDecimal($match[1]);
+				$i['in6BlockBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*Out6\/Pass:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['out6PassPackets']= convertDecimal($match[1]);
+				$i['out6PassBytes']= convertBinary($match[2]);
+			} elseif (preg_match('/^\s*Out6\/Block:\s*\[\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*\]/', $line, $match)) {
+				$i['out6BlockPackets']= convertDecimal($match[1]);
+				$i['out6BlockBytes']= convertBinary($match[2]);
+			} else {
+				pffwc_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Failed parsing interface line: $line");
+			}
+		}
+
+		if (count($i) > 0) {
+			$ifs[]= $i;
+		}
+
+		return $ifs;
+	}
 	/**
 	 * Gets pf rules info.
 	 * 
 	 * @attention Do not use the following line: return $this->RunPfInfoCmd('/sbin/pfctl -s rules -vv');
 	 * See GetPfInfo() for the details of this bug.
 	 * 
-	 * @return mixed Output of the command on success, FALSE on fail.
+	 * @return mixed Parsed output of the command on success, FALSE on fail.
 	 */
 	function GetPfRulesInfo()
 	{
 		//
 		exec('/sbin/pfctl -s rules -vv', $output, $retval);
 		if ($retval === 0) {
-			return Output(implode("\n", $output));
+			return Output(json_encode($this->parsePfRulesInfo($output)));
 		}
 		return FALSE;
+	}
+
+	function parsePfRulesInfo($lines)
+	{
+		$rules= array();
+		$r= array();
+
+		//@0 match in all scrub (no-df)
+		//  [ Evaluations: 1558      Packets: 16048     Bytes: 7312376     States: 2     ]
+		//  [ Inserted: uid 0 pid 7529 State Creations: 0     ]
+		foreach ($lines as $line) {
+			if (preg_match('/^@(\d+)\s+(.*)$/', $line, $match)) {
+				if (count($r) > 0) {
+					if (!isset($r['number'])) {
+						$r['number']= '';
+					}
+					$rules[]= $r;
+				}
+
+				$r= array(
+					'number' => $match[1],
+					'rule' => $match[2],
+					);
+			} elseif (preg_match('/^\s*\[\s*Evaluations:\s*(\d+)\s*Packets:\s*(\d+)\s*Bytes:\s*(\d+)\s*States:\s*(\d+)\s*\]/', $line, $match)) {
+				$r['evaluations']= convertDecimal($match[1]);
+				$r['packets']= convertDecimal($match[2]);
+				$r['bytes']= convertBinary($match[3]);
+				$r['states']= convertDecimal($match[4]);
+			} elseif (preg_match('/^\s*\[\s*Inserted:\s*(.*)\s*State Creations:\s*(\d+)\s*\]/', $line, $match)) {
+				$r['inserted']= $match[1];
+				$r['stateCreations']= convertDecimal($match[2]);
+			} else {
+				pffwwui_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Failed parsing rule line: $line");
+			}
+		}
+
+		if (count($r) > 0) {
+			$rules[]= $r;
+		}
+
+		return $rules;
 	}
 
 	/**
@@ -870,6 +1015,7 @@ class Pf extends Model
 			$re= escapeshellarg($re);
 			$cmd.= " | /usr/bin/grep -a -E $re";
 		}
+
 		$cmd.= " | /usr/bin/head -$end | /usr/bin/tail -$count";
 		
 		$lines= explode("\n", $this->RunShellCommand($cmd));
@@ -883,7 +1029,7 @@ class Pf extends Model
 				pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed parsing log line: ' . $line);
 			}
 		}
-		return Output(serialize($logs));
+		return Output(json_encode($logs));
 	}
 
 	function GetLiveLogs($file, $count, $re= '')
@@ -895,6 +1041,7 @@ class Pf extends Model
 			$re= escapeshellarg($re);
 			$cmd.= " | /usr/bin/grep -a -E $re";
 		}
+
 		$cmd.= " | /usr/bin/tail -$count";
 		
 		$lines= explode("\n", $this->RunShellCommand($cmd));
@@ -905,12 +1052,12 @@ class Pf extends Model
 				$logs[]= $Cols;
 			}
 		}
-		return Output(serialize($logs));
+		return Output(json_encode($logs));
 	}
 
 	/** Gets pf state count.
 	 *
-	 * @param[in]	$re string Regexp to get count of a restricted result set
+	 * @param string $re Regexp to get count of a restricted result set
 	 * @return int Line count
 	 */
 	function GetStateCount($re= '')
@@ -930,9 +1077,9 @@ class Pf extends Model
 
 	/** Gets the pftop output.
 	 *
-	 * @param[in]	$end	int Head option, start line
-	 * @param[in]	$count	int Tail option, page line count
-	 * @param[in]	$re		string Regexp to restrict the result set
+	 * @param int $end Head option, start line
+	 * @param int $count Tail option, page line count
+	 * @param string $re Regexp to restrict the result set
 	 * @return serialized Lines
 	 */
 	function GetStateList($end, $count, $re= '')
@@ -940,11 +1087,13 @@ class Pf extends Model
 		// Skip header lines by grepping for In or Out
 		// Empty $re is not an issue for grep, greps all
 		$re= escapeshellarg($re);
+
 		$cmd= "$this->pftopCmd | /usr/bin/egrep -a 'In|Out' | /usr/bin/grep -a -E $re | /usr/bin/head -$end | /usr/bin/tail -$count";
 		exec($cmd, $output, $retval);
 		if ($retval === 0) {
-			return Output(serialize($this->ParsePftop($output)));
+			return Output(json_encode($this->ParsePftop($output)));
 		}
+
 		Error(implode("\n", $output));
 		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Failed running pftop');
 		return FALSE;
@@ -952,7 +1101,7 @@ class Pf extends Model
 
 	/** Parses pftop output.
 	 *
-	 * @param[in]	$pftopout	arrary pftop output
+	 * @param array $pftopout pftop output
 	 * @return array States
 	 */
 	function ParsePftop($pftopout)

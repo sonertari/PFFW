@@ -86,7 +86,7 @@ if (!$GoingDown) {
 		<?php
 	}
 	$View->Controller($Output, 'GetProcList');
-	$View->PrintProcessTable(unserialize($Output[0]), TRUE);
+	$View->PrintProcessTable(json_decode($Output[0], TRUE));
 }
 
 require_once($VIEW_PATH.'/footer.php');

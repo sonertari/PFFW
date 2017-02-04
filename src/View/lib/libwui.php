@@ -263,7 +263,7 @@ function PrintLogFileChooser($logfile)
 					<select name="LogFile">
 						<?php
 						if ($View->Controller($output, 'GetLogFilesList')) {
-							$filelist= unserialize($output[0]);
+							$filelist= json_decode($output[0], TRUE);
 							foreach ($filelist as $filepath => $startdate) {
 								$file= basename($filepath);
 
@@ -813,7 +813,7 @@ function FillGraphData(&$data, $stats, $range, $parent, $name= '')
 /**
  * Sums up count fields of data arrays.
  *
- * @param array $data Cummulative data summed up.
+ * @param array $data Cumulative data summed up.
  * @param array $stats Original data.
  * @param array $datearray Datetime struct.
  * @param string $parent Parent field name to get count field.
@@ -856,7 +856,7 @@ function FillNVPs(&$data, $stats, $datearray, $parent, $name, $style)
  *
  * @todo How to fix $style comparison with gettexted string?
  *
- * @param array $data Cummulative data merged
+ * @param array $data Cumulative data merged
  * @param array $stats Original data array, passed down as NVPs in recursion
  * @param string $parent Parent field name to get count field
  * @param string $name Count field name
