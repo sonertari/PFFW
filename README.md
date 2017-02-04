@@ -1,10 +1,10 @@
 # PFFW
 
-PFFW is a pf firewall running on OpenBSD 5.9. PFFW is expected to be used on production systems.
+PFFW is a pf firewall running on OpenBSD 5.9. PFFW is expected to be used on production systems. The PFFW project provides both a Web UI and an Android application for monitoring ([A4PFFW](https://github.com/sonertari/A4PFFW)).
 
-You can find a couple of screenshots on the [wiki](https://github.com/sonertari/PFFW/wiki).
+You can find a few screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki) and [A4PFFW](https://github.com/sonertari/A4PFFW/wiki) wikis.
 
-The installation CD iso file for amd64 arch is available for download at [pffw59\_20161113\_amd64.iso](https://drive.google.com/file/d/0B3F7Ueq0mFlYcEFIYl9Ic3ZGQ3M/view?usp=sharing).
+The installation iso file for the amd64 arch is available for download at [pffw59\_20161113\_amd64.iso](https://drive.google.com/file/d/0B3F7Ueq0mFlYcEFIYl9Ic3ZGQ3M/view?usp=sharing).
 
 ## Features
 
