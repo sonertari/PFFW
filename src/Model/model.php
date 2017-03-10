@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -249,14 +249,14 @@ class Model
 			return count($this->SelectProcesses($output)) > 0;
 		}
 		Error(implode("\n", $output));
-		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "No such process: $proc");
+		ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "No such process: $proc");
 		return FALSE;
 	}
 	
 	/**
 	 * Gets the list of processes running.
 	 * 
-	 * @return mixed List of processes on success, FALSE on fail.
+	 * @return mixed List of processes on success, FALSE on failure.
 	 */
 	function GetProcList()
 	{
@@ -266,7 +266,7 @@ class Model
 			return Output(json_encode($this->SelectProcesses($output)));
 		}
 		Error(implode("\n", $output));
-		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Process list failed for $this->Proc");
+		ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Process list failed for $this->Proc");
 		return FALSE;
 	}
 
@@ -288,7 +288,7 @@ class Model
 		foreach ($psout as $line) {
 			if (preg_match($re, $line, $match)) {
 				// Skip processes initiated by this WUI
-				if (!preg_match('/\b(pffwc\.php|grep|kill|pkill)\b/', $match[13])) {
+				if (!preg_match('/\b(ctlr\.php|grep|kill|pkill)\b/', $match[13])) {
 					$processes[]= array(
 						$match[1],
 						$match[2],
@@ -314,7 +314,6 @@ class Model
 	 * Start module process(es).
 	 *
 	 * Tries PROC_STAT_TIMEOUT times.
-	 *
 	 * @todo Actually should stop retrying on error?
 	 *
 	 * @return bool TRUE on success, FALSE on fail.
@@ -342,7 +341,7 @@ class Model
 		// Start command is redirected to tmp file
 		$output= file_get_contents($TmpFile);
 		Error($output);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Start failed with: $output");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Start failed with: $output");
 		return FALSE;
 	}
 
@@ -391,7 +390,7 @@ class Model
 		// Pkill command is redirected to the tmp file
 		$output= file_get_contents($TmpFile);
 		Error($output);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Pkill failed for $proc with: $output");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Pkill failed for $proc with: $output");
 		return FALSE;
 	}
 
@@ -453,6 +452,7 @@ class Model
 
 					if ($retval === 0) {
 						exec("cd /etc/skel; /bin/cp -pR . /home/$user 2>&1", $output, $retval);
+						exec("/bin/echo '/usr/bin/doas /var/www/htdocs/pffw/Controller/ctlr.php \"\$@\"' > /home/$user/ctlr 2>&1");
 
 						if ($retval === 0) {
 							exec("/usr/sbin/pwd_mkdb -p /etc/master.passwd 2>&1", $output, $retval);
@@ -465,7 +465,7 @@ class Model
 
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Create user failed: $errout");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Create user failed: $errout");
 		return FALSE;
 	}
 
@@ -486,7 +486,7 @@ class Model
 			if (preg_match("/^$user:[^:]+(:.+)$/", $line, $match)) {
 				unset($output);
 				$cmdline= '/usr/bin/chpass -a "' . $user . ':$(/usr/bin/encrypt ' . $passwd . ')' . $match[1] . '"';
-				pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "cmdline: $cmdline");
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "cmdline: $cmdline");
 
 				exec($cmdline, $output, $retval);
 				if ($retval === 0) {
@@ -497,7 +497,7 @@ class Model
 
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set password failed: $errout");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set password failed: $errout");
 		return FALSE;
 	}
 
@@ -712,11 +712,11 @@ class Model
 			else {
 				$errout= implode("\n", $output);
 				Error($errout);
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Failed deleting: $path, $errout");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Failed deleting: $path, $errout");
 			}
 		}
 		else {
-			pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "File path does not exist: $path");
+			ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "File path does not exist: $path");
 		}
 		return FALSE;
 	}
@@ -758,15 +758,15 @@ class Model
 					return TRUE;
 				}
 				else {
-					pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot set new value $file, $name, $newvalue");
+					ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot set new value $file, $name, $newvalue");
 				}
 			}
 			else {
-				pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot find NVP: $file, $name");
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot find NVP: $file, $name");
 			}
 		}
 		else {
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
 		}
 		return FALSE;
 	}
@@ -840,11 +840,11 @@ class Model
 				return TRUE;
 			}
 			else {
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot replace in $file");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot replace in $file");
 			}
 		}
 		else {
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
 		}
 		return FALSE;
 	}
@@ -864,7 +864,7 @@ class Model
 			return TRUE;
 		}
 		else {
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
 		}
 		return FALSE;
 	}
@@ -936,7 +936,7 @@ class Model
 			}
 			else {
 				$file= $this->LogFile;
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile tmp copy update failed, defaulting to: $file");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile tmp copy update failed, defaulting to: $file");
 			}
 		}
 		
@@ -964,7 +964,7 @@ class Model
 				unset($diff['8']);
 				unset($diff['atime']);
 				if (count($diff) === 0) {
-					pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile not modified: $logfile, linecount $linecount");
+					ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile not modified: $logfile, linecount $linecount");
 					return FALSE;
 				}
 			}
@@ -1002,7 +1002,7 @@ class Model
 		if ($this->CopyLogFileToTmp($origfile, $this->TmpLogsDir)) {
 			return TRUE;
 		}
-		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Copy failed: $file");
+		ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Copy failed: $file");
 		return FALSE;
 	}
 
@@ -1148,6 +1148,8 @@ class Model
 
 	/**
 	 * Prepares file for download over WUI.
+	 * 
+	 * @return mixed File name or FALSE on failure.
 	 */
 	function PrepareFileForDownload($file)
 	{
@@ -1172,7 +1174,7 @@ class Model
 		}
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "FAILED: $errout");
+		ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "FAILED: $errout");
 		return FALSE;
 	}
 
@@ -1253,7 +1255,7 @@ class Model
 						return TRUE;
 					}
 					else {
-						pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'gunzip failed: '.$tmpdir.basename($file));
+						ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'gunzip failed: '.$tmpdir.basename($file));
 					}
 				}
 				else {
@@ -1261,11 +1263,11 @@ class Model
 				}
 			}
 			else {
-				pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'cp failed: '.$file);
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'cp failed: '.$file);
 			}
 		}
 		else {
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'mkdir failed: '.$tmpdir);
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'mkdir failed: '.$tmpdir);
 		}
 		Error(implode("\n", $output));
 		return FALSE;
@@ -1400,20 +1402,20 @@ class Model
 			$origfile= $this->GetOrigFileName($logfile);
 
 			if (($newlinecount >= $oldlinecount) && !preg_match('/\.gz$/', $origfile)) {
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile modified: $logfile, linecount $oldlinecount->$newlinecount");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile modified: $logfile, linecount $oldlinecount->$newlinecount");
 
 				$count= $newlinecount - $oldlinecount;
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile has grown by $count lines: $logfile");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile has grown by $count lines: $logfile");
 				return TRUE;
 			}
 			else {
 				// Logs probably rotated, recollect the stats
 				// Also stats for compressed files are always recollected on rotation, otherwise stats would be merged with the old stats
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Assuming log file rotation: $logfile");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Assuming log file rotation: $logfile");
 			}
 		}
 		else {
-			pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot get file info: $logfile");
+			ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot get file info: $logfile");
 		}
 
 		return FALSE;
@@ -1528,11 +1530,11 @@ class Model
 					return TRUE;
 				}
 				else {
-					pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Missing stats in file: $statsfile");
+					ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Missing stats in file: $statsfile");
 				}
 			}
 			else {
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "filestat removal failed in file: $statsfile");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "filestat removal failed in file: $statsfile");
 			}
 		}
 		return FALSE;
@@ -1564,11 +1566,11 @@ class Model
 				return TRUE;
 			}
 			else {
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "filestat missing in: $statsfile");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "filestat missing in: $statsfile");
 			}
 		}
 		else {
-			pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "No such file: $statsfile");
+			ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "No such file: $statsfile");
 		}
 		return FALSE;
 	}
@@ -1628,7 +1630,7 @@ class Model
 		
 		exec('/usr/bin/touch '.$statsfile);
 		$this->PutFile($statsfile, $savestats);
-		pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Saved stats to: $statsfile");
+		ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Saved stats to: $statsfile");
 	}
 	
 	/**
@@ -1658,7 +1660,7 @@ class Model
 			// Should be unreachable
 			$hour= '12';
 			$min= '00';
-			pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'There was no Time in log values, defaulting to 12:00');
+			ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'There was no Time in log values, defaulting to 12:00');
 		}
 
 		$daystats= &$stats['Date'][$values['Date']];

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2004-2016 Soner Tari
+# Copyright (C) 2004-2017 Soner Tari
 #
 # This file is part of PFFW.
 #
@@ -50,7 +50,7 @@ ISO_FILE=pffw${VMAJ}${VMIN}${SUBVERSION}_${ARCH}.iso
 SYS_ID="OpenBSD ${VERSION} ${ARCH}"
 VOL_ID="PFFW ${VERSION}${SUBVERSION} ${ARCH}"
 PREP_ID="Soner Tari <sonertari@gmail.org>"
-PUBLISH_ID="Copyright (c) 2016 Soner Tari, The PFFW project"
+PUBLISH_ID="Copyright (C) 2016, 2017 Soner Tari, The PFFW project"
 APP_ID="PFFW is a pf firewall running on OpenBSD ${VERSION}"
 
 echo $SYS_ID

@@ -1,7 +1,7 @@
 #!/usr/local/bin/php
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -43,8 +43,8 @@ require_once('lib.php');
 
 /// This is a command line tool, should never be requested on the web interface.
 if (filter_has_var(INPUT_SERVER, 'SERVER_ADDR')) {
-	/// @attention pffwc_syslog() is in the Model, use after including model
-	pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Requested on the wui, exiting...');
+	/// @attention ctlr_syslog() is in the Model, use after including model
+	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Requested on the wui, exiting...');
 	header('Location: /index.php');
 	exit;
 }
@@ -71,7 +71,7 @@ if (array_key_exists($View, $ModelFiles)) {
 	require_once($MODEL_PATH . '/' . $ModelFiles[$View]);
 }
 else {
-	pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "View not in ModelFiles: $View");
+	ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "View not in ModelFiles: $View");
 }
 
 if (class_exists($Models[$View])) {
@@ -80,10 +80,9 @@ if (class_exists($Models[$View])) {
 else {
 	require_once($MODEL_PATH.'/model.php');
 	$Model= new Model();
-	pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "View not in Models: $View");
+	ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "View not in Models: $View");
 }
 
-//$Model= new Pf();
 $Command= $ArgV[2];
 
 /// @attention Do not set locale until after model file is included and model is created,
@@ -124,7 +123,7 @@ if (method_exists($Model, $Command)) {
 		else {
 			$ErrorStr= "[$AcceptableArgC]: $ActualArgC";
 			Error(_('Not enough args')." $ErrorStr");
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Not enough args $ErrorStr");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Not enough args $ErrorStr");
 		}
 
 		if ($run) {
@@ -135,7 +134,7 @@ if (method_exists($Model, $Command)) {
 				$ArgV= array_slice($ArgV, 0, $ExpectedArgC);
 
 				Error(_('Too many args, truncating')." $ErrorStr");
-				pffwc_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Too many args, truncating $ErrorStr");
+				ctlr_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Too many args, truncating $ErrorStr");
 			}
 
 			if (call_user_func_array(array($Model, $Command), $ArgV)) {
@@ -144,19 +143,18 @@ if (method_exists($Model, $Command)) {
 		}
 		else {
 			Error(_('Not running command').": $Command");
-			pffwc_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Not running command: $Command");
+			ctlr_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Not running command: $Command");
 		}
 	}
 	else {
 		Error(_('Unsupported command').": $Command");
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Unsupported command: $Command");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Unsupported command: $Command");
 	}
 }
 else {
-	
 	$ErrorStr= "$Models[$View]->$Command()";
 	Error(_('Method does not exist').": $ErrorStr");
-	pffwc_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Method does not exist: $ErrorStr");
+	ctlr_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Method does not exist: $ErrorStr");
 }
 
 /// @attention Always return errors, success or fail.
@@ -168,7 +166,7 @@ $encoded= json_encode($msg);
 if ($encoded !== NULL) {
 	echo $encoded;
 } else {
-	pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed encoding output and error: ' . print_r($msg, TRUE));
+	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed encoding output and error: ' . print_r($msg, TRUE));
 }
 
 exit($retval);

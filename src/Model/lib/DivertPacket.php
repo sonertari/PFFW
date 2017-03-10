@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -36,7 +36,7 @@ class DivertPacket extends Filter
 		parent::__construct($str);
 	}
 
-	/** 
+	/**
 	 * Parses port definition of divert-packet, if any.
 	 * 
 	 * Always sets the type to divert-packet, because this method is called when a divert-packet

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -446,7 +446,7 @@ class FilterBase extends State
 		}
 	}
 
-	/** 
+	/**
 	 * Prints ICMP type and code.
 	 * 
 	 * Used to print both icmp and icmp6, hence we pass af too.

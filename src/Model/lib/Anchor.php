@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -20,17 +20,17 @@
 
 namespace Model;
 
-/** 
+/**
  * Keeps the count of nested anchors in inline rules.
  */
 $Nesting= 0;
 
-/** 
+/**
  * Class for Anchor rules.
  */
 class Anchor extends FilterBase
 {	
-	/** 
+	/**
 	 * Keywords for anchor rules.
 	 * 
 	 * Identifier can be empty, but "anchors without explicit rules must specify a name".
@@ -48,7 +48,7 @@ class Anchor extends FilterBase
 			),
 		);
 
-	/** 
+	/**
 	 * Type definition for anchor rules.
 	 * 
 	 * IsInlineAnchor() validates inline rules.
@@ -75,7 +75,7 @@ class Anchor extends FilterBase
 		parent::__construct($str);
 	}
 
-	/** 
+	/**
 	 * Sanitizes anchor rule sting.
 	 * 
 	 * We should not sanitize inline rules, because they will be parsed by a newly created
@@ -102,7 +102,7 @@ class Anchor extends FilterBase
 		}
 	}
 
-	/** 
+	/**
 	 * Splits anchor rule string into words.
 	 * 
 	 * Similarly to sanitize(), we should not split inline rules, because they will be parsed
@@ -128,7 +128,7 @@ class Anchor extends FilterBase
 		}
 	}
 
-	/** 
+	/**
 	 * Generates anchor rule.
 	 * 
 	 * Inline rules are always appended to the end.
@@ -153,7 +153,7 @@ class Anchor extends FilterBase
 		return $this->str;
 	}
 
-	/** 
+	/**
 	 * Generates inline rules.
 	 * 
 	 * Inline rules should start on a new line.
@@ -169,7 +169,7 @@ class Anchor extends FilterBase
 	}
 }
 
-/** 
+/**
  * Checks and validates any inline rules.
  * 
  * Since we create a new RuleSet object for each nested anchor, we limit the number of nesting.
@@ -187,7 +187,7 @@ function IsInlineAnchor($str, $force= FALSE)
 	$max= $Nesting + 1 > $MaxAnchorNesting;
 	if ($max) {
 		Error(_('Validation Error') . ': ' . _('Reached max nesting for inline anchors') . ': <pre>' . htmlentities(print_r($str, TRUE)) . '</pre>');
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Validation Error: Reached max nesting for inline anchors: $str");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Validation Error: Reached max nesting for inline anchors: $str");
 	}
 
 	if (!$max || $force) {
@@ -198,7 +198,7 @@ function IsInlineAnchor($str, $force= FALSE)
 			if (LOG_DEBUG <= $LOG_LEVEL) {
 				Error(_('Validation Error') . ': ' . _('Invalid inline rules, parser output') . ': <pre>' . htmlentities(print_r(json_decode(json_encode($ruleSet), TRUE), TRUE)) . '</pre>');
 			}
-			pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Validation Error: Invalid inline rules: ' . print_r(json_decode(json_encode($ruleSet), TRUE), TRUE));
+			ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Validation Error: Invalid inline rules: ' . print_r(json_decode(json_encode($ruleSet), TRUE), TRUE));
 		}
 		$Nesting--;
 	}

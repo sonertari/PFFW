@@ -17,10 +17,9 @@ etc/symon.conf,644,root,wheel
 etc/symux.conf,644,root,wheel
 etc/sysctl.conf,644,root,wheel
 etc/syslog.conf,644,root,wheel
-var/cron/tabs/root,600,root,wheel
 var/log/doas,600,root,wheel
-var/log/pffwc.log,640,root,wheel
-var/log/pffwwui.log,640,root,wheel
+var/log/ctlr.log,640,root,wheel
+var/log/wui.log,640,root,wheel
 var/log/dhcpd.log,640,root,wheel
 var/log/ftp-proxy.log,640,root,wheel
 var/log/monitoring.log,640,root,wheel

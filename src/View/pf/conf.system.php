@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -95,7 +95,7 @@ if (count($_POST)) {
 	if (filter_has_var(INPUT_POST, 'Year') && filter_has_var(INPUT_POST, 'Month') && filter_has_var(INPUT_POST, 'Day') && filter_has_var(INPUT_POST, 'Hour') && filter_has_var(INPUT_POST, 'Minute')) {
 		$NewDateTime= filter_input(INPUT_POST, 'Year').filter_input(INPUT_POST, 'Month').filter_input(INPUT_POST, 'Day').filter_input(INPUT_POST, 'Hour').filter_input(INPUT_POST, 'Minute');
 		if (!$View->Controller($Output, 'SetDateTime', $NewDateTime)) {
-			pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Time set failed: $NewDateTime");
+			wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Time set failed: $NewDateTime");
 		}
 	}
 	else if (filter_has_var(INPUT_POST, 'TimeServer')) {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with PFFW.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 /*
  * Defaults
  */
@@ -332,12 +332,6 @@ td.infobox
 {
 	color: red;
 	text-align: left;
-}
-
-#footer .cvs
-{
-	color: #004a4a;
-	text-align: center;
 }
 
 /*

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -234,7 +234,7 @@ class Filter extends FilterBase
 		}
 	}
 	
-	/** 
+	/**
 	 * Parses source hash and its key, if any.
 	 * 
 	 * @attention There is no pattern for hash key or string, so we check keywords instead.

@@ -260,8 +260,6 @@ class Layout {
 	}
 
 	function render($html= true) {
-		global $cache;
-		
 		$LinkNames = array(
 			_TITLE('CPU Load'),
 			_TITLE('Temperature'),

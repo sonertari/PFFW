@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -63,12 +63,12 @@ textdomain($Domain);
  * @param int $line Line number within the function.
  * @param string $msg Log message.
  */
-function pffwwui_syslog($prio, $file, $func, $line, $msg)
+function wui_syslog($prio, $file, $func, $line, $msg)
 {
 	global $LOG_LEVEL, $LOG_PRIOS;
 
 	try {
-		openlog('pffwwui', LOG_PID, LOG_LOCAL0);
+		openlog('wui', LOG_PID, LOG_LOCAL0);
 		
 		if ($prio <= $LOG_LEVEL) {
 			$useratip= $_SESSION['USER'].'@'.filter_input(INPUT_SERVER, 'REMOTE_ADDR');
@@ -84,7 +84,7 @@ function pffwwui_syslog($prio, $file, $func, $line, $msg)
 	}
 	catch (Exception $e) {
 		echo 'Caught exception: ',  $e->getMessage(), "\n";
-		echo "pffwwui_syslog() failed: $prio, $file, $func, $line, $msg\n";
+		echo "wui_syslog() failed: $prio, $file, $func, $line, $msg\n";
 		// No need to closelog(), it is optional
 	}
 }
@@ -98,7 +98,7 @@ function pffwwui_syslog($prio, $file, $func, $line, $msg)
  */
 function LogUserOut($reason= 'User logged out')
 {
-	pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, $reason);
+	wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, $reason);
 
 	// Save USER to check if the user changes in the next session
 	$_SESSION['PREVIOUS_USER']= $_SESSION['USER'];
@@ -130,22 +130,22 @@ function Authentication($passwd)
 {
 	global $ALL_USERS, $SessionTimeout, $View;
 
-	pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Login attempt');
+	wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Login attempt');
 
 	if (!in_array($_SESSION['USER'], $ALL_USERS)) {
-		pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Not a valid user');
+		wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Not a valid user');
 		// Throttle authentication failures
 		exec('/bin/sleep 5');
 		LogUserOut('Authentication failed');
 	}
 
 	if (!$View->CheckAuthentication($_SESSION['USER'], $passwd)) {
-		pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Password mismatch');
+		wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Password mismatch');
 		// Throttle authentication failures
 		exec('/bin/sleep 5');
 		LogUserOut('Authentication failed');
 	}
-	pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Authentication succeeded');
+	wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Authentication succeeded');
 
 	// Encrypt the password to save as a cookie var.
 	$random= exec('(dmesg; sysctl; route -n show; df; ifconfig -A; hostname) | cksum -q -a sha256 -');
@@ -183,6 +183,7 @@ function Authentication($passwd)
  * HTML Header.
  *
  * @param string $color Page background, Login page uses gray.
+ * @param int $reloadrate Page reload rate, defaults to 0 (no reload)
  */
 function HTMLHeader($color= 'white', $reloadRate= 0)
 {
@@ -237,7 +238,7 @@ function SetSubmenu($default)
 			$_SESSION[$View->Model][$TopMenu]['submenu']= $submenu;
 		}
 		else {
-			pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "No such submenu for $View->Model>$TopMenu: " . $submenu);
+			wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "No such submenu for $View->Model>$TopMenu: " . $submenu);
 			echo _TITLE('Resource not available').": $TopMenu.php?submenu=" . $submenu;
 			exit(1);
 		}

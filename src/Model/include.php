@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -188,12 +188,12 @@ function convertDecimal($value)
  * @param int $line	Line number within the function
  * @param string $msg Log message
  */
-function pffwc_syslog($prio, $file, $func, $line, $msg)
+function ctlr_syslog($prio, $file, $func, $line, $msg)
 {
 	global $LOG_LEVEL, $LOG_PRIOS;
 
 	try {
-		openlog('pffwc', LOG_PID, LOG_LOCAL0);
+		openlog('ctlr', LOG_PID, LOG_LOCAL0);
 		
 		if ($prio <= $LOG_LEVEL) {
 			$func= $func == '' ? 'NA' : $func;
@@ -208,7 +208,7 @@ function pffwc_syslog($prio, $file, $func, $line, $msg)
 	}
 	catch (Exception $e) {
 		echo 'Caught exception: ',  $e->getMessage(), "\n";
-		echo "pffwc_syslog() failed: $prio, $file, $func, $line, $msg\n";
+		echo "ctlr_syslog() failed: $prio, $file, $func, $line, $msg\n";
 		// No need to closelog(), it is optional
 	}
 }

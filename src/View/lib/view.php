@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -47,7 +47,7 @@ class View
 
 		$return= FALSE;
 		try {
-			$pffwc= $SRC_ROOT . '/Controller/pffwc.php';
+			$ctlr= $SRC_ROOT . '/Controller/ctlr.php';
 
 			$argv= func_get_args();
 			// Arg 0 is $output, skip it
@@ -55,7 +55,7 @@ class View
 
 			if ($this->EscapeArgs($argv, $cmdline)) {
 				$locale= $_SESSION['Locale'];
-				$cmdline= "/usr/bin/doas $pffwc $locale $this->Model $cmdline";
+				$cmdline= "/usr/bin/doas $ctlr $locale $this->Model $cmdline";
 				
 				// Init command output
 				$outputArray= array();
@@ -79,7 +79,7 @@ class View
 						$outputArray[0]= $ssh->exec($cmdline);
 					} else {
 						$msg= 'SSH login failed';
-						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
 						PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
 						$executed= FALSE;
 					}
@@ -100,7 +100,7 @@ class View
 						$retval= $decoded[2];
 					} else {
 						$msg= "Failed decoding output: $outputArray[0]";
-						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
 						PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
 					}
 
@@ -108,7 +108,7 @@ class View
 					if ($errorStr !== '') {
 						$error= explode("\n", $errorStr);
 
-						pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($cmdline)");
+						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($cmdline)");
 						PrintHelpWindow(_NOTICE('FAILED') . ':<br>' . implode('<br>', $error), 'auto', 'ERROR');
 					}
 
@@ -116,14 +116,14 @@ class View
 					if ($retval === 0) {
 						$return= TRUE;
 					} else {
-						pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: ($cmdline)");
+						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: ($cmdline)");
 					}
 				}
 			}
 		}
 		catch (Exception $e) {
 			echo 'Exception: '.__FILE__.' '.__FUNCTION__.' ('.__LINE__.'): '.$e->getMessage()."\n";
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Exception: '.$e->getMessage());
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Exception: '.$e->getMessage());
 		}
 		return $return;
 	}
@@ -147,11 +147,11 @@ class View
 			if ($hostname == $output) {
 				return TRUE;
 			} else {
-				pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "SSH test command failed: $hostname == $output");
+				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "SSH test command failed: $hostname == $output");
 			}
 		} else {
 			$msg= 'Authentication failed';
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $msg);
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $msg);
 			PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
 		}
 		return FALSE;
@@ -176,7 +176,7 @@ class View
 			}
 			return TRUE;
 		}
-		pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, '$argv is empty');
+		wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, '$argv is empty');
 		return FALSE;
 	}
 
@@ -282,7 +282,7 @@ class View
 		<?php
 		if ($running && $this->Model != 'pf') {
 			$this->Controller($output, 'GetProcList');
-			$this->PrintProcessTable(json_decode($output[0], TRUE), $printcount);
+			$this->PrintProcessTable(json_decode($output[0], TRUE));
 		}
 	}
 
@@ -370,34 +370,32 @@ class View
 	function UploadLogFile()
 	{
 		/// Do not send anything yet if download requested (header is modified below).
-		if (filter_has_var(INPUT_POST, 'Download')) {
-			if (filter_has_var(INPUT_POST, 'LogFile')) {
-				if ($this->Controller($output, 'PrepareFileForDownload', filter_input(INPUT_POST, 'LogFile'))) {
-					$tmpfile= $output[0];
-					/// @warning Clear the output buffer first
-					ob_clean();
+		if (filter_has_var(INPUT_POST, 'Download') && filter_has_var(INPUT_POST, 'LogFile')) {
+			if ($this->Controller($output, 'PrepareFileForDownload', filter_input(INPUT_POST, 'LogFile'))) {
+				$tmpfile= $output[0];
+				/// @warning Clear the output buffer first
+				ob_clean();
 
-					if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
-						// Without this header, IE cannot even download the file
-						header("Pragma: public");
-					}
-
-					if (preg_match('/.*\.gz$/', $tmpfile)) {
-						 header('Content-Type: application/x-gzip');
-					}
-					else if (preg_match('/.*\.pdf$/', $tmpfile)) {
-						 header('Content-Type: application/pdf');
-					}
-					else {
-						 header('Content-Type: text/plain');
-					}
-					header('Content-Disposition: attachment; filename="'.basename($tmpfile).'"');
-					header('Content-Length: '.filesize($tmpfile));
-					readfile($tmpfile);
-					flush();
-					/// @warning Do not send anything else, otherwise it is attached to the file
-					exit;
+				if (preg_match('/MSIE/', $_SERVER['HTTP_USER_AGENT'])) {
+					// Without this header, IE cannot even download the file
+					header("Pragma: public");
 				}
+
+				if (preg_match('/.*\.gz$/', $tmpfile)) {
+					 header('Content-Type: application/x-gzip');
+				}
+				else if (preg_match('/.*\.pdf$/', $tmpfile)) {
+					 header('Content-Type: application/pdf');
+				}
+				else {
+					 header('Content-Type: text/plain');
+				}
+				header('Content-Disposition: attachment; filename="'.basename($tmpfile).'"');
+				header('Content-Length: '.filesize($tmpfile));
+				readfile($tmpfile);
+				flush();
+				/// @warning Do not send anything else, otherwise it is appended to the file
+				exit;
 			}
 		}
 	}

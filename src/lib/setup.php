@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -25,7 +25,7 @@
 /// Force HTTPs, needs SSL configuration in the web server configuration.
 $ForceHTTPs= TRUE;
 
-/// Project-wide log level used in pffwwui_syslog() and pffwc_syslog().
+/// Project-wide log level used in wui_syslog() and ctlr_syslog().
 $LOG_LEVEL= LOG_INFO;
 
 /// Max inline anchors allowed.

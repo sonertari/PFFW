@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -43,54 +43,54 @@ if (count($_POST)) {
 						// Encrypt passwords before passing down, plaintext passwords should never be visible, not even in the doas logs
 						if ($View->Controller($Output, 'SetPassword', filter_input(INPUT_POST, 'User'), sha1(filter_input(INPUT_POST, 'NewPassword')))) {
 							PrintHelpWindow(_NOTICE('User password changed') . ': ' . filter_input(INPUT_POST, 'User'));
-							pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User password changed: '.filter_input(INPUT_POST, 'User'));
+							wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User password changed: '.filter_input(INPUT_POST, 'User'));
 							if ($_SESSION['USER'] == filter_input(INPUT_POST, 'User')) {
 								// Log user out if she changes her own password, currently only admin can do that
 								LogUserOut('User password changed');
 							}
 						}
 						else {
-							pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Password change failed: '.filter_input(INPUT_POST, 'User'));
+							wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Password change failed: '.filter_input(INPUT_POST, 'User'));
 						}
 					}
 					else {
-						pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Password mismatch');
+						wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Password mismatch');
 						// Throttle authentication failures
 						exec('/bin/sleep 5');
 					}
 				}
 				else {
 					PrintHelpWindow(_NOTICE('FAILED').': '._NOTICE('Not a valid password'), 'auto', 'ERROR');
-					pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Password change failed: '.filter_input(INPUT_POST, 'User'));
+					wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Password change failed: '.filter_input(INPUT_POST, 'User'));
 				}
 			}
 			else {
 				PrintHelpWindow(_NOTICE('FAILED').': '._NOTICE('Passwords do not match'), 'auto', 'ERROR');
-				pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Passwords do not match: '.filter_input(INPUT_POST, 'User'));
+				wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Passwords do not match: '.filter_input(INPUT_POST, 'User'));
 			}
 		}
 		else {
 			PrintHelpWindow(_NOTICE('FAILED').': '._NOTICE('pffw currently supports only admin and user usernames'), 'auto', 'ERROR');
-			pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Invalid user: '.filter_input(INPUT_POST, 'User'));
+			wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, 'Invalid user: '.filter_input(INPUT_POST, 'User'));
 		}
 	}
 	else if (filter_has_var(INPUT_POST, 'LogLevel')) {
 		if ($View->Controller($Output, 'SetLogLevel', filter_input(INPUT_POST, 'LogLevel'))) {
-			pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'LogLevel set: '.filter_input(INPUT_POST, 'LogLevel'));
+			wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'LogLevel set: '.filter_input(INPUT_POST, 'LogLevel'));
 			// Reset $LOG_LEVEL to its new value
 			require($SRC_ROOT . '/lib/setup.php');
 		}
 	}
 	else if (filter_has_var(INPUT_POST, 'MaxAnchorNesting')) {
 		if ($View->Controller($Output, 'SetMaxAnchorNesting', filter_input(INPUT_POST, 'MaxAnchorNesting'))) {
-			pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'MaxAnchorNesting set: '.filter_input(INPUT_POST, 'MaxAnchorNesting'));
+			wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'MaxAnchorNesting set: '.filter_input(INPUT_POST, 'MaxAnchorNesting'));
 			// Reset $MaxAnchorNesting to its new value
 			require($SRC_ROOT . '/lib/setup.php');
 		}
 	}
 	else if (filter_has_var(INPUT_POST, 'PfctlTimeout')) {
 		if ($View->Controller($Output, 'SetPfctlTimeout', filter_input(INPUT_POST, 'PfctlTimeout'))) {
-			pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'PfctlTimeout set: '.filter_input(INPUT_POST, 'PfctlTimeout'));
+			wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'PfctlTimeout set: '.filter_input(INPUT_POST, 'PfctlTimeout'));
 			// Reset $PfctlTimeout to its new value
 			require($SRC_ROOT . '/lib/setup.php');
 		}
@@ -98,40 +98,40 @@ if (count($_POST)) {
 	else {
 		if (filter_has_var(INPUT_POST, 'DisableHelpBoxes')) {
 			if ($View->Controller($Output, 'SetHelpBox', 'FALSE')) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Disable HelpBoxes');
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Disable HelpBoxes');
 			}
 		}
 		else if (filter_has_var(INPUT_POST, 'EnableHelpBoxes')) {
 			if ($View->Controller($Output, 'SetHelpBox', 'TRUE')) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Enable HelpBoxes');
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Enable HelpBoxes');
 			}
 		}
 		else if (filter_has_var(INPUT_POST, 'SessionTimeout')) {
 			if ($View->Controller($Output, 'SetSessionTimeout', filter_input(INPUT_POST, 'SessionTimeout'))) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'SessionTimeout set: '.filter_input(INPUT_POST, 'SessionTimeout'));
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'SessionTimeout set: '.filter_input(INPUT_POST, 'SessionTimeout'));
 			}
 		}
 		else if (filter_has_var(INPUT_POST, 'DefaultLocale')) {
 			if ($View->Controller($Output, 'SetDefaultLocale', filter_input(INPUT_POST, 'DefaultLocale'))) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'DefaultLocale set: '.filter_input(INPUT_POST, 'DefaultLocale'));
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'DefaultLocale set: '.filter_input(INPUT_POST, 'DefaultLocale'));
 				// Reset $DefaultLocale to its new value
 				require($SRC_ROOT . '/lib/setup.php');
 			}
 		}
 		else if (filter_has_var(INPUT_POST, 'ReloadRate')) {
 			if ($View->Controller($Output, 'SetReloadRate', filter_input(INPUT_POST, 'ReloadRate'))) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'ReloadRate set: '.filter_input(INPUT_POST, 'ReloadRate'));
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'ReloadRate set: '.filter_input(INPUT_POST, 'ReloadRate'));
 			}
 		}
 		else if (filter_input(INPUT_POST, 'DisableForceHTTPs') || filter_input(INPUT_POST, 'EnableForceHTTPs')) {
 			if (filter_has_var(INPUT_POST, 'DisableForceHTTPs')) {
 				if ($View->Controller($Output, 'SetForceHTTPs', 'FALSE')) {
-					pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Disable ForceHTTPs');
+					wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Disable ForceHTTPs');
 				}
 			}
 			else if (filter_has_var(INPUT_POST, 'EnableForceHTTPs')) {
 				if ($View->Controller($Output, 'SetForceHTTPs', 'TRUE')) {
-					pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Enable ForceHTTPs');
+					wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'Enable ForceHTTPs');
 				}
 			}
 			// Reload the page using plain HTTP to activate the change
@@ -140,12 +140,12 @@ if (count($_POST)) {
 		}
 		else if (filter_has_var(INPUT_POST, 'DisableUseSSH')) {
 			if ($View->Controller($Output, 'SetUseSSH', 'FALSE')) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Disable UseSSH');
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Disable UseSSH');
 			}
 		}
 		else if (filter_has_var(INPUT_POST, 'EnableUseSSH')) {
 			if ($View->Controller($Output, 'SetUseSSH', 'TRUE')) {
-				pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Enable UseSSH');
+				wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, 'Enable UseSSH');
 			}
 		}
 		// Reset defaults to their new values

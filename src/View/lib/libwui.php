@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -71,7 +71,7 @@ function AuthHTMLFooter()
 				<?php echo $_SESSION['USER'].'@'.filter_input(INPUT_SERVER, 'REMOTE_ADDR') ?>
 			</td>
 			<td>
-				<?php echo _TITLE('Copyright') ?> (c) 2016 Soner Tari. <?php echo _TITLE('All rights reserved.') ?>
+				<?php echo _TITLE('Copyright') ?> (C) 2016, 2017 Soner Tari. <?php echo _TITLE('All rights reserved.') ?>
 			</td>
 		</tr>
 	<?php
@@ -93,7 +93,7 @@ function CheckPageActivation($active)
 		echo _TITLE('Resource not available').': '.$Submenu;
 
 		require_once($VIEW_PATH.'/footer.php');
-		pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Page not active.');
+		wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Page not active.');
 		exit(1);
 	}
 }
@@ -133,7 +133,7 @@ function PrintHelpBox($msg= '', $width= 300)
 			return;
 		}
 		else {
-			pffwwui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, '$msg empty');
+			wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, '$msg empty');
 		}
 	}
 }
@@ -216,7 +216,7 @@ function PrintHelpWindow($msg, $width= 'auto', $type= 'INFO')
 }
 
 /**
- * Sets the log file.
+ * Gets the log file.
  */
 function GetLogFile()
 {
@@ -269,7 +269,7 @@ function PrintLogFileChooser($logfile)
 
 								$option= sprintf('%-19s - %s', $startdate, $file);
 								if (preg_match('/.*\.gz$/', $file)) {
-									// $logfile does not have .gz extension, because it points to the file decompressed by cwc
+									// $logfile does not have .gz extension, because it points to the file decompressed by the controller
 									// Update this local copy for comparison and to print it below
 									$logfile.= basename($logfile).'.gz' == $file ? '.gz' : '';
 								}

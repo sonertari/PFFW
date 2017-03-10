@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -55,39 +55,39 @@ function ApplyConfig()
 
 		$View->Model= 'pf';
 		if (!$View->Controller($output, 'SetIfs', $lanif, $wanif)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting pf interfaces: $lanif, $wanif");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting pf interfaces: $lanif, $wanif");
 		}
 
 		if (!$View->Controller($output, 'SetIntnet', $lancidr)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting pf internal net: $lancidr");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting pf internal net: $lancidr");
 		}
 		
 		$View->Model= 'named';
 		if (! $View->Controller($output, 'SetListenOn', $lanip)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting listen-on: $lanip");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting listen-on: $lanip");
 		}
 		
 		if (!$View->Controller($output, 'SetForwarders', $mygate)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting forwarders: $mygate");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting forwarders: $mygate");
 		}
 		
 		$View->Model= 'dhcpd';
 		ComputeDhcpdIpRange($lanip, $lannet, $lanbc, $min, $max);
 		if (!$View->Controller($output, 'SetDhcpdConf', $lanip, $lanmask, $lannet, $lanbc, $min, $max)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting dhcpd configuration: $lanip, $lanmask, $lannet, $lanbc, $min, $max");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting dhcpd configuration: $lanip, $lanmask, $lannet, $lanbc, $min, $max");
 		}
 		
 		if (!$View->Controller($output, 'AddIf', $lanif)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting dhcpd interface: $lanif");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting dhcpd interface: $lanif");
 		}
 		
 		$View->Model= 'symon';
 		if (!$View->Controller($output, 'SetIfs', $lanif, $wanif)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting symon ifs: $lanif, $wanif");
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting symon ifs: $lanif, $wanif");
 		}
 
 		if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
 		}
 
 		return TRUE;
@@ -98,7 +98,8 @@ function ApplyConfig()
 	}
 }
 
-/** Computes network, broadcast, and CIDR net addresses, given ip and netmask.
+/**
+ * Computes network, broadcast, and CIDR net addresses, given ip and netmask.
  *
  * Quoting from nice explanations here:
  * http://downloads.openwrt.org/people/mbm/network
@@ -138,7 +139,8 @@ function ComputeIfDefs($ip, $mask, &$net, &$bc, &$cidr)
 	}
 }
 
-/** Computes a DHCP IP range.
+/**
+ * Computes a DHCP IP range.
  *
  * This function provides a guess only.
  *
@@ -203,11 +205,11 @@ function InitIfs()
 		}
 		else {
 			$Config['ExtIf']= $Config['IntIf'];
-			pffwwui_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, 'WARNING: Found only one interface, assigned internal to external if');
+			wui_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, 'WARNING: Found only one interface, assigned internal to external if');
 		}
 		return TRUE;
 	}
-	pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'ERROR: Expected at least one interface, found: '.count($Ifs));
+	wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'ERROR: Expected at least one interface, found: '.count($Ifs));
 	return FALSE;
 }
 
@@ -362,17 +364,17 @@ function CreateUsers()
 
 				// Update admin password
 				if ($View->Controller($output, 'CreateUser', 'admin', $sha1Passwd, 1000)) {
-					pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: admin');
+					wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: admin');
 					// Update user password
 					if ($View->Controller($output, 'CreateUser', 'user', $sha1Passwd, 1001)) {
-						pffwwui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: user');
+						wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: user');
 					}
 					else {
-						pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: user');
+						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: user');
 					}
 				}
 				else {
-					pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: admin');
+					wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: admin');
 				}
 				echo "Successfully created admin and user.\n\n";
 				break;

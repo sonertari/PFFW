@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -23,7 +23,7 @@
  */
 
 /// Redirect file for Controller().
-$TmpFile= '/var/tmp/pffw/pffwc.out';
+$TmpFile= '/var/tmp/pffw/ctlr.out';
 
 /// Matches model names to files. View provides the name only.
 $ModelFiles= array(
@@ -341,7 +341,7 @@ function ValidateArgs($commands, $command, $argv, $check)
 
 							$errormsg= "$command: $arg";
 							Error(_('No such file').": $errormsg");
-							pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "No such file: $errormsg");
+							ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "No such file: $errormsg");
 						}
 					}
 
@@ -368,7 +368,7 @@ function ValidateArgs($commands, $command, $argv, $check)
 	
 	if (!$valid) {
 		Error(_('Arg type check failed').": $helpmsg");
-		pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Arg type check failed: $logmsg");
+		ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Arg type check failed: $logmsg");
 	}
 	return $valid;
 }

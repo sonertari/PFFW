@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -22,7 +22,7 @@ namespace Model;
 
 class Comment extends Rule
 {
-	/** 
+	/**
 	 * Type definition for comments.
 	 * 
 	 * We should never have a Comment object without 'comment' key, hence 'require'.

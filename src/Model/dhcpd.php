@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -120,6 +120,7 @@ class Dhcpd extends Model
 	 * Adds a dhcpd interface to listen.
 	 *
 	 * @param string $if Interface to add.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function AddIf($if)
 	{
@@ -137,6 +138,7 @@ class Dhcpd extends Model
 	 * Deletes a dhcpd interface to listen.
 	 *
 	 * @param string $if Interface to delete.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function DelIf($if)
 	{
@@ -157,6 +159,7 @@ class Dhcpd extends Model
 	 * Sets dhcpd interfaces.
 	 *
 	 * @param string $ifs List of ifs separated by spaces.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function SetIfs($ifs)
 	{
@@ -179,7 +182,7 @@ class Dhcpd extends Model
 	/**
 	 * Reads dhcpd range option.
 	 *
-	 * @return string IP range.
+	 * @return string IP range or FALSE on failure.
 	 */
 	function GetRange()
 	{

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -157,7 +157,7 @@ class Rule
 	 */
 	protected $nestingStr;
 
-	/** 
+	/**
 	 * Creates and initializes the rule object with the given rule string.
 	 * 
 	 * We first set the nesting information, which is used in reporting errors occurred during parsing.
@@ -181,7 +181,7 @@ class Rule
 		}
 	}
 
-	/** 
+	/**
 	 * Initializes the rule object with the given data.
 	 * 
 	 * We first assign the given rule number to $ruleNumber. Rule objects cannot and should not have
@@ -209,7 +209,7 @@ class Rule
 		return $retval;
 	}
 
-	/** 
+	/**
 	 * Validates rule array.
 	 * 
 	 * The rule array is the internal representation of pf rules. Types of the elements in different rule
@@ -234,13 +234,13 @@ class Rule
 
 		if (count($arr) > 0) {
 			Error($this->nestingStr . _('Rule') . " $this->ruleNumber: " . _('Validation Error') . ': ' . _('Unexpected elements') . ': ' . implode(', ', array_keys($arr)));
-			pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Unexpected elements: " . implode(', ', array_keys($arr)));
+			ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Unexpected elements: " . implode(', ', array_keys($arr)));
 			return FALSE;
 		}
 		return TRUE;
 	}
 
-	/** 
+	/**
 	 * Finds the validation method to apply to rule value.
 	 * 
 	 * If the value is an array, we call a recursive method. This is so, because array elements
@@ -277,13 +277,13 @@ class Rule
 			unset($arr[$key]);
 		} elseif (isset($def['require']) && $def['require']) {
 			Error($this->nestingStr . _('Rule') . " $this->ruleNumber: " . _('Validation Error') . ': ' . _('Required element missing') . ': ' . ltrim("$parent.$key", '.'));
-			pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Required element missing: " . ltrim("$parent.$key", '.'));
+			ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Required element missing: " . ltrim("$parent.$key", '.'));
 			return FALSE;
 		}
 		return TRUE;
 	}
 
-	/** 
+	/**
 	 * Applies validation method to values in rule array.
 	 * 
 	 * Certain rule elements can have multiple values, such as source and destination addresses. These are marked as
@@ -324,18 +324,18 @@ class Rule
 
 			if (count($arr) > 0) {
 				Error($this->nestingStr . _('Rule') . " $this->ruleNumber: " . _('Validation Error') . ': ' . _('Unexpected elements') . ': ' . ltrim("$parent.$key", '.') . ' ' . implode(', ', array_keys($arr)));
-				pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Unexpected elements: " . ltrim("$parent.$key", '.') . ' ' . implode(', ', array_keys($arr)));
+				ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Unexpected elements: " . ltrim("$parent.$key", '.') . ' ' . implode(', ', array_keys($arr)));
 				return FALSE;
 			}
 		} else {
 			Error($this->nestingStr . _('Rule') . " $this->ruleNumber: " . _('Validation Error') . ': ' . _('Multiple values not allowed for') . ' ' . ltrim("$parent.$key", '.'));
-			pffwc_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Multiple values not allowed for " . ltrim("$parent.$key", '.'));
+			ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Multiple values not allowed for " . ltrim("$parent.$key", '.'));
 			return FALSE;
 		}
 		return TRUE;
 	}
 
-	/** 
+	/**
 	 * Validates a value.
 	 * 
 	 * This is where we apply validation methods to values.
@@ -372,16 +372,16 @@ class Rule
 			}
 		} else {
 			Error($this->nestingStr . _('Rule') . " $this->ruleNumber: " . _('Validation Error') . ': ' . _('No regex or func def for') . ' ' . ltrim("$parent.$key", '.'));
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: No regex or func def for " . ltrim("$parent.$key", '.'));
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: No regex or func def for " . ltrim("$parent.$key", '.'));
 			return FALSE;
 		}
 
 		if (!$result) {
 			Error($this->nestingStr . _('Rule') . " $this->ruleNumber: " . _('Validation Error') . ': ' . _('Invalid value for') . " '" . ltrim("$parent.$key", '.') . "': <pre>" . htmlentities(print_r($value, TRUE)) . '</pre>');
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Invalid value for '" . ltrim("$parent.$key", '.') . "': " . print_r($value, TRUE));
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Validation Error: Invalid value for '" . ltrim("$parent.$key", '.') . "': " . print_r($value, TRUE));
 			return FALSE;
 		} else {
-			pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Valid value for '" . ltrim("$parent.$key", '.') . "': " . print_r($value, TRUE) . ", $rxfn");
+			ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, $this->nestingStr . "Rule $this->ruleNumber: Valid value for '" . ltrim("$parent.$key", '.') . "': " . print_r($value, TRUE) . ", $rxfn");
 		}
 		return TRUE;
 	}
@@ -413,10 +413,10 @@ class Rule
 				if (is_callable($method, TRUE)) {
 					call_user_method_array($method, $this, $this->keywords[$key]['params']);
 				} else {
-					pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Parser method '$method' not callable");
+					ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Parser method '$method' not callable");
 				}
 			} else {
-				pffwc_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Word '$key' not in keywords");
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Word '$key' not in keywords");
 			}
 		}
 	}

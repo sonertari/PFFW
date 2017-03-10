@@ -3,15 +3,10 @@
 # PFFW upgrade script to set owner and permissions.
 
 var			type=dir mode=0755 uname=root gname=wheel
-cron			type=dir mode=0555 uname=root gname=wheel
-tabs			type=dir mode=01730 uname=root gname=crontab
-root			type=file mode=0600 uname=root gname=wheel
-..	#var/cron/tabs
-..	#var/cron
 log			type=dir mode=0755 uname=root gname=wheel
 doas			type=file mode=0600 uname=root gname=wheel
-pffwc.log			type=file mode=0640 uname=root gname=wheel
-pffwwui.log		type=file mode=0640 uname=root gname=wheel
+ctlr.log			type=file mode=0640 uname=root gname=wheel
+wui.log		type=file mode=0640 uname=root gname=wheel
 ftp-proxy.log		type=file mode=0640 uname=root gname=wheel
 monitoring.log		type=file mode=0640 uname=root gname=wheel
 named.log		type=file mode=0640 uname=root gname=wheel
@@ -77,4 +72,3 @@ symon.conf		type=file mode=0644 uname=root gname=wheel
 symux.conf		type=file mode=0644 uname=root gname=wheel
 sysctl.conf		type=file mode=0644 uname=root gname=wheel
 syslog.conf		type=file mode=0644 uname=root gname=wheel
-

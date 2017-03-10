@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -27,7 +27,7 @@ require_once($MODEL_PATH.'/model.php');
 class System extends Model
 {
 	public $Name= 'system';
-	
+
 	private $confDir= '/etc/';
 
 	function __construct()
@@ -326,7 +326,7 @@ class System extends Model
 		else {
 			$errout= implode("\n", $output);
 			Error($errout);
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Get dynamic gateway failed: $errout");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Get dynamic gateway failed: $errout");
 		}
 		return FALSE;
 	}
@@ -509,7 +509,7 @@ class System extends Model
 		}
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set date failed: $errout");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Set date failed: $errout");
 		return FALSE;
 	}
 
@@ -540,7 +540,7 @@ class System extends Model
 		}
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Auto configuration failed: $errout");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Auto configuration failed: $errout");
 		return FALSE;
 	}
 
@@ -571,7 +571,7 @@ class System extends Model
 		if (!$result) {
 			$errout= implode("\n", $output);
 			Error($errout);
-			pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed initializing graphs: $errout");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed initializing graphs: $errout");
 		}
 		return $result;
 	}
@@ -589,7 +589,7 @@ class System extends Model
 		}
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed erasing statistics files: $errout");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed erasing statistics files: $errout");
 		return FALSE;
 	}
 	
@@ -625,6 +625,7 @@ class System extends Model
 		// First make sure there are no running rdate processes.
 		$this->Pkill('rdate');
 		$this->RunShellCommand("/usr/sbin/rdate -p $timeserver > $TmpFile 2>&1 &");
+		return TRUE;
 	}
 
 	/**
@@ -639,6 +640,7 @@ class System extends Model
 		// First make sure there are no running rdate processes.
 		$this->Pkill('rdate');
 		$this->RunShellCommand("/usr/sbin/rdate $timeserver > $TmpFile 2>&1 &");
+		return TRUE;
 	}
 
 	/**
@@ -648,7 +650,7 @@ class System extends Model
 	 * We wait for their output in a loop.
 	 * 
 	 * @attention PHP sleep() function is affected by changes to the system clock,
-	 * so we cannot use it in the while loop. Note that we changes the system time by calling SetRemoteTime().
+	 * so we cannot use it in the while loop. Note that we change the system time by calling SetRemoteTime().
 	 * But, the shell sleep command seems not affected by changes, to the clock, so we use it instead.
 	 * 
 	 * @return string Datetime.
@@ -699,7 +701,7 @@ class System extends Model
 		}
 		$errout= implode("\n", $output);
 		Error($errout);
-		pffwc_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Netstart failed: $errout");
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Netstart failed: $errout");
 		return FALSE;
 	}
 	

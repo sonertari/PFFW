@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -22,7 +22,7 @@ namespace Model;
 
 class Blank extends Rule
 {
-	/** 
+	/**
 	 * Type definition for blank lines.
 	 * 
 	 * We should never have a Blank object without 'blank' key, hence 'require'.

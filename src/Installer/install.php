@@ -1,7 +1,7 @@
 #!/usr/local/bin/php
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -74,18 +74,18 @@ if ($View->Controller($Output, 'GetConfig')) {
 		if (ApplyConfig()) {
 			$msg= 'Successfully configured the system';
 			echo $msg.".\n";
-			pffwwui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, $msg);
+			wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, $msg);
 			exit(0);
 		}
 		else {
-			pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed applying configuration');
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed applying configuration');
 		}
 	}
 }
 else {
-	pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get configuration');
+	wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get configuration');
 }
 
-pffwwui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Configuration failed');
+wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Configuration failed');
 exit(1);
 ?>

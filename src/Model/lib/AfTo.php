@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2016 Soner Tari
+ * Copyright (C) 2004-2017 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -20,7 +20,7 @@
 
 namespace Model;
 
-/** 
+/**
  * Class for AF Translation rules.
  */
 class AfTo extends Filter
