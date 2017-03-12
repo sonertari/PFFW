@@ -394,7 +394,7 @@ msgid "Number of lines"
 msgstr "Satır sayısı"
 
 msgid "Number of processes"
-msgstr "Süreç Sayısı"
+msgstr "Süreç sayısı"
 
 msgid "OS"
 msgstr "Sistem"

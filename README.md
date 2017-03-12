@@ -8,7 +8,7 @@ The installation iso file for the amd64 arch is available for download at [pffw5
 
 ## Features
 
-PFFW includes the following software, along side what is already available in a basic OpenBSD 5.9 installation:
+PFFW includes the following software, alongside what is already available in a basic OpenBSD 5.9 installation:
 
 - PFRE: Packet Filter Rule Editor
 - Apache Web server
@@ -20,7 +20,7 @@ The web user interface of PFFW helps you manage your firewall:
 
 - System, network, and service configuration can be achieved on the web interface.
 - Pf rules are maintained using PFRE.
-- Information on hosts, interfaces, pf rules, states, and queues are provided in tabular form.
+- Information on hosts, interfaces, pf rules, states, and queues are provided in a tabular form.
 - Pf logs can be viewed and downloaded on the web interface. Compressed log files are supported too.
 - Pf statistics collected over logs are displayed in bar charts and top lists. Statistics over compressed log files are supported too.
 - You can monitor interfaces, packet transfer, pf states, and kernel memory management on the graphs.
@@ -76,4 +76,3 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 Note that you can strip down xbase and xfont install sets to reduce the size of the iso file. See the PFFW installation iso above for examples.
 
 Now you can run the createiso script which should produce an iso file in the same folder as itself.
-

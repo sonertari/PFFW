@@ -217,7 +217,7 @@ msgid "Get pf rules info"
 msgstr "Pf kural bilgisini getir"
 
 msgid "Get pf state count"
-msgstr "Pf bellek bilgisini getir"
+msgstr "Pf durum sayısını getir"
 
 msgid "Get pf states"
 msgstr "Pf durumlarını getir"
