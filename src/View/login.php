@@ -75,10 +75,8 @@ if (filter_has_var(INPUT_POST, 'Login')) {
 	}
 }
 
-HTMLHeader('gray');
+HTMLHeader('whitesmoke');
 ?>
-<tr>
-	<td>
 		<table style="height: 400px;">
 			<tr>
 				<td>
@@ -123,8 +121,5 @@ HTMLHeader('gray');
 				</td>
 			</tr>
 		</table>
-	</td>
-</tr>
-<?php
-HTMLFooter();
-?>
+	</body>
+</html>

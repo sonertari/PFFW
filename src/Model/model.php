@@ -40,6 +40,7 @@ class Model
 
 	/// Max number of iterations to try while starting or stopping processes.
 	const PROC_STAT_TIMEOUT= 100;
+	const PROC_STAT_SLEEP_TIME= .3;
 	
 	/**
 	 * Argument lists and descriptions of commands.
@@ -51,8 +52,8 @@ class Model
 	 */
 	public $Commands= array();
 
-	private $NVPS= '=';
-	private $COMC= '#';
+	public $NVPS= '=';
+	public $COMC= '#';
 
 	public $LogFile= '';
 	public $TmpLogsDir= '';
@@ -60,12 +61,39 @@ class Model
 	protected $rcConfLocal= '/etc/rc.conf.local';
 
 	public $PfRulesFile= '/etc/pf.conf';
+
+	public $ConfFile= '';
+	public $Config= '';
+
+	public $CmdLogStart= '/usr/bin/head -1 <LF>';
 	
+	public $VersionCmd= '';
+
+	public $PidFile= '';
+
+	protected $newSyslogConf= '/etc/newsyslog.conf';
+
+	/// This datetime format is for error logs, not access logs.
+	/// Hence for example squid uses the default syslog format.
+	protected $dateTimeFormat= 'M j H:i:s';
+
+	protected $prios= array();
+
 	function __construct()
 	{
+		global $ModelConfig;
+		
 		$this->Proc= $this->Name;
 
 		$this->TmpLogsDir= '/var/tmp/pffw/logs/'.get_class($this).'/';
+
+		$this->Config= $ModelConfig;
+
+		$this->prios= array(
+			'EMERGENCY|ALERT|CRITICAL' => _TITLE('<MODEL> has CRITICAL errors'),
+			'ERROR' => _TITLE('<MODEL> has ERRORs'),
+			'WARNING' => _TITLE('<MODEL> has WARNINGs')
+			);
 
 		$this->Commands= array_merge(
 			$this->Commands,
@@ -150,6 +178,11 @@ class Model
 					'desc'	=>	_('Set pfctl timeout'),
 					),
 
+				'SetStatusCheckInterval'=>	array(
+					'argv'	=>	array(NUM),
+					'desc'	=>	_('Set status check interval'),
+					),
+
 				'GetReloadRate'=>	array(
 					'argv'	=>	array(),
 					'desc'	=>	_('Get reload rate'),
@@ -191,12 +224,12 @@ class Model
 					),
 
 				'GetFileLineCount'	=>	array(
-					'argv'	=>	array(FILEPATH, REGEXP|NONE),
-					'desc'	=>	_('Gets line count'),
+					'argv'	=>	array(FILEPATH, REGEXP|NONE, REGEXP|NONE, NUM|EMPTYSTR|NONE, NUM|EMPTYSTR|NONE, NUM|EMPTYSTR|NONE, NUM|EMPTYSTR|NONE),
+					'desc'	=>	_('Get line count'),
 					),
 
 				'GetLogs'	=>	array(
-					'argv'	=>	array(FILEPATH, NUM, TAIL, REGEXP|NONE),
+					'argv'	=>	array(FILEPATH, NUM, TAIL, REGEXP|NONE, REGEXP|NONE, NUM|EMPTYSTR|NONE, NUM|EMPTYSTR|NONE, NUM|EMPTYSTR|NONE, NUM|EMPTYSTR|NONE),
 					'desc'	=>	_('Get lines'),
 					),
 
@@ -223,6 +256,52 @@ class Model
 				'PrepareFileForDownload'	=>	array(
 					'argv'	=>	array(FILEPATH),
 					'desc'	=>	_('Prepare file for download'),
+					),
+				
+				'GetVersion'	=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get software version'),
+					),
+
+				'GetServiceStatus'	=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get service status'),
+					),
+				
+				'GetModuleStatus'	=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get module status'),
+					),
+				
+				'GetSysCtl'	=>	array(
+					'argv'	=>	array(NAME),
+					'desc'	=>	_('Get sysctl values'),
+					),
+
+				'GetConfigValues'	=>	array(
+					'argv'	=>	array(NAME|EMPTYSTR, NUM|EMPTYSTR),
+					'desc'	=>	_('Get config values'),
+					),
+
+				'SetConfValue'	=>	array(
+					/// @todo Is there any pattern or size for new value, 2nd param?
+					'argv'	=>	array(CONFNAME, STR, NAME|EMPTYSTR, NUM|EMPTYSTR),
+					'desc'	=>	_('Set name value pair'),
+					),
+
+				'EnableConf'	=>	array(
+					'argv'	=>	array(CONFNAME, NAME|EMPTYSTR, NUM|EMPTYSTR),
+					'desc'	=>	_('Enable config'),
+					),
+
+				'DisableConf'	=>	array(
+					'argv'	=>	array(CONFNAME, NAME|EMPTYSTR, NUM|EMPTYSTR),
+					'desc'	=>	_('Disable config'),
+					),
+
+				'GetStatus'	=> array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get critical errors'),
 					),
 				)
 			);
@@ -314,6 +393,7 @@ class Model
 	 * Start module process(es).
 	 *
 	 * Tries PROC_STAT_TIMEOUT times.
+	 *
 	 * @todo Actually should stop retrying on error?
 	 *
 	 * @return bool TRUE on success, FALSE on fail.
@@ -330,7 +410,7 @@ class Model
 				return TRUE;
 			}
 			/// @todo Check $TmpFile for error messages, if so break out instead
-			exec('/bin/sleep .1');
+			exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
 		}
 
 		// Check one last time due to the last sleep in the loop
@@ -379,7 +459,7 @@ class Model
 			}
 			$this->RunShellCommand("$cmd > $TmpFile 2>&1");
 			/// @todo Check $TmpFile for error messages, if so break out instead
-			exec('/bin/sleep .1');
+			exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
 		}
 
 		// Check one last time due to the last sleep in the loop
@@ -620,7 +700,25 @@ class Model
 		// Append semi-colon to new value, this setting is a PHP line
 		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/lib/setup.php', '\$PfctlTimeout', $timeout.';');
 	}
-	
+
+	/**
+	 * Sets status check interval.
+	 * 
+	 * @param int $interval Interval to check module statuses.
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function SetStatusCheckInterval($interval)
+	{
+		global $ROOT, $TEST_DIR_SRC;
+		
+		if ($interval < 10) {
+			$interval= 10;
+		}
+		
+		// Append semi-colon to new value, this setting is a PHP line
+		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/lib/setup.php', '\$StatusCheckInterval', $interval.';');
+	}
+
 	/**
 	 * Gets default reload rate.
 	 * 
@@ -860,6 +958,7 @@ class Model
 	{
 		if (copy($file, $file.'.bak')) {
 			$contents= file_get_contents($file).$line."\n";
+			/// @todo Return the return value of file_put_contents()? Check and test all usages of AppendToFile() first.
 			file_put_contents($file, $contents);
 			return TRUE;
 		}
@@ -967,6 +1066,13 @@ class Model
 					ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile not modified: $logfile, linecount $linecount");
 					return FALSE;
 				}
+				
+				// Reset the accumulated stats if the log file turned over
+				if ($newfilestat['ino'] != $filestat['ino']) {
+					$statsfile= $this->GetStatsFileName($logfile);
+					exec("/bin/rm -f $statsfile 2>&1", $output, $retval);
+					ctlr_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, "Logfile turned over: $logfile, deleted stats file: $statsfile");
+				}
 			}
 		}
 		return TRUE;
@@ -1007,19 +1113,165 @@ class Model
 	}
 
 	/**
+	 * Generates the module specific datetime regexp for filtering logs.
+	 *
+	 * @param string $month Two-digit month, or empty string for match all.
+	 * @param string $day Two-digit day, or empty string for match all.
+	 * @param string $hour Two-digit hour, or empty string for match all.
+	 * @param string $minute Two-digit minute, or empty string for match all.
+	 * @return string Regexp to use as datetime filter.
+	 */
+	function formatDateHourRegexp($month, $day, $hour, $minute)
+	{
+		global $MonthNames, $Re_MonthNames;
+
+		// Sep  7 13:49:06
+		if ($month != '') {
+			$reMonth= $MonthNames[$month];
+		} else {
+			$reMonth= '('.$Re_MonthNames.')';
+		}
+
+		if ($day != '') {
+			$reDay= sprintf('% 2d', $day);
+		} else {
+			$reDay= '([[:digit:][:blank:]][[:digit:]])';
+		}
+
+		if ($hour != '') {
+			$reHour= $hour;
+		} else {
+			$reHour= '([[:digit:]][[:digit:]])';
+		}
+
+		if ($minute != '') {
+			$reMinute= $minute;
+		} else {
+			$reMinute= '([[:digit:]][[:digit:]])';
+		}
+
+		return "^$reMonth $reDay $reHour:$reMinute:";
+	}
+
+	function formatDateHourRegexpDayLeadingZero($month, $day, $hour, $minute)
+	{
+		global $MonthNames, $Re_MonthNames;
+
+		// Sep 07 13:49:06
+		if ($month != '') {
+			$reMonth= $MonthNames[$month];
+		} else {
+			$reMonth= '('.$Re_MonthNames.')';
+		}
+
+		if ($day != '') {
+			$reDay= $day;
+		} else {
+			$reDay= '([[:digit:]][[:digit:]])';
+		}
+
+		if ($hour != '') {
+			$reHour= $hour;
+		} else {
+			$reHour= '([[:digit:]][[:digit:]])';
+		}
+
+		if ($minute != '') {
+			$reMinute= $minute;
+		} else {
+			$reMinute= '([[:digit:]][[:digit:]])';
+		}
+		
+		return "^$reMonth $reDay $reHour:$reMinute:";
+	}
+
+	function formatDateHourRegexpWeekDays($month, $day, $hour, $minute)
+	{
+		global $MonthNames, $Re_MonthNames, $Re_WeekDays;
+
+		// Mon Sep  4 23:51:31
+		if ($month != '') {
+			$reMonth= $MonthNames[$month];
+		} else {
+			$reMonth= '('.$Re_MonthNames.')';
+		}
+
+		if ($day != '') {
+			$reDay= sprintf('% 2d', $day);
+		} else {
+			$reDay= '([[:digit:][:blank:]][[:digit:]])';
+		}
+
+		if ($hour != '') {
+			$reHour= $hour;
+		} else {
+			$reHour= '([[:digit:]][[:digit:]])';
+		}
+
+		if ($minute != '') {
+			$reMinute= $minute;
+		} else {
+			$reMinute= '([[:digit:]][[:digit:]])';
+		}
+
+		$reWeekDays= '('.$Re_WeekDays.')';
+
+		return "^$reWeekDays $reMonth $reDay $reHour:$reMinute:";
+	}
+
+	/**
 	 * Gets line count of the given log file.
 	 *
 	 * @param string $file Log file pathname.
 	 * @param string $re Regexp to get count of a restricted result set.
+	 * @param string $needle Optional regexp to use with a second grep over logs, used by Stats pages.
+	 * @param string $month Two-digit month, or empty string for match all.
+	 * @param string $day Two-digit day, or empty string for match all.
+	 * @param string $hour Two-digit hour, or empty string for match all.
+	 * @param string $minute Two-digit minute, or empty string for match all.
 	 * @return int Line count.
 	 */
-	function GetFileLineCount($file, $re= '')
+	function GetFileLineCount($file, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
-		return Output($this->_getFileLineCount($file, $re));
+		return Output($this->_getFileLineCount($file, $re, $needle, $month, $day, $hour, $minute));
 	}
 
-	function _getFileLineCount($file, $re= '')
+	function _getFileLineCount($file, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
+		if ($re == '' && $needle == '' && $month == '' && $day == '' && $hour == '' && $minute == '') {
+			/// @warning Input redirection is necessary, otherwise wc adds file name to its output too
+			$cmd= "/usr/bin/wc -l < $file";
+		}
+		else {
+			// Skip for speed, otherwise we could use datetime regexp for empty strings too
+			if ($month == '' && $day == '' && $hour == '' && $minute == '') {
+				$re= escapeshellarg($re);
+				if ($needle == '') {
+					$cmd= "/usr/bin/grep -a -E $re $file";
+				}
+				else {
+					$needle= escapeshellarg($needle);
+					$cmd= "/usr/bin/grep -a -E $needle $file | /usr/bin/grep -a -E $re";
+				}
+			}
+			else {
+				$cmd= '/usr/bin/grep -a -E "' . $this->formatDateHourRegexp($month, $day, $hour, $minute) . '" ' . $file;
+
+				$re= escapeshellarg($re);
+				if ($needle == '') {
+					$cmd.= " | /usr/bin/grep -a -E $re";
+				}
+				else {
+					$needle= escapeshellarg($needle);
+					$cmd.= " | /usr/bin/grep -a -E $needle | /usr/bin/grep -a -E $re";
+				}
+			}
+
+			$cmd.= ' | /usr/bin/wc -l';
+		}
+
+		// OpenBSD wc returns with leading blanks
+		return trim($this->RunShellCommand($cmd));
 	}
 
 	/**
@@ -1029,10 +1281,52 @@ class Model
 	 * @param int $end Head option, start line.
 	 * @param int $count Tail option, page line count.
 	 * @param string $re Regexp to restrict the result set.
+	 * @param string $needle Optional regexp to use with a second grep over logs, used by Stats pages.
+	 * @param string $month Two-digit month, or empty string for match all.
+	 * @param string $day Two-digit day, or empty string for match all.
+	 * @param string $hour Two-digit hour, or empty string for match all.
+	 * @param string $minute Two-digit minute, or empty string for match all.
 	 * @return array Log lines.
 	 */
-	function GetLogs($file, $end, $count, $re= '')
+	function GetLogs($file, $end, $count, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
+		// Empty $re is not an issue for grep, greps all
+		// Skip for speed, otherwise we could use datetime regexp for empty strings too
+		if ($month == '' && $day == '' && $hour == '' && $minute == '') {
+			$re= escapeshellarg($re);
+			if ($needle == '') {
+				$cmd= "/usr/bin/grep -a -E $re $file";
+			}
+			else {
+				$needle= escapeshellarg($needle);
+				$cmd= "/usr/bin/grep -a -E $needle $file | /usr/bin/grep -a -E $re";
+			}
+		}
+		else {
+			$cmd= '/usr/bin/grep -a -E "' . $this->formatDateHourRegexp($month, $day, $hour, $minute) . '" ' . $file;
+
+			$re= escapeshellarg($re);
+			if ($needle == '') {
+				$cmd.= " | /usr/bin/grep -a -E $re";
+			}
+			else {
+				$needle= escapeshellarg($needle);
+				$cmd.= " | /usr/bin/grep -a -E $needle | /usr/bin/grep -a -E $re";
+			}
+		}
+
+		$cmd.= " | /usr/bin/head -$end | /usr/bin/tail -$count";
+
+		exec($cmd, $output, $retval);
+		
+		$logs= array();
+		foreach ($output as $line) {
+			unset($cols);
+			if ($this->ParseLogLine($line, $cols)) {
+				$logs[]= $cols;
+			}
+		}
+		return Output(json_encode($logs));
 	}
 
 	/**
@@ -1042,15 +1336,50 @@ class Model
 	 * of the lines grep'd.
 	 *
 	 * Difference from the archives method is that this one always gets
-	 * the tail of the log or grepped lines.
+	 * the tail of the log or grep'd lines.
 	 *
 	 * @param string $file Log file.
-	 * @param int $count Tail lenght, page line count.
+	 * @param int $count Tail length, page line count.
 	 * @param string $re Regexp to restrict the result set.
 	 * @return array Log lines.
 	 */
 	function GetLiveLogs($file, $count, $re= '')
 	{
+		return Output(json_encode($this->_getLiveLogs($file, $count, $re)));
+	}
+
+	/**
+	 * Gets logs for live logs pages, the actual method.
+	 * 
+	 * A few modules share their log files with other processes.
+	 * So the $needle param is used to filter module log lines.
+	 * 
+	 * @param string $needle Second regexp to further restrict the result set.
+	 */
+	function _getLiveLogs($file, $count, $re= '', $needle= '')
+	{
+		// Empty $re is not an issue for grep, greps all
+		$re= escapeshellarg($re);
+		if ($needle == '') {
+			$cmd= "/usr/bin/grep -a -E $re $file";
+		}
+		else {
+			$needle= escapeshellarg($needle);
+			$cmd= "/usr/bin/grep -a -E $needle $file | /usr/bin/grep -a -E $re";
+		}
+
+		$cmd.= " | /usr/bin/tail -$count";
+
+		exec($cmd, $output, $retval);
+		
+		$logs= array();
+		foreach ($output as $line) {
+			unset($cols);
+			if ($this->ParseLogLine($line, $cols)) {
+				$logs[]= $cols;
+			}
+		}
+		return $logs;
 	}
 
 	/**
@@ -1130,6 +1459,7 @@ class Model
 	 */
 	function ParseLogLine($logline, &$cols)
 	{
+		return $this->ParseSyslogLine($logline, $cols);
 	}
 	
 	/**
@@ -1210,24 +1540,26 @@ class Model
 
 		$stats= array();
 		foreach ($StatsConf[$this->Name] as $stat => $conf) {
-			if (isset($conf['Cmd'])) {
-				$cmd= $conf['Cmd'];
-				if (isset($conf['Needle'])) {
-					$cmd.= ' | /usr/bin/grep -a -E <NDL>';
+			if (isset($conf['Title'])) {
+				if (isset($conf['Cmd'])) {
+					$cmd= $conf['Cmd'];
+					if (isset($conf['Needle'])) {
+						$cmd.= ' | /usr/bin/grep -a -E <NDL>';
+						$cmd= preg_replace('/<NDL>/', escapeshellarg($conf['Needle']), $cmd);
+					}
+					$cmd.= ' | /usr/bin/wc -l';
+				}
+				else if (isset($conf['Needle'])) {
+					$cmd= '/usr/bin/grep -a -E <NDL> <LF> | /usr/bin/wc -l';
 					$cmd= preg_replace('/<NDL>/', escapeshellarg($conf['Needle']), $cmd);
 				}
-				$cmd.= ' | /usr/bin/wc -l';
+				if ($logfile == '') {
+					$logfile= $this->LogFile;
+				}
+				$cmd= preg_replace('/<LF>/', $logfile, $cmd);
+
+				$stats[$conf['Title']]= trim($this->RunShellCommand($cmd));
 			}
-			else if (isset($conf['Needle'])) {
-				$cmd= '/usr/bin/grep -a -E <NDL> <LF> | /usr/bin/wc -l';
-				$cmd= preg_replace('/<NDL>/', escapeshellarg($conf['Needle']), $cmd);
-			}
-			if ($logfile == '') {
-				$logfile= $this->LogFile;
-			}
-			$cmd= preg_replace('/<LF>/', $logfile, $cmd);
-			
-			$stats[$conf['Title']]= trim($this->RunShellCommand($cmd));
 		}
 		return Output(json_encode($stats));
 	}
@@ -1284,7 +1616,18 @@ class Model
 	{
 		global $StatsConf;
 
-		$cmd= $StatsConf[$this->Name]['Total']['Cmd'];
+		$statsdefs= $StatsConf[$this->Name];
+
+		$needle= '';
+		if (isset($statsdefs['Total']['Needle'])) {
+			$needle= $statsdefs['Total']['Needle'];
+		}
+		
+		$cmd= $statsdefs['Total']['Cmd'];
+		if ($needle != '') {
+			$needle= escapeshellarg($needle);
+			$cmd.= " | /usr/bin/grep -a -E $needle";
+		}
 
 		if ($tail > -1) {
 			/// @attention Normally would never allow large $tail numbers here, but this $tail is computed in the code.
@@ -1394,11 +1737,18 @@ class Model
 	 */
 	function CountDiffLogLines($logfile, &$count)
 	{
+		global $StatsConf;
+
 		$count= -1;
 			
 		if ($this->GetStatsFileInfo($logfile, $oldlinecount, $oldfilestat)) {
+			$needle= '';
+			$statsdefs= $StatsConf[$this->Name];
+			if (isset($statsdefs) && isset($statsdefs['Total']['Needle'])) {
+				$needle= $statsdefs['Total']['Needle'];
+			}
 			
-			$newlinecount= $this->_getFileLineCount($logfile);
+			$newlinecount= $this->_getFileLineCount($logfile, $needle);
 			$origfile= $this->GetOrigFileName($logfile);
 
 			if (($newlinecount >= $oldlinecount) && !preg_match('/\.gz$/', $origfile)) {
@@ -1434,17 +1784,23 @@ class Model
 
 		$stats= array();
 		$briefstats= array();
+		$linecount= 0;
 
-		// Line count should be obtained here, see SaveStats() for explanation
-		$linecount= $this->_getFileLineCount($logfile);
-
-		if ($this->CountDiffLogLines($logfile, $tail)) {
-			$this->GetSavedStats($logfile, $stats, $briefstats);
-		}
-		
 		$statsdefs= $StatsConf[$this->Name];
 		
 		if (isset($statsdefs)) {
+			$needle= '';
+			if (isset($statsdefs['Total']['Needle'])) {
+				$needle= $statsdefs['Total']['Needle'];
+			}
+
+			// Line count should be obtained here, see SaveStats() for explanation
+			$linecount= $this->_getFileLineCount($logfile, $needle);
+
+			if ($this->CountDiffLogLines($logfile, $tail)) {
+				$this->GetSavedStats($logfile, $stats, $briefstats);
+			}
+		
 			$lines= $this->GetStatsLogLines($logfile, $tail);
 			
 			if ($lines !== '') {
@@ -1491,6 +1847,21 @@ class Model
 	 */
 	function GetDateRegexp($date)
 	{
+		global $MonthNames;
+
+		if ($date['Month'] == '') {
+			$re= '.*';
+		}
+		else {
+			$re= $MonthNames[$date['Month']].'\s+';
+			if ($date['Day'] == '') {
+				$re.= '.*';
+			}
+			else {
+				$re.= sprintf('% 2d', $date['Day']);
+			}
+		}
+		return $re;
 	}
 
 	/**
@@ -1703,15 +2074,19 @@ class Model
 	{
 		$stats['Sum']+= 1;
 
-		if (isset($statsdefs['Total']['Counters'])) {
-			foreach ($statsdefs['Total']['Counters'] as $counter => $conf) {
-				$value= $values[$conf['Field']];
-				if (isset($value)) {
-					$stats[$counter]['Sum']+= $value;
+		foreach ($statsdefs as $stat => $statconf) {
+			if (isset($statconf['Counters'])) {
+				foreach ($statconf['Counters'] as $counter => $conf) {
+					$value= $values[$conf['Field']];
+					if (isset($value)) {
+						$stats[$counter]['Sum']+= $value;
 
-					foreach ($conf['NVPs'] as $name => $title) {
-						if (isset($values[$name])) {
-							$stats[$counter][$name][$values[$name]]+= $value;
+						if (isset($conf['NVPs'])) {
+							foreach ($conf['NVPs'] as $name => $title) {
+								if (isset($values[$name])) {
+									$stats[$counter][$name][$values[$name]]+= $value;
+								}
+							}
 						}
 					}
 				}
@@ -1723,9 +2098,11 @@ class Model
 				if (preg_match('/'.$conf['Needle'].'/', $line)) {
 					$stats[$stat]['Sum']+= 1;
 
-					foreach ($conf['NVPs'] as $name => $title) {
-						if (isset($values[$name])) {
-							$stats[$stat][$name][$values[$name]]+= 1;
+					if (isset($conf['NVPs'])) {
+						foreach ($conf['NVPs'] as $name => $title) {
+							if (isset($values[$name])) {
+								$stats[$stat][$name][$values[$name]]+= 1;
+							}
 						}
 					}
 				}
@@ -1751,10 +2128,12 @@ class Model
 		$minstats= &$hourstats['Mins'][$min];
 		$minstats['Sum']+= 1;
 
-		if (isset($statsdefs['Total']['Counters'])) {
-			foreach ($statsdefs['Total']['Counters'] as $counter => $conf) {
-				if (isset($values[$conf['Field']])) {
-					$minstats[$counter]+= $values[$conf['Field']];
+		foreach ($statsdefs as $stat => $statconf) {
+			if (isset($statconf['Counters'])) {
+				foreach ($statconf['Counters'] as $counter => $conf) {
+					if (isset($values[$conf['Field']])) {
+						$minstats[$counter]+= $values[$conf['Field']];
+					}
 				}
 			}
 		}
@@ -1767,5 +2146,715 @@ class Model
 			}
 		}
 	}
+
+	/**
+	 * Gets all configuration for a given configuration type.
+	 *
+	 * @param string $conf Config type
+	 * @param int $group E2guardian group
+	 * @return array Array of config items
+	 */
+	function GetConfigValues($conf, $group)
+	{
+		$this->SetConfig($conf);
+
+		$values= array();
+		foreach ($this->Config as $name => $config) {
+			if (($output= $this->GetValue($name, $conf, $group)) !== FALSE) {
+				$values[$name]= array(
+					'Value' => $output,
+					'Type' => $this->GetConfValueType($name, $conf),
+					'Enabled' => TRUE,
+					);
+			}
+			else if (($output= $this->GetDisabledValue($name, $conf, $group)) !== FALSE) {
+				$values[$name]= array(
+					'Value' => $output,
+					'Type' => $this->GetConfValueType($name, $conf),
+					'Enabled' => FALSE,
+					);
+			}
+		}
+		return Output(json_encode($values));
+	}
+
+	/**
+	 * Returns all enabled configuration for a given configuration type.
+	 *
+	 * @param string $name Config name
+	 * @param string $conf Config type
+	 * @param int $group E2guardian group
+	 * @return array Array of config items
+	 */
+	function GetValue($name, $conf, $group)
+	{
+		$file= $this->GetConfFile($conf, $group);
+		
+		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
+			return $this->GetName($file, $name);
+		}
+		
+		$value= $this->GetNVP($file, $name);
+		return $value !== FALSE ? "$name=$value" : $value;
+	}
+
+	/**
+	 * Returns all disabled configuration for a given configuration type.
+	 */
+	function GetDisabledValue($name, $conf, $group)
+	{
+		$file= $this->GetConfFile($conf, $group);
+		
+		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
+			return $this->GetDisabledName($file, $name);
+		}
+		
+		$value= $this->GetDisabledNVP($file, $name);
+		return $value !== FALSE ? "$name=$value" : $value;
+	}
+	
+	/**
+	 * Reads value of commented-out NVP.
+	 *
+	 * @param string $file Config file
+	 * @param string $name Name of NVP
+	 * @return string Value of commented NVP or NULL on failure
+	 */
+	function GetDisabledNVP($file, $name)
+	{
+		return $this->SearchFile($file, "/^\h*$this->COMC\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m");
+	}
+
+	/**
+	 * Checks if Name exists.
+	 *
+	 * @param string $file Config file
+	 * @param string $name Name of NVP
+	 * @return mixed Name or FALSE on failure
+	 */
+	function GetName($file, $name)
+	{
+		return $this->SearchFile($file, "/^\h*($name)(\h*$this->COMC.*|\h*)$/m");
+	}
+
+	/**
+	 * Checks if commented-out Name exists.
+	 *
+	 * @param string $file Config file
+	 * @param string $name Name of NVP
+	 * @return mixed Commented Name or FALSE on failure
+	 */
+	function GetDisabledName($file, $name)
+	{
+		return $this->SearchFile($file, "/^\h*$this->COMC\h*($name)(\h*$this->COMC.*|\h*)$/m");
+	}
+
+	/**
+	 * Sets the value of NVP configuration.
+	 *
+	 * @param string $name Config name
+	 * @param string $newvalue New Config value
+	 * @param string $conf Config type
+	 * @param int $group E2guardian group
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function SetConfValue($name, $newvalue, $conf, $group)
+	{
+		$this->SetConfig($conf);
+		if (isset($this->Config[$name]['type'])) {
+			$re= $this->Config[$name]['type'];
+		}
+		else {
+			$re= '.*';
+		}
+
+		if (preg_match("/^($re)$/", $newvalue)) {
+			$file= $this->GetConfFile($conf, $group);
+			return $this->SetNVP($file, $name, $newvalue);
+		}
+		Error(_('Invalid value').": $name: $newvalue");
+		ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Configuration change failed, invalid value: $name: $newvalue");
+		return FALSE;
+	}
+
+	function GetConfValueType($name, $conf)
+	{
+		if (isset($this->Config[$name]['type'])) {
+			$re= $this->Config[$name]['type'];
+		}
+		else {
+			$re= '.*';
+		}
+		return $re;
+	}
+
+	/**
+	 * Enables a configuration item in conf file.
+	 *
+	 * Certain modules have multiple configuration files,
+	 * hence they override this method.
+	 *
+	 * @param string $name Config name
+	 * @param string $conf Config type
+	 * @param int $group E2guardian group
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function EnableConf($name, $conf, $group)
+	{
+		$file= $this->GetConfFile($conf, $group);
+		
+		$this->SetConfig($conf);
+		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
+			return $this->EnableName($file, $name);
+		}
+		return $this->EnableNVP($file, $name);
+	}
+
+	/**
+	 * Disables a configuration item in conf file.
+	 */
+	function DisableConf($name, $conf, $group)
+	{
+		$file= $this->GetConfFile($conf, $group);
+		
+		$this->SetConfig($conf);
+		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
+			return $this->DisableName($file, $name);
+		}
+		return $this->DisableNVP($file, $name);
+	}
+
+	/**
+	 * Enables an NVP configuration item with value.
+	 *
+	 * @param string $file Config file
+	 * @param string $name Config name
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function EnableNVP($file, $name)
+	{
+		return $this->ReplaceRegexp($file, "/^\h*$this->COMC(\s*$name\b\s*$this->NVPS\s*.*)$/m", '${1}');
+	}
+
+	/**
+	 * Enables a Name: configuration item without value.
+	 */
+	function EnableName($file, $name)
+	{
+		return $this->ReplaceRegexp($file, "/^\h*$this->COMC(\h*$name(\h*$this->COMC.*|\h*))$/m", '${1}');
+	}
+
+	/**
+	 * Disables an NVP.
+	 */
+	function DisableNVP($file, $name)
+	{
+		return $this->ReplaceRegexp($file, "/^(\h*$name\b\s*$this->NVPS\s*.*)$/m", $this->COMC.'${1}');
+	}
+
+	/**
+	 * Disables a Name.
+	 */
+	function DisableName($file, $name)
+	{
+		return $this->ReplaceRegexp($file, "/^(\h*$name(\h*$this->COMC.*|\h*))$/m", $this->COMC.'${1}');
+	}
+
+	/**
+	 * Returns configuration file of the module.
+	 *
+	 * Certain modules have configuration divided into multiple pages/files,
+	 * hence they override this method.
+	 *
+	 * @param string $conf Config type
+	 * @param int $group E2guardian group
+	 * @return string Config file pathname
+	 */
+	function GetConfFile($conf, $group)
+	{
+		return $this->ConfFile;
+	}
+
+	/**
+	 * Sets configuration file based on config type provided.
+	 *
+	 * Certain modules have configuration divided into multiple pages/files,
+	 * hence they override this method.
+	 *
+	 * @param string $confname Config type
+	 */
+	function SetConfig($confname)
+	{
+	}
+
+	/**
+	 * Stops module's parent process with its pid.
+	 */
+	function Kill()
+	{
+		global $TmpFile;
+		
+		if (($pid= $this->GetFile($this->PidFile)) !== FALSE) {
+			$cmd= "/bin/kill $pid";
+		
+			$count= 0;
+			while ($count++ < self::PROC_STAT_TIMEOUT) {
+				if (!$this->IsRunning()) {
+					return TRUE;
+				}
+				$this->RunShellCommand("$cmd > $TmpFile 2>&1");
+				/// @todo Check $TmpFile for error messages, if so break out instead
+				exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
+			}
+
+			// Check one last time due to the last sleep in the loop
+			if (!$this->IsRunning()) {
+				return TRUE;
+			}
+			
+			// Kill command is redirected to tmp file
+			$output= file_get_contents($TmpFile);
+			Error($output);
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Kill failed with: $output");
+			return FALSE;
+		}
+		/// @attention Missing pid file means success, proc is not running anyway
+		return TRUE;
+	}
+
+	/**
+	 * Kills process with the given pid
+	 *
+	 * Tries PROC_STAT_TIMEOUT times.
+	 * @todo Actually should stop retrying on some error conditions?
+	 *
+	 * @param int $pid Pid
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function KillPid($pid)
+	{
+		global $TmpFile;
+
+		$cmd= '/bin/kill '.$pid;
+
+		$count= 0;
+		while ($count++ < self::PROC_STAT_TIMEOUT) {
+			if (!$this->IsModulePidRunning($pid)) {
+				return TRUE;
+			}
+			$this->RunShellCommand("$cmd > $TmpFile 2>&1");
+			/// @todo Check $TmpFile for error messages, if so break out instead
+			exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
+		}
+
+		/// Kill command is redirected to tmp file
+		$output= file_get_contents($TmpFile);
+		Error($output);
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Kill failed with: $output");
+
+		// Check one last time due to the last sleep in the loop
+		return !$this->IsModulePidRunning($pid);
+	}
+
+	/**
+	 * Checks if the pid is running.
+	 *
+	 * @param int $pid Pid
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function IsModulePidRunning($pid)
+	{
+		$pidcmd= "/bin/ps -o pid -p $pid | /usr/bin/grep '$pid'";
+
+		$output= $this->RunShellCommand($pidcmd);
+
+		return ($output !== '');
+	}
+
+	/**
+	 * Gets software version string.
+	 */
+	function GetVersion()
+	{
+		if ($this->VersionCmd !== '') {
+			return Output($this->RunShellCommand($this->VersionCmd.' | /usr/bin/head -1'));
+		}
+		return FALSE;
+	}
+
+	/**
+	 * Gets service statuses.
+	 */
+	function GetServiceStatus()
+	{
+		global $MODEL_PATH, $ModelFiles, $Models, $ModelsToStat;
+
+		$output= array();
+		foreach ($ModelsToStat as $name => $caption) {
+			if (array_key_exists($name, $ModelFiles)) {
+				require_once($MODEL_PATH.'/'.$ModelFiles[$name]);
+
+				if (class_exists($Models[$name])) {
+					$model= new $Models[$name]();
+					$output[$name]= $model->_getModuleStatus();
+				}
+				else {
+					ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Not in Models: $name");
+				}
+			}
+			else {
+				ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Not in ModelFiles: $name");
+			}
+		}
+		return Output(json_encode($output));
+	}
+
+	function GetModuleStatus()
+	{
+		return Output(json_encode($this->_getModuleStatus()));
+	}
+
+	function _getModuleStatus()
+	{
+		// @attention Don't use long extended regexps with grep, grep takes too long
+		//$logs= $model->_getStatus('(EMERGENCY|emergency|ALERT|alert|CRITICAL|critical|ERROR|error|WARNING|warning):');
+		$logs= $this->_getStatus('');
+
+		$crits= $this->getCriticalErrors($logs);
+		$errs= $this->getErrors($logs);
+		$warns= $this->getWarnings($logs);
+
+		$errorStatus= 'N';
+		if (count($crits)) {
+			$errorStatus= 'C';
+		}
+		else if (count($errs)) {
+			$errorStatus= 'E';
+		}
+		else if (count($warns)) {
+			$errorStatus= 'W';
+		}
+
+		$prioLogs= array_merge($crits, $errs, $warns);
+
+		return array(
+			'Status' => $this->IsRunning()? 'R':'S',
+			'ErrorStatus' => $errorStatus,
+			'Critical' => count($crits),
+			'Error' => count($errs),
+			'Warning' => count($warns),
+			'Logs' => $prioLogs,
+			);
+	}
+
+	function GetLastLogs($needle, $interval= 60)
+	{
+		$lastLogs= array();
+
+		// @attention Get the last datetime in the logs, so do not use the $needle
+		$logs= $this->getStatusLogs($this->LogFile, 1);
+		if (count($logs) == 1) {
+			$lastLine= $logs[0];
+			// @attention Always check the retval of createFromFormat(), it may fail due to format mismatch, e.g. log rotation lines
+			$dt= DateTime::createFromFormat($this->dateTimeFormat, $lastLine['Date'].' '.$lastLine['Time']);
+			if ($dt) {
+				$lastTs= $dt->getTimestamp();
+
+				// @attention Don't get the logs in the last 60 seconds from now instead, otherwise the errors still important cannot be reported after 60 seconds.
+				$logs= $this->getStatusLogs($this->LogFile, 1000, $needle);
+				if (count($logs)) {
+					// Loop in reverse order to break out asap
+					foreach (array_reverse($logs) as $l) {
+						$dt= DateTime::createFromFormat($this->dateTimeFormat, $l['Date'].' '.$l['Time']);
+						if ($dt) {
+							$ts= $dt->getTimestamp();
+							if ($lastTs - $ts <= $interval) {
+								$lastLogs[]= $l;
+							} else {
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		return $lastLogs;
+	}
+
+	function getStatusLogs($file, $count, $re= '', $needle= '')
+	{
+		return $this->_getLiveLogs($file, $count, $re, $needle);		
+	}
+
+	function getCriticalErrors($logs)
+	{
+		return array_merge($this->getPrioLogs($logs, 'EMERGENCY'),
+				$this->getPrioLogs($logs, 'ALERT'),
+				$this->getPrioLogs($logs, 'CRITICAL'));
+	}
+
+	function getErrors($logs)
+	{
+		return $this->getPrioLogs($logs, 'ERROR');
+	}
+
+	function getWarnings($logs)
+	{
+		return $this->getPrioLogs($logs, 'WARNING');
+	}
+
+	function isPrio($log, $prio)
+	{
+		return strtoupper($log['Prio']) == $prio;
+	}
+
+	function getPrioLogs($logs, $needle)
+	{
+		$prioLogs= array();
+		foreach ($logs as $l) {
+			if ($this->isPrio($l, $needle)) {
+				$prioLogs[]= $l;
+			}
+		}
+		return $prioLogs;
+	}
+
+	function GetStatus()
+	{
+		global $ModelsToStat;
+
+		foreach ($this->prios as $p => $msg) {
+			$keys= explode('|', $p);
+			$needleArray= array();
+			foreach ($keys as $k) {
+				$needleArray[]= $k;
+				$needleArray[]= strtolower($k);
+			}
+			$needle= implode('|', $needleArray);
+
+			$logs= $this->_getStatus($this->formatErrorNeedle($needle));
+			$total= count($logs);
+			if ($total > 0) {
+				$errorStr= '';
+				$count= 0;
+				foreach ($logs as $l) {
+					$isPrio= FALSE;
+					foreach ($needleArray as $n) {
+						if ($this->isPrio($l, $n)) {
+							$isPrio= TRUE;
+							break;
+						}
+					}
+
+					if ($isPrio) {
+						$errorStr.= "\n" . $l['Log'];
+						$count++;
+						if ($count >= 5 && $total - $count > 0) {
+							$errorStr.= "\n" . str_replace('<COUNT>', $total - $count, _TITLE('And <COUNT> others not shown.'));
+							break;
+						}
+					}
+				}
+				if ($count) {
+					Error(str_replace('<MODEL>', _($ModelsToStat[$this->Name]), _($msg)) . ':' . $errorStr);
+				}
+			}
+		}
+		return TRUE;
+	}
+
+	function formatErrorNeedle($needle)
+	{
+		return "($needle):";
+	}
+
+	function _getStatus($needle)
+	{
+		global $StatusCheckInterval;
+
+		return $this->GetLastLogs($needle, $StatusCheckInterval);
+	}
+
+	/**
+	 * Gets sysctl output for the given arg.
+	 *
+	 * @param string $option sysctl arg, such as hw.sensors.
+	 * @return string sysctl output lines.
+	 */
+	function GetSysCtl($option)
+	{
+		return Output($this->_getSysCtl($option));
+	}
+
+	function _getSysCtl($option)
+	{
+		return $this->RunShellCommand("/sbin/sysctl $option");
+	}
+
+	/**
+	 * Parses standard syslog line.
+	 *
+	 * @param string $logline Log line
+	 * @param array $cols Parsed fields
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function ParseSyslogLine($logline, &$cols)
+	{
+		$re_datetime= '(\w+\s+\d+)\s+(\d+:\d+:\d+)';
+		$re_proc= '((\S+(\[\d+\]|)):|)';
+		$re_prio= '((EMERGENCY|ALERT|CRITICAL|ERROR|WARNING|NOTICE|INFO|DEBUG|emergency|alert|critical|error|warning|notice|info|debug):|)';
+		
+		$re= "/^$re_datetime\s+(\S+|)\s+$re_proc\s*$re_prio\s*(.*|)$/";
+		if (preg_match($re, $logline, $match)) {
+			$cols['Date']= $match[1];
+			$cols['Time']= $match[2];
+			$cols['Process']= $match[5];
+			$cols['Prio']= $match[8];
+			$cols['Log']= $match[9];
+			return TRUE;
+		}
+		return FALSE;
+	}
+
+	/**
+	 * Gets newsyslog configuration for log file.
+	 *
+	 * Certain log files do not have model classes, hence the $model param.
+	 *
+	 * @param string $model Index to $ModelsToLogConfig
+	 * @return mixed Configuration array or FALSE on failure
+	 */
+	function GetNewsyslogConfig($model)
+	{
+		$output= FALSE;
+		if (($contents= $this->GetFile($this->newSyslogConf)) !== FALSE) {
+			$re_filepath= Escape($this->LogFile, '/');
+			$re_owner= '([\w:]+|)';
+			$re_mode= '(\d+)';
+			$re_count= '(\d+)';
+			$re_size= '(\d+|\*)';
+			$re_when= '(\d+|\*)';
+
+			$re= "/^\s*$re_filepath\s+$re_owner\s*$re_mode\s+$re_count\s+$re_size\s+$re_when\s+.*$/m";
+			if (preg_match($re, $contents, $match)) {
+				$output= array(
+					$this->LogFile => array(
+						'Model' => $model,
+						'Count' => $match[3],
+						'Size' => $match[4],
+						'When' => $match[5],
+						),
+					);
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Sets newsyslog configuration for log file.
+	 *
+	 * @param string $file Log file pathname
+	 * @param int $count How many archives to keep
+	 * @param int/* $size Max site to rotate, or don't care
+	 * @param int/* $when Interval to rotate in hours, or don't care
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function SetNewsyslogConfig($file, $count, $size, $when)
+	{
+		if (copy($this->newSyslogConf, $this->newSyslogConf.'.bak')) {
+			if (($contents= $this->GetFile($this->newSyslogConf)) !== FALSE) {
+				$re_filepath= Escape($file, '/');
+				$re_owner= '([\w:]+|)';
+				$re_mode= '(\d+)';
+				$re_count= '(\d+)';
+				$re_size= '(\d+|\*)';
+				$re_when= '(\d+|\*)';
+
+				$re= "/^(\s*$re_filepath\s+$re_owner\s*$re_mode\s+)$re_count(\s+)$re_size(\s+)$re_when(\s+.*)$/m";
+				$re_replace= '${1}'.$count.'${5}'.$size.'${7}'.$when.'${9}';
+				if (($newcontents= preg_replace($re, $re_replace, $contents)) !== FALSE) {
+					$this->PutFile($this->newSyslogConf, $newcontents);
+					return TRUE;
+				}
+				else {
+					ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot set new value: $file, $count, $size, $when");
+				}
+			}
+		}
+		else {
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $this->newSyslogConf");
+		}
+		return FALSE;
+	}
+
+	/**
+	 * Returns all partitions mounted.
+	 */
+	function _getPartitions()
+	{
+		if (($contents= $this->RunShellCommand("/sbin/mount")) !== '') {
+			$contents= explode("\n", $contents);
+			
+			$partitions= array();
+			foreach ($contents as $line) {
+				if (preg_match('/^(\S+)\s+on\s+(\S+)/', $line, $match)) {
+					$partitions[$match[1]]= $match[2];
+				}
+			}
+			return $partitions;
+		}
+		return FALSE;
+	}
+	
+	/**
+	 * Finds sysctl temp and fan sensors.
+	 *
+	 * There may be multiple sensors. And we don't know which is CPU sensor.
+	 *
+	 * @return array Sensors extracted from sysctl output, FALSE if error or no sensors.
+	 */
+	function GetSensors()
+	{
+		if (($hwsensors= $this->_getSysCtl('hw.sensors')) !== FALSE) {
+			$hwsensors= explode("\n", $hwsensors);
+
+			if (count($hwsensors) > 0) {
+				$tempsensors= array();
+				$fansensors= array();
+				foreach ($hwsensors as $sensor) {
+					if (preg_match("/^hw\.sensors\.(\w+\d+\.temp\d+)/", $sensor, $match)) {
+						if (!in_array($match[1], $tempsensors)) {
+							$tempsensors[]= $match[1];
+						}
+					}
+					else if (preg_match("/^hw\.sensors\.(\w+\d+\.fan\d+)/", $sensor, $match)) {
+						if (!in_array($match[1], $fansensors)) {
+							$fansensors[]= $match[1];
+						}
+					}
+				}
+				
+				return array(
+					'temp'	=> $tempsensors,
+					'fan'	=> $fansensors,
+					);
+			}
+		}
+		return FALSE;
+	}
 }
+
+$ModelsToLogConfig= array(
+	'system',
+	'pf',
+	'dhcpd',
+	'named',
+	'openssh',
+	'ftp-proxy',
+	'httpd',
+	'httpdlogs',
+	'wui_syslog',
+	'ctlr_syslog',
+	'monitoring',
+	);
 ?>

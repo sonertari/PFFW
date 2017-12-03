@@ -1,5 +1,5 @@
 # Hand-crafted mtree specification for PFFW.
-# flags=none is PFFW specific, to actually force
+# flags=none is PFFW specific, to force
 # PFFW upgrade script to set owner and permissions.
 
 var			type=dir mode=0755 uname=root gname=wheel
@@ -7,6 +7,7 @@ log			type=dir mode=0755 uname=root gname=wheel
 doas			type=file mode=0600 uname=root gname=wheel
 ctlr.log			type=file mode=0640 uname=root gname=wheel
 wui.log		type=file mode=0640 uname=root gname=wheel
+dhcpd.log		type=file mode=0640 uname=root gname=wheel
 ftp-proxy.log		type=file mode=0640 uname=root gname=wheel
 monitoring.log		type=file mode=0640 uname=root gname=wheel
 named.log		type=file mode=0640 uname=root gname=wheel
@@ -21,15 +22,12 @@ pffw		type=dir mode=0755 uname=root gname=wheel flags=none
 ..	#var/tmp/pffw
 ..	#var/tmp
 www			type=dir mode=0755 uname=root gname=daemon
-conf			type=dir mode=0755 uname=root gname=daemon
-modules			type=dir mode=0755 uname=root gname=daemon
-php-5.6.conf	type=file mode=0644 uname=root gname=daemon
-..	#var/www/conf/modules
-httpd.conf		type=file mode=0644 uname=root gname=daemon
-..	#var/www/conf
 htdocs			type=dir mode=0755 uname=root gname=wheel
 pffw		type=dir mode=0755 uname=root gname=wheel
 View			type=dir mode=0755 uname=root gname=wheel
+cgi-bin			type=dir mode=0755 uname=root gname=daemon
+man.cgi			type=file mode=0511 uname=root gname=bin
+..	#var/www/htdocs/pffw/View/cgi-bin
 symon			type=dir mode=0755 uname=root gname=wheel
 cache			type=dir mode=0777 uname=root gname=wheel flags=none
 ..	#var/www/htdocs/pffw/View/symon/cache
@@ -41,6 +39,10 @@ localhost		type=dir mode=0755 uname=root gname=wheel flags=none
 ..	#var/www/htdocs/pffw/View
 ..	#var/www/htdocs/pffw
 ..	#var/www/htdocs
+logs			type=dir mode=0755 uname=root gname=daemon
+access.log		type=file mode=0644 uname=root gname=daemon
+error.log		type=file mode=0644 uname=root gname=daemon
+..	#var/www/logs
 ..	#var/www
 ..	#var
 etc			type=dir mode=0755 uname=root gname=wheel
@@ -61,10 +63,12 @@ server.crt		type=file mode=0644 uname=root gname=bin
 ..	#etc/ssl
 dhcpd.conf		type=file mode=0644 uname=root gname=wheel
 doas.conf		type=file mode=0644 uname=root gname=wheel
+httpd.conf		type=file mode=0644 uname=root gname=wheel
 motd			type=file mode=0664 uname=root gname=wheel
 newsyslog.conf		type=file mode=0644 uname=root gname=wheel
 pf.conf			type=file mode=0600 uname=root gname=wheel
 php-5.6.ini			type=file mode=0644 uname=root gname=wheel
+php-fpm.conf		type=file mode=0644 uname=root gname=wheel
 rc.conf.local		type=file mode=0644 uname=root gname=wheel
 rc.local		type=file mode=0644 uname=root gname=wheel
 rc.shutdown		type=file mode=0644 uname=root gname=wheel

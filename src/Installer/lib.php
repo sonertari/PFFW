@@ -71,6 +71,11 @@ function ApplyConfig()
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting forwarders: $mygate");
 		}
 		
+		$View->Model= 'system';
+		if (!$View->Controller($output, 'SetManCgiHome', $lanip)) {
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting man.cgi home: $lanip");
+		}
+		
 		$View->Model= 'dhcpd';
 		ComputeDhcpdIpRange($lanip, $lannet, $lanbc, $min, $max);
 		if (!$View->Controller($output, 'SetDhcpdConf', $lanip, $lanmask, $lannet, $lanbc, $min, $max)) {
@@ -82,12 +87,28 @@ function ApplyConfig()
 		}
 		
 		$View->Model= 'symon';
+		if (!$View->Controller($output, 'SetCpus')) {
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon cpus');
+		}
+
 		if (!$View->Controller($output, 'SetIfs', $lanif, $wanif)) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting symon ifs: $lanif, $wanif");
 		}
 
-		if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
-			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
+		if (!$View->Controller($output, 'SetPartitions')) {
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon partitions');
+		}
+
+		/// @attention There is an issue with sysctl on OpenBSD 5.9; it does not return on chrooted install environment
+		// Hence, the following symon configuration which require the use of sysctl should be run during normal operation instead
+		if ($auto) {
+			if (!$View->Controller($output, 'SetSensors')) {
+				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon sensors');
+			}
+
+			if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
+				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
+			}
 		}
 
 		return TRUE;
@@ -95,6 +116,27 @@ function ApplyConfig()
 	catch (Exception $e) {
 		echo 'Caught exception: ', $e->getMessage(), "\n";
 		return FALSE;
+	}
+}
+
+/**
+ * Configuration which cannot be completed during installation.
+ */
+function FirstBootTasks()
+{
+	global $Config, $View;
+
+	// Run symon script to create rrd files again for cpu and sensor probes
+	exec('/bin/sh /usr/local/share/examples/symon/c_smrrds.sh all');
+
+	// Disable rc.local line which leads to this function call
+	$file= '/etc/rc.local';
+	if (copy($file, $file.'.bak')) {
+		$re= '|^(\h*/var/www/htdocs/pffw/Installer/install\.php\h+-f\h*)|ms';
+		$contents= preg_replace($re, '#${1}', file_get_contents($file), 1, $count);
+		if ($contents !== NULL && $count === 1) {
+			file_put_contents($file, $contents);
+		}
 	}
 }
 

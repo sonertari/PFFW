@@ -25,7 +25,12 @@ class Named extends Model
 	public $Name= 'named';
 	public $User= 'root|_bind';
 	
-	private $ConfFile= '/var/named/etc/named.conf';
+	public $ConfFile= '/var/named/etc/named.conf';
+	public $LogFile= '/var/log/named.log';
+
+	public $VersionCmd= '/usr/local/sbin/named -v';
+
+	public $PidFile= '/var/named/var/run/named/named.pid';
 
 	function __construct()
 	{
@@ -86,6 +91,7 @@ class Named extends Model
 	 * Gets name server forwarders.
 	 *
 	 * @return Forwarders IP, semi-colon separated.
+	 * @todo Is semi-colon separated list fine?
 	 */
 	function GetForwarders()
 	{
@@ -101,6 +107,34 @@ class Named extends Model
 	function SetForwarders($forwarders)
 	{
 		return $this->ReplaceRegexp($this->ConfFile, "/^(\h*forwarders\h*{\h*)(.*)(\h*\;\h*}\h*\;\h*)$/m", '${1}'.$forwarders.'${3}');
+	}
+	
+	function ParseLogLine($logline, &$cols)
+	{
+		global $Re_Ip;
+
+		if ($this->ParseSyslogLine($logline, $cols)) {
+			$re_clientip= "($Re_Ip)";
+			$re_num= '(\d+)';
+			$re_domain= '(\S+)';
+			$re_type= '(.*)';
+
+			// Old: client 127.0.0.1#31874: query: www.openbsd.org IN A +
+			// New: client 192.168.5.2#49585 (detectportal.firefox.com): query: detectportal.firefox.com IN AAAA + (192.168.5.1) 
+			$re= "/client\s+$re_clientip#$re_num(\h*\([^\)]*\)|):\s+query:\s+$re_domain\s+\S+\s+$re_type$/";
+			if (preg_match($re, $cols['Log'], $match)) {
+				$cols['IP']= $match[1];
+				// Skip port
+				$cols['Domain']= $match[4];
+				// Type field is for statistics only, not shown on Logs pages
+				$cols['Type']= $match[5];
+				// Log field is displayed on the Log column on Logs pages
+				// Since we have further parsed the Log field now, update it with the Type value
+				$cols['Log']= $cols['Type'];
+			}
+			return TRUE;
+		}
+		return FALSE;
 	}
 }
 ?>

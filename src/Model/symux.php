@@ -18,13 +18,17 @@
  * along with PFFW.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once($MODEL_PATH.'/model.php');
+require_once($MODEL_PATH.'/monitoring.php');
 
-class Symux extends Model
+class Symux extends Monitoring
 {
 	public $Name= 'symux';
 	public $User= 'root';
 	
+	public $VersionCmd= '/usr/local/libexec/symux -v 2>&1';
+
+	protected $LogFilter= 'symux';
+
 	function __construct()
 	{
 		global $TmpFile;

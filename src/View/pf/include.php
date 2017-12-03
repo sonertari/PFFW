@@ -63,138 +63,56 @@ require_once($PF_PATH.'/lib/Include.php');
 require_once($PF_PATH.'/lib/Comment.php');
 require_once($PF_PATH.'/lib/Blank.php');
 
-$pfMenu = array(
-    'info' => array(
-        'Name' => _MENU('Info'),
-        'Perms' => $ALL_USERS,
-        'SubMenu' => array(
+$Menu = array(
+	'info' => array(
+		'Name' => _MENU('Info'),
+		'Perms' => $ALL_USERS,
+		'SubMenu' => array(
 			'pf' => _MENU('Pf'),
-			'system' => _MENU('System'),
-			'hosts' => _MENU('Hosts'),
 			'ifs' => _MENU('Interfaces'),
 			'rules' => _MENU('Rules'),
 			'states' => _MENU('States'),
 			'queues' => _MENU('Queues'),
 			),
 		),
-    'stats' => array(
-        'Name' => _MENU('Statistics'),
-        'Perms' => $ALL_USERS,
-        'SubMenu' => array(
+	'stats' => array(
+		'Name' => _MENU('Statistics'),
+		'Perms' => $ALL_USERS,
+		'SubMenu' => array(
 			'general' => _MENU('General'),
 			'daily' => _MENU('Daily'),
 			'hourly' => _MENU('Hourly'),
 			'live' => _MENU('Live'),
 			),
 		),
-    'graphs' => array(
-        'Name' => _MENU('Graphs'),
-        'Perms' => $ALL_USERS,
-        'SubMenu' => array(
+	'graphs' => array(
+		'Name' => _MENU('Graphs'),
+		'Perms' => $ALL_USERS,
+		'SubMenu' => array(
 			'ifs' => _MENU('Interfaces'),
 			'transfer' => _MENU('Transfer'),
 			'states' => _MENU('States'),
 			'mbufs' => _MENU('Mbufs'),
+			'hosts' => _MENU('Hosts'),
+			'protocol' => _MENU('Protocols'),
 			),
 		),
-    'logs' => array(
-        'Name' => _MENU('Logs'),
-        'Perms' => $ALL_USERS,
-        'SubMenu' => array(
+	'logs' => array(
+		'Name' => _MENU('Logs'),
+		'Perms' => $ALL_USERS,
+		'SubMenu' => array(
 			'archives' => _MENU('Archives'),
 			'live' => _MENU('Live'),
 			),
 		),
-    'rules' => array(
-        'Name' => _MENU('Rules'),
-        'Perms' => $ADMIN,
-        'SubMenu' => array(
+	'conf' => array(
+		'Name' => _MENU('Config'),
+		'Perms' => $ADMIN,
+		'SubMenu' => array(
 			'editor' => _MENU('Editor'),
 			'write' => _MENU('Display & Install'),
 			'files' => _MENU('Load & Save'),
 			),
 		),
-    'conf' => array(
-        'Name' => _MENU('Config'),
-        'Perms' => $ADMIN,
-        'SubMenu' => array(
-			'system' => _MENU('System'),
-			'network' => _MENU('Network'),
-			'dhcp' => _MENU('DHCP'),
-			'dns' => _MENU('DNS'),
-			'init' => _MENU('Init'),
-			'wui' => _MENU('WUI'),
-			),
-		),
-);
-
-$Menu = array_merge(
-	$Menu,
-	array(
-		'pf' => $pfMenu,
-		)
-);
-
-$pfLogs = array(
-	'Fields' => array(
-		'Date',
-		'Time',
-		'Rule',
-		'Act',
-		'Dir',
-		'If',
-		'SrcIP',
-		'SPort',
-		'DstIP',
-		'DPort',
-		'Type',
-		'Log',
-		),
-	'HighlightLogs' => array(
-		'Col' => 'Act',
-		'REs' => array(
-			'red' => array('\bblock\b'),
-			'yellow' => array('\bmatch\b'),
-			'green' => array('\bpass\b'),
-			),
-		),
 	);
-
-$LogConf = array_merge(
-	$LogConf,
-	array(
-		'pf' => $pfLogs,
-		'arp' => array(
-			'Fields' => array(
-				'IP',
-				'MAC',
-				'Interface',
-				'Expire',
-				),
-			),
-		'lease' => array(
-			'Fields' => array(
-				'IP',
-				'Start',
-				'End',
-				'MAC',
-				'Host',
-				'Status',
-				),
-			),
-		)
-);
-
-/**
- * Modifies Model and Caption vars of the View.
- * 
- * This is just a hack to run the functions provided by Models other than pf.
- */
-function SwitchView($model, $caption)
-{
-	global $View;
-
-	$View->Model= $model;
-	$View->Caption= $caption;
-}
 ?>

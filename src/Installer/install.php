@@ -48,8 +48,15 @@ require_once($SRC_ROOT.'/lib/lib.php');
 require_once($VIEW_PATH.'/lib/libauth.php');
 
 $Auto= FALSE;
-if (isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == '-a') {
-	$Auto= TRUE;
+$FirstBoot= FALSE;
+if ($_SERVER['argv'][1]) {
+	if ($_SERVER['argv'][1] == '-a') {
+		$Auto= TRUE;
+	}
+	else if ($_SERVER['argv'][1] == '-f') {
+		$Auto= TRUE;
+		$FirstBoot= TRUE;
+	}
 }
 
 require_once('lib.php');
@@ -71,10 +78,14 @@ if ($View->Controller($Output, 'GetConfig')) {
 			CreateUsers();
 		}
 		
-		if (ApplyConfig()) {
+		if (ApplyConfig($Auto)) {
 			$msg= 'Successfully configured the system';
 			echo $msg.".\n";
 			wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, $msg);
+			
+			if ($FirstBoot) {
+				FirstBootTasks();
+			}
 			exit(0);
 		}
 		else {

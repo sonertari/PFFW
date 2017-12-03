@@ -1,20 +1,24 @@
-#	$OpenBSD: rc.local,v 1.39 2006/07/28 20:19:46 sturm Exp $
-
+#!/bin/sh
+#
+# $OpenBSD: rc.local,v 1.3 2014/07/14 10:15:33 ajacoutot Exp $
+#
 # Site-specific startup actions, daemons, and other things which
 # can be done AFTER your system goes into securemode.  For actions
 # which should be done BEFORE your system has gone into securemode
 # please see /etc/rc.securelevel.
-
-# Add your local startup actions here.
+#
 
 /bin/mkdir -p /var/tmp/pffw/
 
+/var/www/htdocs/pffw/Installer/install.php -f
+# The line above should have been commented out after first boot
+
 echo '\nStarting PFFW services...'
 
-# Start Apache Web server
-if [ -x /usr/local/sbin/httpd ]; then
-	echo 'Web server'
-	/usr/local/sbin/httpd -u -DSSL >/dev/null 2>&1
+# Start PHP FastCGI server
+if [ -x /usr/local/sbin/php-fpm-5.6 ]; then
+	echo 'PHP FastCGI server'
+	/usr/local/sbin/php-fpm-5.6
 fi
 
 # Start ISC DNS server
@@ -33,6 +37,7 @@ if [ -x /usr/local/libexec/symux ]; then
 	fi
 fi
 
+echo ''
 banner pffw
 echo 'is ready...\n'
 echo -n "a~a." > /dev/speaker &

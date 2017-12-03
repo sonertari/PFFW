@@ -31,6 +31,7 @@
  * @attention ? should never appear in regex patterns, this is better than using / or | chars.
  * 
  * @param string $filepath File path to validate.
+ * @return bool TRUE if valid.
  */
 function IsFilePath($filepath)
 {
@@ -44,6 +45,7 @@ function IsFilePath($filepath)
 		|| preg_match("?^($TEST_DIR_PATH|)$TMP_PATH/\w[\w.\-_]*$?", $filepath)
 		// Log files
 		|| preg_match('?^/var/log/\w[\w./\-_]*$?', $filepath)
+		|| preg_match('|^/var/www/logs/\w[\w./\-_]*$|', $filepath)
 		// Statistics and uncompressed logs
 		|| preg_match('?^/var/tmp/pffw/\w[\w.\-_/]*$?', $filepath);
 }

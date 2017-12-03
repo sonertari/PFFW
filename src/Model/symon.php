@@ -22,9 +22,9 @@
  * System monitoring.
  */
 
-require_once($MODEL_PATH.'/model.php');
+require_once($MODEL_PATH.'/monitoring.php');
 
-class Symon extends Model
+class Symon extends Monitoring
 {
 	public $Name= 'symon';
 	public $User= '_symon';
@@ -32,6 +32,10 @@ class Symon extends Model
 	private $layoutsPath= '/var/www/htdocs/pffw/View/symon/layouts';
 	private $rrdsPath= '/var/www/htdocs/pffw/View/symon/rrds/localhost';
 	
+	public $VersionCmd= '/usr/local/libexec/symon -v 2>&1';
+
+	protected $LogFilter= 'symon';
+
 	function __construct()
 	{
 		global $TmpFile;
@@ -56,6 +60,21 @@ class Symon extends Model
 				'RenderLayout'=>	array(
 					'argv'	=>	array(NAME, NUM|NONE, NUM|NONE),
 					'desc'	=>	_('Render layout'),
+					),
+				
+				'SetCpus'=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Set symon cpus'),
+					),
+				
+				'SetSensors'=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Set symon sensors'),
+					),
+				
+				'SetPartitions'=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Set symon partitions'),
 					),
 				)
 			);
@@ -94,11 +113,67 @@ class Symon extends Model
 	 */
 	function SetConf($lanif, $wanif)
 	{
+		/// @todo See the new OpenBSD installer to get this and sensors paths
+		$ncpu= 1;
+		if (($hwncpu= $this->_getSysCtl('hw.ncpu')) !== FALSE) {
+			if (preg_match('|^hw.ncpu=(\d+)$|ms', $hwncpu, $match)) {
+				$ncpu= $match[1];
+			}
+		}
+
+		$cpus= '';
+		for ($i= 0; $i < $ncpu; $i++) {
+			$cpus.= "	cpu($i),\n";
+		}
+		
 		$others= "	mem,\n	pf,\n	mbuf,\n";
 		
 		$ifs= "	if(lo0),\n	if($lanif),\n	if($wanif),\n";
 		
-		$conf= "\n".$others.$ifs;
+		$partitions= $this->_getPartitions();
+		$parts= '';
+		$disks= array();
+		foreach ($partitions as $part => $mdir) {
+			if (preg_match('|/dev/((\w+\d+)[a-z]+)|', $part, $match)) {
+				$parts.= '	df('.$match[1]."),\n";
+				if (!in_array($match[2], $disks)) {
+					$disks[]= $match[2];
+				}
+			}
+		}
+
+		$ios= '';
+		foreach ($disks as $io) {
+			$ios.= "	io($io),\n";
+		}
+		
+		$sensors= '';
+		if (($sensorslist= $this->GetSensors()) !== FALSE) {
+			if (isset($sensorslist['temp']) && count($sensorslist['temp']) > 0) {
+				foreach ($sensorslist['temp'] as $s) {
+					$sensors.= "	sensor($s),\n";
+				}
+			}
+			
+			if (isset($sensorslist['fan']) && count($sensorslist['fan']) > 0) {
+				foreach ($sensorslist['fan'] as $s) {
+					$sensors.= "	sensor($s),\n";
+				}
+			}
+		}
+
+		$proclist= array(
+			'httpd',
+			'sshd',
+			'named',
+			'ftp-proxy',
+		);
+		$procs= '';
+		foreach ($proclist as $p) {
+			$procs.= "	proc($p),\n";
+		}
+		
+		$conf= "\n".$cpus.$others.$ifs.$ios.$parts.$sensors.$procs;
 		
 		$re= '|(\s*monitor\s*\{\h*)([^\}]*)(\s*\})|ms';
 		$retval=  $this->ReplaceRegexp('/etc/symon.conf', $re, '${1}'.$conf.'${3}');
@@ -169,6 +244,78 @@ class Symon extends Model
 		}
 
 		return Output(json_encode($graphs));
+	}
+
+	function SetCpus()
+	{
+		$ncpu= 1;
+		if (($hwncpu= $this->_getSysCtl('hw.ncpu')) !== FALSE) {
+			if (preg_match('|^hw.ncpu=(\d+)$|ms', $hwncpu, $match)) {
+				$ncpu= $match[1];
+			}
+		}
+		
+		$layout= '';
+		for ($c= 0; $c < $ncpu; $c++) {
+			$layout.= "graph	rrdfile=$this->rrdsPath/cpu$c.rrd, title=\"CPU $c\";\n";
+		}
+
+		$re= '|(\s*group\h+name\h*=\h*"CPU\h+Load";\s*)(.*)|ms';
+		return $this->ReplaceRegexp($this->layoutsPath.'/cpus.layout', $re, '${1}'.$layout);
+	}
+
+	function SetSensors()
+	{
+		if (($sensorslist= $this->GetSensors()) !== FALSE) {
+			$layout= '';
+			if (isset($sensorslist['temp']) && count($sensorslist['temp']) > 0) {
+				foreach ($sensorslist['temp'] as $s) {
+					$layout.= "graph	rrdfile=$this->rrdsPath/sensor_$s.rrd, title=\"Temperature ($s)\";\n";
+				}
+			}
+			
+			$layout.= 'group	name="Fan";'."\n";
+			if (isset($sensorslist['fan']) && count($sensorslist['fan']) > 0) {
+				foreach ($sensorslist['fan'] as $s) {
+					$layout.= "graph	rrdfile=$this->rrdsPath/sensor_$s.rrd, title=\"Fan ($s)\";\n";
+				}
+			}
+		
+			$re= '|(\s*group\h+name\h*=\h*"Temperature";\s*)(.*)|ms';
+			return $this->ReplaceRegexp($this->layoutsPath.'/sensors.layout', $re, '${1}'.$layout);
+		}
+		return FALSE;
+	}
+
+	function SetPartitions()
+	{
+		$partitions= $this->_getPartitions();
+		
+		$layout= '';
+		$disks= array();
+		foreach ($partitions as $part => $mdir) {
+			if (preg_match('|/dev/((\w+\d+)[a-z]+)|', $part, $match)) {
+				$p= $match[1];
+				$layout.= "graph	rrdfile=$this->rrdsPath/df_$p.rrd, title=\"Partition $p ($mdir)\";\n";
+				
+				if (!in_array($match[2], $disks)) {
+					$disks[]= $match[2];
+				}
+			}
+		}
+		
+		$re= '|(\s*group\h+name\h*=\h*"Partitions\h+Usages";\s*)(.*)|ms';
+		$retval=  $this->ReplaceRegexp($this->layoutsPath.'/partitions.layout', $re, '${1}'.$layout);
+	
+		$layout= '';
+		foreach ($disks as $d) {
+			$layout.= "graph	rrdfile=$this->rrdsPath/io_$d.rrd, title=\"Disk $d\";\n";
+		}
+		
+		$re= '|(\s*group\h+name\h*=\h*"Disk\h+I/O";\s*)(.*)|ms';
+		$retval&= $this->ReplaceRegexp($this->layoutsPath.'/disks.layout', $re, '${1}'.$layout);
+
+		return $retval;
 	}
 }
 ?>

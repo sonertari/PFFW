@@ -22,6 +22,33 @@ use View\RuleSet;
 
 require_once('../lib/vars.php');
 
+$LogConf = array(
+	'pf' => array(
+		'Fields' => array(
+			'Date' => _TITLE('Date'),
+			'Time' => _TITLE('Time'),
+			'Rule' => _TITLE('Rule'),
+			'Act' => _TITLE('Act'),
+			'Dir' => _TITLE('Dir'),
+			'If' => _TITLE('If'),
+			'SrcIP' => _TITLE('SrcIP'),
+			'SPort' => _TITLE('SPort'),
+			'DstIP' => _TITLE('DstIP'),
+			'DPort' => _TITLE('DPort'),
+			'Type' => _TITLE('Type'),
+			'Log' => _TITLE('Log'),
+			),
+		'HighlightLogs' => array(
+			'Col' => 'Act',
+			'REs' => array(
+				'red' => array('\bblock\b'),
+				'yellow' => array('\bmatch\b'),
+				'green' => array('\bpass\b'),
+				),
+			),
+		),
+	);
+
 class Pf extends View
 {
 	public $Model= 'pf';
@@ -30,6 +57,7 @@ class Pf extends View
 
 	function __construct()
 	{
+		$this->Module= basename(dirname($_SERVER['PHP_SELF']));
 		$this->Caption= _TITLE('Packet Filter');
 
 		if (!isset($_SESSION['pf']['ruleset'])) {
@@ -52,10 +80,6 @@ class Pf extends View
 		return $MonthNames[$date['Month']].' '.$date['Day'];
 	}
 	
-	function FormatLogCols(&$cols)
-	{
-	}
-
 	/**
 	 * Gets and lists pf states.
 	 */
@@ -71,40 +95,45 @@ class Pf extends View
 		if ($total > 0) {
 			?>
 			<table id="logline">
-			<?php
-			$this->PrintStatesTableHeader();
-			$linenum= 0;
-			foreach ($states as $cols) {
-				$class= ($linenum++ % 2 == 0) ? 'evenline' : 'oddline';
-				?>
-				<tr class="<?php echo $class ?>">
-					<td class="center">
-						<?php echo $linenum + $StartLine ?>
-					</td>
-					<?php
-					$count= 1;
-					foreach ($cols as $c) {
-						if (in_array($count, array(1, 2, 5, 6, 7))) {
-							$class= 'class="center"';
-						}
-						else if (in_array($count, array(8, 9))) {
-							$class= 'class="right"';
-						}
-						else {
-							$class= '';
-						}
-						?>
-						<td <?php echo $class ?>>
-							<?php echo $c ?>
+				<?php
+				$this->PrintStatesTableHeader();
+				$linenum= 0;
+				foreach ($states as $cols) {
+					$rowClass= ($linenum++ % 2 == 0) ? 'evenline' : 'oddline';
+					$lastLine= $linenum == $total;
+					?>
+					<tr>
+						<td class="<?php echo $rowClass.($lastLine ? ' lastLineFirstCell':'') ?> center">
+							<?php echo $linenum + $StartLine ?>
 						</td>
 						<?php
-						$count++;
-					}
-					?>
-				</tr>
-				<?php
-			}
-			?>
+						$totalCols= count($cols);
+						$count= 1;
+						foreach ($cols as $c) {
+							$cellClass= $rowClass;
+
+							if (in_array($count, array(1, 2, 5, 6, 7))) {
+								$cellClass.= ' center';
+							}
+							else if (in_array($count, array(8, 9))) {
+								$cellClass.= ' right';
+							}
+
+							if ($lastLine && $count == $totalCols) {
+								$cellClass.= ' lastLineLastCell';
+							}
+							?>
+							<td class="<?php echo $cellClass ?>">
+								<?php echo $c ?>
+							</td>
+							<?php
+							$count++;
+						}
+						?>
+					</tr>
+					<?php
+				}
+				?>
 			</table>
 			<?php
 		}

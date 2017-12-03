@@ -28,7 +28,7 @@
  * View of MVC: Generally, the View displays Model data and allows modification of the data.
  * 
  * The View does not know how to parse or generate pf rules. It only maintains a list of rules
- * in an internal data structure, the format of which is exactly the same with the one in
+ * in an internal data structure, the format of which is exactly the same as the one in
  * the Model.
  * 
  * In PFRE, the View:
@@ -359,7 +359,8 @@ class RuleSet
 	{
 		if (filter_has_var(INPUT_POST, 'cancel') && (filter_input(INPUT_POST, 'cancel') == _CONTROL('Cancel'))) {
 			unset($_SESSION['edit']);
-			header('Location: /pf/rules.php');
+			/// @todo Make conf.php a parameter
+			header('Location: /pf/conf.php');
 			exit;
 		}
 	}
@@ -389,7 +390,8 @@ class RuleSet
 				}
 				$this->rules[$ruleNumber]= $ruleObj;
 				unset($_SESSION['edit']);
-				header('Location: /pf/rules.php');
+				/// @todo Make conf.php a parameter
+				header('Location: /pf/conf.php');
 				exit;
 			}
 		}

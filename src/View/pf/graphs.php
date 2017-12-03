@@ -42,6 +42,16 @@ switch ($Submenu) {
 		$View->Layout= 'mbufs';
 		$View->GraphHelpMsg= _HELPWINDOW('Mbufs indicate kernel memory management for networking.');
 		break;
+
+	case 'hosts':
+		$View->GraphHelpMsg= _HELPWINDOW('These graphs show network usage per host. From top to bottom, host usage graphs are for the last hour, last 8-hour, daily, weekly, and monthly usages.');
+		require_once("hostgraphs.php");
+		exit;
+
+	case 'protocol':
+		$View->Layout= 'protograph';
+		$View->GraphHelpMsg= _HELPWINDOW('This graph shows overall network usage based on certain protocols. Note that each protocol may cover more than one port.');
+		break;
 }
 
 require_once('../lib/graphs.php');

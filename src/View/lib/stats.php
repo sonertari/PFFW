@@ -18,7 +18,168 @@
  * along with PFFW.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-require_once('../lib/vars.php');
+/**
+ * Prints pie chart on a modal.
+ */
+function PrintModalPieChart()
+{
+	?>
+	<!-- The Modal -->
+	<div id="modalPieChart" class="modal">
+		<!-- The Close Button -->
+		<span class="close">&times;</span>
+	</div>
+
+	<!-- The Pie Slice Tooltip -->
+	<div id="slicetip" class="hidden">
+		<p><strong><span id="title"></span></strong></p>
+		<p><span id="key"></span></p>
+		<p><span id="value"></span></p>
+	</div>
+
+	<script type="text/javascript" src="../lib/d3.min.js"></script>
+	<script language="javascript" type="text/javascript">
+		// Get the modal
+		var modal = document.getElementById('modalPieChart');
+
+		var slicetip = d3.select('#slicetip');
+
+		function generateChart(dataset, title) {
+			modal.style.display = 'block';
+
+			var keys = d3.keys(dataset);
+			var values = d3.values(dataset);
+
+			var dataSum = d3.sum(values);
+
+			var chartDataset = {};
+			var curSum = 0;
+			for (var j = 0; j < keys.length; ++j) {
+				if (j > 10) {
+					chartDataset['others'] = dataSum - curSum;
+					break;
+				}
+				chartDataset[keys[j]] = values[j];
+				curSum += values[j];
+			}
+
+			var pie = d3.pie();
+			var w = 400;
+			var h = 400;
+			var outerRadius = w / 2;
+			var innerRadius = 0;
+
+			var arc = d3.arc()
+				.innerRadius(innerRadius)
+				.outerRadius(outerRadius);
+
+			// Create SVG element
+			var svg = d3.select('#modalPieChart')
+				.append('svg')
+				.attr('id', 'pieChart')
+				.attr('width', w)
+				.attr('height', h)
+				.attr('class', 'modal-content');
+
+			// Set up groups
+			var arcs = svg.selectAll('g.arc')
+				.data(pie(d3.values(chartDataset)))
+				.enter()
+				.append('g')
+				.attr('class', 'arc')
+				.attr('transform', 'translate(' + outerRadius + ', ' + outerRadius + ')');
+
+			var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+			// Draw arc paths
+			arcs.append('path')
+				.attr('fill', function (d, i) {
+					return color(i);
+				})
+				.attr('d', arc)
+				.on('mouseover', function(d, i) {
+					d3.select(this).style('opacity', 0.7);
+
+					// Get the mouse pointer's x/y values for the tooltip
+					var mousePos = d3.mouse(document.body);
+					var x = mousePos[0] + 25;
+					var y = mousePos[1] + 25;
+
+					// Update the tooltip position and contents
+					slicetip
+						.style('left', x + 'px')
+						.style('top', y + 'px')
+						.style('z-index', 1);
+					slicetip
+						.select('#title')
+						.text(title);
+					slicetip
+						.select('#key')
+						.text(d3.keys(chartDataset)[i]);
+					slicetip
+						.select('#value')
+						.text(Math.round(100 * d.value / dataSum) + '%: ' + d.value + '/' + dataSum);
+
+					// Show the tooltip
+					slicetip.classed('hidden', false);
+				})
+				.on('mouseout', function(d, i) {
+					d3.select(this)
+						.transition()
+						.duration(500)
+						.style('opacity', 1);
+
+					// Hide the tooltip
+					slicetip.classed('hidden', true);
+				});
+
+			arcs.append('text')
+				.attr('transform', function (d) {
+					return 'translate(' + arc.centroid(d) + ')';
+				})
+				.attr('text-anchor', 'middle')
+				.attr('font-weight', 'bold')
+				.text(function (d, i) {
+					return (d.value / dataSum > .05) ? d3.keys(chartDataset)[i] : '';
+				});
+		};
+
+		// Get the <span> element that closes the modal
+		var xbtn = document.getElementsByClassName('close')[0];
+
+		// When the user clicks on the modal or <span> (x), close the modal
+		function close() {
+			var chart = document.getElementById('pieChart');
+			chart.parentNode.removeChild(chart);
+			slicetip.classed('hidden', true);
+			modal.style.display = 'none';
+		}
+		xbtn.onclick = close;
+		modal.onclick = close;
+	</script>
+	<?php
+}
+
+/**
+ * Displays chart trigger images.
+ * 
+ * These images are initially hidden, we enable them using this JavaScript code.
+ * So that if JavaScript is disabled, we don't show the triggers at all.
+ * Pie charts need JavaScript being enabled.
+ * 
+ * @attention This function should be called at the end of the page, after the PHP code inserts the hidden images.
+ */
+function DisplayChartTriggers()
+{
+	?>
+	<script language="javascript" type="text/javascript">
+		var trigs = document.getElementsByClassName('chart-trigger');
+		for (var j = 0; j < trigs.length; ++j) {
+			trigs[j].style.display = 'inline';
+		}
+	</script>
+	<?php
+}
 
 /// Stats page warning message.
 $StatsWarningMsg= _NOTICE('Analysis of statistical data may take a long time to process. Please be patient. Also note that if you refresh this page frequently, CPU load may increase considerably.');

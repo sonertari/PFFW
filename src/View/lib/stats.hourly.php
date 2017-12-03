@@ -20,7 +20,7 @@
 
 /** @file
  * All hourly statistics pages include this file.
- * Statistics configuration is in $Modules.
+ * Statistics configuration is in $StatsConf.
  */
 
 require_once('../lib/vars.php');
@@ -32,13 +32,21 @@ $LogFile= GetLogFile();
 $ApplyDefaults= TRUE;
 
 // Will apply defaults if log file changed
-if ($LogFile === $_SESSION[$View->Model][$Submenu]['PrevLogFile']) {
+if (!isset($_SESSION[$View->Model][$Submenu]['PrevLogFile']) || $LogFile === $_SESSION[$View->Model][$Submenu]['PrevLogFile'] ||
+		// Sender input indicates that the user has clicked on an item on a Stats page, so we should process what that page posts
+		filter_has_var(INPUT_POST, 'Sender')) {
 	if (count($_POST)) {
-		if (filter_has_var(INPUT_POST, 'Apply')) {
+		// The existence of Month POST var means that the user has clicked the Apply button of the datetime selection, not log file chooser form
+		// Otherwise, the datetime fields would not be set, causing empty bar charts and top lists
+		if (filter_has_var(INPUT_POST, 'Apply') && filter_has_var(INPUT_POST, 'Month')) {
 			$DateArray['Month']= filter_input(INPUT_POST, 'Month');
 			$DateArray['Day']= filter_input(INPUT_POST, 'Day');
 			$DateArray['Hour']= filter_input(INPUT_POST, 'Hour');
-			$GraphType= filter_input(INPUT_POST, 'GraphType');
+			if (filter_has_var(INPUT_POST, 'GraphType')) {
+				$GraphType= filter_input(INPUT_POST, 'GraphType');
+			} else {
+				$GraphType= 'Horizontal';
+			}
 			
 			$ApplyDefaults= FALSE;
 		}
@@ -144,8 +152,8 @@ PrintLogFileChooser($LogFile);
 					?>
 				</select>
 				<select name="GraphType">
-					<option <?php echo ($GraphType == 'Vertical') ? 'selected' : '' ?> value="<?php echo 'Vertical' ?>"><?php echo _CONTROL('Vertical') ?></option>
 					<option <?php echo ($GraphType == 'Horizontal') ? 'selected' : '' ?> value="<?php echo 'Horizontal' ?>"><?php echo _CONTROL('Horizontal') ?></option>
+					<option <?php echo ($GraphType == 'Vertical') ? 'selected' : '' ?> value="<?php echo 'Vertical' ?>"><?php echo _CONTROL('Vertical') ?></option>
 				</select>
 				<input type="submit" name="Apply" value="<?php echo _CONTROL('Apply') ?>"/>
 				<input type="submit" name="Defaults" value="<?php echo _CONTROL('Defaults') ?>"/>
@@ -154,18 +162,23 @@ PrintLogFileChooser($LogFile);
 	</tr>
 </table>
 <?php
+PrintModalPieChart();
+
 foreach ($ViewStatsConf as $Name => $Conf) {
 	if (isset($Conf['Color'])) {
-		PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType);
+		PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType, $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix'], $DateArray);
 	}
 }
 
-if (isset($ViewStatsConf['Total']['Counters'])) {
-	foreach ($ViewStatsConf['Total']['Counters'] as $Name => $Conf) {
-		PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType);
+foreach ($ViewStatsConf as $Name => $CurConf) {
+	if (isset($CurConf['Counters'])) {
+		foreach ($CurConf['Counters'] as $Name => $Conf) {
+			PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType, $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix'], $DateArray);
+		}
 	}
 }
 
+DisplayChartTriggers();
 PrintHelpWindow(_($StatsWarningMsg), 'auto', 'WARN');
 PrintHelpWindow(_($StatsHelpMsg));
 require_once($VIEW_PATH . '/footer.php');

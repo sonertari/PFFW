@@ -32,7 +32,7 @@ class Comment extends Rule
 	/**
 	 * Counts lines in the rule.
 	 * 
-	 * @attention Decrement once for the rule itself (already incremented in the main display loop in rules.php).
+	 * @attention Decrement once for the rule itself (already incremented in the main display loop in conf.php).
 	 */
 	function countLines()
 	{

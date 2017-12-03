@@ -27,11 +27,47 @@ require_once $VIEW_PATH.'/lib/phpseclib/Net/SSH2.php';
 class View
 {
 	public $Model= 'model';
+	public $Module= 'model';
 	public $Caption= 'Model';
 
 	public $LogsHelpMsg= '';
 	public $GraphHelpMsg= '';
+	public $ConfHelpMsg= '';
 
+	public $Layout= '';
+	public $LogsPage= 'logs.php';
+	public $StatsPage= 'stats.php';
+
+	/**
+	 * Configuration.
+	 *
+	 * If title field is missing, index string is used as title.
+	 *
+	 * @param	title	Configuration title displayed.
+	 * @param	info	Info text displayed in help box on the right.
+	 */
+	public $Config= array();
+
+	var $genericREs= array(
+		'red' => array('\berror\b'),
+		'yellow' => array('\bwarning\b'),
+		'green' => array('\bsuccess'),
+		);
+
+	var $prioClasses= array(
+		'EMERGENCY' => 'red',
+		'emergency' => 'red',
+		'ALERT' => 'red',
+		'alert' => 'red',
+		'CRITICAL' => 'red',
+		'critical' => 'red',
+		'ERROR' => 'red',
+		'error' => 'red',
+		'WARNING' => 'yellow',
+		'warning' => 'yellow',
+		'warn' => 'yellow',
+		);
+	
 	/**
 	 * Calls the controller.
 	 *
@@ -71,16 +107,27 @@ class View
 
 					$ciphertext_dec = substr($ciphertext_dec, $iv_size);
 
-					$passwd = mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['cryptKey'], $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec);
+					/// @attention Use trim(), since the mcrypt_decrypt() in php-mcrypt-5.6.31 returns with trailing white space of size 8!
+					/// @todo Check why mcrypt_decrypt() returns with trailing white space now
+					$passwd = trim(mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $_SESSION['cryptKey'], $ciphertext_dec, MCRYPT_MODE_CBC, $iv_dec));
 
 					$ssh = new Net_SSH2(gethostname());
 
+					// Give more time to all requests, the default timeout is 10 seconds
+					$ssh->setTimeout(30);
+
 					if ($ssh->login($_SESSION['USER'], $passwd)) {
 						$outputArray[0]= $ssh->exec($cmdline);
+						if ($ssh->isTimeout()) {
+							$msg= 'SSH exec timed out';
+							wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+							PrintHelpWindow($msg, 'auto', 'ERROR');
+							$executed= FALSE;
+						}
 					} else {
 						$msg= 'SSH login failed';
 						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
-						PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
+						PrintHelpWindow($msg, 'auto', 'ERROR');
 						$executed= FALSE;
 					}
 				} else {
@@ -101,7 +148,7 @@ class View
 					} else {
 						$msg= "Failed decoding output: $outputArray[0]";
 						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
-						PrintHelpWindow(_NOTICE('FAILED') . ":<br>$msg", 'auto', 'ERROR');
+						PrintHelpWindow($msg, 'auto', 'ERROR');
 					}
 
 					// Show error, if any
@@ -109,7 +156,7 @@ class View
 						$error= explode("\n", $errorStr);
 
 						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($cmdline)");
-						PrintHelpWindow(_NOTICE('FAILED') . ':<br>' . implode('<br>', $error), 'auto', 'ERROR');
+						PrintHelpWindow(implode('<br>', $error), 'auto', 'ERROR');
 					}
 
 					// (exit status 0 in shell) == (TRUE in php)
@@ -220,11 +267,11 @@ class View
 	}
 
 	/**
-	 * Processes user posts for process restart and stop.
+	 * Processes user posts for process start and stop.
 	 *
-	 * Used on all info pages.
+	 * Used on info pages.
 	 */
-	function ProcessRestartStopRequests()
+	function ProcessStartStopRequests()
 	{
 		if (filter_has_var(INPUT_POST, 'Model')) {
 			if (filter_input(INPUT_POST, 'Model') == $this->Model) {
@@ -236,26 +283,60 @@ class View
 				}
 			}
 		}
+		$this->Controller($Output, 'GetStatus');
 	}
 
-	function PrintStatusForm()
+	/**
+	 * Displays module status, software version, Restart/Stop buttons, and process table.
+	 *
+	 * @param boolean $printcount Whether to print number of running processes too
+	 * @param boolean $showbuttons Show Start/Stop buttons
+	 */
+	function PrintStatusForm($printcount= FALSE, $showbuttons= TRUE, $printprocs= TRUE, $showrestartbutton= FALSE)
 	{
-		global $IMG_PATH, $ADMIN;
+		global $IMG_PATH, $ADMIN, $Status2Images;
 
-		if ($running= $this->Controller($output, 'IsRunning')) {
-			$imgfile= 'run.png';
+		$this->Controller($output, 'GetModuleStatus');
+		$status= json_decode($output[0], TRUE);
+
+		$running= $status['Status'] == 'R';
+		$imgfile= $Status2Images[$status['Status']];
+		if ($running) {
 			$name= 'Running';
 			$info= _TITLE('is running');
 			$confirm= _NOTICE('Are you sure you want to stop the <NAME>?');
-			$button= 'Stop';
+			if ($showbuttons) {
+				$button= 'Stop';
+			}
 		}
 		else {
-			$imgfile= 'stop.png';
 			$name= 'Stopped';
 			$info= _TITLE('is not running');
 			$confirm= _NOTICE('Are you sure you want to start the <NAME>?');
-			$button= 'Start';
+			if ($showbuttons) {
+				$button= 'Start';
+			}
 		}
+
+		$errorStatus= $status['ErrorStatus'];
+		$errorImgfile= $Status2Images[$errorStatus];
+		if ($errorStatus == 'C') {
+			$errorName= 'CriticalErrors';
+			$errorInfo= _TITLE('Critical Error');
+		}
+		else if ($errorStatus == 'E') {
+			$errorName= 'Errors';
+			$errorInfo= _TITLE('Error');
+		}
+		else if ($errorStatus == 'W') {
+			$errorName= 'Warnings';
+			$errorInfo= _TITLE('Warning');
+		}
+		else if ($errorStatus == 'N') {
+			$errorName= 'No Errors';
+			$errorInfo= _TITLE('No Errors');
+		}
+
 		$confirm= preg_replace('/<NAME>/', $this->Caption, $confirm);
 		?>
 		<table id="status">
@@ -263,26 +344,52 @@ class View
 				<td class="image">
 					<img src="<?php echo $IMG_PATH.$imgfile ?>" name="<?php echo $name ?>" alt="<?php echo $name ?>" border="0">
 				</td>
+				<td class="image">
+					<img src="<?php echo $IMG_PATH.$errorImgfile ?>" name="<?php echo $errorInfo ?>" alt="<?php echo $errorInfo ?>" border="0" title="<?php echo $errorInfo ?>">
+				</td>
 				<td>
 					<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 						<strong><?php echo $this->Caption . " $info " ?></strong>
 						<?php
 						/// Only admin can start/stop the processes
 						if (in_array($_SESSION['USER'], $ADMIN)) {
-							?>
-							<input type="submit" name="<?php echo $button ?>" value="<?php echo _($button) ?>" onclick="return confirm('<?php echo $confirm ?>')"/>
-							<?php
+							if ($button) {
+								?>
+								<input type="submit" name="<?php echo $button ?>" value="<?php echo _($button) ?>" onclick="return confirm('<?php echo $confirm ?>')"/>
+								<?php
+							}
+							if ($showrestartbutton) {
+								$restartConfirm= _NOTICE('Are you sure you want to restart the <NAME>?');
+								$restartConfirm= preg_replace('/<NAME>/', $this->Caption, $restartConfirm);
+								?>
+								<input type="submit" name="Restart" value="<?php echo _CONTROL('Restart') ?>" onclick="return confirm('<?php echo $restartConfirm ?>')"/>
+								<?php
+							}
 						}
 						?>
 						<input type="hidden" name="Model" value=<?php echo $this->Model ?> />
 					</form>
 				</td>
+				<?php
+				if ($this->Controller($output, 'GetVersion')) {
+					?>
+					<td class="version">
+						<strong><?php echo _TITLE('Software Version') ?></strong>
+						<?php
+						foreach ($output as $line) {
+							echo '<br />'.$line;
+						}
+						?>
+					</td>
+					<?php
+				}
+				?>
 			</tr>
 		</table>
 		<?php
-		if ($running && $this->Model != 'pf') {
+		if ($running && $printprocs) {
 			$this->Controller($output, 'GetProcList');
-			$this->PrintProcessTable(json_decode($output[0], TRUE));
+			$this->PrintProcessTable(json_decode($output[0], TRUE), $printcount);
 		}
 	}
 
@@ -305,34 +412,44 @@ class View
 			}
 			?>
 			<table id="logline">
-			<?php
-			$this->PrintProcessTableHeader();
-			$linenum= 0;
-			foreach ($output as $cols) {
-				$class= ($linenum++ % 2 == 0) ? 'evenline' : 'oddline';
-				?>
-				<tr class="<?php echo $class ?>">
 				<?php
-				$count= 1;
-				foreach ($cols as $c) {
-					if (in_array($count++, array(8, 11, 12, 13))) {
-						// Left align stat, user, group, and command columns
-						$class= 'class="left"';
-					}
-					else {
-						$class= '';
-					}
+				$this->PrintProcessTableHeader();
+				$linenum= 0;
+				foreach ($output as $cols) {
+					$rowClass= ($linenum++ % 2 == 0) ? 'evenline' : 'oddline';
+					$lastLine= $linenum == $total;
 					?>
-					<td <?php echo $class ?>>
-						<?php echo $c ?>
-					</td>
+					<tr>
+						<?php
+						$totalCols= count($cols);
+						$count= 1;
+						foreach ($cols as $c) {
+							$cellClass= $rowClass;
+
+							if ($lastLine) {
+								if ($count == 1) {
+									$cellClass.= ' lastLineFirstCell';
+								} else if ($count == $totalCols) {
+									$cellClass.= ' lastLineLastCell';
+								}
+							}
+
+							if (in_array($count, array(8, 11, 12, 13))) {
+								// Left align stat, user, group, and command columns
+								$cellClass.= ' left';
+							}
+							?>
+							<td class="<?php echo $cellClass ?>">
+								<?php echo $c ?>
+							</td>
+							<?php
+							$count++;
+						}
+						?>
+					</tr>
 					<?php
 				}
 				?>
-				</tr>
-				<?php
-			}
-			?>
 			</table>
 			<?php
 		}
@@ -348,18 +465,18 @@ class View
 		?>
 		<tr id="logline">
 			<th><?php echo _('PID') ?></th>
-			<th><?php echo _TITLE('STARTED') ?></th>
+			<th><?php echo _TITLE2('STARTED') ?></th>
 			<th><?php echo _('%CPU') ?></th>
-			<th><?php echo _TITLE('TIME') ?></th>
-			<th><?php echo _TITLE('%MEM') ?></th>
+			<th><?php echo _TITLE2('TIME') ?></th>
+			<th><?php echo _TITLE2('%MEM') ?></th>
 			<th><?php echo _('RSS') ?></th>
 			<th><?php echo _('VSZ') ?></th>
 			<th><?php echo _('STAT') ?></th>
-			<th><?php echo _TITLE('PRI') ?></th>
+			<th><?php echo _TITLE2('PRI') ?></th>
 			<th><?php echo _('NI') ?></th>
-			<th><?php echo _TITLE('USER') ?></th>
-			<th><?php echo _TITLE('GROUP') ?></th>
-			<th><?php echo _TITLE('COMMAND') ?></th>
+			<th><?php echo _TITLE2('USER') ?></th>
+			<th><?php echo _TITLE2('GROUP') ?></th>
+			<th><?php echo _TITLE2('COMMAND') ?></th>
 		</tr>
 		<?php
 	}
@@ -403,13 +520,13 @@ class View
 	/**
 	 * Prints general text statistics.
 	 *
-	 * @param string $file Log file if different from the one in $Modules
+	 * @param string $file Log file if different from the one in $LogConf
 	 */
 	function PrintStats($file= '')
 	{
 		$this->Controller($output, 'GetProcStatLines', $file);
 		$stats= json_decode($output[0], TRUE);
-		PrintNVPs($stats, _STATS('General Statistics'));
+		PrintNVPs($stats, _STATS('General Statistics'), 50, FALSE, FALSE);
 	}
 
 	/**
@@ -429,12 +546,17 @@ class View
 	 * Generic date array to string formatter.
 	 *
 	 * Assumes standard syslog date format for the output string.
+	 * The datetimes in log lines may be different for each module.
+	 * Does the opposite of FormatDateArray().
 	 *
 	 * @param array $date Datetime struct.
 	 * @return string Date string.
 	 */
 	function FormatDate($date)
 	{
+		global $MonthNames;
+
+		return $MonthNames[$date['Month']].' '.sprintf('% 2d', $date['Day']);
 	}
 
 	/**
@@ -447,6 +569,7 @@ class View
 	 *
 	 * @param string $datestr Date as string.
 	 * @param array $date Datetime output.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function FormatDateArray($datestr, &$date)
 	{
@@ -470,13 +593,11 @@ class View
 	/**
 	 * Generic parser, highlighter, and printer for the log line.
 	 *
-	 * If there is no PrintLogLine() defined in module's include file,
-	 * this one is used instead.
-	 *
 	 * @param array $cols Parsed log line
 	 * @param int $linenum Line number of the log line
+	 * @param array $lastlinenum Last line number, used to detect the last line
 	 */
-	function PrintLogLine($cols, $linenum)
+	function PrintLogLine($cols, $linenum, $lastlinenum)
 	{
 		global $LogConf;
 
@@ -484,33 +605,33 @@ class View
 			$cols[$LogConf[$this->Model]['HighlightLogs']['Col']] :
 			implode(' ', $cols);
 
-		$this->PrintLogLineClass($logstr);
-
-		PrintLogCols($linenum, $cols);
-		echo '</tr>';
+		$class= $this->getLogLineClass($logstr, $cols);
+		PrintLogCols($linenum, $cols, $lastlinenum, $class);
 	}
 
 	/**
-	 * Prints log line color tr tag.
+	 * Determines log line color class.
 	 *
-	 * Keywords are obtained from arrays in $Modules
+	 * Keywords are obtained from arrays in $LogConf.
 	 *
 	 * @param string $logstr Log string to search for keywords
+	 * @param array $cols Parsed log line
+	 * @return string Log line color class.
 	 */
-	function PrintLogLineClass($logstr)
+	function getLogLineClass($logstr, $cols)
 	{
 		global $LogConf;
 
-		$genericREs= array(
-			'red' => array('\berror\b'),
-			'yellow' => array('\bwarning\b'),
-			'green' => array('\bsuccess'),
-		);
+		$logREs= isset($LogConf[$this->Model]['HighlightLogs']['REs']) ? $LogConf[$this->Model]['HighlightLogs']['REs'] : $this->genericREs;
 
-		$logREs= isset($LogConf[$this->Model]['HighlightLogs']['REs']) ? $LogConf[$this->Model]['HighlightLogs']['REs'] : $genericREs;
+		$class= '';
+		if (array_key_exists('Prio', $cols)) {
+			if (array_key_exists($cols['Prio'], $this->prioClasses)) {
+				$class= $this->prioClasses[$cols['Prio']];
+			}
+		}
 
 		$done= FALSE;
-		$class= '';
 		foreach ($logREs as $color => $res) {
 			foreach ($res as $re) {
 				$r= Escape($re, '/');
@@ -526,7 +647,20 @@ class View
 				break;
 			}
 		}
-		echo $class == '' ? '<tr>' : "<tr class=\"$class\">";
+		return $class;
+	}
+
+	/**
+	 * Post-processes log columns for display.
+	 *
+	 * @param array $cols Parsed log line in columns
+	 */
+	function FormatLogCols(&$cols)
+	{
+	}
+
+	function SetSessionConfOpt()
+	{
 	}
 }
 
@@ -549,12 +683,6 @@ function _NOTICE($str)
 }
 
 /// For classifying gettext strings into files.
-function _TITLE($str)
-{
-	return _($str);
-}
-
-/// For classifying gettext strings into files.
 function _HELPBOX($str)
 {
 	return _($str);
@@ -562,6 +690,18 @@ function _HELPBOX($str)
 
 /// For classifying gettext strings into files.
 function _HELPWINDOW($str)
+{
+	return _($str);
+}
+
+/// For classifying gettext strings into files.
+function _TITLE2($str)
+{
+	return _($str);
+}
+
+/// For classifying gettext strings into files.
+function _HELPBOX2($str)
 {
 	return _($str);
 }

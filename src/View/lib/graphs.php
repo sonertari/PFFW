@@ -2,7 +2,7 @@
 /** @file
  * All graphs pages based on symon include this file.
  *
- * Part of symon/syweb. But needed some modification to integrate into PFFW.
+ * This file is part of symon/syweb, but needed some modifications to integrate into PFFW.
  * Licencing is the same as symon's.
  */
 
@@ -25,7 +25,7 @@ require_once($VIEW_PATH.'/header.php');
 	<form action="graphs.php" method="post">
 		<tr>
 			<td>
-				<?php echo _TITLE('Timespan').':' ?>
+				<?php echo _TITLE2('Timespan').':' ?>
 				<select size=1 name="timespan">
 					<?php
 					$values = array();
@@ -35,7 +35,7 @@ require_once($VIEW_PATH.'/header.php');
 					$session->printoptions('timespan', $values);
 					?>
 				</select>
-				<?php echo _TITLE('Size').':' ?>
+				<?php echo _TITLE2('Size').':' ?>
 				<select size=1 name="size">
 					<?php
 					$values = array();
@@ -53,10 +53,10 @@ require_once($VIEW_PATH.'/header.php');
 			?>
 			<tr>
 				<td>
-					<?php echo _TITLE('timespan').': ' ?>
-					<?php echo _TITLE('start') ?>
+					<?php echo _TITLE2('timespan').': ' ?>
+					<?php echo _TITLE2('start') ?>
 					<input type="text" size=10 name="start" value="<?php echo $session->get("start") ?>">
-					<?php echo _TITLE('end') ?>
+					<?php echo _TITLE2('end') ?>
 					<input type="text" size=10 name="end" value="<?php echo $session->get("end") ?>">
 				</td>
 			</tr>
@@ -69,10 +69,10 @@ require_once($VIEW_PATH.'/header.php');
 			?>
 			<tr>
 				<td>
-					<?php echo _TITLE('size').': ' ?>
-					<?php echo _TITLE('width') ?>
+					<?php echo _TITLE2('size').': ' ?>
+					<?php echo _TITLE2('width') ?>
 					<input type="text" size=10 name="width" value="<?php echo $session->get("width") ?>">
-					<?php echo _TITLE('height') ?>
+					<?php echo _TITLE2('height') ?>
 					<input type="text" size=10 name="heigth" value="<?php echo $session->get("heigth") ?>">
 				</td>
 			</tr>
@@ -94,7 +94,7 @@ $l = new Layout($View->Layout);
 $gts = $l->getgrouptitles();
 $n = count($gts);
 if ($n > 1) {
-	echo '<div class="groups" width="100%">', "\n";
+	echo '<div class="groups" style="width: 100%">', "\n";
 	for ($i = 0; $i < $n; $i++) {
 		echo '<a href="graphs.php#' . $gts[$i] . '">' . _($gts[$i]) . '</a>';
 		if ($i != $n - 1) {

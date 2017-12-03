@@ -34,7 +34,44 @@ $Menu= array();
 $LogConf= array();
 
 require_once($VIEW_PATH . '/lib/view.php');
+/// @todo Remove this line, but needed for rule editor for now
 require_once($VIEW_PATH . '/pf/include.php');
+
+/// Left menu items with captions and user permissions.
+$PFFW_MODULES = array(
+    'system' => array(
+		'Name' => _MENU('SYSTEM'),
+		'Perms' => $ALL_USERS,
+		),
+    'pf' => array(
+		'Name' => _MENU('PACKET FILTER'),
+		'Perms' => $ALL_USERS,
+		),
+    'dhcpd' => array(
+		'Name' => _MENU('DHCP'),
+		'Perms' => $ALL_USERS,
+		),
+    'named' => array(
+		'Name' => _MENU('DNS'),
+		'Perms' => $ALL_USERS,
+		),
+    'openssh' => array(
+		'Name' => _MENU('OPENSSH'),
+		'Perms' => $ALL_USERS,
+		),
+    'ftp-proxy' => array(
+		'Name' => _MENU('FTP PROXY'),
+		'Perms' => $ALL_USERS,
+		),
+    'httpd' => array(
+		'Name' => _MENU('WEB SERVER'),
+		'Perms' => $ALL_USERS,
+		),
+    'monitoring' => array(
+		'Name' => _MENU('MONITORING'),
+		'Perms' => $ALL_USERS,
+		),
+	);
 
 require_once($VIEW_PATH . '/lib/libauth.php');
 
@@ -54,7 +91,20 @@ if (!isset($_SESSION['USER']) || $_SESSION['USER'] == 'loggedout') {
 /// Path to image files used in help boxes and links.
 $IMG_PATH= '/images/';
 
+// Also represents categories, so used for bundling on the Dashboard too
+$Status2Images= array(
+	'C' => 'critical.png',
+	'E' => 'error2.png',
+	'W' => 'warning2.png',
+	'R' => 'running.png',
+	'S' => 'stop.png',
+	'N' => 'noerror.png',
+	);
+
 require_once($VIEW_PATH . '/lib/libwui.php');
 
 $TopMenu= str_replace('.php', '', basename(filter_input(INPUT_SERVER, 'PHP_SELF')));
+
+/// Used as arg to PrintProcessTable() to print the number of processes at the top.
+define('PRINT_COUNT', TRUE);
 ?>

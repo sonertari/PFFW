@@ -20,7 +20,7 @@
 
 require_once('pf.php');
 
-$View->ProcessRestartStopRequests();
+$View->ProcessStartStopRequests();
 
 $View->Controller($Output, 'GetPfInfo');
 $PfInfo= implode("\n", $Output);
@@ -34,8 +34,11 @@ $PfTimeout= implode("\n", $Output);
 $Reload= TRUE;
 require_once($VIEW_PATH . '/header.php');
 
-$View->PrintStatusForm();
+$View->PrintStatusForm(FALSE, TRUE, FALSE);
 ?>
+<table class="shadowbox" style="padding-right: 12px;">
+	<tr>
+		<td>
 <pre>
 <?php echo $PfInfo ?>
 <br>
@@ -43,6 +46,9 @@ $View->PrintStatusForm();
 <br>
 <?php echo $PfTimeout ?>
 </pre>
+		</td>
+	</tr>
+</table>
 <?php
 PrintHelpWindow(_HELPWINDOW('Here you can enable or disable the Packet Filter. Note that most services depend on the packet filter being enabled.'));
 require_once($VIEW_PATH . '/footer.php');

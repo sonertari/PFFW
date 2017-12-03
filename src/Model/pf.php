@@ -221,7 +221,7 @@ class Pf extends Model
 	function RunPfInfoCmd($cmd)
 	{
 		if (!$this->RunPfctlCmd($cmd, $output, $retval)) {
-			Error(_('Failed running pfctl stats command') . ': ' . $cmd);
+			Error(_('Failed running pfctl command') . ': ' . $cmd);
 			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed running pfctl stats command: $cmd");
 			return FALSE;
 		}
@@ -991,26 +991,47 @@ class Pf extends Model
 		return $re;
 	}
 
-	function _getFileLineCount($file, $re= '')
+	function _getFileLineCount($file, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
 		global $TCPDUMP;
 		
 		$cmd= "$TCPDUMP $file";
+
+		if ($month != '' || $day != '' || $hour != '' || $minute != '') {
+			$cmd.= ' | /usr/bin/grep -a -E "' . $this->formatDateHourRegexp($month, $day, $hour, $minute) . '"';
+		}
+
+		if ($needle != '') {
+			$needle= escapeshellarg($needle);
+			$cmd.= " | /usr/bin/grep -a -E $needle";
+		}
+
 		if ($re !== '') {
 			$re= escapeshellarg($re);
 			$cmd.= " | /usr/bin/grep -a -E $re";
 		}
+
 		$cmd.= ' | /usr/bin/wc -l';
 		
 		// OpenBSD wc returns with leading blanks
 		return trim($this->RunShellCommand($cmd));
 	}
 	
-	function GetLogs($file, $end, $count, $re= '')
+	function GetLogs($file, $end, $count, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
 		global $TCPDUMP;
 
 		$cmd= "$TCPDUMP $file";
+
+		if ($month != '' || $day != '' || $hour != '' || $minute != '') {
+			$cmd.= ' | /usr/bin/grep -a -E "' . $this->formatDateHourRegexp($month, $day, $hour, $minute) . '"';
+		}
+
+		if ($needle != '') {
+			$needle= escapeshellarg($needle);
+			$cmd.= " | /usr/bin/grep -a -E $needle";
+		}
+
 		if ($re !== '') {
 			$re= escapeshellarg($re);
 			$cmd.= " | /usr/bin/grep -a -E $re";
@@ -1032,7 +1053,12 @@ class Pf extends Model
 		return Output(json_encode($logs));
 	}
 
-	function GetLiveLogs($file, $count, $re= '')
+	function formatDateHourRegexp($month, $day, $hour, $minute)
+	{
+		return $this->formatDateHourRegexpDayLeadingZero($month, $day, $hour, $minute);
+	}
+
+	function _getLiveLogs($file, $count, $re= '')
 	{
 		global $TCPDUMP;
 		
@@ -1052,7 +1078,7 @@ class Pf extends Model
 				$logs[]= $Cols;
 			}
 		}
-		return Output(json_encode($logs));
+		return $logs;
 	}
 
 	/**
@@ -1082,7 +1108,7 @@ class Pf extends Model
 	 * @param int $end Head option, start line
 	 * @param int $count Tail option, page line count
 	 * @param string $re Regexp to restrict the result set
-	 * @return mixed Lines or FALSE on fail
+	 * @return serialized Lines
 	 */
 	function GetStateList($end, $count, $re= '')
 	{

@@ -23,7 +23,7 @@
  *
  * Includes a different top menu if so configured. Currently only for pf.
  *
- * Module configuration are in $Modules. Module pages which include
+ * Module configuration are in $LogConf. Module pages which include
  * this file should first set its module index as $View.
  *
  * Restarts the session for live page reload rate.
@@ -36,7 +36,7 @@ SetRefreshInterval();
 $View->Controller($Output, 'GetDefaultLogFile');
 $LogFile= $Output[0];
 
-UpdateLogsPageSessionVars($LinesPerPage, $SearchRegExp);
+UpdateLogsPageSessionVars($LinesPerPage, $SearchRegExp, $SearchNeedle);
 
 $View->Controller($Output, 'GetFileLineCount', $LogFile, $SearchRegExp);
 $LogSize= $Output[0];
@@ -57,8 +57,9 @@ PrintLiveLogHeaderForm();
 		$LineCount= $LogSize - $LinesPerPage + 1;
 	}
 
+	$LastLineNum= $LineCount + min(array($LogSize, $LinesPerPage)) - 1;
 	foreach ($Logs as $Logline) {
-		$View->PrintLogLine($Logline, $LineCount++);
+		$View->PrintLogLine($Logline, $LineCount++, $LastLineNum);
 	}
 	?>
 </table>

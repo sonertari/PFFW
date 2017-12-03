@@ -75,7 +75,8 @@ class Rule
 	{
 		$this->cat= str_replace(__NAMESPACE__ . '\\', '', get_called_class());
 		$this->ref= strtolower(ltrim($this->cat, '_'));
-		$this->href= 'rules.php?sender=' . $this->ref . '&amp;rulenumber=';
+		/// @todo Make conf.php a parameter
+		$this->href= 'conf.php?sender=' . $this->ref . '&amp;rulenumber=';
 		$this->setType();
 	}
 

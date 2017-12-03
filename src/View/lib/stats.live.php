@@ -20,7 +20,7 @@
 
 /** @file
  * All live statistics pages include this file.
- * Statistics configuration is in $Modules.
+ * Statistics configuration is in $StatsConf.
  */
 
 require_once('../lib/vars.php');
@@ -60,7 +60,7 @@ require_once($VIEW_PATH . '/header.php');
 		<td>
 			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 				<?php echo _TITLE('Refresh interval').':' ?>
-				<input type="text" name="RefreshInterval" style="width: 20px;" maxlength="2" value="<?php echo $_SESSION[$View->Model]['ReloadRate'] ?>" />
+				<input type="text" name="RefreshInterval" style="width: 20px;" maxlength="2" value="<?php echo $_SESSION[$View->Model][$TopMenu]['ReloadRate'] ?>" />
 				<?php echo _TITLE('secs') ?>
 				<select name="GraphType">
 					<option <?php echo ($GraphType == 'Vertical') ? 'selected' : '' ?> value="<?php echo 'Vertical' ?>"><?php echo _CONTROL('Vertical') ?></option>
@@ -75,17 +75,22 @@ require_once($VIEW_PATH . '/header.php');
 	</tr>
 </table>
 <?php
+PrintModalPieChart();
+
 foreach ($ViewStatsConf as $Name => $Conf) {
 	if (isset($Conf['Color'])) {
-		PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType);
+		PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType, $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix'], $DateArray, $LogFile);
 	}
 }
 
-if (isset($ViewStatsConf['Total']['Counters'])) {
-	foreach ($ViewStatsConf['Total']['Counters'] as $Name => $Conf) {
-		PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType);
+foreach ($ViewStatsConf as $Name => $CurConf) {
+	if (isset($CurConf['Counters'])) {
+		foreach ($CurConf['Counters'] as $Name => $Conf) {
+			PrintMinutesGraphNVPSet($DateStats[$Date]['Hours'][$Hour], $Name, $Conf, $GraphType, $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix'], $DateArray, $LogFile);
+		}
 	}
 }
 
+DisplayChartTriggers();
 require_once($VIEW_PATH . '/footer.php');
 ?>

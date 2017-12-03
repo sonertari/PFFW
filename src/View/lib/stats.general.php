@@ -20,7 +20,7 @@
 
 /** @file
  * All general statistics pages include this file.
- * Statistics configuration is in $Modules.
+ * Statistics configuration is in $StatsConf.
  */
 
 require_once('../lib/vars.php');
@@ -72,20 +72,10 @@ $DateStats= $Stats['Date'];
 require_once($VIEW_PATH . '/header.php');
 
 PrintLogFileChooser($LogFile);
+PrintModalPieChart();
 ?>
 <table>
 	<tr>
-		<td class="top">
-			<?php
-			$View->PrintStats($LogFile);
-
-			if (isset($ViewStatsConf['Total']['BriefStats'])) {
-				foreach ($ViewStatsConf['Total']['BriefStats'] as $Field => $Name) {
-					PrintNVPs($BriefStats[$Field], _($Name), 50);
-				}
-			}
-			?>
-		</td>
 		<td class="top">
 			<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
 				<select name="GraphStyle">
@@ -107,13 +97,26 @@ PrintLogFileChooser($LogFile);
 			<?php
 			foreach ($ViewStatsConf as $Name => $Conf) {
 				if (isset($Conf['Color'])) {
-					PrintGraphNVPSet($DateStats, $DateArray, $Name, $Conf, $GraphType, $GraphStyle);
+					PrintGraphNVPSet($DateStats, $DateArray, $Name, $Conf, $GraphType, $GraphStyle, $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix'], 'general');
 				}
 			}
 
-			if (isset($ViewStatsConf['Total']['Counters'])) {
-				foreach ($ViewStatsConf['Total']['Counters'] as $Name => $Conf) {
-					PrintGraphNVPSet($DateStats, $DateArray, $Name, $Conf, $GraphType, $GraphStyle);
+			foreach ($ViewStatsConf as $Name => $CurConf) {
+				if (isset($CurConf['Counters'])) {
+					foreach ($CurConf['Counters'] as $Name => $Conf) {
+						PrintGraphNVPSet($DateStats, $DateArray, $Name, $Conf, $GraphType, $GraphStyle, $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix'], 'general');
+					}
+				}
+			}
+			?>
+		</td>
+		<td class="top">
+			<?php
+			$View->PrintStats($LogFile);
+
+			if (isset($ViewStatsConf['Total']['BriefStats'])) {
+				foreach ($ViewStatsConf['Total']['BriefStats'] as $Field => $Name) {
+					PrintNVPs($BriefStats[$Field], _($Name), 50, TRUE, $ViewStatsConf['Total']['Needle'], $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix']);
 				}
 			}
 			?>
@@ -121,6 +124,7 @@ PrintLogFileChooser($LogFile);
 	</tr>
 </table>
 <?php
+DisplayChartTriggers();
 PrintHelpWindow(_($StatsWarningMsg), 'auto', 'WARN');
 PrintHelpWindow(_($StatsHelpMsg));
 require_once($VIEW_PATH . '/footer.php');

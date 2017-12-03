@@ -27,22 +27,38 @@ $TmpFile= '/var/tmp/pffw/ctlr.out';
 
 /// Matches model names to files. View provides the name only.
 $ModelFiles= array(
-	'pf'		=> 'pf.php',
-	'dhcpd'		=> 'dhcpd.php',
-	'named'		=> 'named.php',
-	'symon'		=> 'symon.php',
-	'symux'		=> 'symux.php',
-	'system'	=> 'system.php',
+	'system'			=> 'system.php',
+	'pf'				=> 'pf.php',
+	'dhcpd'				=> 'dhcpd.php',
+	'named'				=> 'named.php',
+	'httpd'				=> 'httpd.php',
+	'httpdlogs'			=> 'httpdlogs.php',
+	'wui_syslog'		=> 'wuilogs.php',
+	'ctlr_syslog'		=> 'ctlrlogs.php',
+	'openssh'			=> 'openssh.php',
+	'ftp-proxy'			=> 'ftp-proxy.php',
+	'symon'				=> 'symon.php',
+	'symux'				=> 'symux.php',
+	'monitoring'		=> 'monitoring.php',
+	'docs'				=> 'docs.php',
 	);
 
 /// Matches model names to Classes. Used to create the object.
 $Models= array(
-	'pf'		=> 'Pf',
-	'dhcpd'		=> 'Dhcpd',
-	'named'		=> 'Named',
-	'symon'		=> 'Symon',
-	'symux'		=> 'Symux',
-	'system'	=> 'System',
+	'system'			=> 'System',
+	'pf'				=> 'Pf',
+	'dhcpd'				=> 'Dhcpd',
+	'named'				=> 'Named',
+	'httpd'				=> 'Httpd',
+	'httpdlogs'			=> 'Httpdlogs',
+	'wui_syslog'		=> 'Wuilogs',
+	'ctlr_syslog'		=> 'Ctlrlogs',
+	'openssh'			=> 'Openssh',
+	'ftp-proxy'			=> 'Ftpproxy',
+	'symon'				=> 'Symon',
+	'symux'				=> 'Symux',
+	'monitoring'		=> 'Monitoring',
+	'docs'				=> 'Docs',
 	);
 
 /**
@@ -178,7 +194,7 @@ function IsEmpty($str)
 function IsStr($str)
 {
 	/// @todo This is still too general?
-	return preg_match("/^[^\n]{0,200}$/", $str);
+	return preg_match("/^[^\n]{0,500}$/", $str);
 }
 
 function IsSerializedArray($str)

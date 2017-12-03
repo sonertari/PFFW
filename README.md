@@ -1,6 +1,6 @@
 # PFFW
 
-PFFW is a pf firewall running on OpenBSD 5.9. PFFW is expected to be used on production systems. The PFFW project provides a Web UI, an Android application ([A4PFFW](https://github.com/sonertari/A4PFFW)), and a Windows application ([W4PFFW](https://github.com/sonertari/W4PFFW)) for monitoring.
+PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web UI, an Android application ([A4PFFW](https://github.com/sonertari/A4PFFW)), and a Windows application ([W4PFFW](https://github.com/sonertari/W4PFFW)) for monitoring.
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
@@ -8,10 +8,9 @@ The installation iso file for the amd64 arch is available for download at [pffw5
 
 ## Features
 
-PFFW includes the following software, alongside what is already available in a basic OpenBSD 5.9 installation:
+PFFW includes the following software, alongside what is already available on a basic OpenBSD installation:
 
 - PFRE: Packet Filter Rule Editor
-- Apache Web server
 - PHP
 - ISC DNS server
 - Symon system monitoring software
@@ -38,41 +37,42 @@ Make sure you configure two network interfaces. You will be asked to choose inte
 
 All of the install sets and software packages are selected by default, simply accept the selections.
 
-If the installation script finds an already existing file which needs to be updated, it saves the old file as filename.orig. To update all such files, accept the default 'a' answer when asked.
+If the installation script finds an already existing file which needs to be updated, it saves the old file as filename.orig.
 
 Installation logs can be found under the /root directory.
 
 You can access the web administration interface using the IP address of the system's internal interface you have selected during installation. You can log in to the system over ssh from internal network.
 
-Web interface user names are admin and user. Both are set to the same password you have provided during installation.
+Web interface user names are admin and user. Both are set to the same password you provide during installation.
 
 References:
 
-1. See [supported hardware](http://openbsd.org/amd64.html).
-2. See [OpenBSD installation guide](http://openbsd.org/faq/faq4.html).
+1. INSTALL.amd64 under /6.2/amd64/ in the installation iso file.
+2. [Supported hardware](https://www.openbsd.org/amd64.html).
+3. [OpenBSD installation guide](https://www.openbsd.org/faq/faq4.html).
 
 ## How to build
 
-The purpose in this section will be to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 5.9 and have installed git on it.
+The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.2 and have installed git and gettext on it.
 
 The createiso script:
 
 - Clones the git repo of the project to a tmp folder.
-- Generates gettext translations.
-- Prepares the site install set.
+- Generates gettext translations and doxygen documentation.
+- Prepares the webif and config packages and the site install set.
 - And finally creates the iso file.
 
 However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence need to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run createiso, you need to do a couple of things:
 
 - Install sets:
-	+ Obtain the sources of OpenBSD 5.9.
-	+ Copy the PFFW files under `openbsd/pffw/distrib/miniroot` and `/openbsd/pffw/sbin/disklabel` to the OpenBSD sources to replace the original files. You are advised to compare the original files with the PFFW versions before replacing.
-	+ Build an OpenBSD 5.9 release, as described in [faq5](http://www.openbsd.org/faq/faq5.html).
-	+ Copy the required install sets to the appropriate locations to fix the broken links in the project.
+	+ Obtain the sources of OpenBSD.
+	+ Copy the files under `openbsd/pffw` to the OpenBSD sources to replace the original files. You are advised to compare the original files with the PFFW versions before replacing.
+	+ Build an OpenBSD release, as described in [release(8)](https://man.openbsd.org/release) or [faq5](https://www.openbsd.org/faq/faq5.html).
+	+ Copy the required install sets to the appropriate locations to fix the broken links in the sources.
 - Packages:
-	+ Download the required packages.
-	+ Copy them to the appropriate locations to fix the broken links in the project.
+	+ Download the required packages available on the OpenBSD mirrors.
+	+ Copy them to the appropriate locations to fix the broken links in the sources.
 
-Note that you can strip down xbase and xfont install sets to reduce the size of the iso file. See the PFFW installation iso above for examples.
+Note that you can strip down xbase and xfont install sets to reduce the size of the iso file. Copy or link them to the appropriate locations under `openbsd/pffw`.
 
 Now you can run the createiso script which should produce an iso file in the same folder as itself.

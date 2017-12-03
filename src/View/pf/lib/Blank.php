@@ -32,7 +32,7 @@ class Blank extends Rule
 	/**
 	 * Counts lines in the rule.
 	 * 
-	 * @attention Decrement one more time for the rule itself (already incremented in the main display loop in rules.php).
+	 * @attention Decrement one more time for the rule itself (already incremented in the main display loop in conf.php).
 	 */
 	function countLines()
 	{

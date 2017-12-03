@@ -37,7 +37,8 @@ require_once($SRC_ROOT . '/lib/setup.php');
 // chdir is for PCRE, libraries
 chdir(dirname(__FILE__));
 
-require_once($MODEL_PATH . '/pf.php');
+// Include constant definitions here, otherwise command arg validation fails
+require_once($MODEL_PATH.'/include.php');
 
 require_once('lib.php');
 

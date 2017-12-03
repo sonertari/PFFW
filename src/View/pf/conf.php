@@ -24,6 +24,6 @@
 
 require_once('pf.php');
 
-$Submenu= SetSubmenu('system');
+$Submenu= SetSubmenu('editor');
 require_once("conf.$Submenu.php");
 ?>

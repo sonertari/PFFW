@@ -1,9 +1,8 @@
-From sonertari@gmail.com Wed Mar 01 19:59:59 EET 2017
+From sonertari@gmail.com Sat Dec  2 06:20:10 EET 2017
 Return-Path: root
-Date: Mar 01 19:59:59 EET 2017
+Date: Dec  2 06:20:10 EET 2017
 From: sonertari@gmail.com (Soner Tari)
 To: root
-Subject: Welcome to PFFW 5.9!
+Subject: Welcome to PFFW 6.2!
 
-This is the 1st public release of PFFW.
-
+This release updates PFFW to OpenBSD 6.2 and the new look-and-feel.
