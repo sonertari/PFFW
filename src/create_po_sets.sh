@@ -36,6 +36,8 @@ LOCALE=$1
 ./create_po.sh . $LOCALE pffw_STATS.po _STATS
 ./create_po.sh . $LOCALE pffw_HELPBOX.po _HELPBOX
 ./create_po.sh . $LOCALE pffw_HELPWINDOW.po _HELPWINDOW
+./create_po.sh . $LOCALE pffw_TITLE2.po _TITLE2
+./create_po.sh . $LOCALE pffw_HELPBOX2.po _HELPBOX2
 ./create_po.sh . $LOCALE pffw__.po _
 
 echo -n 'CONTROL: '
@@ -58,6 +60,12 @@ grep msgid View/locale/$LOCALE/LC_MESSAGES/pffw_HELPBOX.po | wc -l
 
 echo -n 'HELPWINDOW: '
 grep msgid View/locale/$LOCALE/LC_MESSAGES/pffw_HELPWINDOW.po | wc -l
+
+echo -n 'TITLE2: '
+grep msgid View/locale/$LOCALE/LC_MESSAGES/pffw_TITLE2.po | wc -l
+
+echo -n 'HELPBOX2: '
+grep msgid View/locale/$LOCALE/LC_MESSAGES/pffw_HELPBOX2.po | wc -l
 
 echo -n '_: '
 grep msgid View/locale/$LOCALE/LC_MESSAGES/pffw__.po | wc -l

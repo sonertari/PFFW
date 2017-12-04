@@ -1,19 +1,39 @@
-# Copyright (C) 2016 Soner Tari, The PFFW project
+# Copyright (C) 2004-2017 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2016.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 5.9\n"
+"Project-Id-Version: PFFW 6.2\n"
+"Report-Msgid-Bugs-To: sonertari@gmail.com\n"
+"POT-Creation-Date: 2009-11-11 16:21+0200\n"
+"PO-Revision-Date: 2017-12-04 21:12+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"Language: Turkish\n"
+"Language-Team: Turkish <sonertari@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Team: Turkish <>\n"
-"PO-Revision-Date: 2016-10-27 22:49+0300\n"
+"X-Generator: Gtranslator 2.91.7\n"
+
+msgid "Access Logs"
+msgstr "Giriş Kayıtları"
 
 msgid "Archives"
 msgstr "Arşivler"
+
+msgid "Arp Table"
+msgstr "Arp Tablosu"
+
+msgid "Basic"
+msgstr "Temel"
+
+msgid "CPUs"
+msgstr "İşlemciler"
+
+msgid "CTLR Logs"
+msgstr "CTLR Kayıtları"
 
 msgid "Config"
 msgstr "Ayarlar"
@@ -27,17 +47,35 @@ msgstr "DNS"
 msgid "Daily"
 msgstr "Günlük"
 
+msgid "Dashboard"
+msgstr "Gösterge Paneli"
+
+msgid "Dhcpd"
+msgstr "Dhcpd"
+
+msgid "Disks"
+msgstr "Diskler"
+
 msgid "Display & Install"
 msgstr "Görüntüle ve Kur"
 
+msgid "Documentation"
+msgstr "Belgeler"
+
 msgid "Editor"
 msgstr "Düzenleyici"
+
+msgid "FTP PROXY"
+msgstr "FTP VEKİL"
 
 msgid "General"
 msgstr "Genel"
 
 msgid "Graphs"
 msgstr "Grafikler"
+
+msgid "Help"
+msgstr "Yardım"
 
 msgid "Hosts"
 msgstr "Bilgisayarlar"
@@ -63,14 +101,29 @@ msgstr "Canlı"
 msgid "Load & Save"
 msgstr "Yükle ve Kaydet"
 
+msgid "Logout"
+msgstr "Çıkış"
+
 msgid "Logs"
 msgstr "Kayıtlar"
+
+msgid "MONITORING"
+msgstr "GÖZLEMLEME"
 
 msgid "Mbufs"
 msgstr "Mbuf'lar"
 
+msgid "Memory"
+msgstr "Bellek"
+
 msgid "Network"
 msgstr "Ağ"
+
+msgid "OPENSSH"
+msgstr "OPENSSH"
+
+msgid "PACKET FILTER"
+msgstr "PAKET ELEĞİ"
 
 msgid "PF FIREWALL"
 msgstr "PF FIREWALL"
@@ -78,8 +131,14 @@ msgstr "PF FIREWALL"
 msgid "PF Firewall"
 msgstr "PF Firewall"
 
+msgid "Partitions"
+msgstr "Disk Bölümleri"
+
 msgid "Pf"
 msgstr "Pf"
+
+msgid "Processes"
+msgstr "Süreçler"
 
 msgid "Queues"
 msgstr "Kuyruklar"
@@ -87,8 +146,14 @@ msgstr "Kuyruklar"
 msgid "Rules"
 msgstr "Kurallar"
 
-msgid "Setup"
-msgstr "Ayarlar"
+msgid "SYSTEM"
+msgstr "SİSTEM"
+
+msgid "Sensors"
+msgstr "Sensörler"
+
+msgid "Startup"
+msgstr "Başlangıç"
 
 msgid "States"
 msgstr "Durumlar"
@@ -102,5 +167,11 @@ msgstr "Sistem"
 msgid "Transfer"
 msgstr "Aktarım"
 
+msgid "WEB SERVER"
+msgstr "WEB SUNUCU"
+
 msgid "WUI"
 msgstr "Web Arayüzü"
+
+msgid "WUI Logs"
+msgstr "Arayüz Kayıtları"

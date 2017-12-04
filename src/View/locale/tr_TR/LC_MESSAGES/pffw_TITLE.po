@@ -1,28 +1,48 @@
-# Copyright (C) 2016 Soner Tari, The PFFW project
+# Copyright (C) 2004-2017 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2016.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 5.9\n"
+"Project-Id-Version: PFFW 6.2\n"
+"Report-Msgid-Bugs-To: sonertari@gmail.com\n"
+"POT-Creation-Date: 2009-11-11 16:21+0200\n"
+"PO-Revision-Date: 2017-12-04 21:12+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"Language: Turkish\n"
+"Language-Team: Turkish <sonertari@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Team: Turkish <>\n"
-"PO-Revision-Date: 2016-10-27 22:49+0300\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
-msgid "%MEM"
-msgstr "%BELLEK"
+msgid "1 minute average"
+msgstr "1 dakikalık ortalama"
+
+msgid "15 minute average"
+msgstr "15 dakikalık ortalama"
+
+msgid "5 minute average"
+msgstr "5 dakikalık ortalama"
+
+msgid "<MODEL> has CRITICAL errors"
+msgstr "<MODEL>: ÖNEMLi hatalar var"
+
+msgid "<MODEL> has ERRORs"
+msgstr "<MODEL>: HATALAR var"
+
+msgid "<MODEL> has WARNINGs"
+msgstr "<MODEL>: UYARILAR var"
 
 msgid "<RULE_TYPE> rule"
 msgstr "<RULE_TYPE> kuralı"
 
-msgid "Action"
+msgid "Act"
 msgstr "İşlem"
 
-msgid "Active IPs (arp table)"
-msgstr "Geçerli IP'ler (arp tablosu)"
+msgid "Action"
+msgstr "İşlem"
 
 msgid "Adaptive Timeouts"
 msgstr "Değişken Zaman Aşımları"
@@ -41,6 +61,9 @@ msgstr "Seçeneklere İzin Ver"
 
 msgid "Anchor"
 msgstr "Çapa"
+
+msgid "And <COUNT> others not shown."
+msgstr "Ve <COUNT> adet gösterilmeyen var."
 
 msgid "Archives"
 msgstr "Arşivler"
@@ -63,17 +86,26 @@ msgstr "Engelleme Seçenekleri"
 msgid "Block Policy"
 msgstr "Engelleme Kuralı"
 
-msgid "Broadcast address"
-msgstr "Yayım adresi"
-
-msgid "COMMAND"
-msgstr "KOMUT"
-
 msgid "CPU Load"
 msgstr "İşlemci Yükü"
 
+msgid "CPUs"
+msgstr "İşlemciler"
+
+msgid "CRITICAL"
+msgstr "ÖNEMLİ"
+
 msgid "Category"
 msgstr "Sınıf"
+
+msgid "Click to search in the logs"
+msgstr "Kayıtlarda aramak için tıklayın"
+
+msgid "Click to search in the stats"
+msgstr "İstatistiklerde aramak için tıklayın"
+
+msgid "Code"
+msgstr "Kod"
 
 msgid "Comment"
 msgstr "Yorum"
@@ -81,8 +113,26 @@ msgstr "Yorum"
 msgid "Copyright"
 msgstr "Telif hakkı"
 
+msgid "Count"
+msgstr "Sayı"
+
+msgid "Critical"
+msgstr "Önemli"
+
+msgid "Critical Error"
+msgstr "Önemli Hata"
+
 msgid "Current Password"
 msgstr "Mevcut Parola"
+
+msgid "DHCP Server"
+msgstr "DHCP Sunucu"
+
+msgid "DNS Server"
+msgstr "DNS Sunucu"
+
+msgid "DPort"
+msgstr "HPort"
 
 msgid "Data Transfer"
 msgstr "Veri Aktarımı"
@@ -114,11 +164,20 @@ msgstr "Hedef"
 msgid "Destination Port"
 msgstr "Hedef Kapı"
 
+msgid "Dir"
+msgstr "Yön"
+
 msgid "Direction"
 msgstr "Yön"
 
+msgid "Disabled Services"
+msgstr "Kapalı Servisler"
+
 msgid "Disk I/O"
 msgstr "Disk Yazma/Okuma"
+
+msgid "Disks"
+msgstr "Diskler"
 
 msgid "Divert Host"
 msgstr "Yön Değiştirme Adresi"
@@ -129,8 +188,14 @@ msgstr "Yön Değiştirme Kapısı"
 msgid "Divert Reply"
 msgstr "Yön Değiştirmeye Cevap"
 
+msgid "Domain"
+msgstr "Alanadı"
+
 msgid "Download ruleset"
 msgstr "Kural listesini indir"
+
+msgid "DstIP"
+msgstr "HdfIP"
 
 msgid "ERROR"
 msgstr "HATA"
@@ -144,8 +209,20 @@ msgstr "<RULE_TYPE> Kuralı <RULE_NUMBER> Düzenleme"
 msgid "Enable Source Track"
 msgstr "Kaynak Takibini Aç"
 
+msgid "Enabled Services"
+msgstr "Açık Servisler"
+
+msgid "End"
+msgstr "Son"
+
 msgid "Enforce TOS"
 msgstr "TOS Uygula"
+
+msgid "Error"
+msgstr "Hata"
+
+msgid "Expire"
+msgstr "Zamanaşımı"
 
 msgid "Export To pflow"
 msgstr "Pflow'a Aktar"
@@ -155,6 +232,9 @@ msgstr "Dış Arayüz"
 
 msgid "External interface"
 msgstr "Dış arayüz"
+
+msgid "FTP Proxy"
+msgstr "FTP Vekil"
 
 msgid "Fan"
 msgstr "Fan"
@@ -171,11 +251,11 @@ msgstr "Bayrak"
 msgid "Flags"
 msgstr "Bayraklar"
 
+msgid "Flows"
+msgstr "Akışlar"
+
 msgid "Force HTTPs"
 msgstr "HTTPs Uygula"
-
-msgid "Forwarders"
-msgstr "İletilenler"
 
 msgid "Fragment"
 msgstr "Parça"
@@ -184,10 +264,10 @@ msgid "Frags"
 msgstr "Parçalar"
 
 msgid "From Redirect Host"
-msgstr "Tekrar Yönlendirme Adresinden"
+msgstr "Yönlendirme Adresinden"
 
-msgid "GROUP"
-msgstr "GRUP"
+msgid "Function"
+msgstr "Fonksiyon"
 
 msgid "Gateway"
 msgstr "Ağ geçidi"
@@ -200,6 +280,9 @@ msgstr "Grup"
 
 msgid "Help Boxes"
 msgstr "Yardım Kutuları"
+
+msgid "Host"
+msgstr "Cihaz"
 
 msgid "Host Id"
 msgstr "Adres Kimliği"
@@ -225,14 +308,20 @@ msgstr "ICMP6 Türü"
 msgid "INFORMATION"
 msgstr "BİLGİ"
 
-msgid "IP range"
-msgstr "IP aralığı"
+msgid "IP"
+msgstr "IP"
+
+msgid "IP Forwarding"
+msgstr "IP Yönlendirme"
 
 msgid "Id"
 msgstr "Kimlik"
 
 msgid "Identifier"
 msgstr "Tanımlayıcı"
+
+msgid "If"
+msgstr "Arayüz"
 
 msgid "Inline Rules"
 msgstr "Aynısatır Kuralları"
@@ -245,9 +334,6 @@ msgstr "Arayüz"
 
 msgid "Interface Binding"
 msgstr "Arayüz Bağlantısı"
-
-msgid "Interfaces"
-msgstr "Arayüzler"
 
 msgid "Internal Interface"
 msgstr "Yerel Arayüz"
@@ -264,12 +350,6 @@ msgstr "Etiket"
 msgid "Language"
 msgstr "Dil"
 
-msgid "Leases"
-msgstr "Kiralanan IP adresleri"
-
-msgid "Level"
-msgstr "Seviye"
-
 msgid "Limit"
 msgstr "Sınır"
 
@@ -282,8 +362,8 @@ msgstr "Satır numarası"
 msgid "Lines per page"
 msgstr "Satır sayısı"
 
-msgid "Listen on"
-msgstr "Dinlenen arayüz"
+msgid "Link"
+msgstr "Link"
 
 msgid "Load ruleset"
 msgstr "Kural listesini yükle"
@@ -300,11 +380,17 @@ msgstr "Kayıt Seviyesi"
 msgid "Logging"
 msgstr "Kayıt"
 
-msgid "Logout"
-msgstr "Çıkış"
+msgid "Logs"
+msgstr "Kayıtlar"
 
 msgid "Loopback Interface"
 msgstr "Döngü Arayüzü"
+
+msgid "MAC"
+msgstr "MAC"
+
+msgid "Machine"
+msgstr "Makina"
 
 msgid "Match All"
 msgstr "Hepsini Eşle"
@@ -360,8 +446,17 @@ msgstr "En düşük TTL"
 msgid "Min-ttl"
 msgstr "En düşük-ttl"
 
+msgid "Minute"
+msgstr "Dakika"
+
+msgid "Module Status"
+msgstr "Modül Durumu"
+
 msgid "Month"
 msgstr "Ay"
+
+msgid "Motherboard"
+msgstr "Anakart"
 
 msgid "Move down"
 msgstr "Aşağı taşı"
@@ -369,14 +464,17 @@ msgstr "Aşağı taşı"
 msgid "Move up"
 msgstr "Yukarı taşı"
 
+msgid "Mtd"
+msgstr "Yntm"
+
 msgid "Name"
 msgstr "Ad"
 
-msgid "Name server"
-msgstr "Ad sunucusu"
-
 msgid "Nameserver"
 msgstr "Ad sunucu"
+
+msgid "Needle"
+msgstr "Sorgu"
 
 msgid "Network Protocol Usage"
 msgstr "Ağ Protokol Kullanımı"
@@ -386,6 +484,9 @@ msgstr "Yeni Parola"
 
 msgid "New Password Again"
 msgstr "Tekrar Yeni Parola"
+
+msgid "No Errors"
+msgstr "Hata yok"
 
 msgid "No pfsync"
 msgstr "Pfsync olmadan"
@@ -405,6 +506,12 @@ msgstr "Sistem"
 msgid "Once"
 msgstr "Bir Defa"
 
+msgid "OpenSSH"
+msgstr "OpenSSH"
+
+msgid "Operating System"
+msgstr "İşletim Sistemi"
+
 msgid "Optimization"
 msgstr "Optimizasyon"
 
@@ -420,14 +527,14 @@ msgstr "Diğer Zaman Aşımları"
 msgid "Overload"
 msgstr "Aşırı yükleme"
 
-msgid "PRI"
-msgstr "ÖNC"
-
 msgid "Packet Filter"
 msgstr "Paket Eleği"
 
 msgid "Parent"
 msgstr "Veli"
+
+msgid "Partitions"
+msgstr "Disk Bölümleri"
 
 msgid "Partitions Usages"
 msgstr "Disk Bölüm Kullanımları"
@@ -438,6 +545,12 @@ msgstr "Parola"
 msgid "Pfctl Timeout"
 msgstr "Pfctl Zaman Aşımı"
 
+msgid "Physical Memory"
+msgstr "Fiziksel Bellek"
+
+msgid "Prio"
+msgstr "Önc"
+
 msgid "Probability"
 msgstr "Olasılık"
 
@@ -446,6 +559,9 @@ msgstr "Süreç"
 
 msgid "Process CPU Load"
 msgstr "Süreç İşlemci Yükü"
+
+msgid "Processor"
+msgstr "İşlemci"
 
 msgid "Proto"
 msgstr "Proto"
@@ -456,11 +572,17 @@ msgstr "Protokol"
 msgid "Qlimit"
 msgstr "Kuyruk Boyu"
 
+msgid "Quantum"
+msgstr "Kuantum"
+
 msgid "Queue"
 msgstr "Kuyruk"
 
 msgid "Quick"
 msgstr "Hemen Uygula"
+
+msgid "Reason"
+msgstr "Sebep"
 
 msgid "Reassemble"
 msgstr "Birleştir"
@@ -495,6 +617,9 @@ msgstr "Kaynağa ulaşılamıyor"
 msgid "Restart network"
 msgstr "Ağı tekrar başlat"
 
+msgid "Rotate all log files"
+msgstr "Tüm kayıt dosyalarını döndür"
+
 msgid "Route Host"
 msgstr "Yönlendirme Adresi"
 
@@ -516,8 +641,11 @@ msgstr "Kural dosyası"
 msgid "Ruleset Optimization"
 msgstr "Kural Listesi Optimizasyonu"
 
-msgid "STARTED"
-msgstr "BAŞLANGIÇ"
+msgid "Running"
+msgstr "Çalışıyor"
+
+msgid "SPort"
+msgstr "KPort"
 
 msgid "Save ruleset"
 msgstr "Kural listesini kaydet"
@@ -525,11 +653,17 @@ msgstr "Kural listesini kaydet"
 msgid "Scrub Options"
 msgstr "Kazıma Seçenekleri"
 
+msgid "Secure Level"
+msgstr "Güvenlik Seviyesi"
+
 msgid "Select Option Type"
 msgstr "Seçenek Türünü Seçin"
 
 msgid "Selected"
 msgstr "Seçili"
+
+msgid "Serial Number"
+msgstr "Seri Numarası"
 
 msgid "Session Timeout"
 msgstr "Oturum Zaman Aşımı"
@@ -537,11 +671,17 @@ msgstr "Oturum Zaman Aşımı"
 msgid "Size"
 msgstr "Boyut"
 
+msgid "Size (KB)"
+msgstr "Boyut (KB)"
+
 msgid "Skip Interfaces"
 msgstr "Atlanacak Arayüzler"
 
 msgid "Sloppy Tracker"
 msgstr "Detaysız Takip"
+
+msgid "Software Version"
+msgstr "Yazılım Sürümü"
 
 msgid "Source"
 msgstr "Kaynak"
@@ -557,6 +697,12 @@ msgstr "Kaynak->Hedef"
 
 msgid "Src Nodes"
 msgstr "Kaynak Noktalar"
+
+msgid "SrcIP"
+msgstr "KynkIP"
+
+msgid "Start"
+msgstr "Başlangıç"
 
 msgid "State"
 msgstr "Durum"
@@ -585,8 +731,20 @@ msgstr "Sabit Kapı"
 msgid "Statistics and uncompressed log files"
 msgstr "İstatistik ve açılmış kayıt dosyaları"
 
-msgid "Subnet mask"
-msgstr "Altağ şablonu"
+msgid "Status"
+msgstr "Durum"
+
+msgid "Status Check Interval"
+msgstr "Durum Kontrol Aralığı"
+
+msgid "Stopped"
+msgstr "Durmuş"
+
+msgid "Symon"
+msgstr "Symon"
+
+msgid "Symux"
+msgstr "Symux"
 
 msgid "System"
 msgstr "Sistem"
@@ -596,9 +754,6 @@ msgstr "TCP Bayrakları"
 
 msgid "TCP Timeouts"
 msgstr "TCP Zaman Aşımları"
-
-msgid "TIME"
-msgstr "SÜRE"
 
 msgid "Table Entries"
 msgstr "Tablo Girdileri"
@@ -621,9 +776,6 @@ msgstr "Zaman sunucu"
 msgid "Timeout"
 msgstr "Zaman Aşımı"
 
-msgid "Timespan"
-msgstr "Zaman aralığı"
-
 msgid "To Redirect Host"
 msgstr "Tekrar Yönlendirme Hedef Adresi"
 
@@ -633,14 +785,14 @@ msgstr "Tür"
 msgid "UDP Timeouts"
 msgstr "UDP Zaman Aşımları"
 
-msgid "USER"
-msgstr "KULLANICI"
-
 msgid "Upload rules file"
 msgstr "Kural dosyasını karşıya yükle"
 
 msgid "Upload ruleset"
 msgstr "Kural listesini karşıya yükle"
+
+msgid "Uptime"
+msgstr "Çalışma Süresi"
 
 msgid "Use SSH"
 msgstr "SSH Kullan"
@@ -657,8 +809,20 @@ msgstr "Değer"
 msgid "Values"
 msgstr "Değerler"
 
+msgid "Version"
+msgstr "Sürüm"
+
 msgid "WARNING"
 msgstr "UYARI"
+
+msgid "Warning"
+msgstr "Uyarı"
+
+msgid "Web Server"
+msgstr "Web Sunucu"
+
+msgid "When (h)"
+msgstr "Zaman (saat)"
 
 msgid "add file"
 msgstr "dosya ekle"
@@ -666,11 +830,11 @@ msgstr "dosya ekle"
 msgid "add host or network"
 msgstr "adres veya ağ ekle"
 
-msgid "end"
-msgstr "son"
+msgid "disabled"
+msgstr "kapalı"
 
-msgid "height"
-msgstr "yükseklik"
+msgid "enabled"
+msgstr "açık"
 
 msgid "is not running"
 msgstr "çalışmıyor"
@@ -693,23 +857,11 @@ msgstr "ikincil"
 msgid "secs"
 msgstr "sn"
 
-msgid "size"
-msgstr "boyut"
-
-msgid "start"
-msgstr "başlangıç"
-
-msgid "timespan"
-msgstr "zaman aralığı"
-
 msgid "to"
-msgstr "hedef"
+msgstr "kaydet"
 
 msgid "total"
 msgstr "toplam"
 
 msgid "uploaded"
-msgstr "karşıdan yüklenmiş"
-
-msgid "width"
-msgstr "genişlik"
+msgstr "yüklenen"

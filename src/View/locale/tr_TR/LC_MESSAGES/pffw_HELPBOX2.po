@@ -1,0 +1,88 @@
+# Copyright (C) 2004-2017 Soner Tari, The PFFW project
+# This file is distributed under the same license as PFFW.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PFFW 6.2\n"
+"Report-Msgid-Bugs-To: sonertari@gmail.com\n"
+"POT-Creation-Date: 2009-11-11 16:21+0200\n"
+"PO-Revision-Date: 2017-12-04 21:12+0300\n"
+"Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"Language: Turkish\n"
+"Language-Team: Turkish <sonertari@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.7\n"
+
+msgid ""
+"Forwarder is the IP address of a DNS server that the system itself queries. "
+"In simple setups, this is usually the IP address of a DSL modem which "
+"functions as gateway to the Internet."
+msgstr ""
+"Yönlendirilen adres sistemin kendisinin sorguladığı bir DNS sunucu IP "
+"adresidir. Basit kurulumlarda İnternet'e geçit sağlayan bir DSL modemin IP "
+"adresidir."
+
+msgid "No default banner path"
+msgstr "Varsayılan bir afiş yolu ayarlar."
+
+msgid ""
+"Number of servers to start initially --- should be a reasonable ballpark "
+"figure."
+msgstr ""
+"Başlangıçta çalıştırılacak sunucu sayısı, ortalama bir değer seçilmelidir."
+
+msgid "Obsoletes QuietMode and FascistLogging"
+msgstr "QuietMode ve FascistLogging seçeneklerini kapatır."
+
+msgid "Override default of no subsystems"
+msgstr "Altsistem kullanılmamasını sağlayan öndeğeri değiştirir."
+
+msgid "The IP address that the DNS server listens on."
+msgstr "DNS sunucunun dinlediği IP adresi."
+
+msgid ""
+"The strategy used for options in the default sshd_config shipped with "
+"OpenSSH is to specify options with their default value where possible, but "
+"leave them commented.  Uncommented options change a default value."
+msgstr ""
+"OpenSSH ile gelen yapılandırma dosyası seçenekleri öndeğerlerinde bırakıp "
+"kapatma strajesini uygular. Açılan seçenekler öndeğeri değiştirir."
+
+msgid ""
+"This is the DNS server internal clients use. The default is the internal IP "
+"address of the system."
+msgstr ""
+"Bu iç ağdaki istemcilerin kullandığı DNS sunucudur. Öndeğer sistemin iç "
+"arayüz IP adresidir."
+
+msgid ""
+"This is the gateway internal clients use to reach the external network. The "
+"default is the internal IP address of the system."
+msgstr ""
+"Bu iç ağdaki istemcilerin dış ağa ulaşmak için kullandıkları geçit ayarıdır. "
+"Öndeğer sistemin iç arayüz IP adresidir."
+
+msgid ""
+"This is the list of interfaces DHCP server listens and distributes IP "
+"leases. Here you should add the interface(s) to start the DHCP server for."
+msgstr ""
+"Bu DHCP sunucunun dinleyip IP kiralarını dağıttığı arayüzlerin listesidir. "
+"Buradan DHCP sunucunun başlatılacağı arayüzleri eklemelisiniz."
+
+msgid ""
+"You can apply configuration changes without restarting currently running "
+"process."
+msgstr ""
+"Çalışan süreçleri tekrar başlatmadan yapılandırma değişikliklerini "
+"uygulayabilirsiniz."
+
+msgid ""
+"You should take into account that there may be computers with static IP "
+"addresses or using BOOTP protocol, and choose a range accordingly."
+msgstr ""
+"Sabit IP ile çalışan veya BOOTP protokolünü kullanan bilgisayarlar "
+"bulunabileceğini hesaba katarak IP aralığı seçmelisiniz."

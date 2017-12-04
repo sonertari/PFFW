@@ -1,19 +1,33 @@
-# Copyright (C) 2016 Soner Tari, The PFFW project
+# Copyright (C) 2004-2017 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2016.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 5.9\n"
+"Project-Id-Version: PFFW 6.2\n"
+"Report-Msgid-Bugs-To: sonertari@gmail.com\n"
+"POT-Creation-Date: 2009-11-11 16:21+0200\n"
+"PO-Revision-Date: 2017-12-04 21:12+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"Language: Turkish\n"
+"Language-Team: Turkish <sonertari@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Team: Turkish <>\n"
-"PO-Revision-Date: 2016-10-27 22:49+0300\n"
+"X-Generator: Gtranslator 2.91.7\n"
+
+msgid "All attempts"
+msgstr "Tüm denemeler"
+
+msgid "All queries"
+msgstr "Tüm sorgular"
 
 msgid "All requests"
 msgstr "Tüm istekler"
+
+msgid "All sessions"
+msgstr "Tüm oturumlar"
 
 msgid "Allowed requests"
 msgstr "İzin verilen istekler"
@@ -21,23 +35,83 @@ msgstr "İzin verilen istekler"
 msgid "Blocked requests"
 msgstr "Engellenen istekler"
 
+msgid "Client"
+msgstr "İstemci"
+
+msgid "Client IPs"
+msgstr "İstemci IP'leri"
+
+msgid "Clients"
+msgstr "İstemciler"
+
 msgid "Destination addresses"
 msgstr "Hedef adresler"
 
 msgid "Destination ports"
 msgstr "Hedef kapılar"
 
+msgid "Domains"
+msgstr "Alanadları"
+
+msgid "Downloaded (KB)"
+msgstr "İndirilen (KB)"
+
+msgid "Failed attempts"
+msgstr "Başarısız denemeler"
+
+msgid "Failed users"
+msgstr "Başarısız kullancıılar"
+
+msgid "Failure reason"
+msgstr "Başarısızlık sebebi"
+
 msgid "General Statistics"
 msgstr "Genel İstatistikler"
+
+msgid "HTTP Codes"
+msgstr "HTTP Kodu"
+
+msgid "IPs querying"
+msgstr "Sorgulayan IP'ler"
+
+msgid "Links"
+msgstr "Bağlantılar"
+
+msgid "Logged in user"
+msgstr "Giriş yapmış kullanıcı"
 
 msgid "Matched requests"
 msgstr "Eşleşen istekler"
 
+msgid "Methods"
+msgstr "Yöntemler"
+
 msgid "Packet types"
 msgstr "Paket türleri"
+
+msgid "Query types"
+msgstr "Sorgu türleri"
 
 msgid "Requests by date"
 msgstr "Tarihe göre istekler"
 
+msgid "SSH version"
+msgstr "SSH sürümü"
+
+msgid "Server"
+msgstr "Sunucu"
+
+msgid "Size by IP (KB)"
+msgstr "IP başına boyut (KB) "
+
+msgid "Size by Link (KB)"
+msgstr "Bağlantı başına boyut (KB)"
+
 msgid "Source addresses"
 msgstr "Kaynak adresleri"
+
+msgid "Successful logins"
+msgstr "Başarılı girişler"
+
+msgid "Users"
+msgstr "Kullancılar"

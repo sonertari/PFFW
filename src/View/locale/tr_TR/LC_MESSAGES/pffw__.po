@@ -1,19 +1,24 @@
-# Copyright (C) 2016 Soner Tari, The PFFW project
+# Copyright (C) 2004-2017 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2016.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 5.9\n"
+"Project-Id-Version: PFFW 6.2\n"
+"Report-Msgid-Bugs-To: sonertari@gmail.com\n"
+"POT-Creation-Date: 2009-11-11 16:21+0200\n"
+"PO-Revision-Date: 2017-12-04 21:13+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"Language: Turkish\n"
+"Language-Team: Turkish <sonertari@gmail.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language-Team: Turkish <>\n"
-"PO-Revision-Date: 2016-10-27 22:49+0300\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 msgid "%CPU"
-msgstr "%CPU"
+msgstr "CPU%"
 
 msgid "Add DHCP interface"
 msgstr "DHCP arayüzü ekle"
@@ -26,9 +31,6 @@ msgstr "Süre"
 
 msgid "Arg type check failed"
 msgstr "Argüman tür kontrolü başarısız oldu"
-
-msgid "Authentication failed"
-msgstr "Kullanıcı doğrulama başarısız oldu"
 
 msgid "Automatic configuration"
 msgstr "Otomatik yapılandırma"
@@ -50,9 +52,6 @@ msgstr "Geçici pf dosyası silinemedi"
 
 msgid "Cannot write to tmp pf file"
 msgstr "Geçici pf dosyasına yazılamadı"
-
-msgid "Check authentication"
-msgstr "Kimlik doğrula"
 
 msgid "Check if process running"
 msgstr "Sürecin çalıştığını kontrol et"
@@ -87,6 +86,9 @@ msgstr "Hedef"
 msgid "Dir"
 msgstr "Yön"
 
+msgid "Disable config"
+msgstr "Yapılandırmayı kapat"
+
 msgid "Display remote time"
 msgstr "Uzaktaki zamanı göster"
 
@@ -98,6 +100,9 @@ msgstr "Engellenen Paketler"
 
 msgid "E-mail address wrong"
 msgstr "E-posta adresi hatalı"
+
+msgid "Enable config"
+msgstr "Yapılandırmayı aç"
 
 msgid "English"
 msgstr "İngilizce"
@@ -129,8 +134,8 @@ msgstr "Pf kural yüklemesi başarısız oldu"
 msgid "Failed removing message queue"
 msgstr "Mesaj kuyruğunun silinmesi başarısız oldu"
 
-msgid "Failed running pfctl stats command"
-msgstr "Pfctl istatistik komutu başarısız oldu"
+msgid "Failed running pfctl command"
+msgstr "Pfctl komutu başarısız oldu"
 
 msgid "Failed testing pf rules"
 msgstr "Pf kurallarının testi başarısız oldu"
@@ -168,11 +173,26 @@ msgstr "Tüm istatistikleri getir"
 msgid "Get arp table"
 msgstr "Arp tablosunu getir"
 
+msgid "Get arp table size"
+msgstr "Arp tablosu boyutunu getir"
+
+msgid "Get config values"
+msgstr "Yapılandırma değerlerini getir"
+
 msgid "Get configuration"
 msgstr "Yapılandırmayı getir"
 
+msgid "Get critical errors"
+msgstr "Kritik hataları getir"
+
+msgid "Get datetime"
+msgstr "Tarih-saati getir"
+
 msgid "Get dhcp leases"
 msgstr "Kiralanan DHCP adreslerini getir"
+
+msgid "Get dhcp leases count"
+msgstr "Kiralanan DHCP adres sayısını getir"
 
 msgid "Get ext_if"
 msgstr "ext_if'i getir"
@@ -182,6 +202,9 @@ msgstr "Arayüz yapılandırmasını getir"
 
 msgid "Get int_if"
 msgstr "int_if'i getir"
+
+msgid "Get line count"
+msgstr "Satır sayısını getir"
 
 msgid "Get lines"
 msgstr "Satırları getir"
@@ -194,6 +217,15 @@ msgstr "Kayıt dosyası listesini getir"
 
 msgid "Get log start date"
 msgstr "Kayıt başlangıç tarihini getir"
+
+msgid "Get logs configuration"
+msgstr "Kayıt yapılandırmasını getir"
+
+msgid "Get module status"
+msgstr "Modül durumunu getir"
+
+msgid "Get partition list"
+msgstr "Disk bölümü listesini getir"
 
 msgid "Get pf info"
 msgstr "Pf bilgisini getir"
@@ -228,8 +260,20 @@ msgstr "Pf zaman aşımı bilgisini getir"
 msgid "Get process list"
 msgstr "Süreç listesini getir"
 
+msgid "Get reload rate"
+msgstr "Tekrar yükleme süresini getir"
+
 msgid "Get remote time"
 msgstr "Uzaktaki zamanı getir"
+
+msgid "Get service start status"
+msgstr "Servis başlatma durumunu getir"
+
+msgid "Get service status"
+msgstr "Servis durumunu getir"
+
+msgid "Get software version"
+msgstr "Yazılım sürümünü getir"
 
 msgid "Get stat lines"
 msgstr "İstatistik satırlarını getir"
@@ -237,17 +281,20 @@ msgstr "İstatistik satırlarını getir"
 msgid "Get stats"
 msgstr "İstatistikleri getir"
 
+msgid "Get sysctl values"
+msgstr "Sysctl değerlerini getir"
+
 msgid "Get system admin e-mail address"
 msgstr "Sistem yöneticisi e-posta adresini getir"
 
 msgid "Get system gateway"
 msgstr "Sistem ağ geçidini getir"
 
+msgid "Get system information"
+msgstr "Sistem bilgisini getir"
+
 msgid "Get tail"
 msgstr "Kuyruğunu getir"
-
-msgid "Gets line count"
-msgstr "Satır sayısını getir"
 
 msgid "Host wrong"
 msgstr "Bilgisayar öğesi hatalı"
@@ -263,6 +310,12 @@ msgstr "IP veya IP listesi hatalı"
 
 msgid "IP range wrong"
 msgstr "IP aralığı hatalı"
+
+msgid "IPv4"
+msgstr "IPv4"
+
+msgid "IPv6"
+msgstr "IPv6"
 
 msgid "In4 Block"
 msgstr "İçeri IP4 Engelleme"
@@ -287,6 +340,9 @@ msgstr "Pf kurallarını kurma"
 
 msgid "Invalid inline rules, parser output"
 msgstr "Geçersiz satıriçi kurallar, işleme çıktısı"
+
+msgid "Invalid value"
+msgstr "Geçersiz değer"
 
 msgid "Invalid value for"
 msgstr "Geçersiz değer"
@@ -408,6 +464,9 @@ msgstr "Sistem ad sunucusunu getir"
 msgid "Regular expression wrong"
 msgstr "Düzenli ifade hatalı"
 
+msgid "Render layout"
+msgstr "Layout'u üret"
+
 msgid "Requests by date"
 msgstr "Tarihe göre istekler"
 
@@ -416,6 +475,12 @@ msgstr "Gerekli eleman yok"
 
 msgid "Restart network"
 msgstr "Ağı tekrar başlat"
+
+msgid "Rotate all log files"
+msgstr "Bütün kayıt dosyalarını döndür"
+
+msgid "Rotate log file"
+msgstr "Kayıt dosyasını döndür"
 
 msgid "Rule"
 msgstr "Kural"
@@ -462,11 +527,23 @@ msgstr "Arayüzleri ayarla"
 msgid "Set internal net"
 msgstr "İç ağı ayarla"
 
+msgid "Set locale"
+msgstr "Yöreyi ayarla"
+
 msgid "Set log level"
 msgstr "Kayıt seviyesini ayarla"
 
+msgid "Set logs configuration"
+msgstr "Kayıt yapılandırmasını ayarla"
+
+msgid "Set man.cgi home"
+msgstr "man.cgi adresini ayarla"
+
 msgid "Set max anchor nesting"
 msgstr "En fazla içiçe çapa sayısını ayarla"
+
+msgid "Set name value pair"
+msgstr "Ad değer çiftini ayarla"
 
 msgid "Set pfctl timeout"
 msgstr "Pfctl zaman aşımını ayarla"
@@ -480,11 +557,23 @@ msgstr "Uzak zamanı ayarla"
 msgid "Set session timeout"
 msgstr "Oturum zaman aşımını ayarla"
 
+msgid "Set status check interval"
+msgstr "Durum kontrol aralığını ayarla"
+
 msgid "Set symon conf"
 msgstr "Symon yapılandırmasını ayarla"
 
+msgid "Set symon cpus"
+msgstr "Symon işlemcilerini ayarla"
+
 msgid "Set symon ifs"
 msgstr "Symon arayüzlerini ayarla"
+
+msgid "Set symon partitions"
+msgstr "Symon disk bölümlerini ayarla"
+
+msgid "Set symon sensors"
+msgstr "Symon sensörlerini ayarla"
 
 msgid "Set system clock"
 msgstr "Sistem saatini ayarla"
@@ -531,6 +620,9 @@ msgstr "Sistem tekrar başlatma"
 msgid "System shutdown"
 msgstr "Sistem kapatma"
 
+msgid "Tail number wrong"
+msgstr "Kuyruk sayısı yanlış"
+
 msgid "Test pf rules"
 msgstr "Pf kurallarını test et"
 
@@ -546,11 +638,20 @@ msgstr "Fazla argümanlar atıldı"
 msgid "Turkish"
 msgstr "Türkçe"
 
+msgid "Turn off service"
+msgstr "Servisleri kapat"
+
+msgid "Turn on service"
+msgstr "Servisleri aç"
+
 msgid "Unconfigure an interface"
 msgstr "Arayüzünün yapılandırmasını kaldır"
 
 msgid "Unexpected elements"
 msgstr "Beklenmeyen elemanlar"
+
+msgid "Unknown"
+msgstr "Bilinmeyen"
 
 msgid "Unsupported command"
 msgstr "Desteklenmeyen komut"

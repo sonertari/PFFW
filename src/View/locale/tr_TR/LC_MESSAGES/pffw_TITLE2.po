@@ -1,0 +1,186 @@
+# Copyright (C) 2004-2017 Soner Tari, The PFFW project
+# This file is distributed under the same license as PFFW.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PFFW 6.2\n"
+"Report-Msgid-Bugs-To: sonertari@gmail.com\n"
+"POT-Creation-Date: 2009-11-11 16:21+0200\n"
+"PO-Revision-Date: 2017-12-04 21:12+0300\n"
+"Last-Translator: Soner Tari <sonertari@gmail.com>\n"
+"Language: Turkish\n"
+"Language-Team: Turkish <sonertari@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Gtranslator 2.91.7\n"
+
+msgid "%MEM"
+msgstr "BELLEK%"
+
+msgid "Address Family"
+msgstr "Adres ailesi"
+
+msgid "Advanced Power Management"
+msgstr "Gelişmiş Güç Yönetimi"
+
+msgid "Apply configuration"
+msgstr "Yapılandırmayı uygula"
+
+msgid "Banner"
+msgstr "Afiş"
+
+msgid "Broadcast address"
+msgstr "Yayım adresi"
+
+msgid "CGI Server"
+msgstr "CGI Sunucu"
+
+msgid "COMMAND"
+msgstr "KOMUT"
+
+msgid "DHCP Server"
+msgstr "DHCP Sunucu"
+
+msgid "DNS Server"
+msgstr "DNS Sunucu"
+
+msgid "FTP Proxy"
+msgstr "FTP Vekil"
+
+msgid "Forwarders"
+msgstr "İletilenler"
+
+msgid "GROUP"
+msgstr "GRUP"
+
+msgid "Gateway"
+msgstr "Ağ geçidi"
+
+msgid "IP range"
+msgstr "IP aralığı"
+
+msgid "Interfaces"
+msgstr "Arayüzler"
+
+msgid "Leases"
+msgstr "Kiralar"
+
+msgid "Listen Address"
+msgstr "Dinleme adresi"
+
+msgid "Listen on"
+msgstr "Dinleme arayüzü"
+
+msgid "Log Level"
+msgstr "Kayıt seviyesi"
+
+msgid "Login Grace Time"
+msgstr "Giriş vade süresi"
+
+msgid "Max Auth Tries"
+msgstr "Doğrulama deneme üst sınırı"
+
+msgid "MaxStartups"
+msgstr "Başlangıç üst sınırı"
+
+msgid "Name server"
+msgstr "Ad sunucusu"
+
+msgid "Network Time"
+msgstr "Ağ Zamanı"
+
+msgid "PHP FastCGI Server"
+msgstr "PHP FastCGI Sunucu"
+
+msgid "PRI"
+msgstr "ÖNC"
+
+msgid "Packet Filter"
+msgstr "Paket Eleği"
+
+msgid "Permit Empty Passwords"
+msgstr "Boş şifrelere izin ver"
+
+msgid "Permit Root Login"
+msgstr "Root girişine izin ver"
+
+msgid "Port"
+msgstr "Kapı"
+
+msgid "Print Last Log"
+msgstr "Son kaydı yazdır"
+
+msgid "Print Motd"
+msgstr "Günün mesajını yazdır"
+
+msgid "Protocol"
+msgstr "Protokol"
+
+msgid "STARTED"
+msgstr "BAŞLANGIÇ"
+
+msgid "Server Key Bits"
+msgstr "Sunucu anahtar bitleri"
+
+msgid "Size"
+msgstr "Boyut"
+
+msgid "Start Servers"
+msgstr "Başlangıç sunucu sayısı"
+
+msgid "Subnet mask"
+msgstr "Altağ şablonu"
+
+msgid "Subsystem sftp"
+msgstr "Alt-sistem sftp"
+
+msgid "Symon System Monitoring"
+msgstr "Symon Sistem Gözlemleme"
+
+msgid "Symux System Monitoring"
+msgstr "Symux Sistem Gözlemleme"
+
+msgid "Syslog Facility"
+msgstr "Syslog düzeneği"
+
+msgid "System"
+msgstr "Sistem"
+
+msgid "TCP Keep Alive"
+msgstr "TCP canlı tutma"
+
+msgid "TIME"
+msgstr "SÜRE"
+
+msgid "Timespan"
+msgstr "Zaman aralığı"
+
+msgid "USER"
+msgstr "KULLANICI"
+
+msgid "Use DNS"
+msgstr "DNS kullan"
+
+msgid "Web Server (WUI)"
+msgstr "Web Sunucu (Web Arayüzü)"
+
+msgid "end"
+msgstr "son"
+
+msgid "height"
+msgstr "yükseklik"
+
+msgid "size"
+msgstr "boyut"
+
+msgid "start"
+msgstr "başlangıç"
+
+msgid "timespan"
+msgstr "zaman aralığı"
+
+msgid "width"
+msgstr "genişlik"
