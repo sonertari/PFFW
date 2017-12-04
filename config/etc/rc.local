@@ -33,11 +33,11 @@ if [ -x /usr/local/libexec/symux ]; then
 	/usr/local/libexec/symux
 
 	if [ -x /usr/local/libexec/symon ]; then
+		echo -n '' # Prevent empty if block in case below line commented out
 		/usr/local/libexec/symon
 	fi
 fi
 
-echo ''
 banner pffw
 echo 'is ready...\n'
 echo -n "a~a." > /dev/speaker &
