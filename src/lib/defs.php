@@ -101,19 +101,56 @@ $MonthNumbers= array(
 	'Dec' => '12',
 	);
 
+$Re_MonthNames= implode('|', array_values($MonthNames));
+
+$MonthNumbersNoLeadingZeros = array_map(function ($str) { return $str + 0; }, array_keys($MonthNames));
+$Re_MonthNumbersNoLeadingZeros= implode('|', $MonthNumbersNoLeadingZeros);
+
+$DaysNoLeadingZeros = array(
+	'1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+	'11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+	'21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'
+	);
+$Re_DaysNoLeadingZeros= implode('|', $DaysNoLeadingZeros);
+
+$WeekDays= array('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun');
+$Re_WeekDays= implode('|', $WeekDays);
+
 /// General tcpdump command used everywhere.
 /// @todo All system binaries called should be defined like this.
 /// @attention Redirect stderr to /dev/null to hush tcpdump warning: "tcpdump: WARNING: snaplen raised from 116 to 160".
 /// Otherwise that warning goes in front of the data.
 $TCPDUMP= 'exec 2>/dev/null; /usr/sbin/tcpdump -nettt -r';
 
-$Re_Ip= '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
+/// Type definitions for config settings as PREs
+/// @todo Fix leading 0's problem(s)
+define('UINT_0_2', '[0-2]');
+define('STR_on_off', 'on|off');
+define('STR_On_Off', 'On|Off');
+define('STR_SING_QUOTED', '\'[^\']*\'');
+define('STR_yes_no', 'yes|no');
+define('UINT', '[0-9]+');
+define('INT_M1_0_UP', '-1|[0-9]+');
+define('UINT_0_1', '0|1');
+define('INT_M1_0_3', '-1|[0-3]');
+define('UINT_0_3', '[0-3]');
+define('UINT_1_4', '[0-4]');
+define('IP', '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}');
+define('IPorNET', '(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})');
+define('PORT', '[0-9]+');
+define('FLOAT', '[0-9]+|([0-9]+\.[0-9]+)');
+define('CHAR', '.');
 
+/// Common regexps.
+/// @todo Find a proper regexp for IPv4 addresses, this is too general.
+$Re_Ip= '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}';
+$Re_Net= "$Re_Ip\/\d{1,2}";
+$Re_IpPort= '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5}';
 /// @todo $num and $range need full testing. Define $port.
 $preIPOctet= '(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])';
-$preIP= "$preIPOctet\\.$preIPOctet\\.$preIPOctet\\.$preIPOctet";
-
 $preIPRange= '(\d|[1-2]\d|3[0-2])';
+$preIP= "$preIPOctet\\.$preIPOctet\\.$preIPOctet\\.$preIPOctet";
+$preNet= "$preIP\/$preIPRange";
 
 $preMacByte= '[\da-f]{2}';
 $preMac= "$preMacByte\:$preMacByte\:$preMacByte\:$preMacByte\:$preMacByte\:$preMacByte";

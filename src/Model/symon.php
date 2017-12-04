@@ -166,6 +166,7 @@ class Symon extends Monitoring
 			'httpd',
 			'sshd',
 			'named',
+			'dhcpd',
 			'ftp-proxy',
 		);
 		$procs= '';
