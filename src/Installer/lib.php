@@ -38,7 +38,7 @@ function PrintHelpWindow($msg, $width= 'auto', $type= 'INFO')
  * 
  * @return bool TRUE on success, FALSE on fail.
  */
-function ApplyConfig()
+function ApplyConfig($auto)
 {
 	global $Config, $View;
 

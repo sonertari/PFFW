@@ -93,8 +93,6 @@ $Menu = array(
 			'transfer' => _MENU('Transfer'),
 			'states' => _MENU('States'),
 			'mbufs' => _MENU('Mbufs'),
-			'hosts' => _MENU('Hosts'),
-			'protocol' => _MENU('Protocols'),
 			),
 		),
 	'logs' => array(
