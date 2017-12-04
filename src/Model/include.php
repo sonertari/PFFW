@@ -85,6 +85,8 @@ define('EMAIL',			65536);
 define('DATETIME',		131072);
 define('IPRANGE',		262144);
 define('TAIL',			524288);
+define('ASTERISK',		1048576);
+define('CONFNAME', 		2097152);
 
 $Output= '';
 $Error= '';

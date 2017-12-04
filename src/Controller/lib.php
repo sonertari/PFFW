@@ -144,6 +144,14 @@ $ArgTypes= array(
 		'func'	=> 'IsTailNumber',
 		'desc'	=> _('Tail number wrong'),
 		),
+	ASTERISK	=>	array(
+		'func'	=> 'IsAsterisk',
+		'desc'	=> _('Not asterisk'),
+		),
+	CONFNAME	=>	array(
+		'func'	=> 'IsStr',
+		'desc'	=> _('Not config name'),
+		),
 );
 
 $MonthDays= array(
@@ -246,6 +254,11 @@ function IsEmailAddress($addr)
 {
 	return preg_match('/^root(@localhost|)$/', $addr)
 		|| preg_match('/^[a-z]+[a-z0-9]*(\.|\-|_)?[a-z0-9]+@([a-z]+[a-z0-9]*(\.|\-)?[a-z]+[a-z0-9]*[a-z0-9]+){1,4}\.[a-z]{2,4}$/', $addr);
+}
+
+function IsAsterisk($str)
+{
+	return $str === '*';
 }
 
 /**

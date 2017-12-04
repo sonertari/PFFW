@@ -1625,8 +1625,14 @@ msgstr "JSON ile kodlanmış bir metin değil"
 msgid "Not a valid password"
 msgstr "Geçerli bir parola değil"
 
+msgid "Not asterisk"
+msgstr "Asterisk değil"
+
 msgid "Not boolean"
 msgstr "Boolean değir"
+
+msgid "Not config name"
+msgstr "Yapılandırma adı değil"
 
 msgid "Not empty string"
 msgstr "Boş dizi değil"
