@@ -15,6 +15,8 @@ PFFW includes the following software, alongside what is already available on a b
 - ISC DNS server
 - Symon system monitoring software
 
+![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
+
 The web user interface of PFFW helps you manage your firewall:
 
 - System, network, and service configuration can be achieved on the web interface.
@@ -24,6 +26,8 @@ The web user interface of PFFW helps you manage your firewall:
 - Pf statistics collected over logs are displayed in bar charts and top lists. Statistics over compressed log files are supported too.
 - You can monitor interfaces, packet transfer, pf states, and kernel memory management on the graphs.
 - The web interface supports English and Turkish.
+
+![Dashboard](https://github.com/sonertari/PFFW/blob/master/screenshots/Dashboard.png)
 
 ## How to install
 
