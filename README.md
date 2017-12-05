@@ -38,6 +38,13 @@ The web user interface of PFFW helps you manage your firewall:
 
 Download the installation iso file mentioned above and follow the instructions in the installation guide available in the iso file. Below are the same instructions.
 
+A few notes about PFFW installation:
+
+- Thanks to a modified auto-partitioner of OpenBSD, the disk can be partitioned with a recommended layout for PFFW, so most users don't need to use the label editor at all.
+- All install sets including siteXY.tgz are selected by default, so you cannot 'not' install PFFW by mistake.
+- OpenBSD installation questions are modified according to the needs of PFFW. For example, X11 related questions are never asked.
+- 512MB RAM and an 8GB HD should be enough.
+
 PFFW installation is very intuitive and easy, just follow the instructions on the screen and answer the questions asked. You are advised to accept the default answers to all the questions. In fact, the installation can be completed by accepting default answers all the way from the first question until the last. The only obvious exceptions are network configuration and password setup.
 
 Auto allocator will provide a partition layout recommended for your disk. Suggested partitioning should be suitable for most installations, simply accept it.
@@ -62,7 +69,7 @@ References:
 
 ## How to build
 
-The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.2 and have installed git and gettext on it.
+The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.2 and have installed git, gettext, and doxygen on it.
 
 The createiso script:
 
