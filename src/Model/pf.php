@@ -167,7 +167,7 @@ class Pf extends Model
 	 * 
 	 * @return bool TRUE if enabled, FALSE otherwise.
 	 */
-	function IsRunning()
+	function IsRunning($proc= '')
 	{
 		$output= $this->RunShellCommand('/sbin/pfctl -s info');
 		if (preg_match('/Status:\s*(Enabled|Disabled)\s*/', $output, $match)) {
@@ -1058,7 +1058,7 @@ class Pf extends Model
 		return $this->formatDateHourRegexpDayLeadingZero($month, $day, $hour, $minute);
 	}
 
-	function _getLiveLogs($file, $count, $re= '')
+	function _getLiveLogs($file, $count, $re= '', $needle= '')
 	{
 		global $TCPDUMP;
 		
