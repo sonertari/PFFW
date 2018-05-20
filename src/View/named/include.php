@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -63,6 +63,12 @@ $LogConf = array(
 			'IP' => _TITLE('IP'),
 			'Domain' => _TITLE('Domain'),
 			'Log' => _TITLE('Log'),
+			),
+		'HighlightLogs' => array(
+			'REs' => array(
+				'red' => array('failed'),
+				'yellow' => array('success'),
+				),
 			),
 		),
 	);

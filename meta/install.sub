@@ -2,7 +2,7 @@
 #	$OpenBSD: install.sub,v 1.421 2007/08/02 03:23:37 david Exp $
 #	$NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
-# Copyright (C) 2017 Soner Tari.  All rights reserved.
+# Copyright (C) 2004-2018 Soner Tari.  All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -615,7 +615,7 @@ __EOT
 				ln -s /usr/local/bin/php-7.0 /usr/local/bin/php
 				pkg_add php-pcntl
 				pkg_add php-mcrypt
-				pkg_add php-fastcgi
+				pkg_add php-cgi
 				;;
 			esac
 			;;
@@ -980,7 +980,7 @@ __EOT
 # #######################################################################
 # Initial actions common to both installs and upgrades.
 # #######################################################################
-VERSION='6.2'
+VERSION='6.3'
 ARCH=$(/usr/bin/machine)
 
 VMAJ=${VERSION%%\.*}
@@ -1011,10 +1011,10 @@ CDDEVS=$(scan_dmesg "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}")
 [[ -z $CDDEVS ]] && CDDEVS="cd0,cd1,cd2"
 
 # Selected sets will be installed in the order they are listed in $THESETS.
-THESETS="isc-bind-9.10.6.tgz \
-		symon-2.88p0.tgz \
-		pftop-0.7p16.tgz \
-		php-7.0.23.tgz \
+THESETS="isc-bind-9.11.3.tgz \
+		symon-2.88p2.tgz \
+		pftop-0.7p17.tgz \
+		php-7.0.28.tgz \
 		$CW_WEBIF_TARFILE \
 		$CW_CONFIG_TARFILE"
 

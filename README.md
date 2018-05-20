@@ -11,9 +11,9 @@ The installation iso file for the amd64 arch is available for download at [pffw6
 PFFW includes the following software, alongside what is already available on a basic OpenBSD installation:
 
 - PFRE: Packet Filter Rule Editor
-- PHP
-- ISC DNS server
 - Symon system monitoring software
+- ISC DNS server
+- PHP
 
 ![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
 
@@ -63,13 +63,13 @@ Web interface user names are admin and user. Both are set to the same password y
 
 References:
 
-1. INSTALL.amd64 under /6.2/amd64/ in the installation iso file.
+1. INSTALL.amd64 under /6.3/amd64/ in the installation iso file.
 2. [Supported hardware](https://www.openbsd.org/amd64.html).
 3. [OpenBSD installation guide](https://www.openbsd.org/faq/faq4.html).
 
 ## How to build
 
-The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.2 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.3 and have installed git, gettext, and doxygen on it.
 
 The createiso script:
 

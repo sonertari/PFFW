@@ -1,13 +1,13 @@
-# Copyright (C) 2004-2017 Soner Tari, The PFFW project
+# Copyright (C) 2004-2018 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PFFW 6.2\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2017-12-04 21:13+0300\n"
+"PO-Revision-Date: 2018-05-20 14:31+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -710,6 +710,9 @@ msgstr "Ana pf kurallarının yüklenmesi başarısız oldu"
 
 msgid "Failed loading pf rules"
 msgstr "Pf kural yüklemesi başarısız oldu"
+
+msgid "Failed queries"
+msgstr "Başarısız sorgular"
 
 msgid "Failed removing message queue"
 msgstr "Mesaj kuyruğunun silinmesi başarısız oldu"
@@ -1470,6 +1473,9 @@ msgstr "En Yüksek Bağlantı Hızı"
 msgid "Max MSS"
 msgstr "En Yüksek MSS"
 
+msgid "Max Packet Rate"
+msgstr "En Yüksek Paket Hızı"
+
 msgid "Max Single Host States"
 msgstr "Tek Adres için En Fazla Durum Sayısı"
 
@@ -2033,6 +2039,9 @@ msgstr "Kural"
 msgid "Rule number"
 msgstr "Kural numarası"
 
+msgid "Rule test failed without an error message"
+msgstr "Kural testi hata mesajı vermeden başarısız oldu"
+
 msgid "Rules"
 msgstr "Kurallar"
 
@@ -2360,6 +2369,9 @@ msgstr "Symux"
 
 msgid "Symux System Monitoring"
 msgstr "Symux Sistem Gözlemleme"
+
+msgid "Syncookies"
+msgstr "Syncookies"
 
 msgid "Syslog Facility"
 msgstr "Syslog düzeneği"
@@ -2900,6 +2912,9 @@ msgstr ""
 "Sabit IP ile çalışan veya BOOTP protokolünü kullanan bilgisayarlar "
 "bulunabileceğini hesaba katarak IP aralığı seçmelisiniz."
 
+msgid "adaptive"
+msgstr "değişken"
+
 msgid "add file"
 msgstr "dosya ekle"
 
@@ -2908,6 +2923,9 @@ msgstr "adres veya ağ ekle"
 
 msgid "add value"
 msgstr "değer ekle"
+
+msgid "always"
+msgstr "her zaman"
 
 msgid "as rule number"
 msgstr "kural numarası"
@@ -2975,6 +2993,9 @@ msgstr "ad, içiçe olabilir"
 msgid "negated"
 msgstr "ters çevir"
 
+msgid "never"
+msgstr "asla"
+
 msgid "no"
 msgstr "hayır"
 
@@ -2993,6 +3014,9 @@ msgstr "sayı veya kısaltma"
 msgid "number or name"
 msgstr "sayı veya ad"
 
+msgid "number%"
+msgstr "sayı%"
+
 msgid "number(ms)"
 msgstr "sayı(ms)"
 
@@ -3001,6 +3025,9 @@ msgstr "sayı, ad, tablo veya makro"
 
 msgid "number/number"
 msgstr "sayı/sayı"
+
+msgid "number/seconds"
+msgstr "sayı/saniye"
 
 msgid "number[(K|M|G)]"
 msgstr "sayı[(K|M|G)]"

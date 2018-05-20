@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -23,7 +23,7 @@
  */
 
 /// Project version.
-define('VERSION', '6.2');
+define('VERSION', '6.3');
 
 $ROOT= dirname(dirname(dirname(__FILE__)));
 $SRC_ROOT= dirname(dirname(__FILE__));
@@ -262,13 +262,14 @@ $StatsConf = array(
 		'Total' => array(
 			'Title' => _STATS('All queries'),
 			'Cmd' => '/bin/cat <LF>',
-			'Needle' => '( query: )',
+			'Needle' => '( query)',
 			'SearchRegexpPrefix' => '([[:blank:]]+)',
 			'BriefStats' => array(
 				'Date' => _STATS('Requests by date'),
 				'Domain' => _STATS('Domains'),
 				'IP' => _STATS('IPs querying'),
 				'Type' => _STATS('Query types'),
+				'Reason' => _STATS('Failure reason'),
 				),
 			'Counters' => array(),
 			),
@@ -280,6 +281,17 @@ $StatsConf = array(
 				'Domain' => _STATS('Domains'),
 				'IP' => _STATS('IPs querying'),
 				'Type' => _STATS('Query types'),
+				),
+			),
+		'Failures' => array(
+			'Title' => _STATS('Failed queries'),
+			'Needle' => '( query failed )',
+			'Color' => 'Red',
+			'NVPs' => array(
+				'Domain' => _STATS('Domains'),
+				'IP' => _STATS('IPs querying'),
+				'Type' => _STATS('Query types'),
+				'Reason' => _STATS('Failure reason'),
 				),
 			),
 		),

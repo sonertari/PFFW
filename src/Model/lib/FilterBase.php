@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -145,6 +145,10 @@ class FilterBase extends State
 			'method' => 'parseNextValue',
 			'params' => array(),
 			),
+		'max-pkt-rate' => array(
+			'method' => 'parseNextValue',
+			'params' => array(),
+			),
 		'probability' => array(
 			'method' => 'parseNextValue',
 			'params' => array(),
@@ -272,6 +276,9 @@ class FilterBase extends State
 		'rtable' => array(
 			'regex' => RE_NUM,
 			),
+		'max-pkt-rate' => array(
+			'regex' => RE_MAXPKTRATE,
+			),
 		'probability' => array(
 			'regex' => RE_PROBABILITY,
 			),
@@ -395,6 +402,7 @@ class FilterBase extends State
 		$this->genItems('set-prio', 'set prio', '(', ')');
 		$this->genQueue();
 		$this->genValue('rtable', 'rtable ');
+		$this->genValue('max-pkt-rate', 'max-pkt-rate ');
 		$this->genValue('probability', 'probability ');
 		$this->genValue('prio', 'prio ');
 		$this->genValue('set-tos', 'set tos ');

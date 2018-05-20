@@ -1,13 +1,13 @@
-# Copyright (C) 2004-2017 Soner Tari, The PFFW project
+# Copyright (C) 2004-2018 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PFFW 6.2\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2017-12-04 21:12+0300\n"
+"PO-Revision-Date: 2018-05-20 14:29+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -422,6 +422,9 @@ msgstr "En Yüksek Bağlantı Hızı"
 msgid "Max MSS"
 msgstr "En Yüksek MSS"
 
+msgid "Max Packet Rate"
+msgstr "En Yüksek Paket Hızı"
+
 msgid "Max Single Host States"
 msgstr "Tek Adres için En Fazla Durum Sayısı"
 
@@ -745,6 +748,9 @@ msgstr "Symon"
 
 msgid "Symux"
 msgstr "Symux"
+
+msgid "Syncookies"
+msgstr "Syncookies"
 
 msgid "System"
 msgstr "Sistem"

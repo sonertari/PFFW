@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -45,9 +45,9 @@ function IsFilePath($filepath)
 		|| preg_match("?^($TEST_DIR_PATH|)$TMP_PATH/\w[\w.\-_]*$?", $filepath)
 		// Log files
 		|| preg_match('?^/var/log/\w[\w./\-_]*$?', $filepath)
-		|| preg_match('|^/var/www/logs/\w[\w./\-_]*$|', $filepath)
 		// Statistics and uncompressed logs
-		|| preg_match('?^/var/tmp/pffw/\w[\w.\-_/]*$?', $filepath);
+		|| preg_match('?^/var/tmp/pffw/\w[\w.\-_/]*$?', $filepath)
+		|| preg_match('|^/var/www/logs/\w[\w./\-_]*$|', $filepath);
 }
 
 /**

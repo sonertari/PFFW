@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -96,6 +96,7 @@ $RE_W_1_10= '^\w{1,10}$';
 define('RE_W_1_10', "^($RE_W_1_10|$RE_MACRO_VAR)$");
 
 define('RE_STATE', '^(no|keep|modulate|synproxy)$');
+define('RE_MAXPKTRATE', '^[\d]{1,10}\/[\d]{1,10}$');
 define('RE_PROBABILITY', '^[\d.]{1,10}(|%)$');
 
 $RE_OS= '[\w.*:\/_\s-]{1,50}';
@@ -123,6 +124,8 @@ define('RE_OPTIMIZATION', '^(normal|high-latency|satellite|aggressive|conservati
 define('RE_RULESETOPTIMIZATION', '^(none|basic|profile)$');
 define('RE_DEBUG', '^(emerg|alert|crit|err|warning|notice|info|debug)$');
 define('RE_REASSEMBLE', '^(yes|no)$');
+define('RE_SYNCOOKIES', '^(never|always|adaptive)$');
+define('RE_PERCENT', '^[\d.]{1,10}%$');
 
 define('RE_BANDWIDTH', '^\d{1,16}(|K|M|G)$');
 define('RE_BWTIME', '^\d{1,16}ms$');

@@ -1,4 +1,4 @@
-# Copyright (C) 2004-2017 Soner Tari, The PFFW project
+# Copyright (C) 2004-2018 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
 # Soner Tari <sonertari@gmail.com>, 2009, 2017.
 #

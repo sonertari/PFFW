@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2004-2017 Soner Tari
+# Copyright (C) 2004-2018 Soner Tari
 #
 # This file is part of PFFW.
 #
@@ -82,7 +82,7 @@ if ! xgettext -L "PHP" -s \
 		--copyright-holder="Soner Tari, The PFFW project" \
 		--msgid-bugs-address="sonertari@gmail.com" \
 		--package-name="PFFW" \
-		--package-version="6.2" \
+		--package-version="6.3" \
 		-j -o $LOCALE_FILE \
 		-f files.txt; then
 	echo "FAILED generating $LOCALE_FILE"

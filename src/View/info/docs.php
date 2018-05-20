@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -25,9 +25,9 @@
 require_once('include.php');
 
 $Menu = array(
-    'docs' => array(
-        'Name' => _MENU('Documentation'),
-        'Perms' => $ALL_USERS,
+	'docs' => array(
+		'Name' => _MENU('Documentation'),
+		'Perms' => $ALL_USERS,
 		),
 	);
 

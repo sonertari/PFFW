@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2017 Soner Tari
+ * Copyright (C) 2004-2018 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -39,35 +39,35 @@ require_once($VIEW_PATH . '/pf/include.php');
 
 /// Left menu items with captions and user permissions.
 $PFFW_MODULES = array(
-    'system' => array(
+	'system' => array(
 		'Name' => _MENU('SYSTEM'),
 		'Perms' => $ALL_USERS,
 		),
-    'pf' => array(
+	'pf' => array(
 		'Name' => _MENU('PACKET FILTER'),
 		'Perms' => $ALL_USERS,
 		),
-    'dhcpd' => array(
+	'dhcpd' => array(
 		'Name' => _MENU('DHCP'),
 		'Perms' => $ALL_USERS,
 		),
-    'named' => array(
+	'named' => array(
 		'Name' => _MENU('DNS'),
 		'Perms' => $ALL_USERS,
 		),
-    'openssh' => array(
+	'openssh' => array(
 		'Name' => _MENU('OPENSSH'),
 		'Perms' => $ALL_USERS,
 		),
-    'ftp-proxy' => array(
+	'ftp-proxy' => array(
 		'Name' => _MENU('FTP PROXY'),
 		'Perms' => $ALL_USERS,
 		),
-    'httpd' => array(
+	'httpd' => array(
 		'Name' => _MENU('WEB SERVER'),
 		'Perms' => $ALL_USERS,
 		),
-    'monitoring' => array(
+	'monitoring' => array(
 		'Name' => _MENU('MONITORING'),
 		'Perms' => $ALL_USERS,
 		),
