@@ -38,7 +38,6 @@ if [ -x /usr/local/libexec/symux ]; then
 	fi
 fi
 
-echo
 banner pffw
 echo 'is ready...\n'
 echo -n "a~a." > /dev/speaker &
