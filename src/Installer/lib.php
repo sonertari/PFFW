@@ -43,6 +43,7 @@ function ApplyConfig($auto)
 	global $Config, $View;
 
 	try {
+		$myname= $Config['Myname'];
 		$mygate= $Config['Mygate'];
 		
 		$lanif= $Config['IntIf'];
