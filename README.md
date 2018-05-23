@@ -4,7 +4,7 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw62\_20171205\_amd64.iso](https://drive.google.com/file/d/1Z8ucRXQFsAoFtFLffNp_9xC5-Q2rBgQ9/view?usp=sharing). Make sure the SHA256 checksum is correct: 6f113722af0ea5406d907d5f80fbb3fcd28c795716568f8e2d38ab749c559e53.
+The installation iso file for the amd64 arch is available for download at [pffw63\_20180522\_amd64.iso](https://drive.google.com/file/d/1Er7cCNsHu8SFcts4JLbNqIWOWXJzLt-i/view?usp=sharing). Make sure the SHA256 checksum is correct: 3fcab4d7c004b9a222faf2170caa30eaaff75ef1a4d968edbeb272699c36df7c.
 
 ## Features
 
@@ -83,7 +83,7 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 - Install sets:
 	+ Obtain the sources of OpenBSD.
 	+ Copy the files under `openbsd/pffw` to the OpenBSD sources to replace the original files. You are advised to compare the original files with the PFFW versions before replacing.
-	+ Create the UTMFW secret and public key pair to sign and verify the SHA256 checksums of the install sets, and copy them to their appropriate locations.
+	+ Create the UTMFW secret and public key pair to sign and verify the SHA256 checksums of the install sets, and copy them to their appropriate locations. The installation iso of PFFW uses the same install sets as UTMFW, hence the same secret key. If you want to use a different key pair, you should change the references to the UTMFW key pair in the source code as well.
 	+ Build an OpenBSD release, as described in [release(8)](https://man.openbsd.org/release) or [faq5](https://www.openbsd.org/faq/faq5.html).
 	+ Copy the required install sets to the appropriate locations to fix the broken links in the sources.
 - Packages:
