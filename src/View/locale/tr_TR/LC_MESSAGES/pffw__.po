@@ -1,13 +1,13 @@
 # Copyright (C) 2004-2018 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.2\n"
+"Project-Id-Version: PFFW 6.3\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2017-12-04 21:13+0300\n"
+"PO-Revision-Date: 2018-09-18 00:33+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -23,8 +23,14 @@ msgstr "CPU%"
 msgid "Add DHCP interface"
 msgstr "DHCP arayüzü ekle"
 
+msgid "Add filter"
+msgstr "Elek ekle"
+
 msgid "Add host"
 msgstr "Bilgisayar ekle"
+
+msgid "Add notifier user"
+msgstr "Uyarı kullanıcısı ekle"
 
 msgid "Age"
 msgstr "Süre"
@@ -74,8 +80,14 @@ msgstr "Tarih-saat hatalı"
 msgid "Delete DHCP interface"
 msgstr "DHCP arayüzünü sil"
 
+msgid "Delete filter"
+msgstr "Elek sil"
+
 msgid "Delete host"
 msgstr "Bilgisayar sil"
+
+msgid "Delete notifier user"
+msgstr "Uyarı kullanıcısı sil"
 
 msgid "Delete pf rule file"
 msgstr "Pf kural dosyası silme"
@@ -88,6 +100,12 @@ msgstr "Yön"
 
 msgid "Disable config"
 msgstr "Yapılandırmayı kapat"
+
+msgid "Disable notifier"
+msgstr "Uyarıları kapat"
+
+msgid "Disable notifier SSL verify peer"
+msgstr "Uyarı sunucusu SSL doğrulamayı kapat"
 
 msgid "Display remote time"
 msgstr "Uzaktaki zamanı göster"
@@ -103,6 +121,12 @@ msgstr "E-posta adresi hatalı"
 
 msgid "Enable config"
 msgstr "Yapılandırmayı aç"
+
+msgid "Enable notifier"
+msgstr "Uyarıları aç"
+
+msgid "Enable notifier SSL verify peer"
+msgstr "Uyarı sunucusu SSL doğrulamayı aç"
 
 msgid "English"
 msgstr "İngilizce"
@@ -347,6 +371,9 @@ msgstr "Geçersiz değer"
 msgid "Invalid value for"
 msgstr "Geçersiz değer"
 
+msgid "Is notifier enabled"
+msgstr "Uyarılar açık mı"
+
 msgid "Line"
 msgstr "Satır"
 
@@ -533,9 +560,6 @@ msgstr "Arayüzleri ayarla"
 msgid "Set internal net"
 msgstr "İç ağı ayarla"
 
-msgid "Set locale"
-msgstr "Yöreyi ayarla"
-
 msgid "Set log level"
 msgstr "Kayıt seviyesini ayarla"
 
@@ -550,6 +574,18 @@ msgstr "En fazla içiçe çapa sayısını ayarla"
 
 msgid "Set name value pair"
 msgstr "Ad değer çiftini ayarla"
+
+msgid "Set notifier API key"
+msgstr "Uyarı API anahtarını ayarla"
+
+msgid "Set notifier host"
+msgstr "Uyarı sunucuyu ayarla"
+
+msgid "Set notifier timeout"
+msgstr "Uyarı zaman aşımını ayarla"
+
+msgid "Set notify level"
+msgstr "Uyarı seviyesini ayarla"
 
 msgid "Set pfctl timeout"
 msgstr "Pfctl zaman aşımını ayarla"
@@ -682,6 +718,12 @@ msgstr "Hatalı kurallar yüklenmez"
 
 msgid "Will not test rules with errors"
 msgstr "Hatalı kurallar test edilmez"
+
+msgid "running"
+msgstr "çalışıyor"
+
+msgid "stopped"
+msgstr "durdu"
 
 msgid "unconfigured"
 msgstr "yapılandırılmamış"

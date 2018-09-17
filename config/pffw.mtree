@@ -3,6 +3,11 @@
 # PFFW upgrade script to set owner and permissions.
 
 var			type=dir mode=0755 uname=root gname=wheel
+cron			type=dir mode=0555 uname=root gname=wheel
+tabs			type=dir mode=01730 uname=root gname=crontab
+root			type=file mode=0600 uname=root gname=crontab
+..	#var/cron/tabs
+..	#var/cron
 log			type=dir mode=0755 uname=root gname=wheel
 doas			type=file mode=0600 uname=root gname=wheel
 ctlr.log			type=file mode=0640 uname=root gname=wheel
@@ -52,6 +57,7 @@ aliases			type=file mode=0644 uname=root gname=wheel
 pfre			type=dir mode=0755 uname=root gname=wheel
 ..	#etc/pfre
 php-7.0			type=dir mode=0755 uname=root gname=wheel
+curl.ini		type=file mode=0644 uname=root gname=wheel
 mcrypt.ini		type=file mode=0644 uname=root gname=wheel
 pcntl.ini		type=file mode=0644 uname=root gname=wheel
 ..	#etc/php-7.0

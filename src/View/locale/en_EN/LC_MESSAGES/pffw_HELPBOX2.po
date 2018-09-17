@@ -1,0 +1,53 @@
+msgid ""
+"Forwarder is the IP address of a DNS server that the system itself queries. "
+"In simple setups, this is usually the IP address of a DSL modem which "
+"functions as gateway to the Internet."
+msgstr ""
+
+msgid "No default banner path"
+msgstr ""
+
+msgid ""
+"Number of servers to start initially --- should be a reasonable ballpark "
+"figure."
+msgstr ""
+
+msgid "Obsoletes QuietMode and FascistLogging"
+msgstr ""
+
+msgid "Override default of no subsystems"
+msgstr ""
+
+msgid "The IP address that the DNS server listens on."
+msgstr ""
+
+msgid ""
+"The strategy used for options in the default sshd_config shipped with "
+"OpenSSH is to specify options with their default value where possible, but "
+"leave them commented.  Uncommented options change a default value."
+msgstr ""
+
+msgid ""
+"This is the DNS server internal clients use. The default is the internal IP "
+"address of the system."
+msgstr ""
+
+msgid ""
+"This is the gateway internal clients use to reach the external network. The "
+"default is the internal IP address of the system."
+msgstr ""
+
+msgid ""
+"This is the list of interfaces DHCP server listens and distributes IP "
+"leases. Here you should add the interface(s) to start the DHCP server for."
+msgstr ""
+
+msgid ""
+"You can apply configuration changes without restarting currently running "
+"process."
+msgstr ""
+
+msgid ""
+"You should take into account that there may be computers with static IP "
+"addresses or using BOOTP protocol, and choose a range accordingly."
+msgstr ""

@@ -1,0 +1,710 @@
+msgid "%CPU"
+msgstr ""
+
+msgid "Add DHCP interface"
+msgstr ""
+
+msgid "Add filter"
+msgstr ""
+
+msgid "Add host"
+msgstr ""
+
+msgid "Add notifier user"
+msgstr ""
+
+msgid "Age"
+msgstr ""
+
+msgid "Arg type check failed"
+msgstr ""
+
+msgid "Automatic configuration"
+msgstr ""
+
+msgid "Bytes"
+msgstr ""
+
+msgid "Cannot fork pfctl process"
+msgstr ""
+
+msgid "Cannot install pf rule file"
+msgstr ""
+
+msgid "Cannot load pf rules"
+msgstr ""
+
+msgid "Cannot remove tmp pf file"
+msgstr ""
+
+msgid "Cannot write to tmp pf file"
+msgstr ""
+
+msgid "Check if process running"
+msgstr ""
+
+msgid "Cleared"
+msgstr ""
+
+msgid "Compressed"
+msgstr ""
+
+msgid "Configure an interface"
+msgstr ""
+
+msgid "Create user"
+msgstr ""
+
+msgid "Datetime wrong"
+msgstr ""
+
+msgid "Delete DHCP interface"
+msgstr ""
+
+msgid "Delete filter"
+msgstr ""
+
+msgid "Delete host"
+msgstr ""
+
+msgid "Delete notifier user"
+msgstr ""
+
+msgid "Delete pf rule file"
+msgstr ""
+
+msgid "Dest"
+msgstr ""
+
+msgid "Dir"
+msgstr ""
+
+msgid "Disable config"
+msgstr ""
+
+msgid "Disable notifier"
+msgstr ""
+
+msgid "Disable notifier SSL verify peer"
+msgstr ""
+
+msgid "Display remote time"
+msgstr ""
+
+msgid "Dropped Bytes"
+msgstr ""
+
+msgid "Dropped Packets"
+msgstr ""
+
+msgid "E-mail address wrong"
+msgstr ""
+
+msgid "Enable config"
+msgstr ""
+
+msgid "Enable notifier"
+msgstr ""
+
+msgid "Enable notifier SSL verify peer"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Erase statistics files"
+msgstr ""
+
+msgid "Error in include file"
+msgstr ""
+
+msgid "Error loading, rule load forced"
+msgstr ""
+
+msgid "Error loading, rule loaded partially"
+msgstr ""
+
+msgid "Evaluations"
+msgstr ""
+
+msgid "Expr"
+msgstr ""
+
+msgid "Failed creating or attaching to message queue"
+msgstr ""
+
+msgid "Failed loading pf rules"
+msgstr ""
+
+msgid "Failed removing message queue"
+msgstr ""
+
+msgid "Failed running pfctl command"
+msgstr ""
+
+msgid "Failed testing pf rules"
+msgstr ""
+
+msgid "Filename not accepted"
+msgstr ""
+
+msgid "Filepath wrong"
+msgstr ""
+
+msgid "Generate pf rule"
+msgstr ""
+
+msgid "Generate pf rules"
+msgstr ""
+
+msgid "Get DHCP IP range"
+msgstr ""
+
+msgid "Get DHCP interfaces"
+msgstr ""
+
+msgid "Get DHCP option"
+msgstr ""
+
+msgid "Get DNS forwarders"
+msgstr ""
+
+msgid "Get IP DNS listens on"
+msgstr ""
+
+msgid "Get all stats"
+msgstr ""
+
+msgid "Get arp table"
+msgstr ""
+
+msgid "Get arp table size"
+msgstr ""
+
+msgid "Get config values"
+msgstr ""
+
+msgid "Get configuration"
+msgstr ""
+
+msgid "Get critical errors"
+msgstr ""
+
+msgid "Get datetime"
+msgstr ""
+
+msgid "Get dhcp leases"
+msgstr ""
+
+msgid "Get dhcp leases count"
+msgstr ""
+
+msgid "Get ext_if"
+msgstr ""
+
+msgid "Get if config"
+msgstr ""
+
+msgid "Get int_if"
+msgstr ""
+
+msgid "Get line count"
+msgstr ""
+
+msgid "Get lines"
+msgstr ""
+
+msgid "Get log file"
+msgstr ""
+
+msgid "Get log files list"
+msgstr ""
+
+msgid "Get log start date"
+msgstr ""
+
+msgid "Get logs configuration"
+msgstr ""
+
+msgid "Get module status"
+msgstr ""
+
+msgid "Get partition list"
+msgstr ""
+
+msgid "Get pf info"
+msgstr ""
+
+msgid "Get pf interface info"
+msgstr ""
+
+msgid "Get pf memory info"
+msgstr ""
+
+msgid "Get pf queue info"
+msgstr ""
+
+msgid "Get pf rule files"
+msgstr ""
+
+msgid "Get pf rules"
+msgstr ""
+
+msgid "Get pf rules info"
+msgstr ""
+
+msgid "Get pf state count"
+msgstr ""
+
+msgid "Get pf states"
+msgstr ""
+
+msgid "Get pf timeout info"
+msgstr ""
+
+msgid "Get process list"
+msgstr ""
+
+msgid "Get reload rate"
+msgstr ""
+
+msgid "Get remote time"
+msgstr ""
+
+msgid "Get service start status"
+msgstr ""
+
+msgid "Get service status"
+msgstr ""
+
+msgid "Get software version"
+msgstr ""
+
+msgid "Get stat lines"
+msgstr ""
+
+msgid "Get stats"
+msgstr ""
+
+msgid "Get sysctl values"
+msgstr ""
+
+msgid "Get system admin e-mail address"
+msgstr ""
+
+msgid "Get system gateway"
+msgstr ""
+
+msgid "Get system information"
+msgstr ""
+
+msgid "Get tail"
+msgstr ""
+
+msgid "Host wrong"
+msgstr ""
+
+msgid "Hourly"
+msgstr ""
+
+msgid "IP address wrong"
+msgstr ""
+
+msgid "IP or IP list wrong"
+msgstr ""
+
+msgid "IP range wrong"
+msgstr ""
+
+msgid "IPv4"
+msgstr ""
+
+msgid "IPv6"
+msgstr ""
+
+msgid "In4 Block"
+msgstr ""
+
+msgid "In4 Pass"
+msgstr ""
+
+msgid "In6 Block"
+msgstr ""
+
+msgid "In6 Pass"
+msgstr ""
+
+msgid "Init graphs"
+msgstr ""
+
+msgid "Inserted"
+msgstr ""
+
+msgid "Install pf rules"
+msgstr ""
+
+msgid "Invalid inline rules, parser output"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid value for"
+msgstr ""
+
+msgid "Is notifier enabled"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "List hosts"
+msgstr ""
+
+msgid "List physical interfaces"
+msgstr ""
+
+msgid "Load Error"
+msgstr ""
+
+msgid "Make system gateway dynamic"
+msgstr ""
+
+msgid "Make system gateway static"
+msgstr ""
+
+msgid "Method does not exist"
+msgstr ""
+
+msgid "Multiple values not allowed for"
+msgstr ""
+
+msgid "NI"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Name wrong"
+msgstr ""
+
+msgid "No regex or func def for"
+msgstr ""
+
+msgid "No such file"
+msgstr ""
+
+msgid "Not JSON encoded string"
+msgstr ""
+
+msgid "Not asterisk"
+msgstr ""
+
+msgid "Not boolean"
+msgstr ""
+
+msgid "Not config name"
+msgstr ""
+
+msgid "Not empty string"
+msgstr ""
+
+msgid "Not enough args"
+msgstr ""
+
+msgid "Not running command"
+msgstr ""
+
+msgid "Not serialized array"
+msgstr ""
+
+msgid "Not sha1 encrypted string"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+msgid "Number wrong"
+msgstr ""
+
+msgid "Out4 Block"
+msgstr ""
+
+msgid "Out4 Pass"
+msgstr ""
+
+msgid "Out6 Block"
+msgstr ""
+
+msgid "Out6 Pass"
+msgstr ""
+
+msgid "Output not in correct format"
+msgstr ""
+
+msgid "PID"
+msgstr ""
+
+msgid "Packets"
+msgstr ""
+
+msgid "Parse Error"
+msgstr ""
+
+msgid "Prepare file for download"
+msgstr ""
+
+msgid "Proto"
+msgstr ""
+
+msgid "Queue Length"
+msgstr ""
+
+msgid "RSS"
+msgstr ""
+
+msgid "Reached max nesting for inline anchors"
+msgstr ""
+
+msgid "Read system gateway"
+msgstr ""
+
+msgid "Read system hostname"
+msgstr ""
+
+msgid "Read system nameserver"
+msgstr ""
+
+msgid "Regular expression wrong"
+msgstr ""
+
+msgid "Render layout"
+msgstr ""
+
+msgid "Requests by date"
+msgstr ""
+
+msgid "Required element missing"
+msgstr ""
+
+msgid "Restart network"
+msgstr ""
+
+msgid "Rotate all log files"
+msgstr ""
+
+msgid "Rotate log file"
+msgstr ""
+
+msgid "Rule"
+msgstr ""
+
+msgid "Rules"
+msgstr ""
+
+msgid "Ruleset contains errors"
+msgstr ""
+
+msgid "STAT"
+msgstr ""
+
+msgid "Select log file"
+msgstr ""
+
+msgid "Set DNS forwarders"
+msgstr ""
+
+msgid "Set IP DNS listens on"
+msgstr ""
+
+msgid "Set configuration"
+msgstr ""
+
+msgid "Set default locale"
+msgstr ""
+
+msgid "Set dhcpd conf"
+msgstr ""
+
+msgid "Set e-mail address"
+msgstr ""
+
+msgid "Set force HTTPs"
+msgstr ""
+
+msgid "Set help boxes"
+msgstr ""
+
+msgid "Set interfaces"
+msgstr ""
+
+msgid "Set internal net"
+msgstr ""
+
+msgid "Set log level"
+msgstr ""
+
+msgid "Set logs configuration"
+msgstr ""
+
+msgid "Set man.cgi home"
+msgstr ""
+
+msgid "Set max anchor nesting"
+msgstr ""
+
+msgid "Set name value pair"
+msgstr ""
+
+msgid "Set notifier API key"
+msgstr ""
+
+msgid "Set notifier host"
+msgstr ""
+
+msgid "Set notifier timeout"
+msgstr ""
+
+msgid "Set notify level"
+msgstr ""
+
+msgid "Set pfctl timeout"
+msgstr ""
+
+msgid "Set reload rate"
+msgstr ""
+
+msgid "Set remote time"
+msgstr ""
+
+msgid "Set session timeout"
+msgstr ""
+
+msgid "Set status check interval"
+msgstr ""
+
+msgid "Set symon conf"
+msgstr ""
+
+msgid "Set symon cpus"
+msgstr ""
+
+msgid "Set symon ifs"
+msgstr ""
+
+msgid "Set symon partitions"
+msgstr ""
+
+msgid "Set symon sensors"
+msgstr ""
+
+msgid "Set system clock"
+msgstr ""
+
+msgid "Set system gateway"
+msgstr ""
+
+msgid "Set system hostname"
+msgstr ""
+
+msgid "Set system nameserver"
+msgstr ""
+
+msgid "Set use SSH"
+msgstr ""
+
+msgid "Set user password"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Start "
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "State Creations"
+msgstr ""
+
+msgid "States"
+msgstr ""
+
+msgid "Stop "
+msgstr ""
+
+msgid "String wrong"
+msgstr ""
+
+msgid "System restart"
+msgstr ""
+
+msgid "System shutdown"
+msgstr ""
+
+msgid "Tail number wrong"
+msgstr ""
+
+msgid "Test pf rules"
+msgstr ""
+
+msgid "The process is taking too long, thus will run in the background."
+msgstr ""
+
+msgid "Timed out running pfctl command"
+msgstr ""
+
+msgid "Too many args, truncating"
+msgstr ""
+
+msgid "Turkish"
+msgstr ""
+
+msgid "Turn off service"
+msgstr ""
+
+msgid "Turn on service"
+msgstr ""
+
+msgid "Unconfigure an interface"
+msgstr ""
+
+msgid "Unexpected elements"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Unsupported command"
+msgstr ""
+
+msgid "Unsupported interface configuration"
+msgstr ""
+
+msgid "Update mail aliases"
+msgstr ""
+
+msgid "Url wrong"
+msgstr ""
+
+msgid "VSZ"
+msgstr ""
+
+msgid "Validation Error"
+msgstr ""
+
+msgid "Will not load rules with errors"
+msgstr ""
+
+msgid "Will not test rules with errors"
+msgstr ""
+
+msgid "running"
+msgstr ""
+
+msgid "stopped"
+msgstr ""
+
+msgid "unconfigured"
+msgstr ""

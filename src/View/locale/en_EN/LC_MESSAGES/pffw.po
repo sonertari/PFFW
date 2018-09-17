@@ -1,0 +1,2917 @@
+msgid "%CPU"
+msgstr ""
+
+msgid "%MEM"
+msgstr ""
+
+#, php-format
+msgid "0-100% or 0-1"
+msgstr ""
+
+msgid "1 minute average"
+msgstr ""
+
+msgid "15 minute average"
+msgstr ""
+
+msgid "5 minute average"
+msgstr ""
+
+msgid "< Previous"
+msgstr ""
+
+msgid "<< First"
+msgstr ""
+
+msgid "<MODEL> has CRITICAL errors"
+msgstr ""
+
+msgid "<MODEL> has ERRORs"
+msgstr ""
+
+msgid "<MODEL> has WARNINGs"
+msgstr ""
+
+msgid "<RULE_TYPE> rule"
+msgstr ""
+
+msgid ""
+"<b>Make sure you have applied your changes to network settings system-wide "
+"using automatic configuration button.</b>\n"
+"\n"
+"If you change the IP address of the network interface over which you are "
+"connected to this web user interface, and use the network restart button on "
+"this page, do not forget to change the URL on your web browser accordingly.\n"
+"\n"
+"It is not advised to configure the internal interface as dhcp."
+msgstr ""
+
+msgid "Access Logs"
+msgstr ""
+
+msgid "Act"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Adaptive Timeouts"
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add DHCP interface"
+msgstr ""
+
+msgid "Add filter"
+msgstr ""
+
+msgid "Add host"
+msgstr ""
+
+msgid "Add notifier user"
+msgstr ""
+
+msgid "Address Family"
+msgstr ""
+
+msgid "Admin e-mail"
+msgstr ""
+
+msgid "Advanced Power Management"
+msgstr ""
+
+msgid "Af Translate"
+msgstr ""
+
+msgid "Age"
+msgstr ""
+
+msgid "All"
+msgstr ""
+
+msgid "All attempts"
+msgstr ""
+
+msgid "All monitoring processes write to the same log file."
+msgstr ""
+
+msgid "All queries"
+msgstr ""
+
+msgid "All requests"
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
+
+msgid "All sessions"
+msgstr ""
+
+msgid "Allow Opts"
+msgstr ""
+
+msgid "Allowed requests"
+msgstr ""
+
+msgid ""
+"Analysis of statistical data may take a long time to process. Please be "
+"patient. Also note that if you refresh this page frequently, CPU load may "
+"increase considerably."
+msgstr ""
+
+msgid "Anchor"
+msgstr ""
+
+msgid "And <COUNT> others not shown."
+msgstr ""
+
+msgid "Antispoof"
+msgstr ""
+
+msgid "Apply"
+msgstr ""
+
+msgid "Apply configuration"
+msgstr ""
+
+msgid "Archives"
+msgstr ""
+
+msgid "Are you sure you want to <BUTTON_VALUE> secure HTTP?"
+msgstr ""
+
+msgid "Are you sure you want to delete <RULE_TYPE> rule number <RULE_NUMBER>?"
+msgstr ""
+
+msgid "Are you sure you want to delete the entire ruleset?"
+msgstr ""
+
+msgid "Are you sure you want to delete the rule?"
+msgstr ""
+
+msgid "Are you sure you want to delete the rules file?"
+msgstr ""
+
+msgid "Are you sure you want to erase statistics files?"
+msgstr ""
+
+msgid "Are you sure you want to reinitialize graph files?"
+msgstr ""
+
+msgid "Are you sure you want to restart the <NAME>?"
+msgstr ""
+
+msgid "Are you sure you want to restart the network?"
+msgstr ""
+
+msgid "Are you sure you want to rotate the logs?"
+msgstr ""
+
+msgid "Are you sure you want to set the date?"
+msgstr ""
+
+msgid "Are you sure you want to start the <NAME>?"
+msgstr ""
+
+msgid "Are you sure you want to stop the <NAME>?"
+msgstr ""
+
+msgid "Arg type check failed"
+msgstr ""
+
+msgid "Arp Table"
+msgstr ""
+
+msgid "Arp table lists the active IP addresses in the network."
+msgstr ""
+
+msgid "Assign Priority"
+msgstr ""
+
+msgid "Assign Tag"
+msgstr ""
+
+msgid "Automatic config"
+msgstr ""
+
+msgid "Automatic configuration"
+msgstr ""
+
+msgid ""
+"Automatic configuration completed. You might want to check the details now."
+msgstr ""
+
+msgid "Automatic configuration failed."
+msgstr ""
+
+msgid "Bandwidth"
+msgstr ""
+
+msgid "Banner"
+msgstr ""
+
+msgid "Basic"
+msgstr ""
+
+msgid "Binat"
+msgstr ""
+
+msgid "Blank Line"
+msgstr ""
+
+msgid "Block Option"
+msgstr ""
+
+msgid "Block Policy"
+msgstr ""
+
+msgid "Blocked requests"
+msgstr ""
+
+msgid "Broadcast address"
+msgstr ""
+
+msgid ""
+"Buttons on this page should help you apply the new configuration system-wide "
+"when you change certain system settings or hardware.\n"
+"\n"
+"The web user interface stores statistics under /var/tmp/pffw folder. The "
+"statistics are updated incrementally when new messages are appended to log "
+"files. When user selects a compressed log file for viewing or statistics, "
+"its uncompressed copy is saved under the same folder also. This strategy "
+"greatly improves the performance of Statistics and Logs pages, and enables "
+"other features of the web user interface. Since these statistics and "
+"uncompressed log files may take up a lot of disk space, you are advised to "
+"keep your /var partition as large as possible."
+msgstr ""
+
+msgid "By default, FTP proxy logs connections but not all connection details."
+msgstr ""
+
+msgid ""
+"By default, a simple DNS configuration is provided; only one forwarders is "
+"configured, which you can modify on this page. There are no zone records "
+"defined, and caching is disabled. However, you can obtain a full-featured "
+"DNS server by modifying configuration files."
+msgstr ""
+
+msgid "Bytes"
+msgstr ""
+
+msgid "CGI Server"
+msgstr ""
+
+msgid "COMMAND"
+msgstr ""
+
+msgid "CPU Load"
+msgstr ""
+
+msgid "CPUs"
+msgstr ""
+
+msgid "CRITICAL"
+msgstr ""
+
+msgid "CTLR Logs"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Cannot fork pfctl process"
+msgstr ""
+
+msgid "Cannot generate rule"
+msgstr ""
+
+msgid "Cannot install pf rule file"
+msgstr ""
+
+msgid "Cannot load pf rules"
+msgstr ""
+
+msgid "Cannot remove tmp pf file"
+msgstr ""
+
+msgid "Cannot write to tmp pf file"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid ""
+"Changes to system configuration should be applied system-wide.\n"
+"\n"
+"<b>If you modify basic or network settings, you are advised to use this "
+"button.</b>\n"
+"\n"
+"Internal and external physical interface names are obtained from packet "
+"filter configuration, i.e. int_if and ext_if macros."
+msgstr ""
+
+msgid "Check if process running"
+msgstr ""
+
+msgid "Cleared"
+msgstr ""
+
+msgid "Click to search in the logs"
+msgstr ""
+
+msgid "Click to search in the stats"
+msgstr ""
+
+msgid "Client"
+msgstr ""
+
+msgid "Client IPs"
+msgstr ""
+
+msgid "Clients"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Compressed"
+msgstr ""
+
+msgid "Config"
+msgstr ""
+
+msgid "Configure an interface"
+msgstr ""
+
+msgid "Copyright"
+msgstr ""
+
+msgid "Count"
+msgstr ""
+
+msgid "Create user"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "Critical Error"
+msgstr ""
+
+msgid "Current Password"
+msgstr ""
+
+msgid "DHCP"
+msgstr ""
+
+msgid "DHCP Server"
+msgstr ""
+
+msgid ""
+"DHCP dynamic configuration is used by clients in the internal network to "
+"obtain an IP address and network settings."
+msgstr ""
+
+msgid "DHCP server logs the details of communications with DHCP clients."
+msgstr ""
+
+msgid ""
+"DHCP server supports both dynamic dhcp and bootp protocols. Dynamic leases "
+"can be monitored on this page."
+msgstr ""
+
+msgid "DNS"
+msgstr ""
+
+msgid "DNS Server"
+msgstr ""
+
+msgid ""
+"DNS server logs all name lookups. You should see many requests from the "
+"system itself along with those from internal clients."
+msgstr ""
+
+msgid "DPort"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Data Transfer"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "DateTime"
+msgstr ""
+
+msgid "Datetime wrong"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Defaults"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete All"
+msgstr ""
+
+msgid "Delete DHCP interface"
+msgstr ""
+
+msgid "Delete filter"
+msgstr ""
+
+msgid "Delete host"
+msgstr ""
+
+msgid "Delete notifier user"
+msgstr ""
+
+msgid "Delete pf rule file"
+msgstr ""
+
+msgid "Delete rules file"
+msgstr ""
+
+msgid "Delete ruleset"
+msgstr ""
+
+msgid "Dest"
+msgstr ""
+
+msgid "Destination"
+msgstr ""
+
+msgid "Destination Port"
+msgstr ""
+
+msgid "Destination addresses"
+msgstr ""
+
+msgid "Destination ports"
+msgstr ""
+
+msgid "Dhcpd"
+msgstr ""
+
+msgid "Dir"
+msgstr ""
+
+msgid "Direction"
+msgstr ""
+
+msgid "Disable"
+msgstr ""
+
+msgid "Disable config"
+msgstr ""
+
+msgid "Disable notifier"
+msgstr ""
+
+msgid "Disable notifier SSL verify peer"
+msgstr ""
+
+msgid "Disabled Services"
+msgstr ""
+
+msgid "Disk I/O"
+msgstr ""
+
+msgid "Disks"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Display & Install"
+msgstr ""
+
+msgid "Display line numbers"
+msgstr ""
+
+msgid "Display remote time"
+msgstr ""
+
+msgid "Display with errors"
+msgstr ""
+
+msgid "Divert"
+msgstr ""
+
+msgid "Divert Host"
+msgstr ""
+
+msgid "Divert Packet"
+msgstr ""
+
+msgid "Divert Port"
+msgstr ""
+
+msgid "Divert Reply"
+msgstr ""
+
+msgid "Documentation"
+msgstr ""
+
+msgid "Domain"
+msgstr ""
+
+msgid "Domains"
+msgstr ""
+
+msgid "Download"
+msgstr ""
+
+msgid "Download ruleset"
+msgstr ""
+
+msgid "Download with errors"
+msgstr ""
+
+msgid "Downloaded (KB)"
+msgstr ""
+
+msgid "Dropped Bytes"
+msgstr ""
+
+msgid "Dropped Packets"
+msgstr ""
+
+msgid "DstIP"
+msgstr ""
+
+msgid "E-mail address wrong"
+msgstr ""
+
+msgid "ERROR"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit <RULE_TYPE> Rule <RULE_NUMBER>"
+msgstr ""
+
+msgid "Editor"
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "Enable Source Track"
+msgstr ""
+
+msgid "Enable config"
+msgstr ""
+
+msgid "Enable notifier"
+msgstr ""
+
+msgid "Enable notifier SSL verify peer"
+msgstr ""
+
+msgid "Enabled Services"
+msgstr ""
+
+msgid "End"
+msgstr ""
+
+msgid "Enforce TOS"
+msgstr ""
+
+msgid "English"
+msgstr ""
+
+msgid "Enter blank lines here"
+msgstr ""
+
+msgid "Enter comment here"
+msgstr ""
+
+msgid "Enter inline rules here"
+msgstr ""
+
+msgid "Erase statistics files"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Error in include file"
+msgstr ""
+
+msgid "Error loading, rule load forced"
+msgstr ""
+
+msgid "Error loading, rule loaded partially"
+msgstr ""
+
+msgid "Evaluations"
+msgstr ""
+
+msgid "Expire"
+msgstr ""
+
+msgid "Export To pflow"
+msgstr ""
+
+msgid "Expr"
+msgstr ""
+
+msgid "External Interface"
+msgstr ""
+
+msgid "External interface"
+msgstr ""
+
+msgid "FAILED"
+msgstr ""
+
+msgid "FTP PROXY"
+msgstr ""
+
+msgid "FTP Proxy"
+msgstr ""
+
+msgid "Failed attempts"
+msgstr ""
+
+msgid "Failed creating or attaching to message queue"
+msgstr ""
+
+msgid "Failed deleting"
+msgstr ""
+
+msgid "Failed downloading, cannot generate pf rules"
+msgstr ""
+
+msgid "Failed loading"
+msgstr ""
+
+msgid "Failed loading main pf rules"
+msgstr ""
+
+msgid "Failed loading pf rules"
+msgstr ""
+
+msgid "Failed queries"
+msgstr ""
+
+msgid "Failed removing message queue"
+msgstr ""
+
+msgid "Failed running pfctl command"
+msgstr ""
+
+msgid "Failed saving"
+msgstr ""
+
+msgid "Failed testing pf rules"
+msgstr ""
+
+msgid "Failed testing ruleset"
+msgstr ""
+
+msgid "Failed uploading"
+msgstr ""
+
+msgid "Failed users"
+msgstr ""
+
+msgid "Failure reason"
+msgstr ""
+
+msgid "Fan"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "File uploaded"
+msgstr ""
+
+msgid "Filename not accepted"
+msgstr ""
+
+msgid "Filepath wrong"
+msgstr ""
+
+msgid "Filter"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "Fingerprints File"
+msgstr ""
+
+msgid "Flag"
+msgstr ""
+
+msgid "Flags"
+msgstr ""
+
+msgid "Flows"
+msgstr ""
+
+msgid "Force HTTPs"
+msgstr ""
+
+msgid ""
+"Forwarder is the IP address of a DNS server that the system itself queries. "
+"In simple setups, this is usually the IP address of a DSL modem which "
+"functions as gateway to the Internet."
+msgstr ""
+
+msgid "Forwarders"
+msgstr ""
+
+msgid "Fragment"
+msgstr ""
+
+msgid "Frags"
+msgstr ""
+
+msgid "From Redirect Host"
+msgstr ""
+
+msgid "Function"
+msgstr ""
+
+msgid "GROUP"
+msgstr ""
+
+msgid "Gateway"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "General Statistics"
+msgstr ""
+
+msgid "Generate pf rule"
+msgstr ""
+
+msgid "Generate pf rules"
+msgstr ""
+
+msgid "Generate with errors"
+msgstr ""
+
+msgid "Get DHCP IP range"
+msgstr ""
+
+msgid "Get DHCP interfaces"
+msgstr ""
+
+msgid "Get DHCP option"
+msgstr ""
+
+msgid "Get DNS forwarders"
+msgstr ""
+
+msgid "Get IP DNS listens on"
+msgstr ""
+
+msgid "Get all stats"
+msgstr ""
+
+msgid "Get arp table"
+msgstr ""
+
+msgid "Get arp table size"
+msgstr ""
+
+msgid "Get config values"
+msgstr ""
+
+msgid "Get configuration"
+msgstr ""
+
+msgid "Get critical errors"
+msgstr ""
+
+msgid "Get datetime"
+msgstr ""
+
+msgid "Get dhcp leases"
+msgstr ""
+
+msgid "Get dhcp leases count"
+msgstr ""
+
+msgid "Get ext_if"
+msgstr ""
+
+msgid "Get if config"
+msgstr ""
+
+msgid "Get int_if"
+msgstr ""
+
+msgid "Get line count"
+msgstr ""
+
+msgid "Get lines"
+msgstr ""
+
+msgid "Get log file"
+msgstr ""
+
+msgid "Get log files list"
+msgstr ""
+
+msgid "Get log start date"
+msgstr ""
+
+msgid "Get logs configuration"
+msgstr ""
+
+msgid "Get module status"
+msgstr ""
+
+msgid "Get partition list"
+msgstr ""
+
+msgid "Get pf info"
+msgstr ""
+
+msgid "Get pf interface info"
+msgstr ""
+
+msgid "Get pf memory info"
+msgstr ""
+
+msgid "Get pf queue info"
+msgstr ""
+
+msgid "Get pf rule files"
+msgstr ""
+
+msgid "Get pf rules"
+msgstr ""
+
+msgid "Get pf rules info"
+msgstr ""
+
+msgid "Get pf state count"
+msgstr ""
+
+msgid "Get pf states"
+msgstr ""
+
+msgid "Get pf timeout info"
+msgstr ""
+
+msgid "Get process list"
+msgstr ""
+
+msgid "Get reload rate"
+msgstr ""
+
+msgid "Get remote time"
+msgstr ""
+
+msgid "Get service start status"
+msgstr ""
+
+msgid "Get service status"
+msgstr ""
+
+msgid "Get software version"
+msgstr ""
+
+msgid "Get stat lines"
+msgstr ""
+
+msgid "Get stats"
+msgstr ""
+
+msgid "Get sysctl values"
+msgstr ""
+
+msgid "Get system admin e-mail address"
+msgstr ""
+
+msgid "Get system gateway"
+msgstr ""
+
+msgid "Get system information"
+msgstr ""
+
+msgid "Get tail"
+msgstr ""
+
+msgid "Graph files"
+msgstr ""
+
+msgid "Graphs"
+msgstr ""
+
+msgid ""
+"Graphs on this web user interface are generated by these monitoring "
+"processes. Settings of these software are handled by automatic configuration."
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "HTTP Codes"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Help Boxes"
+msgstr ""
+
+msgid ""
+"Here you can change the web administration interface passwords for admin and "
+"user. Passwords should have at least 8 alphanumeric characters.\n"
+"\n"
+"Admin can change the user password without knowing the current user "
+"password. But if you forget the admin password, you should login to the "
+"system as root and run the following on the command line to set the password "
+"to soner123:\n"
+"<code>/usr/bin/chpass -a \"admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | "
+"sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh\"</code>"
+msgstr ""
+
+msgid ""
+"Here you can enable or disable the Packet Filter. Note that most services "
+"depend on the packet filter being enabled."
+msgstr ""
+
+msgid ""
+"Here you can reinitialize, hence erase all accumulated data in graph source "
+"files.\n"
+"\n"
+"This may be necessary if these files are corrupted and you cannot see any "
+"graphs displayed, such as when the system clock is set to a very distant "
+"time."
+msgstr ""
+
+msgid ""
+"Here you can rotate all log files manually. Note that this action forcefully "
+"rotates all log files irrespective of the configuration displayed on this "
+"page. Normally this should not be necessary."
+msgstr ""
+
+msgid "Horizontal"
+msgstr ""
+
+msgid "Host"
+msgstr ""
+
+msgid "Host Id"
+msgstr ""
+
+msgid "Host wrong"
+msgstr ""
+
+msgid "Hostname"
+msgstr ""
+
+msgid "Hosts"
+msgstr ""
+
+msgid "Hour"
+msgstr ""
+
+msgid "Hourly"
+msgstr ""
+
+msgid "ICMP Timeouts"
+msgstr ""
+
+msgid "ICMP Type"
+msgstr ""
+
+msgid "ICMP6 Type"
+msgstr ""
+
+msgid "INFORMATION"
+msgstr ""
+
+msgid "IP"
+msgstr ""
+
+msgid "IP Forwarding"
+msgstr ""
+
+msgid "IP address wrong"
+msgstr ""
+
+msgid "IP or IP list wrong"
+msgstr ""
+
+msgid "IP range"
+msgstr ""
+
+msgid "IP range wrong"
+msgstr ""
+
+msgid "IPs querying"
+msgstr ""
+
+msgid "IPv4"
+msgstr ""
+
+msgid "IPv6"
+msgstr ""
+
+msgid "Id"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If"
+msgstr ""
+
+msgid ""
+"If enabled, authentication pages are forced to use secure connections. Make "
+"sure you have a working SSL setup in the web server configuration, otherwise "
+"you cannot even log in to the web user interface. It is advised to use "
+"secure HTTP."
+msgstr ""
+
+msgid ""
+"If you are not seeing as many number of lines as you were expecting, this "
+"may be because the log file has turned over and put in a compressed archive "
+"file.\n"
+"\n"
+"You can search the logs by entering keywords or extended regular expressions "
+"in Regexp box. Regular expressions are de-facto standard for text searching."
+msgstr ""
+
+msgid ""
+"If you modify network configuration, you can use this button to restart the "
+"network."
+msgstr ""
+
+msgid ""
+"If your system has a multi-core CPU or more than one CPU, you can run the "
+"SMP kernel. If this page does not display multiple graphs, one for each CPU, "
+"after you switch to the SMP kernel, go to system configuration pages, apply "
+"automatic configuration, and reinitialize graph files."
+msgstr ""
+
+msgid ""
+"In these manual pages, you can find extensive information about the system "
+"and services."
+msgstr ""
+
+msgid "In4 Block"
+msgstr ""
+
+msgid "In4 Pass"
+msgstr ""
+
+msgid "In6 Block"
+msgstr ""
+
+msgid "In6 Pass"
+msgstr ""
+
+msgid "Include"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Init"
+msgstr ""
+
+msgid "Init graphs"
+msgstr ""
+
+msgid "Inline Rules"
+msgstr ""
+
+msgid ""
+"Inline anchor rules can be nested. It is advised to limit the number of "
+"nesting allowed. Parsing and validation stop at this many number of nesting."
+msgstr ""
+
+msgid "Inline rules"
+msgstr ""
+
+msgid "Inserted"
+msgstr ""
+
+msgid "Install"
+msgstr ""
+
+msgid "Install as main ruleset"
+msgstr ""
+
+msgid "Install pf rules"
+msgstr ""
+
+msgid "Installed successfully"
+msgstr ""
+
+msgid "Interface"
+msgstr ""
+
+msgid "Interface Binding"
+msgstr ""
+
+msgid "Interfaces"
+msgstr ""
+
+msgid "Internal Interface"
+msgstr ""
+
+msgid ""
+"Internal clients connect to FTP servers on the external network via this FTP "
+"proxy. Since FTP protocol makes use of ports other than the ftp ports, "
+"allowing requests to ftp ports only is not enough. You need to run an FTP "
+"proxy."
+msgstr ""
+
+msgid "Internal interface"
+msgstr ""
+
+msgid "Interval"
+msgstr ""
+
+msgid "Invalid destination rule number"
+msgstr ""
+
+msgid "Invalid inline rules, parser output"
+msgstr ""
+
+msgid "Invalid rule number"
+msgstr ""
+
+msgid "Invalid value"
+msgstr ""
+
+msgid "Invalid value for"
+msgstr ""
+
+msgid "Is notifier enabled"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Last >>"
+msgstr ""
+
+msgid "Leases"
+msgstr ""
+
+msgid "Limit"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Line number"
+msgstr ""
+
+msgid "Lines per page"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "Links"
+msgstr ""
+
+msgid "List hosts"
+msgstr ""
+
+msgid "List physical interfaces"
+msgstr ""
+
+msgid "Listen Address"
+msgstr ""
+
+msgid "Listen on"
+msgstr ""
+
+msgid "Live"
+msgstr ""
+
+msgid "Load"
+msgstr ""
+
+msgid "Load & Save"
+msgstr ""
+
+msgid "Load Anchor"
+msgstr ""
+
+msgid "Load Error"
+msgstr ""
+
+msgid "Load rules from file"
+msgstr ""
+
+msgid "Load ruleset"
+msgstr ""
+
+msgid "Load with errors"
+msgstr ""
+
+msgid "Log"
+msgstr ""
+
+msgid "Log Interface"
+msgstr ""
+
+msgid "Log Level"
+msgstr ""
+
+msgid ""
+"Log files are rotated according to two main criteria: size and time, "
+"whichever is reached first. When a log file is rotated, it is renamed and "
+"compressed, and a new one is opened for writing.\n"
+"<ul><li>Count is the maximum number of compressed log files to keep.</"
+"li><li>Size is the maximum file size. The log file will be rotated when its "
+"file size reaches this value. The unit is KB.</li><li>When defines the "
+"frequency interval of rotation. This is in hours. For example, 168 means "
+"once each week. This web user interface supports only interval format, not "
+"time format for this setting.</li></ul>Asterisk (*) means don't care.\n"
+"\n"
+"Note that log files contain very important information about system and "
+"network activity. Statistics are generated over these log files."
+msgstr ""
+
+msgid "Log in"
+msgstr ""
+
+msgid ""
+"Log keeping capacity of PFFW is limited only by the size of the disks on "
+"your system.\n"
+"\n"
+"If you are not seeing as many number of lines as you were expecting, this "
+"may be because the log file has turned over and put in a compressed archive "
+"file. The default maximum number of archive files for most services is 100, "
+"and can be configured on the system configuration pages. Depending on how "
+"busy a service it is, this many log archives may mean months of logging in "
+"most cases. You can download the log files using the Download button.\n"
+"\n"
+"You can search the logs by entering keywords or extended regular expressions "
+"in Regexp box. Regular expressions are de-facto standard for text searching."
+msgstr ""
+
+msgid "Logged in user"
+msgstr ""
+
+msgid "Logging"
+msgstr ""
+
+msgid "Login Grace Time"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+msgid "Loopback Interface"
+msgstr ""
+
+msgid "Loopback is a logical interface."
+msgstr ""
+
+msgid "MAC"
+msgstr ""
+
+msgid "MONITORING"
+msgstr ""
+
+msgid "Machine"
+msgstr ""
+
+msgid "Macro"
+msgstr ""
+
+msgid "Main pf rules reloaded"
+msgstr ""
+
+msgid "Make Dynamic"
+msgstr ""
+
+msgid "Make Static"
+msgstr ""
+
+msgid "Make system gateway dynamic"
+msgstr ""
+
+msgid "Make system gateway static"
+msgstr ""
+
+msgid "Match All"
+msgstr ""
+
+msgid "Match Priority"
+msgstr ""
+
+msgid "Match TOS"
+msgstr ""
+
+msgid "Match Tagged"
+msgstr ""
+
+msgid "Matched requests"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Max Addresses"
+msgstr ""
+
+msgid "Max Anchor Nesting"
+msgstr ""
+
+msgid "Max Auth Tries"
+msgstr ""
+
+msgid "Max Connection"
+msgstr ""
+
+msgid "Max Connection Rate"
+msgstr ""
+
+msgid "Max MSS"
+msgstr ""
+
+msgid "Max Packet Rate"
+msgstr ""
+
+msgid "Max Single Host States"
+msgstr ""
+
+msgid "Max States"
+msgstr ""
+
+msgid "Max-mss"
+msgstr ""
+
+msgid "MaxStartups"
+msgstr ""
+
+msgid "Mbuf Statistics"
+msgstr ""
+
+msgid "Mbufs"
+msgstr ""
+
+msgid "Mbufs indicate kernel memory management for networking."
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "Memory Usage"
+msgstr ""
+
+msgid "Method does not exist"
+msgstr ""
+
+msgid "Methods"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Min TTL"
+msgstr ""
+
+msgid "Min-ttl"
+msgstr ""
+
+msgid "Minute"
+msgstr ""
+
+msgid "Module Status"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Motherboard"
+msgstr ""
+
+msgid "Move"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Mtd"
+msgstr ""
+
+msgid "Multiple values not allowed for"
+msgstr ""
+
+msgid "NI"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Name server"
+msgstr ""
+
+msgid "Name wrong"
+msgstr ""
+
+msgid "Nameserver"
+msgstr ""
+
+msgid "Nat"
+msgstr ""
+
+msgid "Needle"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Network Protocol Usage"
+msgstr ""
+
+msgid "Network Time"
+msgstr ""
+
+msgid ""
+"Network interfaces are listed here. You can configure an interface as dhcp "
+"or inet. Changes made here do not take effect until you restart the network "
+"or reboot the system."
+msgstr ""
+
+msgid "New Password"
+msgstr ""
+
+msgid "New Password Again"
+msgstr ""
+
+msgid ""
+"New system hostname does not fully take effect until after reboot.\n"
+"\n"
+"Messages to the system administrator are directly transfered to the mail "
+"server hosting the e-mail address you have provided above. The remote mail "
+"server may consider e-mails sent from this system as spam, and move them "
+"into your spam or junk folder."
+msgstr ""
+
+msgid "Next >"
+msgstr ""
+
+msgid "No Errors"
+msgstr ""
+
+msgid "No Queues defined"
+msgstr ""
+
+msgid "No default banner path"
+msgstr ""
+
+msgid "No pfsync"
+msgstr ""
+
+msgid "No regex or func def for"
+msgstr ""
+
+msgid "No such file"
+msgstr ""
+
+msgid "Not JSON encoded string"
+msgstr ""
+
+msgid "Not a valid password"
+msgstr ""
+
+msgid "Not asterisk"
+msgstr ""
+
+msgid "Not boolean"
+msgstr ""
+
+msgid "Not config name"
+msgstr ""
+
+msgid "Not empty string"
+msgstr ""
+
+msgid "Not enough args"
+msgstr ""
+
+msgid "Not running command"
+msgstr ""
+
+msgid "Not serialized array"
+msgstr ""
+
+msgid "Not sha1 encrypted string"
+msgstr ""
+
+msgid "Notification Service"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Notifier"
+msgstr ""
+
+msgid "Notifier API Key"
+msgstr ""
+
+msgid "Notifier Timeout"
+msgstr ""
+
+msgid ""
+"Notifier runs every minute to check the system status and send Firebase push "
+"notifications based on the settings on this page. You can change the "
+"frequency of notifications on the crontab of root.\n"
+"\n"
+"When the user logs in to the mobile application, the application "
+"automatically adds its device token to the registration ids displayed on "
+"this page. And it deletes its token when the user logs out. So the "
+"notifications are sent to that device only while the user is logged in to "
+"the application. You can manually add or delete tokens on this page."
+msgstr ""
+
+msgid ""
+"Notifier times out trying to connect to the notification server after a "
+"period defined by this value. The unit is in seconds."
+msgstr ""
+
+msgid "Notify Level"
+msgstr ""
+
+msgid "Number"
+msgstr ""
+
+msgid "Number of Processes"
+msgstr ""
+
+msgid "Number of lines"
+msgstr ""
+
+msgid "Number of processes"
+msgstr ""
+
+msgid ""
+"Number of servers to start initially --- should be a reasonable ballpark "
+"figure."
+msgstr ""
+
+msgid "Number wrong"
+msgstr ""
+
+msgid "OPENSSH"
+msgstr ""
+
+msgid "OS"
+msgstr ""
+
+msgid "Obsoletes QuietMode and FascistLogging"
+msgstr ""
+
+msgid "Once"
+msgstr ""
+
+msgid "OpenSSH"
+msgstr ""
+
+msgid ""
+"OpenSSH is the de-facto standard secure shell. If you stop OpenSSH, you "
+"cannot establish shell connections to the system remotely."
+msgstr ""
+
+msgid ""
+"OpenSSH logs detailed information on all connections, successful logins and "
+"failures. Also provided are warnings based on reverse DNS lookups."
+msgstr ""
+
+msgid "Operating System"
+msgstr ""
+
+msgid "Optimization"
+msgstr ""
+
+msgid "Option"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Other Timeouts"
+msgstr ""
+
+msgid "Out4 Block"
+msgstr ""
+
+msgid "Out4 Pass"
+msgstr ""
+
+msgid "Out6 Block"
+msgstr ""
+
+msgid "Out6 Pass"
+msgstr ""
+
+msgid "Output not in correct format"
+msgstr ""
+
+msgid "Overload"
+msgstr ""
+
+msgid "Override default of no subsystems"
+msgstr ""
+
+msgid "PACKET FILTER"
+msgstr ""
+
+msgid "PF FIREWALL"
+msgstr ""
+
+msgid "PF Firewall"
+msgstr ""
+
+msgid ""
+"PFFW logs errors, warnings, notices, and debug messages. Since also recorded "
+"are changes to configuration and passwords, you may want to monitor these "
+"logs carefully. These logs are also important while reporting issues related "
+"to the web user interface. Logs on this page are generated by the Controller "
+"and the Model, middle and bottom layers of software responsible for "
+"processing requests from the View."
+msgstr ""
+
+msgid ""
+"PFFW logs errors, warnings, notices, and debug messages. Since also recorded "
+"are changes to configuration and passwords, you may want to monitor these "
+"logs carefully. These logs are also important while reporting issues related "
+"to the web user interface. Logs on this page are generated by the View, main "
+"module responsible for displaying the web user interface and interacting "
+"with the user."
+msgstr ""
+
+msgid ""
+"PFFW runs many services or daemons in default installation. On this page you "
+"can configure these services to start at boot time.\n"
+"\n"
+"Note that if you modify startup configuration for some services, you may "
+"need to change packet filter rules or other related settings too."
+msgstr ""
+
+msgid ""
+"PFFW sends warning and information messages to its system administrator. "
+"Here you can type in your own e-mail address."
+msgstr ""
+
+msgid "PHP FastCGI Server"
+msgstr ""
+
+msgid "PID"
+msgstr ""
+
+msgid "PRI"
+msgstr ""
+
+msgid "Packet Filter"
+msgstr ""
+
+msgid "Packet types"
+msgstr ""
+
+msgid "Packets"
+msgstr ""
+
+msgid "Page start line"
+msgstr ""
+
+msgid "Parent"
+msgstr ""
+
+msgid "Parse Error"
+msgstr ""
+
+msgid "Partitions"
+msgstr ""
+
+msgid "Partitions Usages"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
+msgid "Permit Empty Passwords"
+msgstr ""
+
+msgid "Permit Root Login"
+msgstr ""
+
+msgid "Pf"
+msgstr ""
+
+msgid "Pfctl Timeout"
+msgstr ""
+
+msgid ""
+"Pfctl commands are executed in a separate process, which returns pfctl "
+"output in a message. Parent process times out waiting for an output message "
+"after this many seconds. This approach is necessary in case pfctl is stuck "
+"or taking too long (and it is in certain cases).\n"
+"\n"
+"<b>Setting this timeout to 0 may fail the execution of all pfctl commands, "
+"effectively disabling rule tests.<b>"
+msgstr ""
+
+msgid "Physical Memory"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Prepare file for download"
+msgstr ""
+
+msgid "Print Last Log"
+msgstr ""
+
+msgid "Print Motd"
+msgstr ""
+
+msgid "Prio"
+msgstr ""
+
+msgid "Probability"
+msgstr ""
+
+msgid "Process"
+msgstr ""
+
+msgid "Process CPU Load"
+msgstr ""
+
+msgid "Processes"
+msgstr ""
+
+msgid "Processor"
+msgstr ""
+
+msgid "Proto"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "Qlimit"
+msgstr ""
+
+msgid "Quantum"
+msgstr ""
+
+msgid "Query types"
+msgstr ""
+
+msgid "Queue"
+msgstr ""
+
+msgid "Queue Length"
+msgstr ""
+
+msgid "Queues"
+msgstr ""
+
+msgid "Quick"
+msgstr ""
+
+msgid "RSS"
+msgstr ""
+
+msgid "Reached max nesting for inline anchors"
+msgstr ""
+
+msgid "Read system gateway"
+msgstr ""
+
+msgid "Read system hostname"
+msgstr ""
+
+msgid "Read system nameserver"
+msgstr ""
+
+msgid "Reason"
+msgstr ""
+
+msgid "Reassemble"
+msgstr ""
+
+msgid "Received on Interface"
+msgstr ""
+
+msgid "Redirect"
+msgstr ""
+
+msgid "Redirect Address Family"
+msgstr ""
+
+msgid "Redirect Host"
+msgstr ""
+
+msgid "Redirect Options"
+msgstr ""
+
+msgid "Redirect Port"
+msgstr ""
+
+msgid "Redraw"
+msgstr ""
+
+msgid "Refresh interval"
+msgstr ""
+
+msgid "Regexp"
+msgstr ""
+
+msgid "Registration IDs"
+msgstr ""
+
+msgid "Regular expression wrong"
+msgstr ""
+
+msgid "Reinitialize"
+msgstr ""
+
+msgid "Reload"
+msgstr ""
+
+msgid "Reload Rate"
+msgstr ""
+
+msgid "Reload main ruleset"
+msgstr ""
+
+msgid "Render layout"
+msgstr ""
+
+msgid "Requests by date"
+msgstr ""
+
+msgid "Required element missing"
+msgstr ""
+
+msgid "Resource not available"
+msgstr ""
+
+msgid "Restart"
+msgstr ""
+
+msgid "Restart network"
+msgstr ""
+
+msgid "Rotate"
+msgstr ""
+
+msgid "Rotate All"
+msgstr ""
+
+msgid "Rotate all log files"
+msgstr ""
+
+msgid "Rotate log file"
+msgstr ""
+
+msgid "Route"
+msgstr ""
+
+msgid "Route Host"
+msgstr ""
+
+msgid "Route Type"
+msgstr ""
+
+msgid "Routing Table"
+msgstr ""
+
+msgid "Rule"
+msgstr ""
+
+msgid "Rule number"
+msgstr ""
+
+msgid "Rule test failed without an error message"
+msgstr ""
+
+msgid "Rules"
+msgstr ""
+
+msgid "Rules file"
+msgstr ""
+
+msgid "Rules file deleted"
+msgstr ""
+
+msgid "Rules loaded"
+msgstr ""
+
+msgid "Ruleset Optimization"
+msgstr ""
+
+msgid "Ruleset contains errors"
+msgstr ""
+
+msgid "Ruleset deleted"
+msgstr ""
+
+msgid "Running"
+msgstr ""
+
+msgid "SPort"
+msgstr ""
+
+msgid "SSH version"
+msgstr ""
+
+msgid "SSL Verify Peer"
+msgstr ""
+
+msgid "STARTED"
+msgstr ""
+
+msgid "STAT"
+msgstr ""
+
+msgid "SYSTEM"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Save ruleset"
+msgstr ""
+
+msgid "Save ruleset to file"
+msgstr ""
+
+msgid "Save with errors"
+msgstr ""
+
+msgid "Saved"
+msgstr ""
+
+msgid "Scrub"
+msgstr ""
+
+msgid "Scrub Options"
+msgstr ""
+
+msgid "Secure Level"
+msgstr ""
+
+msgid "Select Option Type"
+msgstr ""
+
+msgid "Select log file"
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "Send notifications."
+msgstr ""
+
+msgid "Sensors"
+msgstr ""
+
+msgid "Serial Number"
+msgstr ""
+
+msgid "Server"
+msgstr ""
+
+msgid "Server Key Bits"
+msgstr ""
+
+msgid "Session Timeout"
+msgstr ""
+
+msgid "Set DNS forwarders"
+msgstr ""
+
+msgid "Set IP DNS listens on"
+msgstr ""
+
+msgid "Set configuration"
+msgstr ""
+
+msgid "Set default locale"
+msgstr ""
+
+msgid "Set dhcpd conf"
+msgstr ""
+
+msgid "Set e-mail address"
+msgstr ""
+
+msgid "Set force HTTPs"
+msgstr ""
+
+msgid "Set help boxes"
+msgstr ""
+
+msgid "Set interfaces"
+msgstr ""
+
+msgid "Set internal net"
+msgstr ""
+
+msgid "Set log level"
+msgstr ""
+
+msgid "Set logs configuration"
+msgstr ""
+
+msgid "Set man.cgi home"
+msgstr ""
+
+msgid "Set max anchor nesting"
+msgstr ""
+
+msgid "Set name value pair"
+msgstr ""
+
+msgid "Set notifier API key"
+msgstr ""
+
+msgid "Set notifier host"
+msgstr ""
+
+msgid "Set notifier timeout"
+msgstr ""
+
+msgid "Set notify level"
+msgstr ""
+
+msgid "Set pfctl timeout"
+msgstr ""
+
+msgid "Set reload rate"
+msgstr ""
+
+msgid "Set remote time"
+msgstr ""
+
+msgid "Set session timeout"
+msgstr ""
+
+msgid "Set status check interval"
+msgstr ""
+
+msgid "Set symon conf"
+msgstr ""
+
+msgid "Set symon cpus"
+msgstr ""
+
+msgid "Set symon ifs"
+msgstr ""
+
+msgid "Set symon partitions"
+msgstr ""
+
+msgid "Set symon sensors"
+msgstr ""
+
+msgid "Set system clock"
+msgstr ""
+
+msgid "Set system gateway"
+msgstr ""
+
+msgid "Set system hostname"
+msgstr ""
+
+msgid "Set system nameserver"
+msgstr ""
+
+msgid "Set use SSH"
+msgstr ""
+
+msgid "Set user password"
+msgstr ""
+
+msgid "Show"
+msgstr ""
+
+msgid ""
+"Since this web administration interface runs on the web server, you should "
+"be careful while modifying its options. By default, the web server is "
+"configured to serve this web interface only, hence the default values should "
+"suffice for most purposes."
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Size (KB)"
+msgstr ""
+
+msgid "Size by IP (KB)"
+msgstr ""
+
+msgid "Size by Link (KB)"
+msgstr ""
+
+msgid "Skip Interfaces"
+msgstr ""
+
+msgid "Sloppy Tracker"
+msgstr ""
+
+msgid "Software Version"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Source Port"
+msgstr ""
+
+msgid "Source Track Timeout"
+msgstr ""
+
+msgid "Source addresses"
+msgstr ""
+
+msgid "Source->Destination"
+msgstr ""
+
+msgid "Src Nodes"
+msgstr ""
+
+msgid "SrcIP"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "Start "
+msgstr ""
+
+msgid "Start Servers"
+msgstr ""
+
+msgid "Startup"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "State Creations"
+msgstr ""
+
+msgid "State Defaults"
+msgstr ""
+
+msgid "State Policy"
+msgstr ""
+
+msgid "State Searches vs Packets"
+msgstr ""
+
+msgid "State Statistics"
+msgstr ""
+
+msgid ""
+"State operations are perhaps the most meaningful measure of packet filter "
+"load."
+msgstr ""
+
+msgid "Stateful Filtering"
+msgstr ""
+
+msgid "States"
+msgstr ""
+
+msgid "Static Port"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "Statistics and uncompressed log files"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Status Check Interval"
+msgstr ""
+
+msgid "Stop "
+msgstr ""
+
+msgid "Stopped"
+msgstr ""
+
+msgid "String wrong"
+msgstr ""
+
+msgid "Subnet mask"
+msgstr ""
+
+msgid "Subsystem sftp"
+msgstr ""
+
+msgid "Successful logins"
+msgstr ""
+
+msgid "Symon"
+msgstr ""
+
+msgid "Symon System Monitoring"
+msgstr ""
+
+msgid "Symux"
+msgstr ""
+
+msgid "Symux System Monitoring"
+msgstr ""
+
+msgid "Syncookies"
+msgstr ""
+
+msgid "Syslog Facility"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "System is going down..."
+msgstr ""
+
+msgid "System is restarting..."
+msgstr ""
+
+msgid "System restart"
+msgstr ""
+
+msgid "System shutdown"
+msgstr ""
+
+msgid "TCP Flags"
+msgstr ""
+
+msgid "TCP Keep Alive"
+msgstr ""
+
+msgid "TCP Timeouts"
+msgstr ""
+
+msgid "TIME"
+msgstr ""
+
+msgid "Table"
+msgstr ""
+
+msgid "Table Entries"
+msgstr ""
+
+msgid "Tables"
+msgstr ""
+
+msgid "Tail number wrong"
+msgstr ""
+
+msgid "Temperature"
+msgstr ""
+
+msgid "Test pf rules"
+msgstr ""
+
+msgid ""
+"Thanks to OpenSSH, remote root login to the system is permitted by default. "
+"TCP Keep Alive and Use DNS options may help you resolve some issues."
+msgstr ""
+
+msgid "The Firebase API key for the project, i.e. the Android application."
+msgstr ""
+
+msgid "The IP address that the DNS server listens on."
+msgstr ""
+
+msgid "The URL of the Firebase notification service."
+msgstr ""
+
+msgid "The process is taking too long, thus will run in the background."
+msgstr ""
+
+msgid ""
+"The strategy used for options in the default sshd_config shipped with "
+"OpenSSH is to specify options with their default value where possible, but "
+"leave them commented.  Uncommented options change a default value."
+msgstr ""
+
+msgid "The system will send notifications to these devices."
+msgstr ""
+
+msgid ""
+"The system will send service statuses containing one of these keywords only."
+msgstr ""
+
+msgid "There was an error while installing"
+msgstr ""
+
+msgid "These are interface statistics reported by pf."
+msgstr ""
+
+msgid "These are queue statistics reported by pf."
+msgstr ""
+
+msgid ""
+"These are the access logs of OpenBSD/httpd. Logs contain client IP addresses "
+"and pages accessed."
+msgstr ""
+
+msgid ""
+"These are the active rules loaded into pf. Note that the rule numbers "
+"reported here do not necessarily match with the numbers on the rule editor."
+msgstr ""
+
+msgid ""
+"These defaults are permanently stored in web user interface settings, i.e. "
+"they are <em>not</em> specific to your current session only."
+msgstr ""
+
+msgid ""
+"These graphs show network usage per host. From top to bottom, host usage "
+"graphs are for the last hour, last 8-hour, daily, weekly, and monthly usages."
+msgstr ""
+
+msgid "These logs may be important for diagnosing web server related problems."
+msgstr ""
+
+msgid ""
+"This button allows you to delete all the statistics and uncompressed log "
+"files created by this user interface. Note that deleting these files does "
+"not mean that accumulated statistics are lost forever. <b>Original log files "
+"under /var/log folder are not affected by this action</b> either. These "
+"files will be recreated, and statistics will be recollected, the next time "
+"you access Statistics or Logs pages."
+msgstr ""
+
+msgid ""
+"This graph shows overall network usage based on certain protocols. Note that "
+"each protocol may cover more than one port."
+msgstr ""
+
+msgid ""
+"This graph shows the data transfer rate of packet filter. The transfer is "
+"between interfaces."
+msgstr ""
+
+msgid ""
+"This is the DNS server internal clients use. The default is the internal IP "
+"address of the system."
+msgstr ""
+
+msgid ""
+"This is the default gateway used by the system to reach the Internet, and "
+"may have been assigned dynamically. You can make your gateway configuration "
+"static or dynamic. If you make dynamic, static gateway file will be deleted. "
+"If you make static, it will be recreated with the current default gateway."
+msgstr ""
+
+msgid "This is the default language for the WUI."
+msgstr ""
+
+msgid ""
+"This is the default refresh value in seconds for pages which reload "
+"periodically, such as Live pages for logs and statistics. The new value "
+"takes effect only for newly created sessions. Note that logging out of the "
+"web user interface does not erase your session values."
+msgstr ""
+
+msgid ""
+"This is the gateway internal clients use to reach the external network. The "
+"default is the internal IP address of the system."
+msgstr ""
+
+msgid ""
+"This is the list of interfaces DHCP server listens and distributes IP "
+"leases. Here you should add the interface(s) to start the DHCP server for."
+msgstr ""
+
+msgid ""
+"This is the log level for the pffw web interface. Logs at this level and up "
+"will be recorded in WUI and Controller log files. This setting does not "
+"effect other services."
+msgstr ""
+
+msgid ""
+"This is the name server used by the system. You can use the DNS server on "
+"the system, i.e. enter 127.0.0.1 here."
+msgstr ""
+
+msgid ""
+"This is the notifier level. The system will send push notifications for the "
+"logs at this level and up."
+msgstr ""
+
+msgid ""
+"This is the state table of the Packet Filter. All active stateful "
+"connections should appear in this list."
+msgstr ""
+
+msgid ""
+"This is the system name. If you change the hostname, use automatic "
+"configuration button to apply it system-wide, and reboot the system."
+msgstr ""
+
+msgid ""
+"This is the time interval in seconds to check module statuses for displaying."
+msgstr ""
+
+msgid ""
+"This name server is a BIND 9 compatible DNS server, which runs in a chroot "
+"jail."
+msgstr ""
+
+msgid ""
+"This page displays statistical data collected over the log files of this "
+"module.\n"
+"\n"
+"You can change the date of statistics using drop-down boxes. An empty value "
+"means match-all. For example, if you choose 3 for month and empty value for "
+"day fields, the charts and lists display statistics for all the days in "
+"March. Choosing empty value for month means empty value for day field as "
+"well.\n"
+"\n"
+"For single dates, Horizontal chart direction is assumed. For date ranges, "
+"default graph style is Daily, and direction is Vertical. Graph style can be "
+"changed to Hourly for date ranges, where cumulative hourly statistics are "
+"shown. In Daily style, horizontal direction is not possible."
+msgstr ""
+
+msgid "This page displays the I/O graphs of all the disks in your system."
+msgstr ""
+
+msgid ""
+"This page displays the graph for shared memory and swap area usage. If the "
+"swap area usage is too high, you may consider adding more RAM. For higher "
+"system performance, you want to have no swap usage at all."
+msgstr ""
+
+msgid ""
+"This page displays the graphs of all temperature and fan sensors in your "
+"system. You may have multiple sensors depending on your hardware. Virtual "
+"machines may not provide any sensors at all."
+msgstr ""
+
+msgid ""
+"This page displays the usage graphs of all the partitions on your disks."
+msgstr ""
+
+msgid ""
+"This page shows system-wide logs. Most services on PFFW write to their own "
+"log files, but a few processes may log messages to this system file. Pay "
+"special attention to error messages."
+msgstr ""
+
+msgid ""
+"This setting allows you to choose the method used while running the "
+"controller. Controller commands can be executed using either of the "
+"following two methods: (1) Executing the controller directly on the command "
+"line or (2) Openning an SSH connection to the system and calling the "
+"controller over this secure channel."
+msgstr ""
+
+msgid ""
+"This setting enables or disables help boxes, such as this one and the help "
+"window at the bottom. Disabling help boxes does not disable error or warning "
+"help windows."
+msgstr ""
+
+msgid ""
+"This web administration interface is served by OpenBSD/httpd. If you stop "
+"the web server, you will lose your connection to this web interface. You can "
+"restart it on the command line."
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Time server"
+msgstr ""
+
+msgid "Timed out running pfctl command"
+msgstr ""
+
+msgid "Timeout"
+msgstr ""
+
+msgid "Timespan"
+msgstr ""
+
+msgid "To Redirect Host"
+msgstr ""
+
+msgid "Token"
+msgstr ""
+
+msgid "Too many args, truncating"
+msgstr ""
+
+msgid "Transfer"
+msgstr ""
+
+msgid "Turkish"
+msgstr ""
+
+msgid "Turn off service"
+msgstr ""
+
+msgid "Turn on service"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "UDP Timeouts"
+msgstr ""
+
+msgid "USER"
+msgstr ""
+
+msgid "Unconfigure an interface"
+msgstr ""
+
+msgid "Unexpected elements"
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Unsupported command"
+msgstr ""
+
+msgid "Unsupported interface configuration"
+msgstr ""
+
+msgid "Update mail aliases"
+msgstr ""
+
+msgid "Upload"
+msgstr ""
+
+msgid "Upload rules file"
+msgstr ""
+
+msgid "Upload ruleset"
+msgstr ""
+
+msgid "Upload with errors"
+msgstr ""
+
+msgid "Uptime"
+msgstr ""
+
+msgid "Url wrong"
+msgstr ""
+
+msgid "Use DNS"
+msgstr ""
+
+msgid "Use SSH"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "User name"
+msgstr ""
+
+msgid "User password changed"
+msgstr ""
+
+msgid ""
+"User sessions expire after an idle period defined by this value. The unit is "
+"in seconds. You cannot set a value less than 10 seconds."
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid ""
+"Usually the network time daemon adjusts the system clock according to "
+"Internet time servers gradually. But if the clock is too out of sync with "
+"the time servers, you are advised to set the system clock to Internet time "
+"manually. You can use your own time server if you like."
+msgstr ""
+
+msgid "VSZ"
+msgstr ""
+
+msgid "Validation Error"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Values"
+msgstr ""
+
+msgid "Verify Firebase SSL notification server."
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "Vertical"
+msgstr ""
+
+msgid "WARNING"
+msgstr ""
+
+msgid "WEB SERVER"
+msgstr ""
+
+msgid "WUI"
+msgstr ""
+
+msgid "WUI Logs"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Web Server"
+msgstr ""
+
+msgid "Web Server (WUI)"
+msgstr ""
+
+msgid ""
+"What is recorded in packet filter logs is determined by pf rules you can "
+"configure under Rules tab."
+msgstr ""
+
+msgid "When (h)"
+msgstr ""
+
+msgid "Will not load rules with errors"
+msgstr ""
+
+msgid "Will not test rules with errors"
+msgstr ""
+
+msgid ""
+"You can apply configuration changes without restarting currently running "
+"process."
+msgstr ""
+
+msgid ""
+"You can browse the Doxygen source documentation of this web user interface "
+"on this page."
+msgstr ""
+
+msgid "You can change the timespan and size of the graphs."
+msgstr ""
+
+msgid ""
+"You can modify the hosts file here. Format of a hosts entry is: IP hostname "
+"alias [alias [...]]"
+msgstr ""
+
+msgid ""
+"You can set the system clock here. Format is day.month.year-hour:minute.\n"
+"\n"
+"<b>You must be very careful when setting the system clock, significant hops "
+"in system time may cause system malfunction.</b>"
+msgstr ""
+
+msgid ""
+"You should take into account that there may be computers with static IP "
+"addresses or using BOOTP protocol, and choose a range accordingly."
+msgstr ""
+
+msgid "adaptive"
+msgstr ""
+
+msgid "add file"
+msgstr ""
+
+msgid "add host or network"
+msgstr ""
+
+msgid "add value"
+msgstr ""
+
+msgid "always"
+msgstr ""
+
+msgid "as rule number"
+msgstr ""
+
+msgid "defaults to S/SA"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "end"
+msgstr ""
+
+msgid "enter comment, such as a description of the rule"
+msgstr ""
+
+msgid "filename"
+msgstr ""
+
+msgid "groupname or groupid"
+msgstr ""
+
+msgid "height"
+msgstr ""
+
+msgid "host or network"
+msgstr ""
+
+msgid "if or macro"
+msgstr ""
+
+msgid "interface"
+msgstr ""
+
+msgid "ip, host, table or macro"
+msgstr ""
+
+msgid "is not running"
+msgstr ""
+
+msgid "is running"
+msgstr ""
+
+msgid "label"
+msgstr ""
+
+msgid "logging interface"
+msgstr ""
+
+msgid "modified"
+msgstr ""
+
+msgid "move to"
+msgstr ""
+
+msgid "name, may be nested"
+msgstr ""
+
+msgid "negated"
+msgstr ""
+
+msgid "never"
+msgstr ""
+
+msgid "no"
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "number"
+msgstr ""
+
+msgid "number 0-7"
+msgstr ""
+
+msgid "number or abbrev."
+msgstr ""
+
+msgid "number or name"
+msgstr ""
+
+msgid "number%"
+msgstr ""
+
+msgid "number(ms)"
+msgstr ""
+
+msgid "number, name, table or macro"
+msgstr ""
+
+msgid "number/number"
+msgstr ""
+
+msgid "number/seconds"
+msgstr ""
+
+msgid "number[(K|M|G)]"
+msgstr ""
+
+msgid "os name or macro"
+msgstr ""
+
+msgid "pffw currently supports only admin and user usernames"
+msgstr ""
+
+msgid "primary"
+msgstr ""
+
+msgid "protocol"
+msgstr ""
+
+msgid "ruleset has errors"
+msgstr ""
+
+msgid "running"
+msgstr ""
+
+msgid "secondary"
+msgstr ""
+
+msgid "secs"
+msgstr ""
+
+msgid "size"
+msgstr ""
+
+msgid "start"
+msgstr ""
+
+msgid "stopped"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "string or number"
+msgstr ""
+
+msgid "timespan"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "total"
+msgstr ""
+
+msgid "unconfigured"
+msgstr ""
+
+msgid "uploaded"
+msgstr ""
+
+msgid "username or userid"
+msgstr ""
+
+msgid "valid string"
+msgstr ""
+
+msgid "width"
+msgstr ""
+
+msgid "yes"
+msgstr ""

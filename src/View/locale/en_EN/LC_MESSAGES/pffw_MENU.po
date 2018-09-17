@@ -1,0 +1,158 @@
+msgid "Access Logs"
+msgstr ""
+
+msgid "Archives"
+msgstr ""
+
+msgid "Arp Table"
+msgstr ""
+
+msgid "Basic"
+msgstr ""
+
+msgid "CPUs"
+msgstr ""
+
+msgid "CTLR Logs"
+msgstr ""
+
+msgid "Config"
+msgstr ""
+
+msgid "DHCP"
+msgstr ""
+
+msgid "DNS"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+msgid "Dhcpd"
+msgstr ""
+
+msgid "Disks"
+msgstr ""
+
+msgid "Display & Install"
+msgstr ""
+
+msgid "Documentation"
+msgstr ""
+
+msgid "Editor"
+msgstr ""
+
+msgid "FTP PROXY"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Graphs"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Hourly"
+msgstr ""
+
+msgid "Info"
+msgstr ""
+
+msgid "Init"
+msgstr ""
+
+msgid "Interfaces"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Live"
+msgstr ""
+
+msgid "Load & Save"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+msgid "MONITORING"
+msgstr ""
+
+msgid "Mbufs"
+msgstr ""
+
+msgid "Memory"
+msgstr ""
+
+msgid "Network"
+msgstr ""
+
+msgid "Notifier"
+msgstr ""
+
+msgid "OPENSSH"
+msgstr ""
+
+msgid "PACKET FILTER"
+msgstr ""
+
+msgid "PF FIREWALL"
+msgstr ""
+
+msgid "PF Firewall"
+msgstr ""
+
+msgid "Partitions"
+msgstr ""
+
+msgid "Pf"
+msgstr ""
+
+msgid "Processes"
+msgstr ""
+
+msgid "Queues"
+msgstr ""
+
+msgid "Rules"
+msgstr ""
+
+msgid "SYSTEM"
+msgstr ""
+
+msgid "Sensors"
+msgstr ""
+
+msgid "Startup"
+msgstr ""
+
+msgid "States"
+msgstr ""
+
+msgid "Statistics"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "Transfer"
+msgstr ""
+
+msgid "WEB SERVER"
+msgstr ""
+
+msgid "WUI"
+msgstr ""
+
+msgid "WUI Logs"
+msgstr ""

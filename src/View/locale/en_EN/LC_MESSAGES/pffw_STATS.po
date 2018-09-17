@@ -1,0 +1,101 @@
+msgid "All attempts"
+msgstr ""
+
+msgid "All queries"
+msgstr ""
+
+msgid "All requests"
+msgstr ""
+
+msgid "All sessions"
+msgstr ""
+
+msgid "Allowed requests"
+msgstr ""
+
+msgid "Blocked requests"
+msgstr ""
+
+msgid "Client"
+msgstr ""
+
+msgid "Client IPs"
+msgstr ""
+
+msgid "Clients"
+msgstr ""
+
+msgid "Destination addresses"
+msgstr ""
+
+msgid "Destination ports"
+msgstr ""
+
+msgid "Domains"
+msgstr ""
+
+msgid "Downloaded (KB)"
+msgstr ""
+
+msgid "Failed attempts"
+msgstr ""
+
+msgid "Failed queries"
+msgstr ""
+
+msgid "Failed users"
+msgstr ""
+
+msgid "Failure reason"
+msgstr ""
+
+msgid "General Statistics"
+msgstr ""
+
+msgid "HTTP Codes"
+msgstr ""
+
+msgid "IPs querying"
+msgstr ""
+
+msgid "Links"
+msgstr ""
+
+msgid "Logged in user"
+msgstr ""
+
+msgid "Matched requests"
+msgstr ""
+
+msgid "Methods"
+msgstr ""
+
+msgid "Packet types"
+msgstr ""
+
+msgid "Query types"
+msgstr ""
+
+msgid "Requests by date"
+msgstr ""
+
+msgid "SSH version"
+msgstr ""
+
+msgid "Server"
+msgstr ""
+
+msgid "Size by IP (KB)"
+msgstr ""
+
+msgid "Size by Link (KB)"
+msgstr ""
+
+msgid "Source addresses"
+msgstr ""
+
+msgid "Successful logins"
+msgstr ""
+
+msgid "Users"
+msgstr ""

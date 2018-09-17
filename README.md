@@ -1,6 +1,6 @@
 # PFFW
 
-PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web UI, an Android application ([A4PFFW](https://github.com/sonertari/A4PFFW)), and a Windows application ([W4PFFW](https://github.com/sonertari/W4PFFW)) for monitoring.
+PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web User Interface (WUI) for monitoring and configuration. You can also use [A4PFFW](https://github.com/sonertari/A4PFFW) and [W4PFFW](https://github.com/sonertari/W4PFFW) for monitoring.
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
@@ -19,7 +19,7 @@ PFFW includes the following software, alongside what is already available on a b
 
 The web user interface of PFFW helps you manage your firewall:
 
-- Dashboard provides an overview of the system status.
+- Dashboard provides an overview of system status. If enabled, Notifier sends the system status as Firebase push notification to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
 - System, network, and service configuration can be achieved on the web interface.
 - Pf rules are maintained using PFRE.
 - Information on hosts, interfaces, pf rules, states, and queues are provided in a tabular form.

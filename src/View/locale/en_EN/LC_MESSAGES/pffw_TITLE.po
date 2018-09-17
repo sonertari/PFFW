@@ -1,0 +1,878 @@
+msgid "1 minute average"
+msgstr ""
+
+msgid "15 minute average"
+msgstr ""
+
+msgid "5 minute average"
+msgstr ""
+
+msgid "<MODEL> has CRITICAL errors"
+msgstr ""
+
+msgid "<MODEL> has ERRORs"
+msgstr ""
+
+msgid "<MODEL> has WARNINGs"
+msgstr ""
+
+msgid "<RULE_TYPE> rule"
+msgstr ""
+
+msgid "Act"
+msgstr ""
+
+msgid "Action"
+msgstr ""
+
+msgid "Adaptive Timeouts"
+msgstr ""
+
+msgid "Address Family"
+msgstr ""
+
+msgid "Admin e-mail"
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
+
+msgid "Allow Opts"
+msgstr ""
+
+msgid "Anchor"
+msgstr ""
+
+msgid "And <COUNT> others not shown."
+msgstr ""
+
+msgid "Archives"
+msgstr ""
+
+msgid "Assign Priority"
+msgstr ""
+
+msgid "Assign Tag"
+msgstr ""
+
+msgid "Automatic config"
+msgstr ""
+
+msgid "Bandwidth"
+msgstr ""
+
+msgid "Block Option"
+msgstr ""
+
+msgid "Block Policy"
+msgstr ""
+
+msgid "CPU Load"
+msgstr ""
+
+msgid "CPUs"
+msgstr ""
+
+msgid "CRITICAL"
+msgstr ""
+
+msgid "Category"
+msgstr ""
+
+msgid "Click to search in the logs"
+msgstr ""
+
+msgid "Click to search in the stats"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Copyright"
+msgstr ""
+
+msgid "Count"
+msgstr ""
+
+msgid "Critical"
+msgstr ""
+
+msgid "Critical Error"
+msgstr ""
+
+msgid "Current Password"
+msgstr ""
+
+msgid "DHCP Server"
+msgstr ""
+
+msgid "DNS Server"
+msgstr ""
+
+msgid "DPort"
+msgstr ""
+
+msgid "Data Transfer"
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "DateTime"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid "Debug"
+msgstr ""
+
+msgid "Default"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Delete ruleset"
+msgstr ""
+
+msgid "Destination"
+msgstr ""
+
+msgid "Destination Port"
+msgstr ""
+
+msgid "Dir"
+msgstr ""
+
+msgid "Direction"
+msgstr ""
+
+msgid "Disabled Services"
+msgstr ""
+
+msgid "Disk I/O"
+msgstr ""
+
+msgid "Disks"
+msgstr ""
+
+msgid "Divert Host"
+msgstr ""
+
+msgid "Divert Port"
+msgstr ""
+
+msgid "Divert Reply"
+msgstr ""
+
+msgid "Domain"
+msgstr ""
+
+msgid "Download ruleset"
+msgstr ""
+
+msgid "DstIP"
+msgstr ""
+
+msgid "ERROR"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "Edit <RULE_TYPE> Rule <RULE_NUMBER>"
+msgstr ""
+
+msgid "Enable Source Track"
+msgstr ""
+
+msgid "Enabled Services"
+msgstr ""
+
+msgid "End"
+msgstr ""
+
+msgid "Enforce TOS"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
+msgid "Expire"
+msgstr ""
+
+msgid "Export To pflow"
+msgstr ""
+
+msgid "External Interface"
+msgstr ""
+
+msgid "External interface"
+msgstr ""
+
+msgid "FTP Proxy"
+msgstr ""
+
+msgid "Fan"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Filters"
+msgstr ""
+
+msgid "Fingerprints File"
+msgstr ""
+
+msgid "Flag"
+msgstr ""
+
+msgid "Flags"
+msgstr ""
+
+msgid "Flows"
+msgstr ""
+
+msgid "Force HTTPs"
+msgstr ""
+
+msgid "Fragment"
+msgstr ""
+
+msgid "Frags"
+msgstr ""
+
+msgid "From Redirect Host"
+msgstr ""
+
+msgid "Function"
+msgstr ""
+
+msgid "Gateway"
+msgstr ""
+
+msgid "Graph files"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Help Boxes"
+msgstr ""
+
+msgid "Host"
+msgstr ""
+
+msgid "Host Id"
+msgstr ""
+
+msgid "Hostname"
+msgstr ""
+
+msgid "Hosts"
+msgstr ""
+
+msgid "Hour"
+msgstr ""
+
+msgid "ICMP Timeouts"
+msgstr ""
+
+msgid "ICMP Type"
+msgstr ""
+
+msgid "ICMP6 Type"
+msgstr ""
+
+msgid "INFORMATION"
+msgstr ""
+
+msgid "IP"
+msgstr ""
+
+msgid "IP Forwarding"
+msgstr ""
+
+msgid "Id"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "If"
+msgstr ""
+
+msgid "Inline Rules"
+msgstr ""
+
+msgid "Inline rules"
+msgstr ""
+
+msgid "Interface"
+msgstr ""
+
+msgid "Interface Binding"
+msgstr ""
+
+msgid "Internal Interface"
+msgstr ""
+
+msgid "Internal interface"
+msgstr ""
+
+msgid "Interval"
+msgstr ""
+
+msgid "Label"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Limit"
+msgstr ""
+
+msgid "Line"
+msgstr ""
+
+msgid "Line number"
+msgstr ""
+
+msgid "Lines per page"
+msgstr ""
+
+msgid "Link"
+msgstr ""
+
+msgid "Load ruleset"
+msgstr ""
+
+msgid "Log"
+msgstr ""
+
+msgid "Log Interface"
+msgstr ""
+
+msgid "Log Level"
+msgstr ""
+
+msgid "Logging"
+msgstr ""
+
+msgid "Logs"
+msgstr ""
+
+msgid "Loopback Interface"
+msgstr ""
+
+msgid "MAC"
+msgstr ""
+
+msgid "Machine"
+msgstr ""
+
+msgid "Match All"
+msgstr ""
+
+msgid "Match Priority"
+msgstr ""
+
+msgid "Match TOS"
+msgstr ""
+
+msgid "Match Tagged"
+msgstr ""
+
+msgid "Max"
+msgstr ""
+
+msgid "Max Addresses"
+msgstr ""
+
+msgid "Max Anchor Nesting"
+msgstr ""
+
+msgid "Max Connection"
+msgstr ""
+
+msgid "Max Connection Rate"
+msgstr ""
+
+msgid "Max MSS"
+msgstr ""
+
+msgid "Max Packet Rate"
+msgstr ""
+
+msgid "Max Single Host States"
+msgstr ""
+
+msgid "Max States"
+msgstr ""
+
+msgid "Max-mss"
+msgstr ""
+
+msgid "Mbuf Statistics"
+msgstr ""
+
+msgid "Memory Usage"
+msgstr ""
+
+msgid "Min"
+msgstr ""
+
+msgid "Min TTL"
+msgstr ""
+
+msgid "Min-ttl"
+msgstr ""
+
+msgid "Minute"
+msgstr ""
+
+msgid "Module Status"
+msgstr ""
+
+msgid "Month"
+msgstr ""
+
+msgid "Motherboard"
+msgstr ""
+
+msgid "Move down"
+msgstr ""
+
+msgid "Move up"
+msgstr ""
+
+msgid "Mtd"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "Nameserver"
+msgstr ""
+
+msgid "Needle"
+msgstr ""
+
+msgid "Network Protocol Usage"
+msgstr ""
+
+msgid "New Password"
+msgstr ""
+
+msgid "New Password Again"
+msgstr ""
+
+msgid "No Errors"
+msgstr ""
+
+msgid "No pfsync"
+msgstr ""
+
+msgid "Notification Service"
+msgstr ""
+
+msgid "Notifications"
+msgstr ""
+
+msgid "Notifier API Key"
+msgstr ""
+
+msgid "Notifier Timeout"
+msgstr ""
+
+msgid "Notify Level"
+msgstr ""
+
+msgid "Number of Processes"
+msgstr ""
+
+msgid "Number of lines"
+msgstr ""
+
+msgid "Number of processes"
+msgstr ""
+
+msgid "OS"
+msgstr ""
+
+msgid "Once"
+msgstr ""
+
+msgid "OpenSSH"
+msgstr ""
+
+msgid "Operating System"
+msgstr ""
+
+msgid "Optimization"
+msgstr ""
+
+msgid "Option"
+msgstr ""
+
+msgid "Options"
+msgstr ""
+
+msgid "Other Timeouts"
+msgstr ""
+
+msgid "Overload"
+msgstr ""
+
+msgid "Packet Filter"
+msgstr ""
+
+msgid "Parent"
+msgstr ""
+
+msgid "Partitions"
+msgstr ""
+
+msgid "Partitions Usages"
+msgstr ""
+
+msgid "Password"
+msgstr ""
+
+msgid "Pfctl Timeout"
+msgstr ""
+
+msgid "Physical Memory"
+msgstr ""
+
+msgid "Prio"
+msgstr ""
+
+msgid "Probability"
+msgstr ""
+
+msgid "Process"
+msgstr ""
+
+msgid "Process CPU Load"
+msgstr ""
+
+msgid "Processor"
+msgstr ""
+
+msgid "Proto"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "Qlimit"
+msgstr ""
+
+msgid "Quantum"
+msgstr ""
+
+msgid "Queue"
+msgstr ""
+
+msgid "Quick"
+msgstr ""
+
+msgid "Reason"
+msgstr ""
+
+msgid "Reassemble"
+msgstr ""
+
+msgid "Received on Interface"
+msgstr ""
+
+msgid "Redirect Address Family"
+msgstr ""
+
+msgid "Redirect Host"
+msgstr ""
+
+msgid "Redirect Options"
+msgstr ""
+
+msgid "Redirect Port"
+msgstr ""
+
+msgid "Refresh interval"
+msgstr ""
+
+msgid "Regexp"
+msgstr ""
+
+msgid "Registration IDs"
+msgstr ""
+
+msgid "Reload Rate"
+msgstr ""
+
+msgid "Resource not available"
+msgstr ""
+
+msgid "Restart network"
+msgstr ""
+
+msgid "Rotate all log files"
+msgstr ""
+
+msgid "Route Host"
+msgstr ""
+
+msgid "Route Type"
+msgstr ""
+
+msgid "Routing Table"
+msgstr ""
+
+msgid "Rule"
+msgstr ""
+
+msgid "Rule number"
+msgstr ""
+
+msgid "Rules file"
+msgstr ""
+
+msgid "Ruleset Optimization"
+msgstr ""
+
+msgid "Running"
+msgstr ""
+
+msgid "SPort"
+msgstr ""
+
+msgid "SSL Verify Peer"
+msgstr ""
+
+msgid "Save ruleset"
+msgstr ""
+
+msgid "Scrub Options"
+msgstr ""
+
+msgid "Secure Level"
+msgstr ""
+
+msgid "Select Option Type"
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "Serial Number"
+msgstr ""
+
+msgid "Session Timeout"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Size (KB)"
+msgstr ""
+
+msgid "Skip Interfaces"
+msgstr ""
+
+msgid "Sloppy Tracker"
+msgstr ""
+
+msgid "Software Version"
+msgstr ""
+
+msgid "Source"
+msgstr ""
+
+msgid "Source Port"
+msgstr ""
+
+msgid "Source Track Timeout"
+msgstr ""
+
+msgid "Source->Destination"
+msgstr ""
+
+msgid "Src Nodes"
+msgstr ""
+
+msgid "SrcIP"
+msgstr ""
+
+msgid "Start"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "State Defaults"
+msgstr ""
+
+msgid "State Policy"
+msgstr ""
+
+msgid "State Searches vs Packets"
+msgstr ""
+
+msgid "State Statistics"
+msgstr ""
+
+msgid "Stateful Filtering"
+msgstr ""
+
+msgid "States"
+msgstr ""
+
+msgid "Static Port"
+msgstr ""
+
+msgid "Statistics and uncompressed log files"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Status Check Interval"
+msgstr ""
+
+msgid "Stopped"
+msgstr ""
+
+msgid "Symon"
+msgstr ""
+
+msgid "Symux"
+msgstr ""
+
+msgid "Syncookies"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "TCP Flags"
+msgstr ""
+
+msgid "TCP Timeouts"
+msgstr ""
+
+msgid "Table Entries"
+msgstr ""
+
+msgid "Tables"
+msgstr ""
+
+msgid "Temperature"
+msgstr ""
+
+msgid "Time"
+msgstr ""
+
+msgid "Time server"
+msgstr ""
+
+msgid "Timeout"
+msgstr ""
+
+msgid "To Redirect Host"
+msgstr ""
+
+msgid "Token"
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "UDP Timeouts"
+msgstr ""
+
+msgid "Upload rules file"
+msgstr ""
+
+msgid "Upload ruleset"
+msgstr ""
+
+msgid "Uptime"
+msgstr ""
+
+msgid "Use SSH"
+msgstr ""
+
+msgid "User"
+msgstr ""
+
+msgid "User name"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "Values"
+msgstr ""
+
+msgid "Version"
+msgstr ""
+
+msgid "WARNING"
+msgstr ""
+
+msgid "Warning"
+msgstr ""
+
+msgid "Web Server"
+msgstr ""
+
+msgid "When (h)"
+msgstr ""
+
+msgid "add file"
+msgstr ""
+
+msgid "add host or network"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "is not running"
+msgstr ""
+
+msgid "is running"
+msgstr ""
+
+msgid "modified"
+msgstr ""
+
+msgid "negated"
+msgstr ""
+
+msgid "primary"
+msgstr ""
+
+msgid "secondary"
+msgstr ""
+
+msgid "secs"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "total"
+msgstr ""
+
+msgid "uploaded"
+msgstr ""

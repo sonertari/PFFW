@@ -1,0 +1,167 @@
+msgid "%MEM"
+msgstr ""
+
+msgid "Address Family"
+msgstr ""
+
+msgid "Advanced Power Management"
+msgstr ""
+
+msgid "Apply configuration"
+msgstr ""
+
+msgid "Banner"
+msgstr ""
+
+msgid "Broadcast address"
+msgstr ""
+
+msgid "CGI Server"
+msgstr ""
+
+msgid "COMMAND"
+msgstr ""
+
+msgid "DHCP Server"
+msgstr ""
+
+msgid "DNS Server"
+msgstr ""
+
+msgid "FTP Proxy"
+msgstr ""
+
+msgid "Forwarders"
+msgstr ""
+
+msgid "GROUP"
+msgstr ""
+
+msgid "Gateway"
+msgstr ""
+
+msgid "IP range"
+msgstr ""
+
+msgid "Interfaces"
+msgstr ""
+
+msgid "Leases"
+msgstr ""
+
+msgid "Listen Address"
+msgstr ""
+
+msgid "Listen on"
+msgstr ""
+
+msgid "Log Level"
+msgstr ""
+
+msgid "Login Grace Time"
+msgstr ""
+
+msgid "Max Auth Tries"
+msgstr ""
+
+msgid "MaxStartups"
+msgstr ""
+
+msgid "Name server"
+msgstr ""
+
+msgid "Network Time"
+msgstr ""
+
+msgid "PHP FastCGI Server"
+msgstr ""
+
+msgid "PRI"
+msgstr ""
+
+msgid "Packet Filter"
+msgstr ""
+
+msgid "Permit Empty Passwords"
+msgstr ""
+
+msgid "Permit Root Login"
+msgstr ""
+
+msgid "Port"
+msgstr ""
+
+msgid "Print Last Log"
+msgstr ""
+
+msgid "Print Motd"
+msgstr ""
+
+msgid "Protocol"
+msgstr ""
+
+msgid "STARTED"
+msgstr ""
+
+msgid "Server Key Bits"
+msgstr ""
+
+msgid "Size"
+msgstr ""
+
+msgid "Start Servers"
+msgstr ""
+
+msgid "Subnet mask"
+msgstr ""
+
+msgid "Subsystem sftp"
+msgstr ""
+
+msgid "Symon System Monitoring"
+msgstr ""
+
+msgid "Symux System Monitoring"
+msgstr ""
+
+msgid "Syslog Facility"
+msgstr ""
+
+msgid "System"
+msgstr ""
+
+msgid "TCP Keep Alive"
+msgstr ""
+
+msgid "TIME"
+msgstr ""
+
+msgid "Timespan"
+msgstr ""
+
+msgid "USER"
+msgstr ""
+
+msgid "Use DNS"
+msgstr ""
+
+msgid "Web Server (WUI)"
+msgstr ""
+
+msgid "end"
+msgstr ""
+
+msgid "height"
+msgstr ""
+
+msgid "size"
+msgstr ""
+
+msgid "start"
+msgstr ""
+
+msgid "timespan"
+msgstr ""
+
+msgid "width"
+msgstr ""
