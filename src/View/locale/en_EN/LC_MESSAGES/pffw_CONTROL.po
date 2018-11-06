@@ -284,6 +284,9 @@ msgstr ""
 msgid "logging interface"
 msgstr ""
 
+msgid "milliseconds"
+msgstr ""
+
 msgid "move to"
 msgstr ""
 

@@ -550,7 +550,7 @@ set_dir_perms() {
 # named in $1. Display an error message for failed installs so the
 # user will know to try again.
 install_files() {
-	local _src=$1 _files=$2 _f _sets _get_sets _webifparent _webifdir _mtreedir _listname _pkgaddopts _pkguser
+	local _src=$1 _files=$2 _f _sets _get_sets _webifparent _webifdir _mtreedir _listname _pkgaddopts _pkguser _installerror
 
 	# Initialize _sets to the list of sets found in _src, and initialize
 	# _get_sets to the intersection of _sets and DEFAULTSETS.
@@ -588,6 +588,7 @@ __EOT
 	for _f in $THESETS ; do
 		isin $_f $_get_sets || continue
 		echo "Installing $_f ..."
+		_installerror=0
 		case $_f in
 		*.tgz)
 			_pkgname=$_f
@@ -598,36 +599,42 @@ __EOT
 			pkg_delete partial-$_pkgshortname >/dev/null 2>&1
 
 			# Running: pkg_add $_pkgaddopts $_pkgname
-			pkg_add $_pkgaddopts $_pkgname
+			pkg_add $_pkgaddopts $_pkgname || _installerror=1
 
 			# Again deleting partial-$_pkgshortname, if any...
-			pkg_delete partial-$_pkgshortname >/dev/null 2>&1
+			[[ $_installerror -eq 1 ]] && pkg_delete partial-$_pkgshortname >/dev/null 2>&1
 
 			# Running as last option: pkg_add $_pkgname
-			pkg_add $_pkgname
+			[[ $_installerror -eq 1 ]] && pkg_add $_pkgname && _installerror=0
+
+			if [ $_installerror -eq 1 ]; then
+				echo "'$_f' did not install correctly."
+				INSTALL_ERROR=1
+				continue
+			fi
 
 			# Post-processing for the package
 			case $_f in
 			symon-*)	echo "Installing symux..."
-				pkg_add symux
+				pkg_add symux || _installerror=1
 				;;
 			php-*)
 				ln -s /usr/local/bin/php-7.0 /usr/local/bin/php
-				pkg_add php-pcntl
-				pkg_add php-mcrypt
-				pkg_add php-cgi
-				pkg_add php-curl
+				pkg_add php-pcntl || _installerror=1
+				pkg_add php-mcrypt || _installerror=1
+				pkg_add php-cgi || _installerror=1
+				pkg_add php-curl || _installerror=1
 				;;
 			esac
 			;;
 
 		$CW_CONFIG_TARFILE)
 			[[ ! -d $DESTDIR ]] && mkdir -p $DESTDIR
-			[[ ! -d $DESTDIR ]] && echo "No such directory: $DESTDIR" && continue
+			[[ ! -d $DESTDIR ]] && (echo "No such directory: $DESTDIR"; INSTALL_ERROR=1; continue)
 
-			ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxf - -C /tmp
+			ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxf - -C /tmp || _installerror=1
 
-			[[ -d /tmp/config ]] || continue
+			[[ -d /tmp/config ]] || (echo "No such directory: /tmp/config"; INSTALL_ERROR=1; continue)
 			cd /tmp/config
 			chown -R root:wheel *
 		
@@ -651,15 +658,16 @@ __EOT
 			
 			[[ -d $_webifdir ]] && mv $_webifdir $_webifdir.orig
 			[[ ! -d $_webifparent ]] && mkdir -p $_webifparent
-			ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxf - -C $_webifparent
-			chown -R root:wheel $_webifdir
+			ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxf - -C $_webifparent || _installerror=1
+			chown -R root:wheel $_webifdir || _installerror=1
 			;;
 
 		*)	echo "Unknown file, skipping..."
 			;;
 		esac
-		if [ $? -ne 0 ]; then
+		if [ $_installerror -eq 1 ]; then
 			echo "'$_f' did not install correctly."
+			INSTALL_ERROR=1
 		else
 			DEFAULTSETS=$(rmel $_f $DEFAULTSETS)
 		fi
@@ -951,19 +959,32 @@ install_sets() {
 }
 
 finish_up() {
-
-	/sbin/ldconfig /usr/local/lib /usr/X11R6/lib/
+	/sbin/ldconfig /usr/local/lib /usr/X11R6/lib/ || INSTALL_ERROR=1
 
 	if [[ -f /var/www/htdocs/pffw/Installer/install.php ]]; then
 		echo "Running post-install script..."
-		/usr/local/bin/php /var/www/htdocs/pffw/Installer/install.php
+		/usr/local/bin/php /var/www/htdocs/pffw/Installer/install.php || INSTALL_ERROR=1
 	fi
 
-	# Pat on the back.
-	cat <<__EOT
+	# Fix initial mail message of OpenBSD 6.4.
+	# Single digit day should be blank-padded on the left to make up the field width of 2.
+	# Otherwise the message is discarded after sending the mail in rc.firsttime.
+	# From deraadt@do-not-reply.openbsd.org Sun Nov 1 06:30:00 MDT 2018
+	# From deraadt@do-not-reply.openbsd.org Sun Nov  1 06:30:00 MDT 2018
+	/usr/bin/sed -i 's/Nov 1/Nov  1/' /var/mail/root
+
+	if [ $INSTALL_ERROR -eq 1 ]; then
+		cat <<__EOT
+
+Your PFFW $MODE has been completed with errors!
+__EOT
+	else
+		# Pat on the back.
+		cat <<__EOT
 
 CONGRATULATIONS! Your PFFW $MODE has been successfully completed!
 __EOT
+	fi
 
 	rmdir /mnt2
 }
@@ -981,7 +1002,7 @@ __EOT
 # #######################################################################
 # Initial actions common to both installs and upgrades.
 # #######################################################################
-VERSION='6.3'
+VERSION='6.4'
 ARCH=$(/usr/bin/machine)
 
 VMAJ=${VERSION%%\.*}
@@ -1012,15 +1033,18 @@ CDDEVS=$(scan_dmesg "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}")
 [[ -z $CDDEVS ]] && CDDEVS="cd0,cd1,cd2"
 
 # Selected sets will be installed in the order they are listed in $THESETS.
-THESETS="isc-bind-9.11.3.tgz \
-		symon-2.88p2.tgz \
-		pftop-0.7p17.tgz \
-		php-7.0.28.tgz \
+THESETS="isc-bind-9.11.4pl2.tgz \
+		symon-2.88p3.tgz \
+		pftop-0.7p18.tgz \
+		php-7.0.32p1.tgz \
 		$CW_WEBIF_TARFILE \
 		$CW_CONFIG_TARFILE"
 
 # Need all packages for a sane installation
 SANESETS=$THESETS
+
+# Save install errors
+INSTALL_ERROR=0
 
 # Introduce ourselves.
 welcome 2>&1 | tee -a $LOG_FILE

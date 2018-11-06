@@ -20,4 +20,4 @@ HOME=/var/log
 #0	*	*	*	*	sleep $((RANDOM \% 2048)) && /usr/libexec/spamd-setup
 
 # Notifier
-#*/1	*	*	*	*	/usr/local/bin/php /var/www/htdocs/pffw/Notifier/notify.php > /dev/null
+#*/1	*	*	*	*	/usr/bin/env PATH=$PATH:/usr/local/bin /usr/local/bin/php /var/www/htdocs/pffw/Notifier/notify.php > /dev/null

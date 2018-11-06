@@ -53,6 +53,7 @@ error.log		type=file mode=0644 uname=root gname=daemon
 etc			type=dir mode=0755 uname=root gname=wheel
 mail			type=dir mode=0755 uname=root gname=wheel
 aliases			type=file mode=0644 uname=root gname=wheel
+smtpd.conf			type=file mode=0644 uname=root gname=wheel
 ..	#etc/mail
 pfre			type=dir mode=0755 uname=root gname=wheel
 ..	#etc/pfre

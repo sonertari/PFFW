@@ -133,6 +133,9 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
+msgid "Delay Packets"
+msgstr ""
+
 msgid "Delete"
 msgstr ""
 

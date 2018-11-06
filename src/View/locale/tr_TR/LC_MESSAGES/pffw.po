@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.3\n"
+"Project-Id-Version: PFFW 6.4\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2018-09-18 00:33+0300\n"
+"PO-Revision-Date: 2018-11-07 02:04+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -489,6 +489,9 @@ msgstr "Öntanım"
 msgid "Defaults"
 msgstr "Öntanımlar"
 
+msgid "Delay Packets"
+msgstr "Paketleri Geciktir"
+
 msgid "Delete"
 msgstr "Sil"
 
@@ -887,6 +890,9 @@ msgstr "Kiralanan DHCP adres sayısını getir"
 
 msgid "Get ext_if"
 msgstr "ext_if'i getir"
+
+msgid "Get graph"
+msgstr "Grafiği getir"
 
 msgid "Get if config"
 msgstr "Arayüz yapılandırmasını getir"
@@ -3101,6 +3107,9 @@ msgstr "etiket"
 
 msgid "logging interface"
 msgstr "kayıt arayüzü"
+
+msgid "milliseconds"
+msgstr "milisaniye"
 
 msgid "modified"
 msgstr "değişmiş"

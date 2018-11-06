@@ -1,10 +1,9 @@
-From sonertari@gmail.com Sun Sep 16 06:30:10 EET 2018
+From sonertari@gmail.com Wed Nov  7 06:40:10 EET 2018
 Return-Path: root
-Date: Sep 16 06:30:10 EET 2018
+Date: Nov  7 06:40:10 EET 2018
 From: sonertari@gmail.com (Soner Tari)
 To: root
-Subject: Welcome to PFFW 6.3.1!
+Subject: Welcome to PFFW 6.4!
 
-Highlights of this release are:
-- OpenBSD 6.3-stable
-- Firebase push notifications
+This release updates PFFW to OpenBSD 6.4.
+

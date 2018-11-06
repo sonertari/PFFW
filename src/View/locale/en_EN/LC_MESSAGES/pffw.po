@@ -429,6 +429,9 @@ msgstr ""
 msgid "Defaults"
 msgstr ""
 
+msgid "Delay Packets"
+msgstr ""
+
 msgid "Delete"
 msgstr ""
 
@@ -823,6 +826,9 @@ msgid "Get dhcp leases count"
 msgstr ""
 
 msgid "Get ext_if"
+msgstr ""
+
+msgid "Get graph"
 msgstr ""
 
 msgid "Get if config"
@@ -2797,6 +2803,9 @@ msgid "label"
 msgstr ""
 
 msgid "logging interface"
+msgstr ""
+
+msgid "milliseconds"
 msgstr ""
 
 msgid "modified"

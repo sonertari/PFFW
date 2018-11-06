@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.3\n"
+"Project-Id-Version: PFFW 6.4\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2018-09-18 00:36+0300\n"
+"PO-Revision-Date: 2018-11-07 02:05+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -151,6 +151,9 @@ msgstr "Hata Ayıklama"
 
 msgid "Default"
 msgstr "Öntanım"
+
+msgid "Delay Packets"
+msgstr "Paketleri Geciktir"
 
 msgid "Delete"
 msgstr "Sil"

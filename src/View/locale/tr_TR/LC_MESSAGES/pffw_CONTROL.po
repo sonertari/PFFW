@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.3\n"
+"Project-Id-Version: PFFW 6.4\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2018-05-20 14:31+0300\n"
+"PO-Revision-Date: 2018-11-07 02:04+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -305,6 +305,9 @@ msgstr "etiket"
 
 msgid "logging interface"
 msgstr "kayıt arayüzü"
+
+msgid "milliseconds"
+msgstr "milisaniye"
 
 msgid "move to"
 msgstr "taşınacak yer"

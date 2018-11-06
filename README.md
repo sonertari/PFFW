@@ -4,7 +4,7 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw63\_20180918\_amd64.iso](https://drive.google.com/file/d/1J3hh_Tl4AbYCyrW6dsuf8uRpqonhEnFR/view?usp=sharing). Make sure the SHA256 checksum is correct: 54627d54de857a17a9a7377bb8a77a455aa1c73407b13c78eaa012f0c5c33dfd.
+The installation iso file for the amd64 arch is available for download at [pffw64\_20181107\_amd64.iso](https://drive.google.com/file/d/1J3hh_Tl4AbYCyrW6dsuf8uRpqonhEnFR/view?usp=sharing). Make sure the SHA256 checksum is correct: 54627d54de857a17a9a7377bb8a77a455aa1c73407b13c78eaa012f0c5c33dfd.
 
 ## Features
 
@@ -19,7 +19,7 @@ PFFW includes the following software, alongside what is already available on a b
 
 The web user interface of PFFW helps you manage your firewall:
 
-- Dashboard provides an overview of system status. If enabled, Notifier sends the system status as Firebase push notification to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
+- Dashboard provides an overview of system status. If enabled, Notifier sends the system status as Firebase push notifications to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
 - System, network, and service configuration can be achieved on the web interface.
 - Pf rules are maintained using PFRE.
 - Information on hosts, interfaces, pf rules, states, and queues are provided in a tabular form.
@@ -63,13 +63,13 @@ Web interface user names are admin and user. Both are set to the same password y
 
 References:
 
-1. INSTALL.amd64 under /6.3/amd64/ in the installation iso file.
+1. INSTALL.amd64 in the installation iso file.
 2. [Supported hardware](https://www.openbsd.org/amd64.html).
 3. [OpenBSD installation guide](https://www.openbsd.org/faq/faq4.html).
 
 ## How to build
 
-The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.3 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.4 and have installed git, gettext, and doxygen on it.
 
 The createiso script:
 
@@ -82,7 +82,7 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 
 - Install sets:
 	+ Obtain the sources of OpenBSD.
-	+ Copy the files under `openbsd/pffw` to the OpenBSD sources to replace the original files. You are advised to compare the original files with the PFFW versions before replacing.
+	+ Patch the OpenBSD sources using the `patch-*` files under `openbsd/utmfw`.
 	+ Create the UTMFW secret and public key pair to sign and verify the SHA256 checksums of the install sets, and copy them to their appropriate locations. The installation iso of PFFW uses the same install sets as UTMFW, hence the same secret key. If you want to use a different key pair, you should change the references to the UTMFW key pair in the source code as well.
 	+ Build an OpenBSD release, as described in [release(8)](https://man.openbsd.org/release) or [faq5](https://www.openbsd.org/faq/faq5.html).
 	+ Copy the required install sets to the appropriate locations to fix the broken links in the sources.
