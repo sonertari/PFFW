@@ -4,7 +4,7 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw64\_20181107\_amd64.iso](https://drive.google.com/file/d/1J3hh_Tl4AbYCyrW6dsuf8uRpqonhEnFR/view?usp=sharing). Make sure the SHA256 checksum is correct: 54627d54de857a17a9a7377bb8a77a455aa1c73407b13c78eaa012f0c5c33dfd.
+The installation iso file for the amd64 arch is available for download at [pffw64\_20181107\_amd64.iso](https://drive.google.com/file/d/1Fe2J6XWLSxvye9ks8knmaHIQTWYvoN0K/view?usp=sharing). Make sure the SHA256 checksum is correct: 5799f2c5da17dfb09cf2b581643873583191446036806db2ae3083b9e049a121.
 
 ## Features
 
