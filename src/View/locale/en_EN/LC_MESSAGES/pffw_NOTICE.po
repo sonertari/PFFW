@@ -28,6 +28,9 @@ msgstr ""
 msgid "Are you sure you want to stop the <NAME>?"
 msgstr ""
 
+msgid "Authentication failed"
+msgstr ""
+
 msgid ""
 "Automatic configuration completed. You might want to check the details now."
 msgstr ""

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -35,12 +35,10 @@ class Openssh extends Model
 	
 	function __construct()
 	{
-		global $TmpFile;
-		
 		parent::__construct();
 		
 		$this->Proc= 'sshd';
-		$this->StartCmd= "/usr/sbin/sshd > $TmpFile 2>&1 &";
+		$this->StartCmd= '/usr/sbin/sshd';
 	}
 	
 	function ParseLogLine($logline, &$cols)

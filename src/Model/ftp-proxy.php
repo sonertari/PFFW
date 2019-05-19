@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -29,11 +29,9 @@ class Ftpproxy extends Model
 	
 	function __construct()
 	{
-		global $TmpFile;
-		
 		parent::__construct();
 		
-		$this->StartCmd= "/usr/sbin/ftp-proxy -vv -D6 > $TmpFile 2>&1 &";
+		$this->StartCmd= '/usr/sbin/ftp-proxy -vv -D6';
 	}
 					
 	function ParseLogLine($logline, &$cols)

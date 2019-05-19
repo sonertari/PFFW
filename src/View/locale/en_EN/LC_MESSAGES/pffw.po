@@ -193,6 +193,9 @@ msgstr ""
 msgid "Assign Tag"
 msgstr ""
 
+msgid "Authentication failed"
+msgstr ""
+
 msgid "Automatic config"
 msgstr ""
 

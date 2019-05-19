@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -525,8 +525,9 @@ function PrintHGraph($data, $color= 'red', $title= '', $page= 'general', $style=
  * @param string $prefix Regexp to insert before the search string.
  * @param string $postfix Regexp to insert after the search string.
  * @param array $dateArray Datetime to restrict the searches.
+ * @param string $logFile Current log file, used by live stats pages to set the log file to the active one.
  */
-function PrintNVPs($nvps, $title, $maxcount= 100, $pie=TRUE, $needle='', $prefix='', $postfix='', $dateArray=array())
+function PrintNVPs($nvps, $title, $maxcount= 100, $pie=TRUE, $needle='', $prefix='', $postfix='', $dateArray=array(), $logFile= '')
 {
 	global $IMG_PATH, $View, $FormIdCount;
 	?>
@@ -559,7 +560,6 @@ function PrintNVPs($nvps, $title, $maxcount= 100, $pie=TRUE, $needle='', $prefix
 							// Regex should search for a case sensitive exact match, otherwise github matches live.github or GITHUB too
 
 							// Caveats of this regexp method:
-							// @todo Squid http code: Searches and finds 302 in all text, need a separate prefix, e.g. for TCP_MISS/302
 							// @todo P3scan Number of e-mails Clean Exit: Searches all, need a separate parser, e.g. for (Clean Exit). Mails: 1
 							// @todo P3scan pop3s: Cannot find pop3s, need to make POP3S lowercase
 							// @todo Smtp-gated Source IPs: Searches and finds all IPs, not just source (or destination), the same issue with other modules
@@ -584,7 +584,7 @@ function PrintNVPs($nvps, $title, $maxcount= 100, $pie=TRUE, $needle='', $prefix
 							//	"($prefix|^)${name}($postfix|$)" :
 							//	"(($prefix|^)${name}$postfix.*($needle)|($needle).*$prefix${name}($postfix|$))";
 
-							$regexp= "($prefix|^)".Escape($name, '()+?')."($postfix|$)";
+							$regexp= "($prefix|^)".Escape($name, '()[]+?')."($postfix|$)";
 
 							/// @attention Do not use href in anchor, otherwise href overrides the onclick action sometimes, hence the cursor style
 							?>
@@ -594,6 +594,13 @@ function PrintNVPs($nvps, $title, $maxcount= 100, $pie=TRUE, $needle='', $prefix
 								<input type="hidden" name="Month" value="<?php echo $dateArray['Month'] ?>" />
 								<input type="hidden" name="Day" value="<?php echo $dateArray['Day'] ?>" />
 								<input type="hidden" name="Hour" value="<?php echo $dateArray['Hour'] ?>" />
+								<?php
+								if ($logFile != '') {
+									?>
+									<input type="hidden" name="LogFile" value="<?php echo $logFile ?>" />
+									<?php
+								}
+								?>
 								<input type="hidden" name="Sender" value="Stats" />
 							</form>
 							<a onclick="document.<?php echo $formId ?>.submit()" style="cursor: pointer;" title="<?php echo _TITLE('Click to search in the logs') ?>"><?php echo $name ?></a>
@@ -656,7 +663,7 @@ function PrintGraphNVPSet($stats, $date, $parent, $conf, $type, $style, $prefix,
 			<td>
 				<?php
 				$printFunc($data, $conf['Color'], _($conf['Title']), $page, $style, $conf['Needle']);
-				if (count($conf['NVPs']) > 0) {
+				if (array_key_exists('NVPs', $conf) && count($conf['NVPs']) > 0) {
 					?>
 					<table>
 						<?php
@@ -723,7 +730,7 @@ function PrintMinutesGraphNVPSet($stats, $parent, $conf, $type, $prefix, $postfi
 			<td>
 				<?php
 				$printGraphFunc($data, $conf['Color'], _($conf['Title']), 'hourly', 'Hourly', $conf['Needle'], $logFile);
-				if (count($conf['NVPs']) > 0) {
+				if (array_key_exists('NVPs', $conf) && count($conf['NVPs']) > 0) {
 					?>
 					<table>
 						<tr>
@@ -739,7 +746,7 @@ function PrintMinutesGraphNVPSet($stats, $parent, $conf, $type, $prefix, $postfi
 										if (isset($conf['Divisor'])) {
 											DivideArrayData($nvps, $conf['Divisor']);
 										}
-										PrintNVPs($nvps, _($title), 10, TRUE, $conf['Needle'], $prefix, $postfix, $dateArray);
+										PrintNVPs($nvps, _($title), 10, TRUE, $conf['Needle'], $prefix, $postfix, $dateArray, $logFile);
 										?>
 									</td>
 									<?php
@@ -1151,12 +1158,9 @@ function PrintLogHeaderForm($start, $total, $count, $re, $hidden, $needle='', $s
 				<td>
 					<?php echo _TITLE('Regexp').':' ?>
 					<input type="text" name="SearchRegExp" style="width: 300px;" maxlength="200" value="<?php echo $re ?>" />
+					<?php echo _TITLE('Needle').':' ?>
+					<input type="text" name="SearchNeedle" style="width: 100px;" maxlength="200" value="<?php echo $needle ?>" />
 					<input type="submit" name="Apply" value="<?php echo _CONTROL('Apply') ?>"/>
-					<?php
-					if ($needle !== '') {
-						echo _TITLE('Needle').": ($needle)";
-					}
-					?>
 				</td>
 			</tr>
 			<tr class="evenline">
@@ -1298,12 +1302,7 @@ function UpdateLogsPageSessionVars(&$count, &$re, &$needle)
 		$pageSession['LinesPerPage']= $count;
 	}
 
-	// Reset the SearchNeedle if the user modifies the SearchRegExp
-	if ($pageSession['SearchRegExp'] !== filter_input(INPUT_POST, 'SearchRegExp')) {
-		$pageSession['SearchNeedle']= '';
-	}
-
-	// Empty regexp posted is used to clear the session regexp, use isset() here
+	// Empty regexp posted is used to clear the session regexp
 	if (filter_has_var(INPUT_POST, 'SearchRegExp')) {
 		$pageSession['SearchRegExp']= filter_input(INPUT_POST, 'SearchRegExp');
 	}

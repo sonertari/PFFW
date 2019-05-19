@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -29,7 +29,7 @@ $ShowHelpBox= TRUE;
 $SessionTimeout= 300;
 
 /// Whether to run Controller commands over SSH.
-$UseSSH= TRUE;
+$UseSSH= FALSE;
 
 /// Default reload rate in seconds for dynamic pages, e.g. live pages.
 $DefaultReloadRate= 10;

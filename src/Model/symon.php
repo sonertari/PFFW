@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -38,11 +38,9 @@ class Symon extends Monitoring
 
 	function __construct()
 	{
-		global $TmpFile;
-		
 		parent::__construct();
 		
-		$this->StartCmd= "/usr/local/libexec/symon > $TmpFile 2>&1 &";
+		$this->StartCmd= '/usr/local/libexec/symon';
 		
 		$this->Commands= array_merge(
 			$this->Commands,

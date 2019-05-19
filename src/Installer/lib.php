@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -397,7 +397,9 @@ function CreateUsers()
 	// In case
 	$View->Model= 'system';
 	
-	echo "\nPassword for web administration interface:\n";
+	echo "\nPassword for WUI users 'admin' and 'user'\n";
+	echo "To use the WUI, log in as 'admin' or 'user' with this password\n";
+	echo "You can change user passwords on the WUI:\n";
 	
 	while (TRUE) {
 		echo "Password? (will not echo) ";
@@ -415,16 +417,19 @@ function CreateUsers()
 					wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: admin');
 					// Update user password
 					if ($View->Controller($output, 'CreateUser', 'user', $sha1Passwd, 1001)) {
+						echo "Successfully created WUI users: 'admin' and 'user'.\n\n";
 						wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: user');
 					}
 					else {
+						echo "\nUser create failed: user.\n";
 						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: user');
 					}
 				}
 				else {
+					echo "\nUser create failed: admin.\n";
 					wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: admin');
 				}
-				echo "Successfully created admin and user.\n\n";
+				// Always break out if password is entered correctly
 				break;
 			}
 			else {

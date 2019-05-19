@@ -1,9 +1,12 @@
-From sonertari@gmail.com Wed Nov  7 06:40:10 EET 2018
+From sonertari@gmail.com Sun May 19 06:50:00 EET 2019
 Return-Path: root
-Date: Nov  7 06:40:10 EET 2018
+Date: May 19 06:50:00 EET 2019
 From: sonertari@gmail.com (Soner Tari)
 To: root
-Subject: Welcome to PFFW 6.4!
+Subject: Welcome to PFFW 6.5!
 
-This release updates PFFW to OpenBSD 6.4.
+Highlights of this release are:
+- OpenBSD 6.5
+- PHP 7.3
+- Variety of other updates and improvements
 

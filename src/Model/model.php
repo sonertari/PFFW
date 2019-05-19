@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -74,7 +74,7 @@ class Model
 	protected $newSyslogConf= '/etc/newsyslog.conf';
 
 	/// This datetime format is for error logs, not access logs.
-	/// Hence for example squid uses the default syslog format.
+	/// Certain modules use the default syslog format.
 	protected $dateTimeFormat= 'M j H:i:s';
 
 	protected $prios= array();
@@ -90,7 +90,7 @@ class Model
 		$this->Config= $ModelConfig;
 
 		$this->prios= array(
-			'EMERGENCY|ALERT|CRITICAL' => _TITLE('<MODEL> has CRITICAL errors'),
+			'CRITICAL|ALERT|EMERGENCY' => _TITLE('<MODEL> has CRITICAL errors'),
 			'ERROR' => _TITLE('<MODEL> has ERRORs'),
 			'WARNING' => _TITLE('<MODEL> has WARNINGs')
 			);
@@ -392,7 +392,7 @@ class Model
 	/**
 	 * Start module process(es).
 	 *
-	 * Tries PROC_STAT_TIMEOUT times.
+	 * Waits PROC_STAT_TIMEOUT times.
 	 *
 	 * @todo Actually should stop retrying on error?
 	 *
@@ -400,29 +400,27 @@ class Model
 	 */
 	function Start()
 	{
-		global $TmpFile;
-
-		$this->RunShellCommand($this->StartCmd);
+		global $TmpFile, $RetvalFile;
 		
-		$count= 0;
-		while ($count++ < self::PROC_STAT_TIMEOUT) {
-			if ($this->IsRunning()) {
-				return TRUE;
+		exec($this->StartCmd." > $TmpFile 2>&1 && echo -n '0' > $RetvalFile || echo -n '1' > $RetvalFile &", $output);
+		$retval= file_get_contents($RetvalFile);
+		
+		$running= FALSE;
+		if ($retval === '0') {
+			$count= 0;
+			while (!($running= $this->IsRunning()) && $count++ < self::PROC_STAT_TIMEOUT) {
+				/// @todo Check $TmpFile for error messages, if so break out instead
+				exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
 			}
-			/// @todo Check $TmpFile for error messages, if so break out instead
-			exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
 		}
 
-		// Check one last time due to the last sleep in the loop
-		if ($this->IsRunning()) {
-			return TRUE;
-		}
-		
-		// Start command is redirected to tmp file
+		// Start command is redirected to tmp file, report its contents, success or failure
 		$output= file_get_contents($TmpFile);
 		Error($output);
-		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Start failed with: $output");
-		return FALSE;
+		if (!$running) {
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Start failed with: $output");
+		}
+		return $running;
 	}
 
 	/**
@@ -566,8 +564,6 @@ class Model
 			if (preg_match("/^$user:[^:]+(:.+)$/", $line, $match)) {
 				unset($output);
 				$cmdline= '/usr/bin/chpass -a "' . $user . ':$(/usr/bin/encrypt ' . $passwd . ')' . $match[1] . '"';
-				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "cmdline: $cmdline");
-
 				exec($cmdline, $output, $retval);
 				if ($retval === 0) {
 					return TRUE;
@@ -865,7 +861,7 @@ class Model
 			}
 		}
 		else {
-			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file: $file");
 		}
 		return FALSE;
 	}
@@ -875,12 +871,13 @@ class Model
 	 *
 	 * @param string $file Config file.
 	 * @param string $name Name of NVP.
+	 * @param int $set There may be multiple parentheses in $re, which one to return.
 	 * @param string $trimchars Chars to trim in the results.
 	 * @return mixed Value of NVP or NULL on failure.
 	 */
-	function GetNVP($file, $name, $trimchars= '')
+	function GetNVP($file, $name, $set= 0, $trimchars= '')
 	{
-		return $this->SearchFile($file, "/^\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m", 1, $trimchars);
+		return $this->SearchFile($file, "/^\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m", $set, $trimchars);
 	}
 
 	/**
@@ -892,11 +889,12 @@ class Model
 	 * @param string $trimchars If given, these chars are trimmed on the left or right.
 	 * @return mixed String found or FALSE if no match.
 	 */
-	function SearchFile($file, $re, $set= 1, $trimchars= '')
+	function SearchFile($file, $re, $set= 0, $trimchars= '')
 	{
-		/// @todo What to do with multiple matching NVPs
-		if (preg_match($re, file_get_contents($file), $match)) {
-			$retval= $match[$set];
+		// There may be multiple matching NVPs
+		if (preg_match_all($re, file_get_contents($file), $match)) {
+			// Index 0 always gives full matches, so use index 1
+			$retval= $match[1][$set];
 			if ($trimchars !== '') {
 				$retval= trim($retval, $trimchars);
 			}
@@ -939,11 +937,12 @@ class Model
 				return TRUE;
 			}
 			else {
-				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot replace in $file");
+				// Replace failure may not be important, we sometimes search and try to replace possibly nonexistent needles
+				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot replace in: $file");
 			}
 		}
 		else {
-			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file: $file");
 		}
 		return FALSE;
 	}
@@ -964,7 +963,7 @@ class Model
 			return TRUE;
 		}
 		else {
-			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file $file");
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot copy file: $file");
 		}
 		return FALSE;
 	}
@@ -2164,14 +2163,14 @@ class Model
 			if (($output= $this->GetValue($name, $conf, $group)) !== FALSE) {
 				$values[$name]= array(
 					'Value' => $output,
-					'Type' => $this->GetConfValueType($name, $conf),
+					'Type' => $this->GetConfValueType($name),
 					'Enabled' => TRUE,
 					);
 			}
 			else if (($output= $this->GetDisabledValue($name, $conf, $group)) !== FALSE) {
 				$values[$name]= array(
 					'Value' => $output,
-					'Type' => $this->GetConfValueType($name, $conf),
+					'Type' => $this->GetConfValueType($name),
 					'Enabled' => FALSE,
 					);
 			}
@@ -2195,8 +2194,22 @@ class Model
 			return $this->GetName($file, $name);
 		}
 		
-		$value= $this->GetNVP($file, $name);
-		return $value !== FALSE ? "$name=$value" : $value;
+		$validValues= $this->getValidValues($name);
+		$value= FALSE;
+		$set= 0;
+		// Try max 5 possible values
+		while ($set < 5) {
+			$value= $this->GetNVP($file, $name, $set);
+			if ($value === FALSE) {
+				return FALSE;
+			}
+			if (!count($validValues) || in_array($value, $validValues)) {
+				return "$name=$value";
+			}
+			ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Failed validating value: $name: $value");
+			$set++;
+		}
+		return $value;
 	}
 
 	/**
@@ -2209,21 +2222,50 @@ class Model
 		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
 			return $this->GetDisabledName($file, $name);
 		}
-		
-		$value= $this->GetDisabledNVP($file, $name);
-		return $value !== FALSE ? "$name=$value" : $value;
+
+		$validValues= $this->getValidValues($name);
+		$value= FALSE;
+		$set= 0;
+		// Try max 5 possible values
+		while ($set < 5) {
+			$value= $this->GetDisabledNVP($file, $name, $set);
+			if ($value === FALSE) {
+				return FALSE;
+			}
+			if (!count($validValues) || in_array($value, $validValues)) {
+				return "$name=$value";
+			}
+			ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Failed validating value: $name: $value");
+			$set++;
+		}
+		return $value;
 	}
-	
+
+	function getValidValues($name)
+	{
+		$validValues= array();
+		$type= $this->Config[$name]['type'];
+		if ($type == STR_on_off) {
+			$validValues= array('on', 'off');
+		} elseif ($type == STR_On_Off) {
+			$validValues= array('On', 'Off');
+		} elseif ($type == STR_yes_no) {
+			$validValues= array('yes', 'no');
+		}
+		return $validValues;
+	}
+
 	/**
 	 * Reads value of commented-out NVP.
 	 *
 	 * @param string $file Config file
 	 * @param string $name Name of NVP
+	 * @param int $set There may be multiple parentheses in $re, which one to return
 	 * @return string Value of commented NVP or NULL on failure
 	 */
-	function GetDisabledNVP($file, $name)
+	function GetDisabledNVP($file, $name, $set= 0)
 	{
-		return $this->SearchFile($file, "/^\h*$this->COMC\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m");
+		return $this->SearchFile($file, "/^\h*$this->COMC\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m", $set);
 	}
 
 	/**
@@ -2278,15 +2320,13 @@ class Model
 		return FALSE;
 	}
 
-	function GetConfValueType($name, $conf)
+	function GetConfValueType($name)
 	{
 		if (isset($this->Config[$name]['type'])) {
-			$re= $this->Config[$name]['type'];
+			return $this->Config[$name]['type'];
+		} else {
+			return '.*';
 		}
-		else {
-			$re= '.*';
-		}
-		return $re;
 	}
 
 	/**
@@ -2308,7 +2348,7 @@ class Model
 		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
 			return $this->EnableName($file, $name);
 		}
-		return $this->EnableNVP($file, $name);
+		return $this->EnableNVP($file, $name, $this->GetConfValueType($name));
 	}
 
 	/**
@@ -2322,7 +2362,7 @@ class Model
 		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
 			return $this->DisableName($file, $name);
 		}
-		return $this->DisableNVP($file, $name);
+		return $this->DisableNVP($file, $name, $this->GetConfValueType($name));
 	}
 
 	/**
@@ -2330,11 +2370,12 @@ class Model
 	 *
 	 * @param string $file Config file
 	 * @param string $name Config name
+	 * @param string $type Type regexp of value
 	 * @return bool TRUE on success, FALSE on fail.
 	 */
-	function EnableNVP($file, $name)
+	function EnableNVP($file, $name, $type)
 	{
-		return $this->ReplaceRegexp($file, "/^\h*$this->COMC(\s*$name\b\s*$this->NVPS\s*.*)$/m", '${1}');
+		return $this->ReplaceRegexp($file, "/^\h*$this->COMC(\s*$name\b\s*$this->NVPS\s*$type)$/m", '${1}');
 	}
 
 	/**
@@ -2348,9 +2389,9 @@ class Model
 	/**
 	 * Disables an NVP.
 	 */
-	function DisableNVP($file, $name)
+	function DisableNVP($file, $name, $type)
 	{
-		return $this->ReplaceRegexp($file, "/^(\h*$name\b\s*$this->NVPS\s*.*)$/m", $this->COMC.'${1}');
+		return $this->ReplaceRegexp($file, "/^(\h*$name\b\s*$this->NVPS\s*$type)$/m", $this->COMC.'${1}');
 	}
 
 	/**
@@ -2521,9 +2562,21 @@ class Model
 		//$logs= $model->_getStatus('(EMERGENCY|emergency|ALERT|alert|CRITICAL|critical|ERROR|error|WARNING|warning):');
 		$logs= $this->_getStatus('');
 
-		$crits= $this->getCriticalErrors($logs);
-		$errs= $this->getErrors($logs);
-		$warns= $this->getWarnings($logs);
+		$crits= array();
+		$errs= array();
+		$warns= array();
+		foreach ($logs as $l) {
+			// Warnings and errors must be more frequent, so check them first
+			if ($this->isPrio($l, 'WARNING')) {
+				$warns[]= $l;
+			}
+			else if ($this->isPrio($l, 'ERROR')) {
+				$errs[]= $l;
+			}
+			else if ($this->isPrio($l, 'CRITICAL') || $this->isPrio($l, 'ALERT') || $this->isPrio($l, 'EMERGENCY')) {
+				$crits[]= $l;
+			}
+		}
 
 		$errorStatus= 'N';
 		if (count($crits)) {
@@ -2563,17 +2616,18 @@ class Model
 
 				// @attention Don't get the logs in the last 60 seconds from now instead, otherwise the errors still important cannot be reported after 60 seconds.
 				$logs= $this->getStatusLogs($this->LogFile, 1000, $needle);
-				if (count($logs)) {
-					// Loop in reverse order to break out asap
-					foreach (array_reverse($logs) as $l) {
-						$dt= DateTime::createFromFormat($this->dateTimeFormat, $l['Date'].' '.$l['Time']);
-						if ($dt) {
-							$ts= $dt->getTimestamp();
-							if ($lastTs - $ts <= $interval) {
-								$lastLogs[]= $l;
-							} else {
-								break;
-							}
+
+				$count= count($logs);
+				// Loop in reverse order to break out asap
+				while (--$count >= 0) {
+					$l= $logs[$count];
+					$dt= DateTime::createFromFormat($this->dateTimeFormat, $l['Date'].' '.$l['Time']);
+					if ($dt) {
+						$ts= $dt->getTimestamp();
+						if ($lastTs - $ts <= $interval) {
+							$lastLogs[]= $l;
+						} else {
+							break;
 						}
 					}
 				}
@@ -2587,86 +2641,45 @@ class Model
 		return $this->_getLiveLogs($file, $count, $re, $needle);		
 	}
 
-	function getCriticalErrors($logs)
-	{
-		return array_merge($this->getPrioLogs($logs, 'EMERGENCY'),
-				$this->getPrioLogs($logs, 'ALERT'),
-				$this->getPrioLogs($logs, 'CRITICAL'));
-	}
-
-	function getErrors($logs)
-	{
-		return $this->getPrioLogs($logs, 'ERROR');
-	}
-
-	function getWarnings($logs)
-	{
-		return $this->getPrioLogs($logs, 'WARNING');
-	}
-
 	function isPrio($log, $prio)
 	{
 		return strtoupper($log['Prio']) == $prio;
-	}
-
-	function getPrioLogs($logs, $needle)
-	{
-		$prioLogs= array();
-		foreach ($logs as $l) {
-			if ($this->isPrio($l, $needle)) {
-				$prioLogs[]= $l;
-			}
-		}
-		return $prioLogs;
 	}
 
 	function GetStatus()
 	{
 		global $ModelsToStat;
 
-		foreach ($this->prios as $p => $msg) {
-			$keys= explode('|', $p);
-			$needleArray= array();
-			foreach ($keys as $k) {
-				$needleArray[]= $k;
-				$needleArray[]= strtolower($k);
-			}
-			$needle= implode('|', $needleArray);
+		// Do not use needles with this _getStatus() call, it (grep) takes too long
+		$logs= $this->_getStatus('');
+		if (count($logs)) {
+			foreach ($this->prios as $p => $msg) {
+				$keys= explode('|', $p);
 
-			$logs= $this->_getStatus($this->formatErrorNeedle($needle));
-			$total= count($logs);
-			if ($total > 0) {
 				$errorStr= '';
-				$count= 0;
+				$shown= 0;
+				$total= 0;
 				foreach ($logs as $l) {
-					$isPrio= FALSE;
-					foreach ($needleArray as $n) {
+					foreach ($keys as $n) {
 						if ($this->isPrio($l, $n)) {
-							$isPrio= TRUE;
-							break;
-						}
-					}
-
-					if ($isPrio) {
-						$errorStr.= "\n" . $l['Log'];
-						$count++;
-						if ($count >= 5 && $total - $count > 0) {
-							$errorStr.= "\n" . str_replace('<COUNT>', $total - $count, _TITLE('And <COUNT> others not shown.'));
+							if ($shown < 5) {
+								$errorStr.= "\n" . $l['Log'];
+								$shown++;
+							}
+							$total++;
 							break;
 						}
 					}
 				}
-				if ($count) {
+				if ($shown) {
+					if ($total > $shown) {
+						$errorStr.= "\n" . str_replace('<COUNT>', $total - $shown, _TITLE('And <COUNT> others not shown.'));
+					}
 					Error(str_replace('<MODEL>', _($ModelsToStat[$this->Name]), _($msg)) . ':' . $errorStr);
 				}
 			}
 		}
 		return TRUE;
-	}
-
-	function formatErrorNeedle($needle)
-	{
-		return "($needle):";
 	}
 
 	function _getStatus($needle)

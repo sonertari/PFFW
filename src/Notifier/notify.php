@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -48,9 +48,9 @@ $StatusText= array(
 	);
 
 $Prios= array(
-	'Critical' => array('EMERGENCY', 'ALERT', 'CRITICAL'),
-	'Error' => array('ERROR'),
-	'Warning' => array('WARNING', 'NOTICE'),
+	'Critical' => array('EMERGENCY', 'ALERT', 'CRITICAL', 'emergency', 'alert', 'critical'),
+	'Error' => array('ERROR', 'error'),
+	'Warning' => array('WARNING', 'NOTICE', 'warning', 'notice'),
 	);
 
 function Notify($title, $body, $data)

@@ -1,6 +1,6 @@
 <?php 
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -102,11 +102,12 @@ class Limit extends Rule
 			reset($this->rule['limit']);
 
 			if (count($this->rule['limit']) == 1) {
-				list($key, $val)= each($this->rule['limit']);
+				$key= key($this->rule['limit']);
+				$val= current($this->rule['limit']);
 				$this->str.= "set limit $key $val";
 			} else {
 				$this->str= 'set limit {';
-				while (list($key, $val)= each($this->rule['limit'])) {
+				foreach ($this->rule['limit'] as $key => $val) {
 					$this->str.= " $key $val,";
 				}
 				$this->str= rtrim($this->str, ',');

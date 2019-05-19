@@ -1,6 +1,6 @@
 <?php 
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -46,9 +46,9 @@ class Timeout extends Rule
 	{
 		if (count($this->rule['timeout'])) {
 			reset($this->rule['timeout']);
-			while (list($timeout, $kvps)= each($this->rule['timeout'])) {	
+			foreach ($this->rule['timeout'] as $timeout => $kvps) {
 				$timeout= $timeout == 'all' ? '' : "$timeout.";
-				while (list($key, $val)= each($kvps)) {
+				foreach ($kvps as $key => $val) {
 					$this->arr[]= "$timeout$key: $val";
 				}
 			}
@@ -104,7 +104,7 @@ class Timeout extends Rule
 		$this->editIndex= 0;
 		$this->ruleNumber= $ruleNumber;
 
-		$this->editHead($modified);
+		$this->editHead($modified, $testResult, $generateResult, $action);
 
 		$this->editFragment();
 		$this->editInterval();
@@ -112,7 +112,7 @@ class Timeout extends Rule
 		$this->editTimeout();
 
 		$this->editComment();
-		$this->editTail($modified, $testResult, $generateResult, $action);
+		$this->editTail();
 	}
 
 	function editTimeout()

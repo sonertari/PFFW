@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -34,11 +34,9 @@ class Named extends Model
 
 	function __construct()
 	{
-		global $TmpFile;
-		
 		parent::__construct();
 		
-		$this->StartCmd= "/usr/local/sbin/named -t /var/named/ > $TmpFile 2>&1 &";
+		$this->StartCmd= '/usr/local/sbin/named -t /var/named/';
 		
 		$this->Commands= array_merge(
 			$this->Commands,

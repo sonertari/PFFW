@@ -1,6 +1,6 @@
 <?php 
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -55,13 +55,13 @@ class LoadAnchor extends Rule
 		$this->editIndex= 0;
 		$this->ruleNumber= $ruleNumber;
 
-		$this->editHead($modified);
+		$this->editHead($modified, $testResult, $generateResult, $action);
 
 		$this->editText('anchor', _TITLE('Anchor'), 'anchor-id', NULL, _CONTROL('name, may be nested'));
 		$this->editText('file', _TITLE('File'), FALSE, 40, _CONTROL('filename'));
 
 		$this->editComment();
-		$this->editTail($modified, $testResult, $generateResult, $action);
+		$this->editTail();
 	}
 }
 ?>

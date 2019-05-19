@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -50,7 +50,7 @@ class NatTo extends NatBase
 		$this->editIndex= 0;
 		$this->ruleNumber= $ruleNumber;
 
-		$this->editHead($modified);
+		$this->editHead($modified, $testResult, $generateResult, $action);
 
 		$this->editAction();
 
@@ -65,7 +65,7 @@ class NatTo extends NatBase
 		$this->editFilterOpts();
 
 		$this->editComment();
-		$this->editTail($modified, $testResult, $generateResult, $action);
+		$this->editTail();
 	}
 }
 ?>

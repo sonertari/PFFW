@@ -1,6 +1,6 @@
 <?php 
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -37,7 +37,7 @@ class Limit extends Rule
 			$this->arr= array();
 			if (count($this->rule['limit'])) {
 				reset($this->rule['limit']);
-				while (list($key, $val)= each($this->rule['limit'])) {
+				foreach ($this->rule['limit'] as $key => $val) {
 					$this->arr[]= "$key: $val";
 				}
 			}
@@ -64,12 +64,12 @@ class Limit extends Rule
 		$this->editIndex= 0;
 		$this->ruleNumber= $ruleNumber;
 
-		$this->editHead($modified);
+		$this->editHead($modified, $testResult, $generateResult, $action);
 
 		$this->editLimit();
 
 		$this->editComment();
-		$this->editTail($modified, $testResult, $generateResult, $action);
+		$this->editTail();
 	}
 
 	function editLimit()

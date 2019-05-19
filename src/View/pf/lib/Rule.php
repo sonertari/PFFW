@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2018 Soner Tari
+ * Copyright (C) 2004-2019 Soner Tari
  *
  * This file is part of PFFW.
  *
@@ -628,7 +628,7 @@ class Rule
 					unset($array[$key]);
 				} elseif (count($array[$key]) == 1 && $flatten && !in_array($key, array('timeout', 'limit', 'log'))) {
 					// Array has only one element, convert from array to simple NVP
-					list($k, $v)= each($array[$key]);
+					$v= current($array[$key]);
 					unset($array[$key]);
 					$array[$key]= $v;
 				}
@@ -742,11 +742,15 @@ class Rule
 	/**
 	 * Prints rule title, generated rule, and form header at the top of the edit page.
 	 * 
-	 * All edit pages use this method.
+	 * Also prints buttons and checkboxes to apply, save or cancel any modification on the edit page.
+	 * Almost all edit pages use this method.
 	 * 
 	 * @param bool $modified Whether the rule is modified or not.
+	 * @param bool $testResult Test result of the rule.
+	 * @param bool $generateResult Rule generation result.
+	 * @param string $action State of the edit page.
 	 */
-	function editHead($modified)
+	function editHead($modified, $testResult, $generateResult, $action)
 	{
 		global $ruleStr, $ruleCategoryNames;
 
@@ -758,24 +762,6 @@ class Rule
 		<h2><?php echo $editHeader . ($modified ? ' (' . _TITLE('modified') . ')' : '') ?><?php $this->editHelp(ltrim($this->cat, '_')) ?></h2>
 		<h4><?php echo str_replace("\t", "<code>\t</code><code>\t</code>", nl2br(htmlentities($ruleStr))) ?></h4>
 		<form id="editForm" name="editForm" action="<?php echo $this->href . $this->ruleNumber ?>" method="post">
-			<table id="nvp">
-			<?php
-	}
-
-	/**
-	 * Prints buttons and checkboxes to apply, save or cancel any modification on the edit page.
-	 * 
-	 * Almost all edit pages use this method.
-	 * 
-	 * @param bool $modified Whether the rule is modified or not.
-	 * @param bool $testResult Test result of the rule.
-	 * @param bool $generateResult Rule generation result.
-	 * @param string $action State of the edit page.
-	 */
-	function editTail($modified, $testResult, $generateResult, $action)
-	{
-			?>
-			</table>
 			<div class="buttons">
 				<input type="submit" id="apply" name="apply" value="<?php echo _CONTROL('Apply') ?>" />
 				<input type="submit" id="save" name="save" value="<?php echo _CONTROL('Save') ?>" <?php echo $modified ? '' : 'disabled' ?> />
@@ -786,6 +772,19 @@ class Rule
 				<label for="forcegenerate"><?php echo _CONTROL('Generate with errors') ?></label>
 				<input type="hidden" name="state" value="<?php echo $action ?>" />
 			</div>
+			<table id="nvp">
+			<?php
+	}
+
+	/**
+	 * Closes the table and form on the edit page.
+	 * 
+	 * Almost all edit pages use this method.
+	 */
+	function editTail()
+	{
+			?>
+			</table>
 		</form>
 		<?php
 	}
@@ -932,7 +931,7 @@ class Rule
 		global $IMG_PATH;
 		?>
 		<a target="<?php echo $label ?>" href="/pf/pf.conf.html#<?php echo $label ?>">
-			<img src="<?php echo "$IMG_PATH/help.png" ?>" name="<?php $label ?>" alt="(?)" border="0" width="12" height="12">
+			<img src="<?php echo "$IMG_PATH/help.png" ?>" name="<?php echo $label ?>" alt="(?)" border="0" width="12" height="12">
 		</a>
 		<?php
 	}

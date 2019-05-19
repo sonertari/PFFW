@@ -1,13 +1,13 @@
-# Copyright (C) 2004-2018 Soner Tari, The PFFW project
+# Copyright (C) 2004-2019 Soner Tari, The PFFW project
 # This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018, 2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PFFW 6.4\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2018-11-07 02:04+0300\n"
+"PO-Revision-Date: 2019-05-19 14:28+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -221,6 +221,9 @@ msgstr "Öncelik Ata"
 
 msgid "Assign Tag"
 msgstr "Tag Ata"
+
+msgid "Authentication failed"
+msgstr "Doğrulama başarısız"
 
 msgid "Automatic config"
 msgstr "Otomatik yapılandırma"
