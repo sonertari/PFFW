@@ -25,6 +25,9 @@
 /// Redirect file for Controller().
 $TmpFile= '/var/tmp/pffw/ctlr.out';
 
+/// Return value redirect file.
+$RetvalFile= '/var/tmp/pffw/retval.out';
+
 /// Matches model names to files. View provides the name only.
 $ModelFiles= array(
 	'system'			=> 'system.php',
