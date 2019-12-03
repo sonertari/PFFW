@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-# Further tweaked by Soner Tari, sonertari@gmail.com, for PFFW.
+# Further tweaked by Soner Tari, sonertari@gmail.com, for UTMFW.
 # In 2007, I've asked Bob Beck for the actual version of this code,
 # he replied negatively, for reasons of security through obscurity.
 #

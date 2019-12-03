@@ -994,7 +994,7 @@ __EOT
 # #######################################################################
 # Initial actions common to both installs and upgrades.
 # #######################################################################
-VERSION='6.5'
+VERSION='6.6'
 ARCH=$(/usr/bin/machine)
 
 VMAJ=${VERSION%%\.*}
@@ -1025,10 +1025,10 @@ CDDEVS=$(scan_dmesg "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}")
 [[ -z $CDDEVS ]] && CDDEVS="cd0,cd1,cd2"
 
 # Selected sets will be installed in the order they are listed in $THESETS.
-THESETS="isc-bind-9.11.6v0.tgz \
-		symon-2.88p4.tgz \
-		pftop-0.7p18.tgz \
-		php-7.3.4.tgz \
+THESETS="isc-bind-9.11.11v0.tgz \
+		symon-2.88p5.tgz \
+		pftop-0.7p19.tgz \
+		php-7.3.10.tgz \
 		$CW_WEBIF_TARFILE \
 		$CW_CONFIG_TARFILE"
 

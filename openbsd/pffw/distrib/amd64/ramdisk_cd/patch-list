@@ -1,0 +1,10 @@
+--- list.orig	Thu Nov 28 15:15:10 2019
++++ list	Thu Nov 28 15:17:45 2019
+@@ -104,6 +104,7 @@
+ COPY	${CURDIR}/../../miniroot/master.passwd	etc/master.passwd
+ SPECIAL	pwd_mkdb -p -d etc master.passwd; rm etc/master.passwd
+ COPY	${DESTDIR}/etc/signify/openbsd-${OSrev}-base.pub	etc/signify/openbsd-${OSrev}-base.pub
++COPY	/etc/signify/utmfw-${OSrev}.pub		etc/signify/utmfw-${OSrev}.pub
+ COPY	${CURDIR}/../../miniroot/protocols	etc/protocols
+ COPY	${CURDIR}/../../miniroot/services	etc/services
+ TERMCAP	vt100,vt220,dumb			usr/share/misc/termcap

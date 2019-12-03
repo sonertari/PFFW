@@ -2,20 +2,20 @@
 /*
  * Copyright (C) 2004-2019 Soner Tari
  *
- * This file is part of PFFW.
+ * This file is part of UTMFW.
  *
- * PFFW is free software: you can redistribute it and/or modify
+ * UTMFW is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * PFFW is distributed in the hope that it will be useful,
+ * UTMFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with PFFW.  If not, see <http://www.gnu.org/licenses/>.
+ * along with UTMFW.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /** @file
@@ -435,6 +435,11 @@ class System extends Model
 			if (($contents= $this->GetFile($file)) !== FALSE) {
 				$re= '^\s*(inet|dhcp)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)\s*$';
 				if (preg_match("/$re/m", $contents, $match)) {
+					// OpenBSD 6.6 uses hex if mask in hostname.if file
+					// Convert if mask from hex to ip: 0xffffff00 -> 255.255.255.0
+					if ($match[3] !== '') {
+						$match[3]= long2ip(hexdec($match[3]));
+					}
 					return json_encode(array_slice($match, 1));
 				}
 			}
@@ -602,10 +607,16 @@ class System extends Model
 	{
 		global $Re_Ip;
 		
+		// OpenBSD 6.6 uses hex if mask in hostname.if file
+		// Convert if mask from ip to hex: 255.255.255.0 -> 0xffffff00
+		if ($mask !== '') {
+			$mask= '0x'.dechex(ip2long($mask));
+		}
+
 		// Trim whitespace caused by empty strings
 		$ifconf= trim("$type $ip $mask $bc $opt");
 		// PFFW supports only these configuration
-		if (preg_match("/^inet\s*$Re_Ip\s*$Re_Ip\s*($Re_Ip|).*$/", $ifconf)
+		if (preg_match("/^inet\s*$Re_Ip\s*[x0-9a-f]+\s*($Re_Ip|).*$/", $ifconf)
 			|| preg_match('/^dhcp\s*NONE\s*NONE\s*NONE.*$/', $ifconf)
 			|| preg_match('/^dhcp$/', $ifconf)) {
 			/// @warning Need a new line char at the end of hostname.if, otherwise /etc/netstart fails

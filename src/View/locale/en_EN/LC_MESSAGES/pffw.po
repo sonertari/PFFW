@@ -1525,9 +1525,6 @@ msgstr ""
 msgid "Not JSON encoded string"
 msgstr ""
 
-msgid "Not a valid password"
-msgstr ""
-
 msgid "Not asterisk"
 msgstr ""
 
@@ -1742,9 +1739,6 @@ msgid "Partitions Usages"
 msgstr ""
 
 msgid "Password"
-msgstr ""
-
-msgid "Passwords do not match"
 msgstr ""
 
 msgid "Permit Empty Passwords"

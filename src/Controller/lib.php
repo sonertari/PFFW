@@ -2,27 +2,27 @@
 /*
  * Copyright (C) 2004-2019 Soner Tari
  *
- * This file is part of PFFW.
+ * This file is part of UTMFW.
  *
- * PFFW is free software: you can redistribute it and/or modify
+ * UTMFW is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * PFFW is distributed in the hope that it will be useful,
+ * UTMFW is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with PFFW.  If not, see <http://www.gnu.org/licenses/>.
+ * along with UTMFW.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /** @file
  * Defs and library functions for Controller.
  */
 
-/// Redirect file for Controller().
+/// Output and error redirect file.
 $TmpFile= '/var/tmp/pffw/ctlr.out';
 
 /// Return value redirect file.

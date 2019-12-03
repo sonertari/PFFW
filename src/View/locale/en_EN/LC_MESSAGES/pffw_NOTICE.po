@@ -83,13 +83,7 @@ msgstr ""
 msgid "Main pf rules reloaded"
 msgstr ""
 
-msgid "Not a valid password"
-msgstr ""
-
 msgid "Page start line"
-msgstr ""
-
-msgid "Passwords do not match"
 msgstr ""
 
 msgid "Rule test failed without an error message"

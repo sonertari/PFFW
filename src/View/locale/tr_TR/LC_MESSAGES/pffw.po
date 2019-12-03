@@ -1,13 +1,13 @@
-# Copyright (C) 2004-2019 Soner Tari, The PFFW project
-# This file is distributed under the same license as PFFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018, 2019.
+# Copyright (C) 2004-2019 Soner Tari, The UTMFW project
+# This file is distributed under the same license as UTMFW.
+# Soner Tari <sonertari@gmail.com>, 2018, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.4\n"
+"Project-Id-Version: PFFW 6.6\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2019-05-19 14:28+0300\n"
+"PO-Revision-Date: 2019-04-07 16:05+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -940,10 +940,10 @@ msgid "Get pf queue info"
 msgstr "Pf kuyruk bilgisini getir"
 
 msgid "Get pf rule files"
-msgstr "Pf kural dosyalarını alma"
+msgstr "Pf kural dosyalarını getir"
 
 msgid "Get pf rules"
-msgstr "Pf kurallarını alma"
+msgstr "Pf kurallarını getir"
 
 msgid "Get pf rules info"
 msgstr "Pf kural bilgisini getir"
@@ -1033,7 +1033,7 @@ msgid ""
 "sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh\"</code>"
 msgstr ""
 "Buradan admin ve user kullanıcılarının web arayüzü parolasını "
-"değiştirebilirsiniz. Parolalarda toplam en az 8 harf veya rakam olmalıdır.\n"
+"değiştirebilirsiniz. Parolalarda en az 8 harf veya rakam bulunmalıdır.\n"
 "\n"
 "Admin kullanıcısı user kullanıcısının mevcut parolasını bilmiyor olsa da "
 "değiştirebilir. Ama admin parolasını unutursanız, sisteme root olarak girip "
@@ -2517,9 +2517,6 @@ msgstr "Tablolar"
 
 msgid "Tail number wrong"
 msgstr "Kuyruk sayısı yanlış"
-
-msgid "Target"
-msgstr "Hedef"
 
 msgid "Temperature"
 msgstr "Sıcaklık"
