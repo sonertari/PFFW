@@ -1,10 +1,10 @@
-# Copyright (C) 2004-2019 Soner Tari, The UTMFW project
+# Copyright (C) 2004-2020 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017, 2018, 2019.
+# Soner Tari <sonertari@gmail.com>, 2009, 2017-2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.6\n"
+"Project-Id-Version: PFFW 6.7\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2019-04-19 21:09+0300\n"
@@ -163,6 +163,9 @@ msgstr "Pfctl komutu başarısız oldu"
 
 msgid "Failed testing pf rules"
 msgstr "Pf kurallarının testi başarısız oldu"
+
+msgid "Failed validating command line"
+msgstr "Komut satırı doğrulaması başarısız oldu"
 
 msgid "Filename not accepted"
 msgstr "Dosya adı kabul edilmedi"
@@ -677,8 +680,8 @@ msgstr "Sürecin işlemesi uzun zaman aldığından arka planda çalıştırıla
 msgid "Timed out running pfctl command"
 msgstr "Pfctl komutu zaman aşımına uğradı"
 
-msgid "Too many args, truncating"
-msgstr "Fazla argümanlar atıldı"
+msgid "Too many args"
+msgstr "Argüman sayısı fazla"
 
 msgid "Turkish"
 msgstr "Türkçe"
@@ -715,6 +718,9 @@ msgstr "VSZ"
 
 msgid "Validation Error"
 msgstr "Doğrulama Hatası"
+
+msgid "View not in Models"
+msgstr "View Modeller arasında bulunamadı"
 
 msgid "Will not load rules with errors"
 msgstr "Hatalı kurallar yüklenmez"

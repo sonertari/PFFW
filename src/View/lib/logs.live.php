@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2019 Soner Tari
+ * Copyright (C) 2004-2020 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -42,7 +42,7 @@ $View->Controller($Output, 'GetFileLineCount', $LogFile, $SearchRegExp);
 $LogSize= $Output[0];
 
 require_once($VIEW_PATH.'/header.php');
-		
+
 PrintLiveLogHeaderForm();
 ?>
 <table id="logline">

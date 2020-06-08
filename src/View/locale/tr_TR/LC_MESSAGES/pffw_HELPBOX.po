@@ -1,10 +1,10 @@
-# Copyright (C) 2004-2019 Soner Tari, The UTMFW project
+# Copyright (C) 2004-2020 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2018, 2019.
+# Soner Tari <sonertari@gmail.com>, 2018-2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.6\n"
+"Project-Id-Version: PFFW 6.7\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2019-04-07 16:01+0300\n"
@@ -43,7 +43,8 @@ msgid ""
 "system as root and run the following on the command line to set the password "
 "to soner123:\n"
 "<code>/usr/bin/chpass -a \"admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | "
-"sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh\"</code>"
+"sha1 -`):1000:1000::0:0:PFFW admin:/var/empty:/var/www/htdocs/utmfw/"
+"Controller/sh.php\"</code>"
 msgstr ""
 "Buradan admin ve user kullanıcılarının web arayüzü parolasını "
 "değiştirebilirsiniz. Parolalarda en az 8 harf veya rakam bulunmalıdır.\n"
@@ -52,7 +53,8 @@ msgstr ""
 "değiştirebilir. Ama admin parolasını unutursanız, sisteme root olarak girip "
 "aşağıdaki komutu çalıştırarak parolayı soner123'e ayarlayabilirsiniz:\n"
 "<code>/usr/bin/chpass -a \"admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | "
-"sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh\"</code>"
+"sha1 -`):1000:1000::0:0:PFFW admin:/var/empty:/var/www/htdocs/utmfw/"
+"Controller/sh.php\"</code>"
 
 msgid ""
 "Here you can reinitialize, hence erase all accumulated data in graph source "

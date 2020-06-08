@@ -2,8 +2,8 @@
 # These files should exist in pfffw-config-X.Y.tar.gz.
 etc/mail/aliases,644,root,wheel
 etc/mail/smtpd.conf,644,root,wheel
-etc/php-7.3/curl.ini,644,root,bin
-etc/php-7.3/pcntl.ini,644,root,bin
+etc/php-7.4/curl.ini,644,root,bin
+etc/php-7.4/pcntl.ini,644,root,bin
 etc/ssl/private/server.key,644,root,bin
 etc/ssl/server.crt,644,root,bin
 etc/dhcpd.conf,644,root,wheel
@@ -12,7 +12,7 @@ etc/httpd.conf,644,root,wheel
 etc/motd,664,root,wheel
 etc/newsyslog.conf,644,root,wheel
 etc/pf.conf,600,root,wheel
-etc/php-7.3.ini,644,root,daemon
+etc/php-7.4.ini,644,root,daemon
 etc/php-fpm.conf,644,root,wheel
 etc/rc.conf.local,644,root,wheel
 etc/rc.local,644,root,wheel

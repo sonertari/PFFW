@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2019 Soner Tari
+ * Copyright (C) 2004-2020 Soner Tari
  *
  * This file is part of PFRE.
  *
@@ -250,6 +250,14 @@ class Filter extends FilterBase
 		}
 	}
 
+	/**
+	 * Generates rule.
+	 * 
+	 * The output of this function is returned to the View on the command line,
+	 * so we return the generated rule string.
+	 * 
+	 * @return string String rule.
+	 */
 	function generate()
 	{
 		$this->genAction();

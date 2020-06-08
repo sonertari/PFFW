@@ -17,9 +17,9 @@ ftp-proxy.log		type=file mode=0640 uname=root gname=wheel
 monitoring.log		type=file mode=0640 uname=root gname=wheel
 named.log		type=file mode=0640 uname=root gname=wheel
 ..	#var/log
-named			type=dir mode=0755 uname=root gname=_bind
-etc			type=dir mode=0750 uname=root gname=_bind
-named.conf		type=file mode=0640 uname=root gname=_bind
+named			type=dir mode=0755 uname=_bind gname=_bind flags=none
+etc			type=dir mode=0750 uname=_bind gname=_bind
+named.conf		type=file mode=0640 uname=_bind gname=_bind
 ..	#var/named/etc
 ..	#var/named
 tmp			type=dir mode=0755 uname=root gname=wheel
@@ -57,10 +57,10 @@ smtpd.conf			type=file mode=0644 uname=root gname=wheel
 ..	#etc/mail
 pfre			type=dir mode=0755 uname=root gname=wheel
 ..	#etc/pfre
-php-7.3			type=dir mode=0755 uname=root gname=wheel
+php-7.4			type=dir mode=0755 uname=root gname=wheel
 curl.ini		type=file mode=0644 uname=root gname=wheel
 pcntl.ini		type=file mode=0644 uname=root gname=wheel
-..	#etc/php-7.3
+..	#etc/php-7.4
 ssl			type=dir mode=0755 uname=root gname=wheel
 private			type=dir mode=0755 uname=root gname=wheel
 server.key		type=file mode=0644 uname=root gname=bin
@@ -73,7 +73,7 @@ httpd.conf		type=file mode=0644 uname=root gname=wheel
 motd			type=file mode=0664 uname=root gname=wheel
 newsyslog.conf		type=file mode=0644 uname=root gname=wheel
 pf.conf			type=file mode=0600 uname=root gname=wheel
-php-7.3.ini			type=file mode=0644 uname=root gname=wheel
+php-7.4.ini			type=file mode=0644 uname=root gname=wheel
 php-fpm.conf		type=file mode=0644 uname=root gname=wheel
 rc.conf.local		type=file mode=0644 uname=root gname=wheel
 rc.local		type=file mode=0644 uname=root gname=wheel

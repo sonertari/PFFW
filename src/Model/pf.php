@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2019 Soner Tari
+ * Copyright (C) 2004-2020 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -510,7 +510,7 @@ class Pf extends Model
 	 * 
 	 * @todo Should we return success or fail status, instead of TRUE?
 	 *
-	 * @return string List of rule files.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function GetPfRuleFiles()
 	{
@@ -640,7 +640,7 @@ class Pf extends Model
 	 * 
 	 * Strips the file path, because we work with files under $PF_CONFIG_PATH only.
 	 *
-	 * @param string $file File name to validate.
+	 * @param string $file File name to validate [out].
 	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function ValidateFilename(&$file)
@@ -661,7 +661,7 @@ class Pf extends Model
 	 * @param string $json JSON encoded rule array.
 	 * @param int $ruleNumber Rule number.
 	 * @param bool $force Used to override validation or other types of errors, hence forces loading of rules.
-	 * @return string Generated rule.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function GeneratePfRule($json, $ruleNumber, $force= FALSE)
 	{
@@ -686,7 +686,7 @@ class Pf extends Model
 	 * @param string $json JSON encoded rules array.
 	 * @param bool $lines Whether to print line numbers in front of each line.
 	 * @param bool $force Used to override validation or other types of errors, hence forces loading of rules.
-	 * @return string Generated rules.
+	 * @return bool TRUE on success, FALSE on fail.
 	 */
 	function GeneratePfRules($json, $lines= FALSE, $force= FALSE)
 	{

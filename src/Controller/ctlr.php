@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /*
- * Copyright (C) 2004-2019 Soner Tari
+ * Copyright (C) 2004-2020 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -52,6 +52,12 @@ if (filter_has_var(INPUT_SERVER, 'SERVER_ADDR')) {
 
 $ArgV= array_slice($argv, 1);
 
+$ValidateArgs= TRUE;
+if ($ArgV[0] === '-n') {
+	$ArgV= array_slice($ArgV, 1);
+	$ValidateArgs= FALSE;
+}
+
 if ($ArgV[0] === '-t') {
 	$ArgV= array_slice($ArgV, 1);
 
@@ -63,112 +69,47 @@ if ($ArgV[0] === '-t') {
 	$INSTALL_USER= posix_getpwuid(posix_getuid())['name'];
 }
 
-// Controller runs using the session locale of View
-$Locale= $ArgV[0];
-
-$View= $ArgV[1];
-
-if (array_key_exists($View, $ModelFiles)) {
-	require_once($MODEL_PATH . '/' . $ModelFiles[$View]);
-}
-else {
-	ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "View not in ModelFiles: $View");
-}
-
-if (class_exists($Models[$View])) {
-	$Model= new $Models[$View]();
-}
-else {
-	require_once($MODEL_PATH.'/model.php');
-	$Model= new Model();
-	ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "View not in Models: $View");
-}
-
-$Command= $ArgV[2];
-
-/// @attention Do not set locale until after model file is included and model is created,
-/// otherwise strings recorded into logs are also translated, such as the strings on Commands array of models.
-/// Strings cannot be untranslated.
-if (!array_key_exists($Locale, $LOCALES)) {
-	$Locale= $DefaultLocale;
-}
-
-putenv('LC_ALL='.$Locale);
-putenv('LANG='.$Locale);
-
-$Domain= 'pffw';
-bindtextdomain($Domain, $VIEW_PATH.'/locale');
-bind_textdomain_codeset($Domain, $LOCALES[$Locale]['Codeset']);
-textdomain($Domain);
-
 $retval= 1;
 
-if (method_exists($Model, $Command)) {
-	$ArgV= array_slice($ArgV, 3);
-
-	if (array_key_exists($Command, $Model->Commands)) {
-		$run= FALSE;
-
-		ComputeArgCounts($Model->Commands, $ArgV, $Command, $ActualArgC, $ExpectedArgC, $AcceptableArgC, $ArgCheckC);
-
-		// Extra args are OK for now, will drop later
-		if ($ActualArgC >= $AcceptableArgC) {
-			if ($ArgCheckC === 0) {
-				$run= TRUE;
-			}
-			else {
-				// Check only the relevant args
-				$run= ValidateArgs($Model->Commands, $Command, $ArgV, $ArgCheckC);
-			}
-		}
-		else {
-			$ErrorStr= "[$AcceptableArgC]: $ActualArgC";
-			Error(_('Not enough args')." $ErrorStr");
-			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Not enough args $ErrorStr");
-		}
-
-		if ($run) {
-			if ($ActualArgC > $ExpectedArgC) {
-				$ErrorStr= "[$ExpectedArgC]: $ActualArgC: ".implode(', ', array_slice($ArgV, $ExpectedArgC));
-
-				// Drop extra arguments before passing to the function
-				$ArgV= array_slice($ArgV, 0, $ExpectedArgC);
-
-				Error(_('Too many args, truncating')." $ErrorStr");
-				ctlr_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Too many args, truncating $ErrorStr");
-			}
-
-			if (call_user_func_array(array($Model, $Command), $ArgV)) {
-				$retval= 0;
-			}
-		}
-		else {
-			Error(_('Not running command').": $Command");
-			ctlr_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Not running command: $Command");
-		}
-	}
-	else {
-		Error(_('Unsupported command').": $Command");
-		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Unsupported command: $Command");
-	}
-}
-else {
-	$ErrorStr= "$Models[$View]->$Command()";
-	Error(_('Method does not exist').": $ErrorStr");
-	ctlr_syslog(LOG_WARNING, __FILE__, __FUNCTION__, __LINE__, "Method does not exist: $ErrorStr");
+if (!ExpandArgs($ArgV, $Locale, $View, $Command)) {
+	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed expanding args: '.print_r($argv, TRUE));
+	goto out;
 }
 
+if (!array_key_exists($View, $ModelFiles)) {
+	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "View not in ModelFiles: $View");
+	goto out;
+}
+
+// Include the model file here to make the vars in the model file global
+require_once($MODEL_PATH . '/' . $ModelFiles[$View]);
+
+if (!ValidateCommand($ArgV, $Locale, $View, $Command, $ValidateArgs, $Model)) {
+	$ErrorStr= print_r($argv, TRUE);
+	Error(_('Failed validating command line')." $ErrorStr");
+	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed validating command line: $ErrorStr");
+	goto out;
+}
+
+if (!call_user_func_array(array($Model, $Command), $ArgV)) {
+	ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Command failed: $Command");
+	goto out;
+}
+
+$retval= 0;
+
+out:
 /// @attention Always return errors, success or fail.
 /// @attention We need to include $retval in the array too, because phpseclib exec() does not provide access to retval.
 // Return an encoded array, so that the caller can easily separate output, error, and retval
 $msg= array($Output, $Error, $retval);
-/// @attention If json_encode() inserts slashes, it is hard to decode the base64 encoded graph string on the receiving end
+/// @attention If json_encode() inserts slashes, it is hard to decode the base64 encoded graph string at the receiving end
 $encoded= json_encode($msg, JSON_UNESCAPED_SLASHES);
 
 if ($encoded !== NULL) {
 	echo $encoded;
 } else {
-	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed encoding output and error: ' . print_r($msg, TRUE));
+	ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed encoding output, error, and retval: '.print_r($msg, TRUE));
 }
 
 exit($retval);

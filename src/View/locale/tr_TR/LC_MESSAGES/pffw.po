@@ -1,13 +1,13 @@
-# Copyright (C) 2004-2019 Soner Tari, The UTMFW project
+# Copyright (C) 2004-2020 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2018, 2019.
+# Soner Tari <sonertari@gmail.com>, 2018-2020.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.6\n"
+"Project-Id-Version: PFFW 6.7\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2019-04-07 16:05+0300\n"
+"PO-Revision-Date: 2020-05-25 16:45+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -763,7 +763,10 @@ msgid "Failed uploading"
 msgstr "Karşıya yükleme işlemi başarısız oldu"
 
 msgid "Failed users"
-msgstr "Başarısız kullancıılar"
+msgstr "Başarısız kullanıcılar"
+
+msgid "Failed validating command line"
+msgstr "Komut satırı doğrulaması başarısız oldu"
 
 msgid "Failure reason"
 msgstr "Başarısızlık sebebi"
@@ -1030,7 +1033,8 @@ msgid ""
 "system as root and run the following on the command line to set the password "
 "to soner123:\n"
 "<code>/usr/bin/chpass -a \"admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | "
-"sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh\"</code>"
+"sha1 -`):1000:1000::0:0:PFFW admin:/var/empty:/var/www/htdocs/utmfw/"
+"Controller/sh.php\"</code>"
 msgstr ""
 "Buradan admin ve user kullanıcılarının web arayüzü parolasını "
 "değiştirebilirsiniz. Parolalarda en az 8 harf veya rakam bulunmalıdır.\n"
@@ -1039,7 +1043,8 @@ msgstr ""
 "değiştirebilir. Ama admin parolasını unutursanız, sisteme root olarak girip "
 "aşağıdaki komutu çalıştırarak parolayı soner123'e ayarlayabilirsiniz:\n"
 "<code>/usr/bin/chpass -a \"admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | "
-"sha1 -`):1000:1000::0:0:PFFW admin:/home/admin:/bin/ksh\"</code>"
+"sha1 -`):1000:1000::0:0:PFFW admin:/var/empty:/var/www/htdocs/utmfw/"
+"Controller/sh.php\"</code>"
 
 msgid ""
 "Here you can enable or disable the Packet Filter. Note that most services "
@@ -2842,8 +2847,8 @@ msgstr "Tekrar Yönlendirme Hedef Adresi"
 msgid "Token"
 msgstr "Aygıt Simgesi"
 
-msgid "Too many args, truncating"
-msgstr "Fazla argümanlar atıldı"
+msgid "Too many args"
+msgstr "Argüman sayısı fazla"
 
 msgid "Transfer"
 msgstr "Aktarım"
@@ -2926,7 +2931,7 @@ msgstr ""
 "verilmez."
 
 msgid "Users"
-msgstr "Kullancılar"
+msgstr "Kullanıcılar"
 
 msgid ""
 "Usually the network time daemon adjusts the system clock according to "
@@ -2959,6 +2964,9 @@ msgstr "Sürüm"
 
 msgid "Vertical"
 msgstr "Dikey"
+
+msgid "View not in Models"
+msgstr "View Modeller arasında bulunamadı"
 
 msgid "WARNING"
 msgstr "UYARI"

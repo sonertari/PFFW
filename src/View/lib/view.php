@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2019 Soner Tari
+ * Copyright (C) 2004-2020 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -88,17 +88,17 @@ class View
 			$argv= func_get_args();
 			// Arg 0 is $output, skip it
 			$argv= array_slice($argv, 1);
+			// Prepend locale and model
+			$argv= array_merge(array($_SESSION['Locale'], $this->Model), $argv);
 
-			if ($this->EscapeArgs($argv, $cmdline)) {
-				$locale= $_SESSION['Locale'];
-				$cmdline= "/usr/bin/doas $ctlr $locale $this->Model $cmdline";
-				
+			$encoded_args= json_encode($argv, JSON_UNESCAPED_SLASHES);
+			if ($encoded_args !== NULL) {
 				// Init command output
 				$outputArray= array();
 
 				$executed= TRUE;
 				if ($UseSSH) {
-					// Subsequent calls use the encrypted password in the cookie, so we should decrypt it first.
+					// Subsequent calls use the encrypted password in the cookie, so we should decrypt it first
 					$ciphertext_base64= $_COOKIE['passwd'];
 					$ciphertext= base64_decode($ciphertext_base64);
 
@@ -115,22 +115,25 @@ class View
 					$ssh->setTimeout(30);
 
 					if ($ssh->login($_SESSION['USER'], $passwd)) {
-						$outputArray[0]= $ssh->exec($cmdline);
+						// The login shells of admin and user users are set to sh.php, so we just pass down the args
+						$outputArray[0]= $ssh->exec($encoded_args);
 						if ($ssh->isTimeout()) {
 							$msg= 'SSH exec timed out';
-							wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+							wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($encoded_args)");
 							PrintHelpWindow($msg, 'auto', 'ERROR');
 							$executed= FALSE;
 						}
 					} else {
 						$msg= 'SSH login failed';
-						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($encoded_args)");
 						PrintHelpWindow($msg, 'auto', 'ERROR');
 						$executed= FALSE;
 					}
 				} else {
+					// Runs the command as the www user
+					// Escape args to avoid shell expansion
 					/// @bug http://bugs.php.net/bug.php?id=49847, fixed/closed in SVN on 141009
-					exec($cmdline, $outputArray);
+					exec("/usr/bin/doas $ctlr ".escapeshellarg($encoded_args), $outputArray);
 				}
  
 				if ($executed) {
@@ -144,16 +147,16 @@ class View
 						$errorStr= $decoded[1];
 						$retval= $decoded[2];
 					} else {
-						$msg= "Failed decoding output: $outputArray[0]";
-						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($cmdline)");
+						$msg= 'Failed decoding output: '.print_r($outputArray[0], TRUE);
+						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($encoded_args)");
 						PrintHelpWindow($msg, 'auto', 'ERROR');
 					}
 
-					// Show error, if any
+					// Show errors, if any
 					if ($errorStr !== '') {
 						$error= explode("\n", $errorStr);
 
-						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($cmdline)");
+						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: (" . implode(', ', $error) . "), ($encoded_args)");
 						PrintHelpWindow(implode('<br>', $error), 'auto', 'ERROR');
 					}
 
@@ -161,9 +164,11 @@ class View
 					if ($retval === 0) {
 						$return= TRUE;
 					} else {
-						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: ($cmdline)");
+						wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Shell command exit status: $retval: ($encoded_args)");
 					}
 				}
+			} else {
+				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed encoding args: ' . print_r($argv, TRUE));
 			}
 		}
 		catch (Exception $e) {
@@ -185,40 +190,27 @@ class View
 		$ssh = new Net_SSH2('localhost');
 		if ($ssh->login($user, $passwd)) {
 			$hostname= gethostname();
-			/// @attention Trim the newline
-			$output= trim($ssh->exec('hostname'));
-			if ($hostname == $output) {
+
+			$encoded_args= json_encode(array($_SESSION['Locale'], $this->Model, 'GetMyName'), JSON_UNESCAPED_SLASHES);
+			$output= $ssh->exec($encoded_args);
+			$decoded= json_decode($output, TRUE);
+			if ($decoded !== NULL && is_array($decoded)) {
+				$output= explode("\n", $decoded[0]);
+			} else {
+				$msg= 'Failed decoding output: '.print_r($output, TRUE);
+				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($encoded_args)");
+				PrintHelpWindow($msg, 'auto', 'ERROR');
+			}
+
+			if ($hostname == $output[0]) {
 				return TRUE;
 			} else {
-				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "SSH test command failed: $hostname == $output");
+				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "SSH test command failed: $hostname == $output[0]");
 			}
 		} else {
 			PrintHelpWindow(_NOTICE('FAILED').': '._NOTICE('Authentication failed'), 'auto', 'ERROR');
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Authentication failed');
 		}
-		return FALSE;
-	}
-
-	/**
-	 * Escapes the arguments passed to Controller() and builds the command line.
-	 *
-	 * @param array $argv Command and arguments array.
-	 * @param string $cmdline Actual command line to run.
-	 * @return bool TRUE on success, FALSE on fail.
-	 */
-	function EscapeArgs($argv, &$cmdline)
-	{
-		if (count($argv) > 0) {
-			$cmd= $argv[0];
-			$argv= array_slice($argv, 1);
-  	
-			$cmdline= $cmd;
-			foreach ($argv as $arg) {
-				$cmdline.= ' '.escapeshellarg($arg);
-			}
-			return TRUE;
-		}
-		wui_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, '$argv is empty');
 		return FALSE;
 	}
 

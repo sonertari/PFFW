@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2019 Soner Tari
+ * Copyright (C) 2004-2020 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -36,7 +36,7 @@ if (count($_POST)) {
 require_once($VIEW_PATH.'/header.php');
 
 $ServiceDescs= array(
-	'/usr/local/sbin/php-fpm-7.3'	=> _TITLE2('PHP FastCGI Server'),
+	'/usr/local/sbin/php-fpm-7.4'	=> _TITLE2('PHP FastCGI Server'),
 	'/usr/local/sbin/named'			=> _TITLE2('DNS Server'),
 	'/usr/local/libexec/symux'		=> _TITLE2('Symux System Monitoring'),
 	'/usr/local/libexec/symon'		=> _TITLE2('Symon System Monitoring'),
