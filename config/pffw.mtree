@@ -61,12 +61,6 @@ php-7.4			type=dir mode=0755 uname=root gname=wheel
 curl.ini		type=file mode=0644 uname=root gname=wheel
 pcntl.ini		type=file mode=0644 uname=root gname=wheel
 ..	#etc/php-7.4
-ssl			type=dir mode=0755 uname=root gname=wheel
-private			type=dir mode=0755 uname=root gname=wheel
-server.key		type=file mode=0644 uname=root gname=bin
-..	#etc/ssl/private
-server.crt		type=file mode=0644 uname=root gname=bin
-..	#etc/ssl
 dhcpd.conf		type=file mode=0644 uname=root gname=wheel
 doas.conf		type=file mode=0644 uname=root gname=wheel
 httpd.conf		type=file mode=0644 uname=root gname=wheel

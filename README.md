@@ -4,7 +4,7 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw67\_20200608\_amd64.iso](https://drive.google.com/file/d/1_DmTch4Lp9woR97qk4-nK7kn_vbz6z3r/view?usp=sharing). Make sure the SHA256 checksum is correct: d8f6f1237b91c38c510694d1542f1e7ca3d4c89ee0baffbcfeb3da1afcf5cce1.
+The installation iso file for the amd64 arch is available for download at [pffw68\_20201219\_amd64.iso](https://drive.google.com/file/d/1K5gSKrF6RzZJ860oabemMxo_n0PbR71O/view?usp=sharing). Make sure the SHA256 checksum is correct: 548c4fe675400fc67540da2d710b44e8fb8ede87e7eb3308b5755ad4374af1ed.
 
 ## Features
 
@@ -69,7 +69,9 @@ References:
 
 ## How to build
 
-The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.7 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.8 and have installed git, gettext, and doxygen on it.
+
+### Build summary
 
 The createiso script:
 
@@ -93,3 +95,104 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 Note that you can strip down xbase and xfont install sets to reduce the size of the iso file. Copy or link them to the appropriate locations under `openbsd/pffw`.
 
 Now you can run the createiso script which should produce an iso file in the same folder as itself.
+
+### Build steps
+
+The following are steps you can follow to build PFFW yourself. Some of these steps can be automated by a script. You can modify these steps to suit your needs.
+
+- Install OpenBSD:
+	+ Download installXY.iso from an OpenBSD mirror
+	+ Create a new VM with 60GB disk, choose a size based on your needs
+	+ Add a separate 8GB disk for /dest, which will be needed to make release(8)
+	+ Start VM and install OpenBSD
+	+ Create a local user
+	+ During installation mount the dest disk to /dest
+	+ Add noperm to /dest in /etc/fstab
+    + Make /dest owned by build:wobj and set its perms to 700
+    + Create /dest/dest/ and /dest/rel/ folders
+
+- Fetch PFFW sources and update if upgrading:
+	+ Install git
+	+ Clone PFFW to your home folder
+
+	+ Bump version number X.Y in the sources, if upgrading
+		+ cd/amd64/etc/boot.conf
+		+ meta/createiso
+		+ meta/install.sub
+		+ src/create_po.sh
+		+ Doxyfile
+		+ README.md
+		+ src/lib/defs.php
+
+	+ Bump version number XY in the sources, if upgrading
+		+ README.md
+
+	+ Update based on release date, project changes, and news, if upgrading
+		+ config/etc/motd
+		+ meta/root.mail
+		+ README.md
+
+	+ Update copyright if necessary
+
+- Make sure the signify key pair for UTMFW is in the correct locations:
+    + Save .pub and .sec to docs/signify
+    + Copy .pub to /etc/signify/, .pub file is copied into the bsd.rd file while making release(8) to verify install sets during installation
+
+- Update packages:
+	+ Install OpenBSD packages
+		+ Set the download mirror, use the existing cache if any
+            ```
+            PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
+            ```
+		+ Save the depends under PKG_CACHE, which will be used later on to update the packages in the iso file
+            ```
+            export PKG_CACHE=/var/db/pkg_pffw/
+            ```
+		+ symon
+		+ symux
+		+ pftop
+		+ php, php-cgi, php-curl, php-pcntl
+
+	+ Update the links under cd/amd64/X.Y/packages/ with the OpenBSD packages saved under PKG_CACHE
+
+- Update meta/install.sub:
+    + Update the versions of the packages listed in THESETS
+
+- Make release(8):
+    + Extract src.tar.gz and and sys.tar.gz under /usr/src/
+    + Apply the patches under openbsd/pffw
+	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast computer
+		+ Use export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/
+		+ Build kernel and reboot
+		+ Build system
+		+ Make release
+    + Copy install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
+
+- Update install sets:
+	+ Update the links for install sets under cd/amd64/X.Y/amd64 using the install sets under ~/OpenBSD/X.Y/amd64/ made above
+	+ Remove the old links
+	+ Copy the xbaseXY.tgz install set from installXY.iso to docs/expat/amd64/xbaseXY.tgz
+	+ Copy the xfontXY.tgz install set from installXY.iso to docs/fonts/amd64/xfontXY.tgz
+
+- Update configuration files under config to the new versions of packages:
+    + Also update Doxyfile if the doxygen version changed
+
+- Update PFRE:
+    + Update PFRE to current version, support changes in pf if any
+    + Create man2web package and install
+    + Produce pf.conf.html from pf.conf(2) using man2web
+    + Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
+
+- Update phpseclib to its new version if any:
+    + Merge PFFW changes from the previous version
+
+- Update d3js to its new version if any:
+    + Fix any issues caused by API changes if any
+
+- Strip xbase and xfont:
+	+ Make sure the contents are the same as in the one in the old iso file, except for the version numbers
+	+ SECURITY: Be very careful about the permissions of the directories and files in these install sets, they should be the same as the original files
+
+- Run the createiso script:
+	+ Install gettext-tools and doxygen for translations and documentation
+	+ Run ./createiso under ~/pffw/

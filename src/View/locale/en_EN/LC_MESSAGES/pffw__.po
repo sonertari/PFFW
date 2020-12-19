@@ -154,6 +154,9 @@ msgstr ""
 msgid "Filepath wrong"
 msgstr ""
 
+msgid "Generate SSL key pair"
+msgstr ""
+
 msgid "Generate pf rule"
 msgstr ""
 

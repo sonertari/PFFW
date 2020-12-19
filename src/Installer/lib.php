@@ -442,6 +442,27 @@ function CreateUsers()
 	}
 }
 
+function GenerateSSLKeyPair()
+{
+	global $View;
+
+	// In case
+	$View->Model= 'system';
+
+	echo "\nGenerating the SSL key pair for httpd\n";
+	$serial= '1';
+	$n= readline2("Set serial to? [1] ");
+	if (preg_match('/^\d{1,4}$/', $n)) {
+		$serial= $n;
+	}
+	echo "Setting serial to $serial\n";
+
+	if (!$View->Controller($Output, 'GenerateSSLKeyPair', $serial)) {
+		wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed generating ssl key pair');
+	}
+	echo "\nYou can generate the SSL key pair on the WUI too.\n";
+}
+
 /**
  * Reads typed chars without echo.
  *

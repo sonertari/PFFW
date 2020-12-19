@@ -113,6 +113,9 @@ msgstr ""
 msgid "Filter"
 msgstr ""
 
+msgid "Generate"
+msgstr ""
+
 msgid "Generate with errors"
 msgstr ""
 

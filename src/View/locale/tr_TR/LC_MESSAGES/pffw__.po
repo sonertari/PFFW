@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.7\n"
+"Project-Id-Version: PFFW 6.8\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2019-04-19 21:09+0300\n"
@@ -172,6 +172,9 @@ msgstr "Dosya adı kabul edilmedi"
 
 msgid "Filepath wrong"
 msgstr "Dosya yolu yanlış"
+
+msgid "Generate SSL key pair"
+msgstr "SSL anahtarını üret"
 
 msgid "Generate pf rule"
 msgstr "Pf kural üretimi"

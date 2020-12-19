@@ -259,6 +259,9 @@ msgstr ""
 msgid "Gateway"
 msgstr ""
 
+msgid "Generate SSL key pair"
+msgstr ""
+
 msgid "Graph files"
 msgstr ""
 
@@ -869,6 +872,9 @@ msgid "secondary"
 msgstr ""
 
 msgid "secs"
+msgstr ""
+
+msgid "set serial to"
 msgstr ""
 
 msgid "to"

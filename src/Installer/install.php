@@ -75,6 +75,7 @@ if ($View->Controller($Output, 'GetConfig')) {
 		if (!$Auto) {
 			GetIfSelection();
 			CreateUsers();
+			GenerateSSLKeyPair();
 		}
 		
 		if (ApplyConfig($Auto)) {

@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.7\n"
+"Project-Id-Version: PFFW 6.8\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2019-04-07 15:33+0300\n"
@@ -277,6 +277,9 @@ msgstr "Fonksiyon"
 
 msgid "Gateway"
 msgstr "Ağ geçidi"
+
+msgid "Generate SSL key pair"
+msgstr "SSL anahtarını üret"
 
 msgid "Graph files"
 msgstr "Grafik dosyaları"
@@ -889,6 +892,9 @@ msgstr "ikincil"
 
 msgid "secs"
 msgstr "sn"
+
+msgid "set serial to"
+msgstr "seri numarası"
 
 msgid "to"
 msgstr "kaydet"

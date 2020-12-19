@@ -4,10 +4,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.7\n"
+"Project-Id-Version: PFFW 6.8\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2020-05-25 16:45+0300\n"
+"PO-Revision-Date: 2019-04-07 16:05+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -185,6 +185,9 @@ msgstr "Kural dosyası silinecek, emin misiniz?"
 
 msgid "Are you sure you want to erase statistics files?"
 msgstr "İstatistik dosyalarını silmek istediğinizden emin misiniz?"
+
+msgid "Are you sure you want to generate SSL key pair?"
+msgstr "SSL anahtarını üretmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to reinitialize graph files?"
 msgstr "Grafik dosyalarını sıfırlamak istediğinizden emin misiniz?"
@@ -842,6 +845,12 @@ msgstr "Genel"
 
 msgid "General Statistics"
 msgstr "Genel İstatistikler"
+
+msgid "Generate"
+msgstr "Üret"
+
+msgid "Generate SSL key pair"
+msgstr "SSL anahtarını üret"
 
 msgid "Generate pf rule"
 msgstr "Pf kural üretimi"
@@ -2168,6 +2177,13 @@ msgstr "SSH sürümü"
 msgid "SSL Verify Peer"
 msgstr "SSL Sunucu Doğrulama"
 
+msgid "SSL key pair generated. You should restart httpd or the system now."
+msgstr ""
+"SSL anahtarı üretildi. Şimdi httpd veya sistemi tekrar başlatmalısınız."
+
+msgid "SSL key pair generation failed."
+msgstr "SSL anahtar üretimi başarısız oldu."
+
 msgid "STARTED"
 msgstr "BAŞLANGIÇ"
 
@@ -2622,6 +2638,15 @@ msgstr ""
 "unutmayın. Ayrıca <b>/var/log dizini altındaki asıl dosyalar bu işlemden "
 "etkilenmezler</b>. İstatistik ve kayıt sayfalarına bir sonraki girişinizde "
 "bu dosyalar tekrar yaratılıp istatistikler tekrar toplanacaktır."
+
+msgid ""
+"This button allows you to generate or regenerate the SSL key pair for httpd. "
+"You should restart httpd or the system to use the new SSL key pair. Make "
+"sure you increment the serial number on each new release."
+msgstr ""
+"Bu tuş sayesinde httpd için SSL anahtarlarını üretebilirsiniz. Yeni SSL "
+"anahtarını kullanabilmek için httpd veya sistemi tekrar başlatmanız gerekir. "
+"Her yeni sürümde seri numarasını artırdığınızdan emin olun."
 
 msgid ""
 "This graph shows overall network usage based on certain protocols. Note that "
@@ -3193,6 +3218,9 @@ msgstr "ikincil"
 
 msgid "secs"
 msgstr "sn"
+
+msgid "set serial to"
+msgstr "seri numarası"
 
 msgid "size"
 msgstr "boyut"

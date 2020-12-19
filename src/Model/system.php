@@ -343,6 +343,11 @@ class System extends Model
 					'argv'	=>	array(NUM),
 					'desc'	=>	_('Set notifier timeout'),
 					),
+
+				'GenerateSSLKeyPair'=>	array(
+					'argv'	=>	array(NUM),
+					'desc'	=>	_('Generate SSL key pair'),
+					),
 				)
 			);
 	}
@@ -1463,6 +1468,26 @@ class System extends Model
 
 		// Append semi-colon to new value, this setting is a PHP line
 		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/lib/setup.php', '\$NotifierTimeout', $timeout.';');
+	}
+
+	/**
+	 * Generates SSL key pair for httpd.
+	 * 
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function GenerateSSLKeyPair($set_serial)
+	{
+		global $MODEL_PATH;
+
+		exec("cd $MODEL_PATH/ssl; SET_SERIAL=$set_serial /bin/sh gen_ssl.sh 2>&1", $output, $retval);
+		if ($retval === 0) {
+			return TRUE;
+		}
+
+		$errout= implode("\n", $output);
+		Error($errout);
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Generate SSL key pair failed: $errout");
+		return FALSE;
 	}
 }
 ?>

@@ -157,6 +157,9 @@ msgstr ""
 msgid "Are you sure you want to erase statistics files?"
 msgstr ""
 
+msgid "Are you sure you want to generate SSL key pair?"
+msgstr ""
+
 msgid "Are you sure you want to reinitialize graph files?"
 msgstr ""
 
@@ -778,6 +781,12 @@ msgid "General"
 msgstr ""
 
 msgid "General Statistics"
+msgstr ""
+
+msgid "Generate"
+msgstr ""
+
+msgid "Generate SSL key pair"
 msgstr ""
 
 msgid "Generate pf rule"
@@ -1977,6 +1986,12 @@ msgstr ""
 msgid "SSL Verify Peer"
 msgstr ""
 
+msgid "SSL key pair generated. You should restart httpd or the system now."
+msgstr ""
+
+msgid "SSL key pair generation failed."
+msgstr ""
+
 msgid "STARTED"
 msgstr ""
 
@@ -2400,6 +2415,12 @@ msgid ""
 "under /var/log folder are not affected by this action</b> either. These "
 "files will be recreated, and statistics will be recollected, the next time "
 "you access Statistics or Logs pages."
+msgstr ""
+
+msgid ""
+"This button allows you to generate or regenerate the SSL key pair for httpd. "
+"You should restart httpd or the system to use the new SSL key pair. Make "
+"sure you increment the serial number on each new release."
 msgstr ""
 
 msgid ""
@@ -2885,6 +2906,9 @@ msgid "secondary"
 msgstr ""
 
 msgid "secs"
+msgstr ""
+
+msgid "set serial to"
 msgstr ""
 
 msgid "size"
