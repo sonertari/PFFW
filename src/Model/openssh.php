@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -56,6 +56,7 @@ class Openssh extends Model
 			// Failed none for invalid user soner from 81.215.105.114 port 40401 ssh2
 			$re= "/Failed\s+(.*)\s+for\s+$re_user\s+from\s+$re_clientip\s+port\s+$re_num\s+$re_type$/";
 			if (preg_match($re, $logline, $match)) {
+				$cols['Accepted']= FALSE;
 				$cols['Reason']= $match[1];
 				$cols['User']= $match[4];
 				$cols['IP']= $match[5];
@@ -67,6 +68,7 @@ class Openssh extends Model
 				// Accepted publickey for root from 81.215.105.114 port 58402 ssh2: RSA SHA256:<key>
 				$re= "/Accepted\s+(.*)\s+for\s+$re_user\s+from\s+$re_clientip\s+port\s+$re_num\s+$re_type$/";
 				if (preg_match($re, $logline, $match)) {
+					$cols['Accepted']= TRUE;
 					$cols['User']= $match[4];
 					$cols['IP']= $match[5];
 					$cols['Type']= $match[7];
@@ -76,9 +78,34 @@ class Openssh extends Model
 		}
 		return FALSE;
 	}
-	
+
+	function _getModuleStatus($generate_info= FALSE, $start= 0)
+	{
+		$status= parent::_getModuleStatus($generate_info, $start);
+
+		if ($generate_info) {
+			$logs= $this->GetLastLogs('( Accepted | Failed )', $start);
+			$accepted= 0;
+			$failed= 0;
+			foreach ($logs as $l) {
+				if ($l['Accepted']) {
+					$accepted++;
+				} else {
+					$failed++;
+				}
+			}
+			$status['info']['accepted']= $accepted;
+			$status['info']['failed']= $failed;
+		}
+		return $status;
+	}
+
 	function _getFileLineCount($file, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$cmd= "/usr/bin/grep -a ' sshd\[' $file";
 
 		if ($month != '' || $day != '' || $hour != '' || $minute != '') {
@@ -103,6 +130,10 @@ class Openssh extends Model
 
 	function GetLogs($file, $end, $count, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$cmd= "/usr/bin/grep -a ' sshd\[' $file";
 
 		if ($month != '' || $day != '' || $hour != '' || $minute != '') {
@@ -135,6 +166,10 @@ class Openssh extends Model
 	
 	function _getLiveLogs($file, $count, $re= '', $needle= '')
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$cmd= "/usr/bin/grep -a ' sshd\[' $file";
 		if ($re !== '') {
 			$re= escapeshellarg($re);

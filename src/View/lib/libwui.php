@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -150,17 +150,16 @@ function GetLogFile()
 
 	if (filter_has_var(INPUT_POST, 'LogFile')) {
 		$logfile= filter_input(INPUT_POST, 'LogFile');
-	}
-	else if ($_SESSION[$View->Model]['LogFile']) {
+	} else if ($_SESSION[$View->Model]['LogFile']) {
 		$logfile= $_SESSION[$View->Model]['LogFile'];
 	}
 
 	if ($View->Controller($output, 'SelectLogFile', $logfile)) {
 		$logfile= $output[0];
-	}
-	else {
-		$View->Controller($output, 'SelectLogFile', '');
+	} else if ($View->Controller($output, 'SelectLogFile', '')) {
 		$logfile= $output[0];
+	} else {
+		return FALSE;
 	}
 
 	$_SESSION[$View->Model]['LogFile']= $logfile;
@@ -1024,7 +1023,7 @@ function SumData(&$data, $stats)
  */
 function SetRefreshInterval()
 {
-	global $View;
+	global $View, $TopMenu;
 
 	if (filter_has_var(INPUT_POST, 'RefreshInterval')) {
 		if (preg_match('/^\d+$/', filter_input(INPUT_POST, 'RefreshInterval'))) {

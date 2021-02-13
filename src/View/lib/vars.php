@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -99,6 +99,15 @@ $Status2Images= array(
 	'R' => 'running.png',
 	'S' => 'stop.png',
 	'N' => 'noerror.png',
+	);
+
+$StatusTitles= array(
+	'C' => _TITLE('Critical Error'),
+	'E' => _TITLE('Error'),
+	'W' => _TITLE('Warning'),
+	'R' => _TITLE('Running'),
+	'S' => _TITLE('Stopped'),
+	'N' => _TITLE('No Errors'),
 	);
 
 require_once($VIEW_PATH . '/lib/libwui.php');

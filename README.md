@@ -4,7 +4,7 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw68\_20201219\_amd64.iso](https://drive.google.com/file/d/1K5gSKrF6RzZJ860oabemMxo_n0PbR71O/view?usp=sharing). Make sure the SHA256 checksum is correct: 548c4fe675400fc67540da2d710b44e8fb8ede87e7eb3308b5755ad4374af1ed.
+The installation iso file for the amd64 arch is available for download at [pffw68\_20210214\_amd64.iso](https://drive.google.com/file/d/1STsmqy_Hmdkp_XjkfldJdWhCNSIy2YMg/view?usp=sharing). Make sure the SHA256 checksum is correct: 11bb0b7249538ef64acc386e6d21878620b4619a08995bc49a32c2909069368e.
 
 ## Features
 
@@ -15,24 +15,25 @@ PFFW includes the following software, alongside what is already available on a b
 - ISC DNS server
 - PHP
 
-![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
+![Dashboard](https://github.com/sonertari/PFFW/blob/master/screenshots/Dashboard.png)
 
 The web user interface of PFFW helps you manage your firewall:
 
-- Dashboard provides an overview of system status. If enabled, Notifier sends the system status as Firebase push notifications to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
-- System, network, and service configuration can be achieved on the web interface.
+- Dashboard displays an overview of system status using graphs and statistics counters. You can click on those graphs and counters to go to their details on the web user interface.
+- Notifier sends the system status as Firebase push notifications to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
+- System, network, and service configuration can be achieved on the web user interface.
 - Pf rules are maintained using PFRE.
 - Information on hosts, interfaces, pf rules, states, and queues are provided in a tabular form.
 - System, pf, and network can be monitored via graphs.
-- Logs can be viewed and downloaded on the web interface. Compressed log files are supported.
+- Logs can be viewed and downloaded on the web user interface. Compressed log files are supported.
 - Statistics collected over logs are displayed in bar charts and top lists. Bar charts and top lists are clickable, so you don't need to touch your keyboard to search anything on the statistics pages. You can view the top lists on pie charts too. Statistics over compressed log files are supported.
-- The web interface provides many help boxes and windows, which can be disabled.
-- Man pages of OpenBSD and installed software can be accessed and searched on the web interface.
-- There are two users who can log in to the web interface. Unprivileged user does not have access rights to configuration pages, thus cannot interfere with system settings, and cannot even change user password (i.e. you can safely give the unprivileged user's password to your boss).
-- The web interface supports English and Turkish.
-- The web interface configuration pages are designed such that changes you may have made to the configuration files on the command line (such as comments you might have added) remain intact after you configure a module using the web interface.
+- The web user interface provides many help boxes and windows, which can be disabled.
+- Man pages of OpenBSD and installed software can be accessed and searched on the web user interface.
+- There are two users who can log in to the web user interface. Unprivileged user does not have access rights to configuration pages, thus cannot interfere with system settings, and cannot even change user password (i.e. you can safely give the unprivileged user's password to your boss).
+- The web user interface supports English and Turkish.
+- The web user interface configuration pages are designed such that changes you may have made to the configuration files on the command line (such as comments you might have added) remain intact after you configure a module using the web user interface.
 
-![Dashboard](https://github.com/sonertari/PFFW/blob/master/screenshots/Dashboard.png)
+![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
 
 ## How to install
 
@@ -111,11 +112,11 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
     + Make /dest owned by build:wobj and set its perms to 700
     + Create /dest/dest/ and /dest/rel/ folders
 
-- Fetch PFFW sources and update if upgrading:
+- Fetch the PFFW sources and update if upgrading:
 	+ Install git
 	+ Clone PFFW to your home folder
 
-	+ Bump version number X.Y in the sources, if upgrading
+	+ Bump the version number X.Y in the sources, if upgrading
 		+ cd/amd64/etc/boot.conf
 		+ meta/createiso
 		+ meta/install.sub
@@ -124,10 +125,10 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ README.md
 		+ src/lib/defs.php
 
-	+ Bump version number XY in the sources, if upgrading
+	+ Bump the version number XY in the sources, if upgrading
 		+ README.md
 
-	+ Update based on release date, project changes, and news, if upgrading
+	+ Update based on the release date, project changes, and news, if upgrading
 		+ config/etc/motd
 		+ meta/root.mail
 		+ README.md
@@ -138,8 +139,8 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
     + Save .pub and .sec to docs/signify
     + Copy .pub to /etc/signify/, .pub file is copied into the bsd.rd file while making release(8) to verify install sets during installation
 
-- Update packages:
-	+ Install OpenBSD packages
+- Update the packages:
+	+ Install the OpenBSD packages
 		+ Set the download mirror, use the existing cache if any
             ```
             PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
@@ -162,32 +163,32 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
     + Extract src.tar.gz and and sys.tar.gz under /usr/src/
     + Apply the patches under openbsd/pffw
 	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast computer
-		+ Use export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/
-		+ Build kernel and reboot
-		+ Build system
-		+ Make release
-    + Copy install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
+		+ Use the dest and rel folders created above: `export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/`
+		+ Build the kernel and reboot
+		+ Build the system
+		+ Make the release
+    + Copy the install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
 
-- Update install sets:
+- Update the install sets:
 	+ Update the links for install sets under cd/amd64/X.Y/amd64 using the install sets under ~/OpenBSD/X.Y/amd64/ made above
 	+ Remove the old links
 	+ Copy the xbaseXY.tgz install set from installXY.iso to docs/expat/amd64/xbaseXY.tgz
 	+ Copy the xfontXY.tgz install set from installXY.iso to docs/fonts/amd64/xfontXY.tgz
 
-- Update configuration files under config to the new versions of packages:
+- Update the configuration files under config with the ones in the new versions of packages:
     + Also update Doxyfile if the doxygen version changed
 
 - Update PFRE:
-    + Update PFRE to current version, support changes in pf if any
-    + Create man2web package and install
+    + Update PFRE to the current version, support changes in pf if any
+    + Create the man2web package and install
     + Produce pf.conf.html from pf.conf(2) using man2web
     + Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
 
 - Update phpseclib to its new version if any:
-    + Merge PFFW changes from the previous version
+    + Merge the PFFW changes from the previous version
 
 - Update d3js to its new version if any:
-    + Fix any issues caused by API changes if any
+    + Fix any issues caused by any API changes
 
 - Strip xbase and xfont:
 	+ Make sure the contents are the same as in the one in the old iso file, except for the version numbers

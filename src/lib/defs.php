@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -23,7 +23,7 @@
  */
 
 /// Project version.
-define('VERSION', '6.8');
+define('VERSION', '6.8.1');
 
 $ROOT= dirname(dirname(dirname(__FILE__)));
 $SRC_ROOT= dirname(dirname(__FILE__));
@@ -405,7 +405,7 @@ $ModelsToStat= array(
 	'named' => _TITLE('DNS Server'),
 	'openssh' => _TITLE('OpenSSH'),
 	'ftp-proxy' => _TITLE('FTP Proxy'),
-	'httpd' => _TITLE('Web Server'),
+	'httpd' => _TITLE('Web User Interface'),
 	'symon' => _TITLE('Symon'),
 	'symux' => _TITLE('Symux'),
 	);

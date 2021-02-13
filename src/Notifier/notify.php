@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -284,7 +284,7 @@ $UseSSH= FALSE;
 
 if (count(json_decode($NotifierUsers, TRUE)) > 0) {
 	if ($View->Controller($Output, 'GetServiceStatus')) {
-		$ServiceStatus= json_decode($Output[0], TRUE);
+		$ServiceStatus= json_decode($Output[0], TRUE)['status'];
 
 		FilterLogLevels();
 		FilterKeywords();

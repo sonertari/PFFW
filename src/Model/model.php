@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -183,6 +183,11 @@ class Model
 					'desc'	=>	_('Set status check interval'),
 					),
 
+				'SetMaxFileSizeToProcess'=>	array(
+					'argv'	=>	array(NUM),
+					'desc'	=>	_('Set max file size to process'),
+					),
+
 				'GetReloadRate'=>	array(
 					'argv'	=>	array(),
 					'desc'	=>	_('Get reload rate'),
@@ -264,7 +269,7 @@ class Model
 					),
 
 				'GetServiceStatus'	=>	array(
-					'argv'	=>	array(),
+					'argv'	=>	array(BOOL|NONE, STR|NONE),
 					'desc'	=>	_('Get service status'),
 					),
 				
@@ -707,6 +712,26 @@ class Model
 	}
 
 	/**
+	 * Sets max file size to process.
+	 *
+	 * @param int $size Max size in MB.
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function SetMaxFileSizeToProcess($size)
+	{
+		global $ROOT, $TEST_DIR_SRC;
+
+		if ($size < 1) {
+			$size= 1;
+		} else if ($size > 1000) {
+			$size= 1000;
+		}
+
+		// Append semi-colon to new value, this setting is a PHP line
+		return $this->SetNVP($ROOT . $TEST_DIR_SRC . '/lib/setup.php', '\$MaxFileSizeToProcess', $size.';');
+	}
+
+	/**
 	 * Gets default reload rate.
 	 * 
 	 * @return string Reload rate in seconds.
@@ -976,6 +1001,54 @@ class Model
 	}
 
 	/**
+	 * Gets system gateway, static or dynamic.
+	 *
+	 * @return string Gateway.
+	 */
+	function getSystemGateway()
+	{
+		$gateway= '';
+		if (($mygate= $this->_getStaticGateway()) !== FALSE) {
+			$gateway= trim($mygate);
+		} else if (($mygate= $this->_getDynamicGateway()) !== FALSE) {
+			$gateway= trim($mygate);
+		}
+
+		if ($gateway === '') {
+			Error(_('System has no gateway'));
+		}
+		return $gateway;
+	}
+
+	function _getStaticGateway()
+	{
+		return $this->GetFile($this->confDir.'mygate');
+	}
+
+	function _getDynamicGateway()
+	{
+		global $Re_Ip;
+
+		$cmd= "/sbin/route -n get default | /usr/bin/grep gateway 2>&1";
+		exec($cmd, $output, $retval);
+		if ($retval === 0) {
+			if (count($output) > 0) {
+				#    gateway: 10.0.0.2
+				$re= "\s*gateway:\s*($Re_Ip)\s*";
+				if (preg_match("/$re/m", $output[0], $match)) {
+					return $match[1];
+				}
+			}
+		}
+		else {
+			$errout= implode("\n", $output);
+			Error($errout);
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Get dynamic gateway failed: $errout");
+		}
+		return FALSE;
+	}
+
+	/**
 	 * Extracts physical interface names from ifconfig output.
 	 *
 	 * Removes non-physical interfaces from the output.
@@ -1017,8 +1090,12 @@ class Model
 			$file= $this->LogFile;
 		}
 
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$file= $this->GetTmpLogFileName($file);
-		
+
 		if (!file_exists($file) || $this->IsLogFileModified($file)) {
 			if ($this->UpdateTmpLogFile($file)) {
 				// Update stats to update file stat info only
@@ -1029,7 +1106,6 @@ class Model
 				ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Logfile tmp copy update failed, defaulting to: $file");
 			}
 		}
-		
 		return Output($file);
 	}
 
@@ -1229,6 +1305,10 @@ class Model
 
 	function _getFileLineCount($file, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		if ($re == '' && $needle == '' && $month == '' && $day == '' && $hour == '' && $minute == '') {
 			/// @warning Input redirection is necessary, otherwise wc adds file name to its output too
 			$cmd= "/usr/bin/wc -l < $file";
@@ -1281,6 +1361,10 @@ class Model
 	 */
 	function GetLogs($file, $end, $count, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		// Empty $re is not an issue for grep, greps all
 		// Skip for speed, otherwise we could use datetime regexp for empty strings too
 		if ($month == '' && $day == '' && $hour == '' && $minute == '') {
@@ -1349,6 +1433,10 @@ class Model
 	 */
 	function _getLiveLogs($file, $count, $re= '', $needle= '')
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		// Empty $re is not an issue for grep, greps all
 		$re= escapeshellarg($re);
 		if ($needle == '') {
@@ -1474,6 +1562,10 @@ class Model
 	 */
 	function PrepareFileForDownload($file)
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$tmpdir= '/var/tmp/pffw/downloads';
 		$retval= 0;
 		if (!file_exists($tmpdir)) {
@@ -1508,12 +1600,11 @@ class Model
 	function GetOrigFileName($logfile)
 	{
 		$origfilename= basename($logfile);
-		if (basename($this->LogFile) !== $origfilename) {
+		// Do not append an extra .gz to compressed files
+		if ((basename($this->LogFile) !== $origfilename) && !preg_match('/\.gz$/', $origfilename)) {
 			$origfilename.= '.gz';
 		}
-		$origfile= dirname($this->LogFile).'/'.$origfilename;
-		
-		return $origfile;
+		return dirname($this->LogFile).'/'.$origfilename;
 	}
 
 	/**
@@ -1528,6 +1619,10 @@ class Model
 	function GetProcStatLines($logfile)
 	{
 		global $StatsConf;
+
+		if (!$this->ValidateFile($logfile)) {
+			return FALSE;
+		}
 
 		$stats= array();
 		foreach ($StatsConf[$this->Name] as $stat => $conf) {
@@ -1564,6 +1659,10 @@ class Model
 	 */
 	function CopyLogFileToTmp($file, $tmpdir)
 	{
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		exec("/bin/mkdir -p $tmpdir 2>&1", $output, $retval);
 		if ($retval === 0) {
 			exec("/bin/cp $file $tmpdir 2>&1", $output, $retval);
@@ -1607,6 +1706,10 @@ class Model
 	{
 		global $StatsConf;
 
+		if (!$this->ValidateFile($logfile)) {
+			return FALSE;
+		}
+
 		$statsdefs= $StatsConf[$this->Name];
 
 		$needle= '';
@@ -1642,11 +1745,14 @@ class Model
 		$date= json_encode(array('Month' => '', 'Day' => ''));
 		/// @attention We need $stats return value of GetStats() because of $collecthours constraint
 		$stats= $this->_getStats($logfile, $date, $collecthours);
-		
+		if ($stats === FALSE) {
+			return FALSE;
+		}
+
 		// Do not get $stats here, just $briefstats
 		$this->GetSavedStats($logfile, $dummy, $briefstats);
 		$briefstats= json_encode($briefstats);
-		
+
 		// Use serialized stats as array elements to prevent otherwise extra json_decode() for $stats,
 		// which is already serialized by GetStat() above.
 		// They are ordinary strings now, this json_encode() should be quite fast
@@ -1674,23 +1780,27 @@ class Model
 
 	function _getStats($logfile, $date, $collecthours= '')
 	{
+		if (!$this->ValidateFile($logfile)) {
+			return FALSE;
+		}
+
 		$date= json_decode($date, TRUE);
 
 		$stats= array();
 		$briefstats= array();
 		$uptodate= FALSE;
-		
+
 		if ($this->IsLogFileModified($logfile)) {
 			$this->UpdateTmpLogFile($logfile);
 		}
 		else {
 			$uptodate= $this->GetSavedStats($logfile, $stats, $briefstats);
 		}
-			
+
 		if (!$uptodate) {
 			$this->UpdateStats($logfile, $stats, $briefstats);
 		}
-				
+
 		if (isset($stats['Date'])) {
 			if ($collecthours === '') {
 				foreach ($stats['Date'] as $day => $daystats) {
@@ -1720,6 +1830,30 @@ class Model
 	}
 
 	/**
+	 * Checks if the given file exists and not larger than $MaxFileSizeToProcess in MBs.
+	 *
+	 * @param string $file File pathname.
+	 * @return bool TRUE on success, FALSE on fail.
+	 */
+	function ValidateFile($file)
+	{
+		global $MaxFileSizeToProcess;
+
+		if (!file_exists($file)) {
+			Error(_('File does not exit').': '.$file);
+			return FALSE;
+		}
+
+		$filestat= stat($file);
+		if ($filestat['size'] > $MaxFileSizeToProcess*1000000) {
+			$error_msg= preg_replace('/<SIZE>/', $MaxFileSizeToProcess, _('File too large, will not process files larger than <SIZE> MB'));
+			Error("$error_msg: $file = ".$filestat['size']);
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	/**
 	 * Gets the number of lines added to log files since last tmp file update.
 	 *
 	 * @param string $logfile Log file pathname.
@@ -1731,15 +1865,19 @@ class Model
 		global $StatsConf;
 
 		$count= -1;
-			
+
 		if ($this->GetStatsFileInfo($logfile, $oldlinecount, $oldfilestat)) {
 			$needle= '';
 			$statsdefs= $StatsConf[$this->Name];
 			if (isset($statsdefs) && isset($statsdefs['Total']['Needle'])) {
 				$needle= $statsdefs['Total']['Needle'];
 			}
-			
+
 			$newlinecount= $this->_getFileLineCount($logfile, $needle);
+			if ($newlinecount === FALSE) {
+				return FALSE;
+			}
+
 			$origfile= $this->GetOrigFileName($logfile);
 
 			if (($newlinecount >= $oldlinecount) && !preg_match('/\.gz$/', $origfile)) {
@@ -1758,7 +1896,6 @@ class Model
 		else {
 			ctlr_syslog(LOG_DEBUG, __FILE__, __FUNCTION__, __LINE__, "Cannot get file info: $logfile");
 		}
-
 		return FALSE;
 	}
 
@@ -1778,7 +1915,7 @@ class Model
 		$linecount= 0;
 
 		$statsdefs= $StatsConf[$this->Name];
-		
+
 		if (isset($statsdefs)) {
 			$needle= '';
 			if (isset($statsdefs['Total']['Needle'])) {
@@ -1791,9 +1928,12 @@ class Model
 			if ($this->CountDiffLogLines($logfile, $tail)) {
 				$this->GetSavedStats($logfile, $stats, $briefstats);
 			}
-		
+
 			$lines= $this->GetStatsLogLines($logfile, $tail);
-			
+			if ($lines === FALSE) {
+				return FALSE;
+			}
+
 			if ($lines !== '') {
 				$lines= explode("\n", $lines);
 
@@ -1804,9 +1944,9 @@ class Model
 					$this->PostProcessCols($values);
 
 					$this->CollectDayStats($statsdefs, $values, $line, $stats);
-				
+
 					$briefstatsdefs= $statsdefs['Total']['BriefStats'];
-					
+
 					if (isset($briefstatsdefs)) {
 						if (!isset($briefstatsdefs['Date'])) {
 							// Always collect Date field
@@ -1913,16 +2053,16 @@ class Model
 	function GetStatsFileInfo($logfile, &$linecount, &$filestat)
 	{
 		/// @todo Should check file format too, and delete the stats file if corrupted
-		
+
 		$linecount= 0;
 		$filestat= array();
-		
+
 		$statsfile= $this->GetStatsFileName($logfile);
 		if (file_exists($statsfile)) {
 			$filestatline= $this->RunShellCommand("/usr/bin/head -1 $statsfile");
 			if (preg_match('|^<filestat>(.*)</filestat>$|', $filestatline, $match)) {
 				$fileinfo= json_decode($match[1], TRUE);
-				
+
 				$linecount= $fileinfo['linecount'];
 				$filestat= $fileinfo['stat'];
 				return TRUE;
@@ -1946,7 +2086,7 @@ class Model
 	function GetStatsFileName($logfile)
 	{
 		$origfilename= basename($this->GetOrigFileName($logfile));
-		
+
 		$statsdir= '/var/tmp/pffw/stats/'.get_class($this);
 		$statsfile= "$statsdir/$origfilename";
 
@@ -1968,7 +2108,7 @@ class Model
 	{
 		$origfile= $this->GetOrigFileName($logfile);
 		$statsfile= $this->GetStatsFileName($logfile);
-		
+
 		$savestats=
 			'<filestat>'.
 			json_encode(
@@ -2184,7 +2324,7 @@ class Model
 		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
 			return $this->GetName($file, $name);
 		}
-		
+
 		$validValues= $this->getValidValues($name);
 		$value= FALSE;
 		$set= 0;
@@ -2334,7 +2474,7 @@ class Model
 	function EnableConf($name, $conf, $group)
 	{
 		$file= $this->GetConfFile($conf, $group);
-		
+
 		$this->SetConfig($conf);
 		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
 			return $this->EnableName($file, $name);
@@ -2348,7 +2488,7 @@ class Model
 	function DisableConf($name, $conf, $group)
 	{
 		$file= $this->GetConfFile($conf, $group);
-		
+
 		$this->SetConfig($conf);
 		if ((isset($this->Config[$name]['type'])) && ($this->Config[$name]['type'] === FALSE)) {
 			return $this->DisableName($file, $name);
@@ -2429,7 +2569,7 @@ class Model
 		
 		if (($pid= $this->GetFile($this->PidFile)) !== FALSE) {
 			$cmd= "/bin/kill $pid";
-		
+
 			$count= 0;
 			while ($count++ < self::PROC_STAT_TIMEOUT) {
 				if (!$this->IsRunning()) {
@@ -2444,7 +2584,7 @@ class Model
 			if (!$this->IsRunning()) {
 				return TRUE;
 			}
-			
+
 			// Kill command is redirected to tmp file
 			$output= file_get_contents($TmpFile);
 			Error($output);
@@ -2518,18 +2658,48 @@ class Model
 	/**
 	 * Gets service statuses.
 	 */
-	function GetServiceStatus()
+	function GetServiceStatus($generate_info= FALSE, $start= '10min')
 	{
 		global $MODEL_PATH, $ModelFiles, $Models, $ModelsToStat;
 
-		$output= array();
+		$DashboardIntervals2Seconds= array(
+			'1min' => 60,
+			'5min' => 300,
+			'10min' => 600,
+			'30min' => 1800,
+			'1hour' => 3600,
+			'3hour' => 10800,
+			'6hour' => 21600,
+			'12hour' => 43200,
+			'1day' => 86400,
+			'3day' => 259200,
+			'1week' => 604800,
+			'1month' => 2592000,
+			'3month' => 7776000,
+			'6month' => 15552000,
+			'1year' => 31104000,
+			);
+
+		if ($generate_info) {
+			exec("doas sh $MODEL_PATH/rrdgraph.sh -$start");
+		}
+
+		$status= array();
+		$info= array();
 		foreach ($ModelsToStat as $name => $caption) {
 			if (array_key_exists($name, $ModelFiles)) {
 				require_once($MODEL_PATH.'/'.$ModelFiles[$name]);
 
 				if (class_exists($Models[$name])) {
 					$model= new $Models[$name]();
-					$output[$name]= $model->_getModuleStatus();
+					// Pass interval down to _getModuleStatus()
+					$module_status= $model->_getModuleStatus($generate_info, $DashboardIntervals2Seconds[$start]);
+					if ($module_status !== FALSE) {
+						$status[$name]= $module_status['status'];
+						if ($generate_info) {
+							$info[$name]= $module_status['info'];
+						}
+					}
 				}
 				else {
 					ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Not in Models: $name");
@@ -2539,19 +2709,33 @@ class Model
 				ctlr_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, "Not in ModelFiles: $name");
 			}
 		}
+
+		$output= array();
+		$output['status']= $status;
+		if ($generate_info) {
+			$output['info']= $info;
+		}
+
 		return Output(json_encode($output));
 	}
 
 	function GetModuleStatus()
 	{
-		return Output(json_encode($this->_getModuleStatus()));
+		$module_status= $this->_getModuleStatus();
+		if ($module_status === FALSE) {
+			return FALSE;
+		}
+		return Output(json_encode($module_status['status']));
 	}
 
-	function _getModuleStatus()
+	function _getModuleStatus($generate_info= FALSE, $start= 0)
 	{
 		// @attention Don't use long extended regexps with grep, grep takes too long
 		//$logs= $model->_getStatus('(EMERGENCY|emergency|ALERT|alert|CRITICAL|critical|ERROR|error|WARNING|warning):');
-		$logs= $this->_getStatus('');
+		$logs= $this->_getStatus('', $start);
+		if ($logs === FALSE) {
+			return FALSE;
+		}
 
 		$crits= array();
 		$errs= array();
@@ -2583,21 +2767,31 @@ class Model
 		$prioLogs= array_merge($crits, $errs, $warns);
 
 		return array(
-			'Status' => $this->IsRunning()? 'R':'S',
-			'ErrorStatus' => $errorStatus,
-			'Critical' => count($crits),
-			'Error' => count($errs),
-			'Warning' => count($warns),
-			'Logs' => $prioLogs,
+			'status' => array(
+				'Status' => $this->IsRunning()? 'R':'S',
+				'ErrorStatus' => $errorStatus,
+				'Critical' => count($crits),
+				'Error' => count($errs),
+				'Warning' => count($warns),
+				'Logs' => $prioLogs,
+				),
+			'info' => array()
 			);
 	}
 
 	function GetLastLogs($needle, $interval= 60)
 	{
-		$lastLogs= array();
+		if (!$this->ValidateFile($this->LogFile)) {
+			return FALSE;
+		}
 
 		// @attention Get the last datetime in the logs, so do not use the $needle
 		$logs= $this->getStatusLogs($this->LogFile, 1);
+		if ($logs === FALSE) {
+			return FALSE;
+		}
+
+		$lastLogs= array();
 		if (count($logs) == 1) {
 			$lastLine= $logs[0];
 			// @attention Always check the retval of createFromFormat(), it may fail due to format mismatch, e.g. log rotation lines
@@ -2606,7 +2800,8 @@ class Model
 				$lastTs= $dt->getTimestamp();
 
 				// @attention Don't get the logs in the last 60 seconds from now instead, otherwise the errors still important cannot be reported after 60 seconds.
-				$logs= $this->getStatusLogs($this->LogFile, 1000, $needle);
+				// XXX: 10000 is too large, but the Dashboard may pass down 1 year as the $interval var
+				$logs= $this->getStatusLogs($this->LogFile, 10000, $needle);
 
 				$count= count($logs);
 				// Loop in reverse order to break out asap
@@ -2643,6 +2838,10 @@ class Model
 
 		// Do not use needles with this _getStatus() call, it (grep) takes too long
 		$logs= $this->_getStatus('');
+		if ($logs === FALSE) {
+			return FALSE;
+		}
+
 		if (count($logs)) {
 			foreach ($this->prios as $p => $msg) {
 				$keys= explode('|', $p);
@@ -2673,11 +2872,11 @@ class Model
 		return TRUE;
 	}
 
-	function _getStatus($needle)
+	function _getStatus($needle, $start= 0)
 	{
 		global $StatusCheckInterval;
 
-		return $this->GetLastLogs($needle, $StatusCheckInterval);
+		return $this->GetLastLogs($needle, $start != 0 ? $start : $StatusCheckInterval);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-# Copyright (C) 2004-2020 Soner Tari, The UTMFW project
+# Copyright (C) 2004-2021 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
 # Soner Tari <sonertari@gmail.com>, 2018-2020.
 #
@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PFFW 6.8\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2019-04-07 16:05+0300\n"
+"PO-Revision-Date: 2021-02-11 18:30+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -27,14 +27,59 @@ msgstr "BELLEK%"
 msgid "0-100% or 0-1"
 msgstr "%0-100 ya da 0-1"
 
+msgid "1 day"
+msgstr "1 gün"
+
+msgid "1 hour"
+msgstr "1 saat"
+
+msgid "1 min"
+msgstr "1 dakika"
+
 msgid "1 minute average"
 msgstr "1 dakikalık ortalama"
+
+msgid "1 month"
+msgstr "1 ay"
+
+msgid "1 week"
+msgstr "1 hafta"
+
+msgid "1 year"
+msgstr "1 yıl"
+
+msgid "10 mins"
+msgstr "10 dakika"
+
+msgid "12 hours"
+msgstr "12 saat"
 
 msgid "15 minute average"
 msgstr "15 dakikalık ortalama"
 
+msgid "3 days"
+msgstr "3 gün"
+
+msgid "3 hours"
+msgstr "3 saat"
+
+msgid "3 months"
+msgstr "3 ay"
+
+msgid "30 mins"
+msgstr "30 dakika"
+
+msgid "5 mins"
+msgstr "5 dakika"
+
 msgid "5 minute average"
 msgstr "5 dakikalık ortalama"
+
+msgid "6 hours"
+msgstr "6 saat"
+
+msgid "6 months"
+msgstr "6 ay"
 
 msgid "< Previous"
 msgstr "< Önceki"
@@ -72,6 +117,9 @@ msgstr ""
 "değiştirmeyi unutmayın.\n"
 "\n"
 "İç ağ arayüzünü dhcp olarak yapılandırmanız tavsiye edilmez."
+
+msgid "ACCEPTED"
+msgstr "BAŞARILI"
 
 msgid "Access Logs"
 msgstr "Giriş Kayıtları"
@@ -322,6 +370,24 @@ msgstr "KOMUT"
 msgid "CPU Load"
 msgstr "İşlemci Yükü"
 
+msgid "CPU load of OpenSSH"
+msgstr "OpenSSH'in işlemci yükü"
+
+msgid "CPU load of the DHCP Server"
+msgstr "DHCP sunucunun işlemci yükü"
+
+msgid "CPU load of the DNS Server"
+msgstr "DNS sunucunun işlemci yükü"
+
+msgid "CPU load of the FTP Proxy"
+msgstr "FTP vekilin işlemci yükü"
+
+msgid "CPU load of the Web User Interface"
+msgstr "Web Arayüzünün işlemci yükü"
+
+msgid "CPU load of the system"
+msgstr "Sistemin işlemci yükü"
+
 msgid "CPUs"
 msgstr "İşlemciler"
 
@@ -426,6 +492,15 @@ msgstr "Önemli Hata"
 msgid "Current Password"
 msgstr "Mevcut Parola"
 
+msgid "Current number of hosts on the system ARP table"
+msgstr "Sistemin ARP tablosundaki cihaz sayısı"
+
+msgid "Current number of leases assigned to clients by the DHCP Server"
+msgstr "DHCP sunucu tarafından istemcilere atanan kiralamaların sayısı"
+
+msgid "Current number of states"
+msgstr "Durumların sayısı"
+
 msgid "DHCP"
 msgstr "DHCP"
 
@@ -473,6 +548,9 @@ msgstr "Gösterge Paneli"
 
 msgid "Data Transfer"
 msgstr "Veri Aktarımı"
+
+msgid "Data transfer between internal and external interfaces"
+msgstr "İç ve dış arayüzler arasındaki veri aktarımı"
 
 msgid "Date"
 msgstr "Tarih"
@@ -566,6 +644,12 @@ msgstr "Kapalı Servisler"
 
 msgid "Disk I/O"
 msgstr "Disk Yazma/Okuma"
+
+msgid "Disk input and output"
+msgstr "Disk girdi ve çıktıları"
+
+msgid "Disk partition usage"
+msgstr "Disk bölümü kullanımı"
 
 msgid "Disks"
 msgstr "Diskler"
@@ -744,6 +828,9 @@ msgstr "Ana pf kurallarının yüklenmesi başarısız oldu"
 msgid "Failed loading pf rules"
 msgstr "Pf kural yüklemesi başarısız oldu"
 
+msgid "Failed login attempts to the SSH Server"
+msgstr "SSH sunucuya yapılan başarısız giriş denemeleri"
+
 msgid "Failed queries"
 msgstr "Başarısız sorgular"
 
@@ -779,6 +866,12 @@ msgstr "Fan"
 
 msgid "File"
 msgstr "Dosya"
+
+msgid "File does not exit"
+msgstr "Dosya mevcut değil"
+
+msgid "File too large, will not process files larger than <SIZE> MB"
+msgstr "Dosya fazla büyük,<SIZE> MB'dan büyük dosyalar işlenmez"
 
 msgid "File uploaded"
 msgstr "Dosya karşıya yüklendi"
@@ -1023,6 +1116,9 @@ msgstr ""
 
 msgid "Group"
 msgstr "Grup"
+
+msgid "HOSTS"
+msgstr "CİHAZLAR"
 
 msgid "HTTP Codes"
 msgstr "HTTP Kodu"
@@ -1309,11 +1405,17 @@ msgstr "Geçersiz değer"
 msgid "Is notifier enabled"
 msgstr "Uyarılar açık mı"
 
+msgid "LEASES"
+msgstr "KİRALAMALAR"
+
 msgid "Label"
 msgstr "Etiket"
 
 msgid "Language"
 msgstr "Dil"
+
+msgid "Last <INTERVAL>"
+msgstr "Son <INTERVAL>"
 
 msgid "Last >>"
 msgstr "Son >>"
@@ -1523,6 +1625,9 @@ msgstr "En Fazla Bağlantı"
 msgid "Max Connection Rate"
 msgstr "En Yüksek Bağlantı Hızı"
 
+msgid "Max File Size To Process"
+msgstr "İşlenecek En Fazla Dosya Boyutu"
+
 msgid "Max MSS"
 msgstr "En Yüksek MSS"
 
@@ -1556,6 +1661,9 @@ msgstr "Bellek"
 msgid "Memory Usage"
 msgstr "Bellek Kullanımı"
 
+msgid "Memory usage"
+msgstr "Bellek kullanımı"
+
 msgid "Method does not exist"
 msgstr "Yöntem bulunamadı"
 
@@ -1573,9 +1681,6 @@ msgstr "En düşük-ttl"
 
 msgid "Minute"
 msgstr "Dakika"
-
-msgid "Module Status"
-msgstr "Modül Durumu"
 
 msgid "Month"
 msgstr "Ay"
@@ -2190,6 +2295,9 @@ msgstr "BAŞLANGIÇ"
 msgid "STAT"
 msgstr "DURUM"
 
+msgid "STATES"
+msgstr "DURUMLAR"
+
 msgid "SYSTEM"
 msgstr "SİSTEM"
 
@@ -2285,6 +2393,9 @@ msgstr "man.cgi adresini ayarla"
 
 msgid "Set max anchor nesting"
 msgstr "En fazla içiçe çapa sayısını ayarla"
+
+msgid "Set max file size to process"
+msgstr "İşlenecek en fazla dosya boyutunu ayarla"
 
 msgid "Set name value pair"
 msgstr "Ad değer çiftini ayarla"
@@ -2446,6 +2557,9 @@ msgstr "Durum Takip Eden Elek"
 msgid "States"
 msgstr "Durumlar"
 
+msgid "States and state searches on the Packet Filter"
+msgstr "Paket eleğinin durumları ve durum sorguları"
+
 msgid "Static Port"
 msgstr "Sabit Kapı"
 
@@ -2482,6 +2596,9 @@ msgstr "Alt-sistem sftp"
 msgid "Successful logins"
 msgstr "Başarılı girişler"
 
+msgid "Successful logins to the SSH Server"
+msgstr "SSH sunucuya yapılan başarılı girişler"
+
 msgid "Symon"
 msgstr "Symon"
 
@@ -2503,6 +2620,12 @@ msgstr "Syslog düzeneği"
 msgid "System"
 msgstr "Sistem"
 
+msgid "System date and time"
+msgstr "Sistem tarih saati"
+
+msgid "System has no gateway"
+msgstr "Sistemin ağ geçidi yok"
+
 msgid "System is going down..."
 msgstr "Sistem kapatılıyor..."
 
@@ -2514,6 +2637,9 @@ msgstr "Sistem tekrar başlatma"
 
 msgid "System shutdown"
 msgstr "Sistem kapatma"
+
+msgid "System uptime since the last boot up"
+msgstr "Sistemin son açılışından bu yana geçen süre"
 
 msgid "TCP Flags"
 msgstr "TCP Bayrakları"
@@ -2562,6 +2688,10 @@ msgstr "DNS sunucunun dinlediği IP adresi."
 msgid "The URL of the Firebase notification service."
 msgstr "Firebase uyarı servisinin URL adresi."
 
+msgid ""
+"The period of time from now backwards for the data displayed on the dashboard"
+msgstr "Gösterge panelindeki verinin şu andan itibaren geçmişe doğru süresi"
+
 msgid "The process is taking too long, thus will run in the background."
 msgstr "Sürecin işlemesi uzun zaman aldığından arka planda çalıştırılacaktır."
 
@@ -2580,6 +2710,9 @@ msgid ""
 "The system will send service statuses containing one of these keywords only."
 msgstr ""
 "Sistem bu anahtar kelimelerden birini içeren servis durumlarını gönderir."
+
+msgid "The time remaining before the current session times out"
+msgstr "Mevcut oturumun zaman aşımına kalan süre"
 
 msgid "There was an error while installing"
 msgstr "Kurulum sırasında bir hata oluştu"
@@ -2717,6 +2850,19 @@ msgstr ""
 "Bu ayar pffw web arayüzünün kayıt seviyesini belirler. Bu seviye ve "
 "üzerindeki kayıtlar WUI ve Controller kayıt dosyalarına kaydedilir. Bu ayar "
 "diğer servisleri etkilemez."
+
+msgid ""
+"This is the max size in MB for log and statistics files to process. This "
+"limit is used for files downloaded from the WUI too. The WUI slows down if "
+"we try to process larger files. This size should be determined based on the "
+"specs of the hardware. The default file size for log rotation is 10 MB for "
+"most log files in newsyslog.conf."
+msgstr ""
+"Bu işlenecek kayıt ve istatistik dosyalarının MB cinsinden en fazla "
+"boyutudur. Bu sınır web arayüzünden indirilen dosyalar için de kullanılır. "
+"Web arayüzü daha büyük dosyaları işlemeye çalışırsa çok yavaşlar. Bu boyut "
+"donanım özelliklerine göre belirlenmelidir. Çoğu kayıt dosyaları için "
+"newsyslog.conf dosyasındaki kayıt döndürme öndeğer boyutu 10 MB'dır."
 
 msgid ""
 "This is the name server used by the system. You can use the DNS server on "
@@ -2875,6 +3021,27 @@ msgstr "Aygıt Simgesi"
 msgid "Too many args"
 msgstr "Argüman sayısı fazla"
 
+msgid "Total number of critical errors reported by the system and services"
+msgstr "Sistem ve servisler tarafında bildirilen toplam önemli hata sayısı"
+
+msgid "Total number of errors reported by the system and services"
+msgstr "Sistem ve servisler tarafında bildirilen toplam hata sayısı"
+
+msgid "Total number of users currently logged in to the system"
+msgstr "Şu anda sisteme giriş yapmış toplam kullanıcı sayısı"
+
+msgid "Total number of warnings reported by the system and services"
+msgstr "Sistem ve servisler tarafında bildirilen toplam uyarı sayısı"
+
+msgid "Traffic on the external interface"
+msgstr "Dış ağ arayüzündeki trafik"
+
+msgid "Traffic on the internal interface"
+msgstr "İç ağ arayüzündeki trafik"
+
+msgid "Traffic on the loopback interface"
+msgstr "Döngü arayüzündeki trafik"
+
 msgid "Transfer"
 msgstr "Aktarım"
 
@@ -2893,8 +3060,14 @@ msgstr "Tür"
 msgid "UDP Timeouts"
 msgstr "UDP Zaman Aşımları"
 
+msgid "UPTIME"
+msgstr "SÜRE"
+
 msgid "USER"
 msgstr "KULLANICI"
+
+msgid "USERS"
+msgstr "KULLNC"
 
 msgid "Unconfigure an interface"
 msgstr "Arayüzünün yapılandırmasını kaldır"
@@ -3013,6 +3186,9 @@ msgstr "Web Sunucu"
 
 msgid "Web Server (WUI)"
 msgstr "Web Sunucu (Web Arayüzü)"
+
+msgid "Web User Interface"
+msgstr "Web Arayüzü"
 
 msgid ""
 "What is recorded in packet filter logs is determined by pf rules you can "

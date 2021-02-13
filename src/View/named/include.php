@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -77,12 +77,23 @@ class Named extends View
 {
 	public $Model= 'named';
 	public $Layout= 'named';
-	
+
 	function __construct()
 	{
 		$this->Module= basename(dirname($_SERVER['PHP_SELF']));
 		$this->Caption= _TITLE('DNS Server');
 		$this->LogsHelpMsg= _HELPWINDOW('DNS server logs all name lookups. You should see many requests from the system itself along with those from internal clients.');
+	}
+
+	static function DisplayDashboardExtras()
+	{
+		?>
+		<tr>
+			<td colspan="4">
+				<a class="transparent" href="/named/graphs.php"><img src="/system/dashboard/dns.png" name="dns" alt="dns" title="<?php echo _TITLE2('CPU load of the DNS Server') ?>"></a>
+			</td>
+		</tr>
+		<?php
 	}
 }
 

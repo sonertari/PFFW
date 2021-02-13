@@ -148,6 +148,12 @@ msgstr ""
 msgid "Failed validating command line"
 msgstr ""
 
+msgid "File does not exit"
+msgstr ""
+
+msgid "File too large, will not process files larger than <SIZE> MB"
+msgstr ""
+
 msgid "Filename not accepted"
 msgstr ""
 
@@ -562,6 +568,9 @@ msgstr ""
 msgid "Set max anchor nesting"
 msgstr ""
 
+msgid "Set max file size to process"
+msgstr ""
+
 msgid "Set name value pair"
 msgstr ""
 
@@ -644,6 +653,9 @@ msgid "Stop "
 msgstr ""
 
 msgid "String wrong"
+msgstr ""
+
+msgid "System has no gateway"
 msgstr ""
 
 msgid "System restart"

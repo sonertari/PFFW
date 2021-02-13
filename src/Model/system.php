@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -28,7 +28,8 @@ class System extends Model
 {
 	public $Name= 'system';
 
-	private $confDir= '/etc/';
+	// Model uses $confDir too, hence public
+	public $confDir= '/etc/';
 
 	public $User= '\S+';
 	
@@ -462,11 +463,6 @@ class System extends Model
 		return Output($this->_getStaticGateway());
 	}
 
-	function _getStaticGateway()
-	{
-		return $this->GetFile($this->confDir.'mygate');
-	}
-
 	/**
 	 * Reads the default gateway on the routing table.
 	 * 
@@ -475,29 +471,6 @@ class System extends Model
 	function GetDynamicGateway()
 	{
 		return Output($this->_getDynamicGateway());
-	}
-
-	function _getDynamicGateway()
-	{
-		global $Re_Ip;
-
-		$cmd= "/sbin/route -n get default | /usr/bin/grep gateway 2>&1";
-		exec($cmd, $output, $retval);
-		if ($retval === 0) {
-			if (count($output) > 0) {
-				#    gateway: 10.0.0.2
-				$re= "\s*gateway:\s*($Re_Ip)\s*";
-				if (preg_match("/$re/m", $output[0], $match)) {
-					return $match[1];
-				}
-			}
-		}
-		else {
-			$errout= implode("\n", $output);
-			Error($errout);
-			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Get dynamic gateway failed: $errout");
-		}
-		return FALSE;
 	}
 
 	/**
@@ -541,6 +514,29 @@ class System extends Model
 		}
 		
 		return Output(json_encode($config));
+	}
+
+	function _getModuleStatus($generate_info= FALSE, $start= 0)
+	{
+		$status= parent::_getModuleStatus($generate_info, $start);
+
+		if ($generate_info) {
+			$uptime= $this->RunShellCommand('/usr/bin/uptime');
+			preg_match('/up (.*), (\d+) user.*/', $uptime, $match);
+			$status['info']['uptime']= $match[1];
+			$status['info']['users']= $match[2];
+
+			/// @attention Don't call $this->_getPartitions() instead, it needs an explode()
+			exec('/bin/df -h | /usr/bin/egrep "^\/dev"', $parts);
+			$partitions= array();
+			foreach ($parts as $p) {
+				if (preg_match('/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/', $p, $match)) {
+					$partitions[$match[6]]= $match[5];
+				}
+			}
+			$status['info']['partitions']= $partitions;
+		}
+		return $status;
 	}
 
 	/**
@@ -744,7 +740,12 @@ class System extends Model
 		else {
 			$result= FALSE;
 		}
-		
+
+		exec("/bin/rm -f ${VIEW_PATH}/system/dashboard/* 2>&1", $output, $retval);
+		if ($retval !== 0) {
+			$result= FALSE;
+		}
+
 		if (!$result) {
 			$errout= implode("\n", $output);
 			Error($errout);
@@ -876,6 +877,22 @@ class System extends Model
 	{
 		// Refresh pf rules too
 		$cmd= "/bin/sh /etc/netstart 2>&1 && /sbin/pfctl -f $this->PfRulesFile 2>&1";
+
+		// Down/up extif too, in case the gateway changes
+		$extif= $this->_getExtIf();
+		if ($extif !== FALSE) {
+			$extif= trim($extif, '"');
+			$cmd.= " && /sbin/ifconfig $extif down 2>&1 && /sbin/ifconfig $extif up 2>&1";
+		}
+
+		// Delete the arp entry for the old gateway, in case the new gateway has the same IP address
+		// Otherwise, the system cannot reach the new gateway, continues to use the old ethernet address,
+		// ping, nslookup, or others don't work (extif becomes effectively down).
+		$gateway= $this->getSystemGateway();
+		if ($gateway !== '') {
+			$cmd.= " && /usr/sbin/arp -nd $gateway 2>&1";
+		}
+
 		exec($cmd, $output, $retval);
 		if ($retval === 0) {
 			return TRUE;

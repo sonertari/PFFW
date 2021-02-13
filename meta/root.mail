@@ -1,9 +1,11 @@
-From sonertari@gmail.com Mon Dec 21 06:08:00 EET 2020
+From sonertari@gmail.com Sun Feb 14 06:08:01 EET 2021
 Return-Path: root
-Date: Dec 21 06:08:00 EET 2020
+Date: Feb 14 06:08:01 EET 2021
 From: sonertari@gmail.com (Soner Tari)
 To: root
-Subject: Welcome to PFFW 6.8!
+Subject: Welcome to PFFW 6.8.1!
 
-Highlight of this release is OpenBSD 6.8-stable.
+Highlights of this release are:
+- The new Dashboard
+- OpenBSD 6.8-stable
 

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -87,6 +87,62 @@ class Dhcpd extends View
 		$this->Module= basename(dirname($_SERVER['PHP_SELF']));
 		$this->Caption= _TITLE('DHCP Server');
 		$this->LogsHelpMsg= _HELPWINDOW('DHCP server logs the details of communications with DHCP clients.');
+	}
+
+	static function DisplayDashboardExtras()
+	{
+		global $ServiceInfo;
+		?>
+		<tr>
+			<td colspan="4">
+				<a class="transparent" href="/dhcpd/graphs.php"><img src="/system/dashboard/dhcpd.png" name="dhcpd" alt="dhcpd" title="<?php echo _TITLE2('CPU load of the DHCP Server') ?>"></a>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<table>
+					<tr id="dashboard">
+						<td class="halfcountleft" title="<?php echo _TITLE2('Current number of leases assigned to clients by the DHCP Server') ?>">
+							<a class="transparent-white" href="/dhcpd/info.php?submenu=dhcpd">
+							<div class="halfcount" style="background-color: blue">
+								<table>
+									<tr>
+										<td class="count">
+										<?php echo $ServiceInfo['dhcpd']['leases'] ?>
+										</td>
+									</tr>
+									<tr>
+										<td class="prio">
+										<?php echo _TITLE('LEASES') ?>
+										</td>
+									</tr>
+								</table>
+							</div>
+							</a>
+						</td>
+						<td class="halfcountright" title="<?php echo _TITLE2('Current number of hosts on the system ARP table') ?>">
+							<a class="transparent-white" href="/dhcpd/info.php?submenu=arptable">
+							<div class="halfcount" style="background-color: #490067">
+								<table>
+									<tr>
+										<td class="count">
+										<?php echo $ServiceInfo['dhcpd']['hosts'] ?>
+										</td>
+									</tr>
+									<tr>
+										<td class="prio">
+										<?php echo _TITLE('HOSTS') ?>
+										</td>
+									</tr>
+								</table>
+							</div>
+							</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<?php
 	}
 }
 

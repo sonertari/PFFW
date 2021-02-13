@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -63,11 +63,12 @@ if ($GraphStyle == 'Hourly') {
 
 $ViewStatsConf= $StatsConf[$View->Model];
 
-$View->Controller($Output, 'GetAllStats', $LogFile, $GraphStyle == 'Hourly' ? 'COLLECT' : '');
-$AllStats= json_decode($Output[0], TRUE);
-$Stats= json_decode($AllStats['stats'], TRUE);
-$BriefStats= json_decode($AllStats['briefstats'], TRUE);
-$DateStats= $Stats['Date'];
+if ($LogFile !== FALSE && $View->Controller($Output, 'GetAllStats', $LogFile, $GraphStyle == 'Hourly' ? 'COLLECT' : '')) {
+	$AllStats= json_decode($Output[0], TRUE);
+	$Stats= json_decode($AllStats['stats'], TRUE);
+	$BriefStats= json_decode($AllStats['briefstats'], TRUE);
+	$DateStats= $Stats['Date'];
+}
 
 require_once($VIEW_PATH . '/header.php');
 

@@ -22,13 +22,55 @@ msgstr ""
 msgid "COMMAND"
 msgstr ""
 
+msgid "CPU load of OpenSSH"
+msgstr ""
+
+msgid "CPU load of the DHCP Server"
+msgstr ""
+
+msgid "CPU load of the DNS Server"
+msgstr ""
+
+msgid "CPU load of the FTP Proxy"
+msgstr ""
+
+msgid "CPU load of the Web User Interface"
+msgstr ""
+
+msgid "CPU load of the system"
+msgstr ""
+
+msgid "Current number of hosts on the system ARP table"
+msgstr ""
+
+msgid "Current number of leases assigned to clients by the DHCP Server"
+msgstr ""
+
+msgid "Current number of states"
+msgstr ""
+
 msgid "DHCP Server"
 msgstr ""
 
 msgid "DNS Server"
 msgstr ""
 
+msgid "Dashboard"
+msgstr ""
+
+msgid "Data transfer between internal and external interfaces"
+msgstr ""
+
+msgid "Disk input and output"
+msgstr ""
+
+msgid "Disk partition usage"
+msgstr ""
+
 msgid "FTP Proxy"
+msgstr ""
+
+msgid "Failed login attempts to the SSH Server"
 msgstr ""
 
 msgid "Forwarders"
@@ -65,6 +107,9 @@ msgid "Max Auth Tries"
 msgstr ""
 
 msgid "MaxStartups"
+msgstr ""
+
+msgid "Memory usage"
 msgstr ""
 
 msgid "Name server"
@@ -112,10 +157,16 @@ msgstr ""
 msgid "Start Servers"
 msgstr ""
 
+msgid "States and state searches on the Packet Filter"
+msgstr ""
+
 msgid "Subnet mask"
 msgstr ""
 
 msgid "Subsystem sftp"
+msgstr ""
+
+msgid "Successful logins to the SSH Server"
 msgstr ""
 
 msgid "Symon System Monitoring"
@@ -130,13 +181,47 @@ msgstr ""
 msgid "System"
 msgstr ""
 
+msgid "System date and time"
+msgstr ""
+
+msgid "System uptime since the last boot up"
+msgstr ""
+
 msgid "TCP Keep Alive"
 msgstr ""
 
 msgid "TIME"
 msgstr ""
 
+msgid ""
+"The period of time from now backwards for the data displayed on the dashboard"
+msgstr ""
+
+msgid "The time remaining before the current session times out"
+msgstr ""
+
 msgid "Timespan"
+msgstr ""
+
+msgid "Total number of critical errors reported by the system and services"
+msgstr ""
+
+msgid "Total number of errors reported by the system and services"
+msgstr ""
+
+msgid "Total number of users currently logged in to the system"
+msgstr ""
+
+msgid "Total number of warnings reported by the system and services"
+msgstr ""
+
+msgid "Traffic on the external interface"
+msgstr ""
+
+msgid "Traffic on the internal interface"
+msgstr ""
+
+msgid "Traffic on the loopback interface"
 msgstr ""
 
 msgid "USER"

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -182,7 +182,7 @@ function Authentication($passwd)
 		unset($_SESSION['pf']);
 	}
 	
-	header('Location: /system/dashboard.php');
+	header('Location: /system/info.php?submenu=dashboard');
 	exit;
 }
 

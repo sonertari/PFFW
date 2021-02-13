@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -212,6 +212,28 @@ class Pf extends Model
 		}
 	}
 
+	function _getModuleStatus($generate_info= FALSE, $start= 0)
+	{
+		$status= parent::_getModuleStatus($generate_info, $start);
+
+		if ($generate_info) {
+			$status['info']['states']= $this->_getStateCount();
+
+			/// @attention _getPfInfo() is more expensive than counting the states in the pftop output
+			//$info= $this->_getPfInfo();
+			//if ($info !== FALSE) {
+			//	foreach ($info as $i) {
+			//		// current entries                    18012
+			//		if (preg_match('/current entries\s+(\d+)/', $i, $match)) {
+			//			$status['info']['states']= $match[1];
+			//			break;
+			//		}
+			//	}
+			//}
+		}
+		return $status;
+	}
+
 	/**
 	 * Runs pfctl info commands.
 	 * 
@@ -245,9 +267,18 @@ class Pf extends Model
 	 */
 	function GetPfInfo()
 	{
+		$info= $this->_getPfInfo();
+		if ($info !== FALSE) {
+			return Output(implode("\n", $info));
+		}
+		return FALSE;
+	}
+
+	function _getPfInfo()
+	{
 		exec('/sbin/pfctl -vs info', $output, $retval);
 		if ($retval === 0) {
-			return Output(implode("\n", $output));
+			return $output;
 		}
 		return FALSE;
 	}
@@ -995,6 +1026,10 @@ class Pf extends Model
 	{
 		global $TCPDUMP;
 		
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$cmd= "$TCPDUMP $file";
 
 		if ($month != '' || $day != '' || $hour != '' || $minute != '') {
@@ -1020,6 +1055,10 @@ class Pf extends Model
 	function GetLogs($file, $end, $count, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
 	{
 		global $TCPDUMP;
+
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
 
 		$cmd= "$TCPDUMP $file";
 
@@ -1062,6 +1101,10 @@ class Pf extends Model
 	{
 		global $TCPDUMP;
 		
+		if (!$this->ValidateFile($file)) {
+			return FALSE;
+		}
+
 		$cmd= "$TCPDUMP $file";
 		if ($re !== '') {
 			$re= escapeshellarg($re);
@@ -1089,6 +1132,11 @@ class Pf extends Model
 	 */
 	function GetStateCount($re= '')
 	{
+		return Output($this->_getStateCount($re));
+	}
+
+	function _getStateCount($re= '')
+	{
 		// Skip header lines by grepping for In or Out
 		// Empty $re is not an issue for grep, greps all
 		$cmd= "$this->pftopCmd | /usr/bin/egrep -a 'In|Out'";
@@ -1097,9 +1145,8 @@ class Pf extends Model
 			$cmd.= " | /usr/bin/grep -a -E $re";
 		}
 		$cmd.= ' | /usr/bin/wc -l';
-		exec($cmd, $output, $retval);
 		// OpenBSD wc returns with leading blanks
-		return Output(trim($this->RunShellCommand($cmd)));
+		return trim($this->RunShellCommand($cmd));
 	}
 
 	/**

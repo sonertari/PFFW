@@ -1,13 +1,13 @@
-# Copyright (C) 2004-2020 Soner Tari, The UTMFW project
+# Copyright (C) 2004-2021 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017-2020.
+# Soner Tari <sonertari@gmail.com>, 2009-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PFFW 6.8\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2020-05-25 16:39+0300\n"
+"PO-Revision-Date: 2021-02-11 18:30+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
 "Language: Turkish\n"
 "Language-Team: Turkish <sonertari@gmail.com>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 msgid "%MEM"
 msgstr "BELLEK%"
@@ -41,14 +41,56 @@ msgstr "CGI Sunucu"
 msgid "COMMAND"
 msgstr "KOMUT"
 
+msgid "CPU load of OpenSSH"
+msgstr "OpenSSH'in işlemci yükü"
+
+msgid "CPU load of the DHCP Server"
+msgstr "DHCP sunucunun işlemci yükü"
+
+msgid "CPU load of the DNS Server"
+msgstr "DNS sunucunun işlemci yükü"
+
+msgid "CPU load of the FTP Proxy"
+msgstr "FTP vekilin işlemci yükü"
+
+msgid "CPU load of the Web User Interface"
+msgstr "Web Arayüzünün işlemci yükü"
+
+msgid "CPU load of the system"
+msgstr "Sistemin işlemci yükü"
+
+msgid "Current number of hosts on the system ARP table"
+msgstr "Sistemin ARP tablosundaki cihaz sayısı"
+
+msgid "Current number of leases assigned to clients by the DHCP Server"
+msgstr "DHCP sunucu tarafından istemcilere atanan kiralamaların sayısı"
+
+msgid "Current number of states"
+msgstr "Durumların sayısı"
+
 msgid "DHCP Server"
 msgstr "DHCP Sunucu"
 
 msgid "DNS Server"
 msgstr "DNS Sunucu"
 
+msgid "Dashboard"
+msgstr "Gösterge paneli"
+
+msgid "Data transfer between internal and external interfaces"
+msgstr "İç ve dış arayüzler arasındaki veri aktarımı"
+
+msgid "Disk input and output"
+msgstr "Disk girdi ve çıktıları"
+
+msgid "Disk partition usage"
+msgstr "Disk bölümü kullanımı"
+
 msgid "FTP Proxy"
 msgstr "FTP Vekil"
+
+msgid "Failed login attempts to the SSH Server"
+msgstr "SSH sunucuya yapılan başarısız giriş denemeleri"
 
 msgid "Forwarders"
 msgstr "İletilenler"
@@ -85,6 +127,9 @@ msgstr "Doğrulama deneme üst sınırı"
 
 msgid "MaxStartups"
 msgstr "Başlangıç üst sınırı"
+
+msgid "Memory usage"
+msgstr "Bellek kullanımı"
 
 msgid "Name server"
 msgstr "Ad sunucusu"
@@ -131,11 +176,17 @@ msgstr "Boyut"
 msgid "Start Servers"
 msgstr "Başlangıç sunucu sayısı"
 
+msgid "States and state searches on the Packet Filter"
+msgstr "Paket eleğinin durumları ve durum sorguları"
+
 msgid "Subnet mask"
 msgstr "Altağ şablonu"
 
 msgid "Subsystem sftp"
 msgstr "Alt-sistem sftp"
+
+msgid "Successful logins to the SSH Server"
+msgstr "SSH sunucuya yapılan başarılı girişler"
 
 msgid "Symon System Monitoring"
 msgstr "Symon Sistem Gözlemleme"
@@ -149,14 +200,48 @@ msgstr "Syslog düzeneği"
 msgid "System"
 msgstr "Sistem"
 
+msgid "System date and time"
+msgstr "Sistem tarih saati"
+
+msgid "System uptime since the last boot up"
+msgstr "Sistemin son açılışından bu yana geçen süre"
+
 msgid "TCP Keep Alive"
 msgstr "TCP canlı tutma"
 
 msgid "TIME"
 msgstr "SÜRE"
 
+msgid ""
+"The period of time from now backwards for the data displayed on the dashboard"
+msgstr "Gösterge panelindeki verinin şu andan itibaren geçmişe doğru süresi"
+
+msgid "The time remaining before the current session times out"
+msgstr "Mevcut oturumun zaman aşımına kalan süre"
+
 msgid "Timespan"
 msgstr "Zaman aralığı"
+
+msgid "Total number of critical errors reported by the system and services"
+msgstr "Sistem ve servisler tarafında bildirilen toplam önemli hata sayısı"
+
+msgid "Total number of errors reported by the system and services"
+msgstr "Sistem ve servisler tarafında bildirilen toplam hata sayısı"
+
+msgid "Total number of users currently logged in to the system"
+msgstr "Şu anda sisteme giriş yapmış toplam kullanıcı sayısı"
+
+msgid "Total number of warnings reported by the system and services"
+msgstr "Sistem ve servisler tarafında bildirilen toplam uyarı sayısı"
+
+msgid "Traffic on the external interface"
+msgstr "Dış ağ arayüzündeki trafik"
+
+msgid "Traffic on the internal interface"
+msgstr "İç ağ arayüzündeki trafik"
+
+msgid "Traffic on the loopback interface"
+msgstr "Döngü arayüzündeki trafik"
 
 msgid "USER"
 msgstr "KULLANICI"

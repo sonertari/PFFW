@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -36,6 +36,12 @@ $PfctlTimeout= 5;
 
 /// Interval to check module status for displaying.
 $StatusCheckInterval= 60;
+
+/// Max size in MB for log and statistics files to process. This limit is used for files downloaded from the WUI too.
+/// The WUI slows down if we try to process larger files.
+/// This size should be determined based on the specs of the hardware.
+/// The default file size for log rotation is 10 MB for most log files in newsyslog.conf.
+$MaxFileSizeToProcess= 10;
 
 /// Default locale for both View and Controller.
 $DefaultLocale= 'en_EN';

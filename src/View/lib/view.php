@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2020 Soner Tari
+ * Copyright (C) 2004-2021 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -281,9 +281,11 @@ class View
 	 */
 	function PrintStatusForm($printcount= FALSE, $showbuttons= TRUE, $printprocs= TRUE, $showrestartbutton= FALSE)
 	{
-		global $IMG_PATH, $ADMIN, $Status2Images;
+		global $IMG_PATH, $ADMIN, $Status2Images, $StatusTitles;
 
-		$this->Controller($output, 'GetModuleStatus');
+		if (!$this->Controller($output, 'GetModuleStatus')) {
+			return;
+		}
 		$status= json_decode($output[0], TRUE);
 
 		$running= $status['Status'] == 'R';
@@ -307,29 +309,14 @@ class View
 
 		$errorStatus= $status['ErrorStatus'];
 		$errorImgfile= $Status2Images[$errorStatus];
-		if ($errorStatus == 'C') {
-			$errorName= 'CriticalErrors';
-			$errorInfo= _TITLE('Critical Error');
-		}
-		else if ($errorStatus == 'E') {
-			$errorName= 'Errors';
-			$errorInfo= _TITLE('Error');
-		}
-		else if ($errorStatus == 'W') {
-			$errorName= 'Warnings';
-			$errorInfo= _TITLE('Warning');
-		}
-		else if ($errorStatus == 'N') {
-			$errorName= 'No Errors';
-			$errorInfo= _TITLE('No Errors');
-		}
+		$errorInfo= $StatusTitles[$errorStatus];
 
 		$confirm= preg_replace('/<NAME>/', $this->Caption, $confirm);
 		?>
 		<table id="status">
 			<tr>
 				<td class="image">
-					<img src="<?php echo $IMG_PATH.$imgfile ?>" name="<?php echo $name ?>" alt="<?php echo $name ?>" border="0">
+					<img src="<?php echo $IMG_PATH.$imgfile ?>" name="<?php echo $name ?>" alt="<?php echo $name ?>" border="0" title="<?php echo $name ?>">
 				</td>
 				<td class="image">
 					<img src="<?php echo $IMG_PATH.$errorImgfile ?>" name="<?php echo $errorInfo ?>" alt="<?php echo $errorInfo ?>" border="0" title="<?php echo $errorInfo ?>">
@@ -511,9 +498,10 @@ class View
 	 */
 	function PrintStats($file= '')
 	{
-		$this->Controller($output, 'GetProcStatLines', $file);
-		$stats= json_decode($output[0], TRUE);
-		PrintNVPs($stats, _STATS('General Statistics'), 50, FALSE, FALSE);
+		if ($file !== FALSE && $this->Controller($output, 'GetProcStatLines', $file)) {
+			$stats= json_decode($output[0], TRUE);
+			PrintNVPs($stats, _STATS('General Statistics'), 50, FALSE, FALSE);
+		}
 	}
 
 	/**
