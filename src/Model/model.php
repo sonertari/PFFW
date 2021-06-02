@@ -2829,7 +2829,7 @@ class Model
 
 	function isPrio($log, $prio)
 	{
-		return strtoupper($log['Prio']) == $prio;
+		return array_key_exists('Prio', $log) && strtoupper($log['Prio']) == $prio;
 	}
 
 	function GetStatus()

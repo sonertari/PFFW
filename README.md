@@ -4,7 +4,9 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw68\_20210214\_amd64.iso](https://drive.google.com/file/d/1STsmqy_Hmdkp_XjkfldJdWhCNSIy2YMg/view?usp=sharing). Make sure the SHA256 checksum is correct: 11bb0b7249538ef64acc386e6d21878620b4619a08995bc49a32c2909069368e.
+The installation iso file for the amd64 arch is available for download at [pffw69\_20210602\_amd64.iso](https://drive.google.com/file/d/1STsmqy_Hmdkp_XjkfldJdWhCNSIy2YMg/view?usp=sharing). Make sure the SHA256 checksum is correct: 11bb0b7249538ef64acc386e6d21878620b4619a08995bc49a32c2909069368e.
+
+You can follow the instructions on [this OpenBSD journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file into a bootable USB image you can write to a USB stick. The only catch is that if the installation script cannot find the install sets, you should choose the disk option and that the disk partition is not mounted yet, and point it to the USB stick with the correct path to the install sets (the default path the script offers is the same path as in the image too, so you just hit Enter at that point).
 
 ## Features
 
@@ -23,7 +25,7 @@ The web user interface of PFFW helps you manage your firewall:
 - Notifier sends the system status as Firebase push notifications to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
 - System, network, and service configuration can be achieved on the web user interface.
 - Pf rules are maintained using PFRE.
-- Information on hosts, interfaces, pf rules, states, and queues are provided in a tabular form.
+- Information on hosts, interfaces, pf rules, states, and queues are provided in tabular form.
 - System, pf, and network can be monitored via graphs.
 - Logs can be viewed and downloaded on the web user interface. Compressed log files are supported.
 - Statistics collected over logs are displayed in bar charts and top lists. Bar charts and top lists are clickable, so you don't need to touch your keyboard to search anything on the statistics pages. You can view the top lists on pie charts too. Statistics over compressed log files are supported.
@@ -70,7 +72,7 @@ References:
 
 ## How to build
 
-The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.8 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.9 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -106,7 +108,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Create a new VM with 60GB disk, choose a size based on your needs
 	+ Add a separate 8GB disk for /dest, which will be needed to make release(8)
 	+ Start VM and install OpenBSD
-	+ Create a local user
+	+ Create a local user, after reboot add it to /etc/doas.conf
 	+ During installation mount the dest disk to /dest
 	+ Add noperm to /dest in /etc/fstab
     + Make /dest owned by build:wobj and set its perms to 700
@@ -124,9 +126,14 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ Doxyfile
 		+ README.md
 		+ src/lib/defs.php
+		+ cd/amd64/X.Y/
+		+ openbsd/X.Y/
+		+ .po files under src/View/locale/
 
 	+ Bump the version number XY in the sources, if upgrading
 		+ README.md
+		+ openbsd/pffw/expat/amd64/xbaseXY.tgz
+		+ openbsd/pffw/fonts/amd64/xfontXY.tgz
 
 	+ Update based on the release date, project changes, and news, if upgrading
 		+ config/etc/motd
@@ -136,19 +143,20 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Update copyright if necessary
 
 - Make sure the signify key pair for UTMFW is in the correct locations:
-    + Save .pub and .sec to docs/signify
-    + Copy .pub to /etc/signify/, .pub file is copied into the bsd.rd file while making release(8) to verify install sets during installation
+    + Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
+    + Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
 
 - Update the packages:
 	+ Install the OpenBSD packages
 		+ Set the download mirror, use the existing cache if any
             ```
-            PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
+            export PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
             ```
 		+ Save the depends under PKG_CACHE, which will be used later on to update the packages in the iso file
             ```
             export PKG_CACHE=/var/db/pkg_pffw/
             ```
+		+ isc-bind
 		+ symon
 		+ symux
 		+ pftop
@@ -162,11 +170,11 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 - Make release(8):
     + Extract src.tar.gz and and sys.tar.gz under /usr/src/
     + Apply the patches under openbsd/pffw
+	+ Update the sources with the stable branch changes if any
 	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast computer
-		+ Use the dest and rel folders created above: `export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/`
 		+ Build the kernel and reboot
-		+ Build the system
-		+ Make the release
+		+ Build the base system
+		+ Make the release, use the dest and rel folders created above: `export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/`
     + Copy the install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
 
 - Update the install sets:
@@ -176,12 +184,12 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Copy the xfontXY.tgz install set from installXY.iso to docs/fonts/amd64/xfontXY.tgz
 
 - Update the configuration files under config with the ones in the new versions of packages:
-    + Also update Doxyfile if the doxygen version changed
+    + Also update Doxyfile if the doxygen version has changed
 
 - Update PFRE:
     + Update PFRE to the current version, support changes in pf if any
-    + Create the man2web package and install
-    + Produce pf.conf.html from pf.conf(2) using man2web
+    + Create and install the man2web package
+    + Produce pf.conf.html from pf.conf(5) using man2web
     + Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
 
 - Update phpseclib to its new version if any:

@@ -34,7 +34,7 @@ class Httpdlogs extends Httpd
 	{
 		global $Re_Ip;
 	
-		//Oct 21 23:58:56 pffw62 httpd[29450]: INFO: pffw 192.168.8.2 - - [21/Oct/2017:23:58:56 +0300] "GET /pffw.css HTTP/1.1" 304 0
+		//Oct 21 23:58:56 utmfw62 httpd[29450]: INFO: utmfw 192.168.8.2 - - [21/Oct/2017:23:58:56 +0300] "GET /utmfw.css HTTP/1.1" 304 0
 		$datetime= '\[(\d+\/\w+\/\d+):(\d+:\d+:\d+)\s*[\w+]*\]';
 		$ip= "($Re_Ip)";
 		$mtd= '(\S+)';
@@ -58,7 +58,7 @@ class Httpdlogs extends Httpd
 				}
 			} else {
 				/// @todo Check the reason of this 408 log
-				// Oct 22 00:18:50 pffw62 httpd[28407]: INFO: pffw 192.168.8.2 - - [22/Oct/2017:00:18:50 +0300] "<UNKNOWN> " 408 0
+				// Oct 22 00:18:50 utmfw62 httpd[28407]: INFO: utmfw 192.168.8.2 - - [22/Oct/2017:00:18:50 +0300] "<UNKNOWN> " 408 0
 				$re= "/^\S+\s+$ip\s+.*\s+$datetime\s+\"(.+)\"\s+$code\s+$size$/";
 				if (preg_match($re, $cols['Log'], $match)) {
 					$cols['IP']= $match[1];

@@ -16,9 +16,9 @@
 echo '\nStarting PFFW services...'
 
 # Start PHP FastCGI server
-if [ -x /usr/local/sbin/php-fpm-7.4 ]; then
+if [ -x /usr/local/sbin/php-fpm-8.0 ]; then
 	echo 'PHP FastCGI server'
-	/usr/local/sbin/php-fpm-7.4
+	/usr/local/sbin/php-fpm-8.0
 fi
 
 # Start ISC DNS server

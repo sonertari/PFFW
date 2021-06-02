@@ -373,3 +373,4 @@ $RRDTOOL graph httpd_cpu.png $GENERAL_OPTS $SIZE -s $START \
     AREA:uticks#008194:uticks \
     STACK:sticks#da5400:sticks \
     STACK:iticks#9932CC:iticks >/dev/null
+

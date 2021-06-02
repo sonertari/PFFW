@@ -19,7 +19,7 @@
 ARCH=amd64
 
 ROOT_PATH=$(pwd)
-VERSION='6.8'
+VERSION='6.9'
 SUBVERSION=_$(date +%Y%m%d)
 VMAJ=${VERSION%%\.*}
 VMIN=${VERSION##*\.}
@@ -45,6 +45,7 @@ PKG_PATH=packages
 
 EXCLUDE_FROM_SHA256="boot.catalog SHA256 SHA256.sig"
 # PFFW uses the same install sets as UTMFW, hence the same secret key
+# bsd.rd uses the UTMFW .pub file to verify the install sets
 SECRET_KEY=$ROOT_PATH/docs/signify/utmfw-${VMAJ}${VMIN}.sec
 
 CD_PATH=cd/${ARCH}
