@@ -1001,54 +1001,6 @@ class Model
 	}
 
 	/**
-	 * Gets system gateway, static or dynamic.
-	 *
-	 * @return string Gateway.
-	 */
-	function getSystemGateway()
-	{
-		$gateway= '';
-		if (($mygate= $this->_getStaticGateway()) !== FALSE) {
-			$gateway= trim($mygate);
-		} else if (($mygate= $this->_getDynamicGateway()) !== FALSE) {
-			$gateway= trim($mygate);
-		}
-
-		if ($gateway === '') {
-			Error(_('System has no gateway'));
-		}
-		return $gateway;
-	}
-
-	function _getStaticGateway()
-	{
-		return $this->GetFile($this->confDir.'mygate');
-	}
-
-	function _getDynamicGateway()
-	{
-		global $Re_Ip;
-
-		$cmd= "/sbin/route -n get default | /usr/bin/grep gateway 2>&1";
-		exec($cmd, $output, $retval);
-		if ($retval === 0) {
-			if (count($output) > 0) {
-				#    gateway: 10.0.0.2
-				$re= "\s*gateway:\s*($Re_Ip)\s*";
-				if (preg_match("/$re/m", $output[0], $match)) {
-					return $match[1];
-				}
-			}
-		}
-		else {
-			$errout= implode("\n", $output);
-			Error($errout);
-			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Get dynamic gateway failed: $errout");
-		}
-		return FALSE;
-	}
-
-	/**
 	 * Extracts physical interface names from ifconfig output.
 	 *
 	 * Removes non-physical interfaces from the output.
@@ -1079,7 +1031,7 @@ class Model
 	 * Gets the log file under the tmp folder.
 	 *
 	 * Updates the tmp file if the original file is modified.
-	 * Updates the stat info of the file in the tmp statistics file, which is used to check file modificaton.
+	 * Updates the stat info of the file in the tmp statistics file, which is used to check file modification.
 	 *
 	 * @param string $file Original file name.
 	 * @return string Pathname of the log file.
@@ -1914,9 +1866,9 @@ class Model
 		$briefstats= array();
 		$linecount= 0;
 
-		$statsdefs= $StatsConf[$this->Name];
+		if (isset($StatsConf[$this->Name])) {
+			$statsdefs= $StatsConf[$this->Name];
 
-		if (isset($statsdefs)) {
 			$needle= '';
 			if (isset($statsdefs['Total']['Needle'])) {
 				$needle= $statsdefs['Total']['Needle'];
@@ -1955,9 +1907,8 @@ class Model
 
 						// Collect the fields listed under BriefStats
 						foreach ($briefstatsdefs as $name => $title) {
-							$value= $values[$name];
-							if (isset($value)) {
-								$briefstats[$name][$value]+= 1;
+							if (isset($values[$name])) {
+								AddValueCreateKey($briefstats[$name], $values[$name], 1);
 							}
 						}
 					}
@@ -2003,7 +1954,7 @@ class Model
 	 */
 	function GetHourRegexp($date)
 	{
-		if ($date['Hour'] == '') {
+		if (!isset($date['Hour']) || $date['Hour'] == '') {
 			$re= '.*';
 		}
 		else {
@@ -2203,19 +2154,23 @@ class Model
 	 */
 	function IncStats($line, $values, $statsdefs, &$stats)
 	{
-		$stats['Sum']+= 1;
+		AddValueCreateKey($stats, 'Sum', 1);
 
 		foreach ($statsdefs as $stat => $statconf) {
 			if (isset($statconf['Counters'])) {
 				foreach ($statconf['Counters'] as $counter => $conf) {
-					$value= $values[$conf['Field']];
-					if (isset($value)) {
-						$stats[$counter]['Sum']+= $value;
+					if (isset($values[$conf['Field']])) {
+						$value= $values[$conf['Field']];
+
+						if (!isset($stats[$counter])) {
+							$stats[$counter]= array();
+						}
+						AddValueCreateKey($stats[$counter], 'Sum', $value);
 
 						if (isset($conf['NVPs'])) {
 							foreach ($conf['NVPs'] as $name => $title) {
 								if (isset($values[$name])) {
-									$stats[$counter][$name][$values[$name]]+= $value;
+									AddValueCreateKey($stats[$counter][$name], $values[$name], $value);
 								}
 							}
 						}
@@ -2227,12 +2182,15 @@ class Model
 		foreach ($statsdefs as $stat => $conf) {
 			if (isset($conf['Needle'])) {
 				if (preg_match('/'.$conf['Needle'].'/', $line)) {
-					$stats[$stat]['Sum']+= 1;
+					if (!isset($stats[$stat])) {
+						$stats[$stat]= array();
+					}
+					AddValueCreateKey($stats[$stat], 'Sum', 1);
 
 					if (isset($conf['NVPs'])) {
 						foreach ($conf['NVPs'] as $name => $title) {
 							if (isset($values[$name])) {
-								$stats[$stat][$name][$values[$name]]+= 1;
+								AddValueCreateKey($stats[$stat][$name], $values[$name], 1);
 							}
 						}
 					}
@@ -2257,13 +2215,13 @@ class Model
 	function CollectMinuteStats($statsdefs, $min, $values, $line, &$hourstats)
 	{
 		$minstats= &$hourstats['Mins'][$min];
-		$minstats['Sum']+= 1;
+		AddValueCreateKey($minstats, 'Sum', 1);
 
 		foreach ($statsdefs as $stat => $statconf) {
 			if (isset($statconf['Counters'])) {
 				foreach ($statconf['Counters'] as $counter => $conf) {
 					if (isset($values[$conf['Field']])) {
-						$minstats[$counter]+= $values[$conf['Field']];
+						AddValueCreateKey($minstats, $counter, $values[$conf['Field']]);
 					}
 				}
 			}
@@ -2272,7 +2230,7 @@ class Model
 		foreach ($statsdefs as $stat => $conf) {
 			if (isset($conf['Needle'])) {
 				if (preg_match('/'.$conf['Needle'].'/', $line)) {
-					$minstats[$stat]+= 1;
+					AddValueCreateKey($minstats, $stat, 1);
 				}
 			}
 		}
@@ -2375,13 +2333,15 @@ class Model
 	function getValidValues($name)
 	{
 		$validValues= array();
-		$type= $this->Config[$name]['type'];
-		if ($type == STR_on_off) {
-			$validValues= array('on', 'off');
-		} elseif ($type == STR_On_Off) {
-			$validValues= array('On', 'Off');
-		} elseif ($type == STR_yes_no) {
-			$validValues= array('yes', 'no');
+		if (isset($this->Config[$name]['type'])) {
+			$type= $this->Config[$name]['type'];
+			if ($type == STR_on_off) {
+				$validValues= array('on', 'off');
+			} elseif ($type == STR_On_Off) {
+				$validValues= array('On', 'Off');
+			} elseif ($type == STR_yes_no) {
+				$validValues= array('yes', 'no');
+			}
 		}
 		return $validValues;
 	}
@@ -2722,19 +2682,28 @@ class Model
 	function GetModuleStatus()
 	{
 		$module_status= $this->_getModuleStatus();
-		if ($module_status === FALSE) {
-			return FALSE;
-		}
 		return Output(json_encode($module_status['status']));
 	}
 
 	function _getModuleStatus($generate_info= FALSE, $start= 0)
 	{
+		$runStatus= $this->IsRunning()? 'R':'S';
+
 		// @attention Don't use long extended regexps with grep, grep takes too long
 		//$logs= $model->_getStatus('(EMERGENCY|emergency|ALERT|alert|CRITICAL|critical|ERROR|error|WARNING|warning):');
 		$logs= $this->_getStatus('', $start);
 		if ($logs === FALSE) {
-			return FALSE;
+			return array(
+				'status' => array(
+					'Status' => $runStatus,
+					'ErrorStatus' => 'U',
+					'Critical' => 0,
+					'Error' => 0,
+					'Warning' => 0,
+					'Logs' => array(),
+					),
+				'info' => array()
+				);
 		}
 
 		$crits= array();
@@ -2768,7 +2737,7 @@ class Model
 
 		return array(
 			'status' => array(
-				'Status' => $this->IsRunning()? 'R':'S',
+				'Status' => $runStatus,
 				'ErrorStatus' => $errorStatus,
 				'Critical' => count($crits),
 				'Error' => count($errs),

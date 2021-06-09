@@ -41,15 +41,17 @@ if (count($_POST)) {
 		$GraphType= filter_input(INPUT_POST, 'GraphType');
 	}
 	else {
-		if ($_SESSION[$View->Model][$Submenu]['GraphType']) {
+		if (isset($_SESSION[$View->Model][$Submenu]['GraphType'])) {
 			$GraphType= $_SESSION[$View->Model][$Submenu]['GraphType'];
 		}
 	}
 }
-else if ($_SESSION[$View->Model][$Submenu]['GraphStyle']) {
+else if (isset($_SESSION[$View->Model][$Submenu]['GraphStyle'])) {
 	/// @attention Daily style does not set GraphType, do not check it in if condition
 	$GraphStyle= $_SESSION[$View->Model][$Submenu]['GraphStyle'];
-	$GraphType= $_SESSION[$View->Model][$Submenu]['GraphType'];
+	if (isset($_SESSION[$View->Model][$Submenu]['GraphType'])) {
+		$GraphType= $_SESSION[$View->Model][$Submenu]['GraphType'];
+	}
 }
 
 if ($GraphStyle == 'Daily') {
@@ -63,11 +65,25 @@ if ($GraphStyle == 'Hourly') {
 
 $ViewStatsConf= $StatsConf[$View->Model];
 
+if (!isset($ViewStatsConf['Total']['Needle'])) {
+	$ViewStatsConf['Total']['Needle']= '';
+}
+if (!isset($ViewStatsConf['Total']['SearchRegexpPrefix'])) {
+	$ViewStatsConf['Total']['SearchRegexpPrefix']= '';
+}
+if (!isset($ViewStatsConf['Total']['SearchRegexpPostfix'])) {
+	$ViewStatsConf['Total']['SearchRegexpPostfix']= '';
+}
+
+$BriefStats= array();
+$DateStats= array();
 if ($LogFile !== FALSE && $View->Controller($Output, 'GetAllStats', $LogFile, $GraphStyle == 'Hourly' ? 'COLLECT' : '')) {
 	$AllStats= json_decode($Output[0], TRUE);
 	$Stats= json_decode($AllStats['stats'], TRUE);
 	$BriefStats= json_decode($AllStats['briefstats'], TRUE);
-	$DateStats= $Stats['Date'];
+	if (isset($Stats['Date'])) {
+		$DateStats= $Stats['Date'];
+	}
 }
 
 require_once($VIEW_PATH . '/header.php');
@@ -117,7 +133,9 @@ PrintModalPieChart();
 
 			if (isset($ViewStatsConf['Total']['BriefStats'])) {
 				foreach ($ViewStatsConf['Total']['BriefStats'] as $Field => $Name) {
-					PrintNVPs($BriefStats[$Field], _($Name), 50, TRUE, $ViewStatsConf['Total']['Needle'], $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix']);
+					if (isset($BriefStats[$Field])) {
+						PrintNVPs($BriefStats[$Field], _($Name), 50, TRUE, $ViewStatsConf['Total']['Needle'], $ViewStatsConf['Total']['SearchRegexpPrefix'], $ViewStatsConf['Total']['SearchRegexpPostfix']);
+					}
 				}
 			}
 			?>

@@ -50,11 +50,11 @@ else {
 	HTMLHeader();
 }
 
-$ModuleFiles= array();
+$ExistingModules= array();
 $DirHandle= opendir($VIEW_PATH);
 while (FALSE !== ($DirName= readdir($DirHandle))) {
 	if (is_dir("$VIEW_PATH/$DirName")) {
-		$ModuleFiles[]= $DirName;
+		$ExistingModules[]= $DirName;
 	}
 }
 closedir($DirHandle);
@@ -75,12 +75,12 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 								<span class="menuwithimage">PFFW</span>
 								<img class="menuwithimage" src="/images/menu.png" name="Menu" alt="Menu" align="absmiddle">
 								<?php
-								foreach ($PFFW_MODULES as $Module => $ModuleConf) {
-									if ($View->Module == $Module && in_array($Module, $ModuleFiles) && in_array($_SESSION['USER'], $ModuleConf['Perms'])) {
+								if (array_key_exists($View->Module, $PFFW_MODULES)) {
+									$ModuleConf= $PFFW_MODULES[$View->Module];
+									if (in_array($View->Module, $ExistingModules) && in_array($_SESSION['USER'], $ModuleConf['Perms'])) {
 										?>
 										<span class="menuwithimage"><?php echo _($ModuleConf['Name']) ?></span>
 										<?php
-										break;
 									}
 								}
 								?>
@@ -88,7 +88,7 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 							<ul>
 								<?php
 								foreach ($PFFW_MODULES as $Module => $ModuleConf) {
-									if (in_array($Module, $ModuleFiles) && in_array($_SESSION['USER'], $ModuleConf['Perms'])) {
+									if (in_array($Module, $ExistingModules) && in_array($_SESSION['USER'], $ModuleConf['Perms'])) {
 										$LiStyle= '';
 										$AStyle= '';
 										if ($View->Module == $Module) {
@@ -128,10 +128,10 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 											$AStyle= '';
 											if (!$SelectedStyleSet) {
 												// The default model is the module
-												$MenuModel= $View->Module;
+												$MenuModule= $View->Module;
 												// But some top menus may define different models
 												if (isset($TopMenuConf['Model'])) {
-													$MenuModel= $TopMenuConf['Model'];
+													$MenuModule= $TopMenuConf['Model'];
 												}
 
 												if (($TopMenu == $TopMenuName) && ($Submenu == $SubMenuName)) {
@@ -140,8 +140,8 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 													$LiStyle= ACTIVE_LI_STYLE;
 													$AStyle= ACTIVE_A_STYLE;
 													$SelectedStyleSet= TRUE;
-												} else if (!isset($_SESSION[$MenuModel][$TopMenuName]['submenu']) ||
-														$_SESSION[$MenuModel][$TopMenuName]['submenu'] == $SubMenuName) {
+												} else if (!isset($_SESSION[$MenuModule][$TopMenuName]['submenu']) ||
+														$_SESSION[$MenuModule][$TopMenuName]['submenu'] == $SubMenuName) {
 													// The default submenu of all top menus is always the first submenu,
 													// or we set the last visited submenu of all top menus
 													$LiStyle= SELECTED_LI_STYLE;
@@ -269,9 +269,15 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 								<ul>
 								<?php
 								foreach ($DashboardIntervals as $interval => $title) {
+									$LiStyle= '';
+									$AStyle= '';
+									if ($LastDashboardInterval == $interval) {
+										$LiStyle= ACTIVE_LI_STYLE;
+										$AStyle= ACTIVE_A_STYLE;
+									}
 									?>
-									<li>
-										<a href="/system/info.php?submenu=dashboard&interval=<?php echo $interval ?>"><?php echo $title ?></a>
+									<li<?php echo $LiStyle ?>>
+										<a href="/system/info.php?submenu=dashboard&interval=<?php echo $interval ?>"<?php echo $AStyle ?>><?php echo $title ?></a>
 									</li>
 									<?php
 								}

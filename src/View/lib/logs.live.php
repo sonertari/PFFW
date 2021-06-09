@@ -38,20 +38,22 @@ $LogFile= $Output[0];
 
 UpdateLogsPageSessionVars($LinesPerPage, $SearchRegExp, $SearchNeedle);
 
+$LogSize= 0;
 if ($View->Controller($Output, 'GetFileLineCount', $LogFile, $SearchRegExp)) {
 	$LogSize= $Output[0];
 }
 
 require_once($VIEW_PATH.'/header.php');
 
-PrintLiveLogHeaderForm();
+PrintLiveLogHeaderForm($LinesPerPage, $SearchRegExp);
 ?>
 <table id="logline">
 	<?php
 	PrintTableHeaders($View->Model);
 
-	if ($View->Controller($Logs, 'GetLiveLogs', $LogFile, $LinesPerPage, $SearchRegExp)) {
-		$Logs= json_decode($Logs[0], TRUE);
+	$Logs= array();
+	if ($View->Controller($Output, 'GetLiveLogs', $LogFile, $LinesPerPage, $SearchRegExp)) {
+		$Logs= json_decode($Output[0], TRUE);
 	}
 
 	$LineCount= 1;

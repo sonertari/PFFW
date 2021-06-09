@@ -145,7 +145,12 @@ class View
 					if ($decoded !== NULL && is_array($decoded)) {
 						$output= explode("\n", $decoded[0]);
 						$errorStr= $decoded[1];
-						$retval= $decoded[2];
+						// FALSE returned by the Model function is json_encoded/decoded as string 'false'
+						if ($decoded[0] == 'false') {
+							$retval= 1;
+						} else {
+							$retval= $decoded[2];
+						}
 					} else {
 						$msg= 'Failed decoding output: '.print_r($outputArray[0], TRUE);
 						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "$msg, ($encoded_args)");
@@ -283,9 +288,8 @@ class View
 	{
 		global $IMG_PATH, $ADMIN, $Status2Images, $StatusTitles;
 
-		if (!$this->Controller($output, 'GetModuleStatus')) {
-			return;
-		}
+		$this->Controller($output, 'GetModuleStatus');
+
 		$status= json_decode($output[0], TRUE);
 
 		$running= $status['Status'] == 'R';
@@ -327,7 +331,7 @@ class View
 						<?php
 						/// Only admin can start/stop the processes
 						if (in_array($_SESSION['USER'], $ADMIN)) {
-							if ($button) {
+							if (isset($button)) {
 								?>
 								<input type="submit" name="<?php echo $button ?>" value="<?php echo _($button) ?>" onclick="return confirm('<?php echo $confirm ?>')"/>
 								<?php

@@ -75,7 +75,7 @@ $PFFW_MODULES = array(
 
 require_once($VIEW_PATH . '/lib/libauth.php');
 
-if ($_SESSION['Timeout']) {
+if (isset($_SESSION['Timeout'])) {
 	if ($_SESSION['Timeout'] <= time()) {
 		LogUserOut('Session expired');
 	}
@@ -99,6 +99,7 @@ $Status2Images= array(
 	'R' => 'running.png',
 	'S' => 'stop.png',
 	'N' => 'noerror.png',
+	'U' => 'warning2.png',
 	);
 
 $StatusTitles= array(
@@ -108,6 +109,7 @@ $StatusTitles= array(
 	'R' => _TITLE('Running'),
 	'S' => _TITLE('Stopped'),
 	'N' => _TITLE('No Errors'),
+	'U' => _TITLE('Unknown'),
 	);
 
 require_once($VIEW_PATH . '/lib/libwui.php');
@@ -116,4 +118,7 @@ $TopMenu= str_replace('.php', '', basename(filter_input(INPUT_SERVER, 'PHP_SELF'
 
 /// Used as arg to PrintProcessTable() to print the number of processes at the top.
 define('PRINT_COUNT', TRUE);
+
+$Reload= FALSE;
+$CustomHiddenInputs= '';
 ?>
