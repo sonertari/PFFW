@@ -39,8 +39,8 @@ class Model
 	public $StartCmd= '';
 
 	/// Max number of iterations to try while starting or stopping processes.
-	const PROC_STAT_TIMEOUT= 100;
-	const PROC_STAT_SLEEP_TIME= .3;
+	const PROC_STAT_TIMEOUT= 30;
+	const PROC_STAT_SLEEP_TIME= 1;
 	
 	/**
 	 * Argument lists and descriptions of commands.
@@ -2352,11 +2352,12 @@ class Model
 	 * @param string $file Config file
 	 * @param string $name Name of NVP
 	 * @param int $set There may be multiple parentheses in $re, which one to return
+	 * @param string $trimchars If given, these chars are trimmed on the left or right.
 	 * @return string Value of commented NVP or NULL on failure
 	 */
-	function GetDisabledNVP($file, $name, $set= 0)
+	function GetDisabledNVP($file, $name, $set= 0, $trimchars= '')
 	{
-		return $this->SearchFile($file, "/^\h*$this->COMC\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m", $set);
+		return $this->SearchFile($file, "/^\h*$this->COMC\h*$name\b\h*$this->NVPS\h*([^$this->COMC'\"\n]*|'[^'\n]*'|\"[^\"\n]*\"|[^$this->COMC\n]*)(\h*|\h*$this->COMC.*)$/m", $set, $trimchars);
 	}
 
 	/**
@@ -2466,7 +2467,8 @@ class Model
 	 */
 	function EnableNVP($file, $name, $type)
 	{
-		return $this->ReplaceRegexp($file, "/^\h*$this->COMC(\s*$name\b\s*$this->NVPS\s*$type)$/m", '${1}');
+		/// @attention Value may be empty, so we allow for empty values with the re ($type|), while enabling
+		return $this->ReplaceRegexp($file, "/^\h*$this->COMC(\s*$name\b\s*$this->NVPS\s*($type|))$/m", '${1}');
 	}
 
 	/**
@@ -2482,7 +2484,8 @@ class Model
 	 */
 	function DisableNVP($file, $name, $type)
 	{
-		return $this->ReplaceRegexp($file, "/^(\h*$name\b\s*$this->NVPS\s*$type)$/m", $this->COMC.'${1}');
+		/// @attention Value may be empty, so we allow for empty values with the re ($type|), while disabling
+		return $this->ReplaceRegexp($file, "/^(\h*$name\b\s*$this->NVPS\s*($type|))$/m", $this->COMC.'${1}');
 	}
 
 	/**
