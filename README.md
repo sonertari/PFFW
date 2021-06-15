@@ -4,7 +4,7 @@ PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on product
 
 You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
 
-The installation iso file for the amd64 arch is available for download at [pffw69\_20210602\_amd64.iso](https://drive.google.com/file/d/1hVmqr_aZW5qrUfLnv2bQ_I6pYXoNaDvM/view?usp=sharing). Make sure the SHA256 checksum is correct: ee5470f7eebe38e91b048960af75c7f6e4365f9b7c93fb39fe83bb00ba477577.
+The installation iso file for the amd64 arch is available for download at [pffw69\_20210614\_amd64.iso](https://drive.google.com/file/d/1hVmqr_aZW5qrUfLnv2bQ_I6pYXoNaDvM/view?usp=sharing). Make sure the SHA256 checksum is correct: ee5470f7eebe38e91b048960af75c7f6e4365f9b7c93fb39fe83bb00ba477577.
 
 You can follow the instructions on [this OpenBSD journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file into a bootable USB image you can write to a USB stick. The only catch is that if the installation script cannot find the install sets, you should choose the disk option and that the disk partition is not mounted yet, and point it to the USB stick with the correct path to the install sets (the default path the script offers is the same path as in the image too, so you just hit Enter at that point).
 

@@ -88,8 +88,11 @@ class Pf extends View
 		global $HeadStart, $StartLine, $StateCount, $LinesPerPage, $SearchRegExp;
 
 		PrintLogHeaderForm($StartLine, $StateCount, $LinesPerPage, $SearchRegExp, '');
-		$this->Controller($output, 'GetStateList', $HeadStart, $LinesPerPage, $SearchRegExp);
-		$states= json_decode($output[0], TRUE);
+
+		$states= array();
+		if ($this->Controller($output, 'GetStateList', $HeadStart, $LinesPerPage, $SearchRegExp)) {
+			$states= json_decode($output[0], TRUE);
+		}
 
 		$total= count($states);
 		if ($total > 0) {
@@ -206,7 +209,7 @@ class Pf extends View
 $View= new Pf();
 
 // Load the main pf configuration if the ruleset is empty
-if ($View->RuleSet->filename == '') {
+if (in_array($_SESSION['USER'], $ADMIN) && $View->RuleSet->filename == '') {
 	$filepath= '/etc/pf.conf';
 	$ruleSet= new RuleSet();
 	if ($ruleSet->load($filepath, 0, TRUE)) {
