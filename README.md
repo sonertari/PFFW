@@ -1,30 +1,36 @@
 # PFFW
 
-PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web User Interface (WUI) for monitoring and configuration. You can also use [A4PFFW](https://github.com/sonertari/A4PFFW) and [W4PFFW](https://github.com/sonertari/W4PFFW) for monitoring.
+PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web User Interface (WUI) for monitoring and configuration. You can also use the Android application [A4PFFW](https://github.com/sonertari/A4PFFW), which can display the notifications sent from PFFW, and the Windows application [W4PFFW](https://github.com/sonertari/W4PFFW) for monitoring.
 
-You can find a couple of screenshots on the [PFFW](https://github.com/sonertari/PFFW/wiki), [A4PFFW](https://github.com/sonertari/A4PFFW/wiki), and [W4PFFW](https://github.com/sonertari/W4PFFW/wiki) wikis.
+PFFW is the stripped-down version of [UTMFW](https://github.com/sonertari/UTMFW) without the UTM features.
+
+![Dashboard](https://github.com/sonertari/PFFW/blob/master/screenshots/Dashboard.png)
+
+You can find a couple of screenshots on the [wiki](https://github.com/sonertari/PFFW/wiki).
+
+## Download
 
 The installation iso file for the amd64 arch is available for download at [pffw69\_20210616\_amd64.iso](https://drive.google.com/file/d/1lfMMeka5tIbo3ONcenMKJ9wXBwBv5HpJ/view?usp=sharing). Make sure the SHA256 checksum is correct: e033a3b296f66b3ce02b118dd9815289b0bc29f8960b2828367276e62aebe8c8.
 
-You can follow the instructions on [this OpenBSD journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file into a bootable USB image you can write to a USB stick. The only catch is that if the installation script cannot find the install sets, you should choose the disk option and that the disk partition is not mounted yet, and point it to the USB stick with the correct path to the install sets (the default path the script offers is the same path as in the image too, so you just hit Enter at that point).
+You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file into a bootable USB image you can write to a USB stick. The only catch is that if the installation script cannot find the install sets, you should choose the disk option and that the disk partition is not mounted yet, and point it to the USB stick with the correct path to the install sets (the default path the script offers is the same path as in the image too, so you just hit Enter at that point).
 
 ## Features
 
 PFFW includes the following software, alongside what is already available on a basic OpenBSD installation:
 
-- PFRE: Packet Filter Rule Editor
+- [PFRE](https://github.com/sonertari/PFRE): Packet Filter Rule Editor
 - Symon system monitoring software
 - ISC DNS server
 - PHP
 
-![Dashboard](https://github.com/sonertari/PFFW/blob/master/screenshots/Dashboard.png)
+![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
 
 The web user interface of PFFW helps you manage your firewall:
 
 - Dashboard displays an overview of system status using graphs and statistics counters. You can click on those graphs and counters to go to their details on the web user interface.
 - Notifier sends the system status as Firebase push notifications to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
 - System, network, and service configuration can be achieved on the web user interface.
-- Pf rules are maintained using PFRE.
+- Pf rules are maintained using [PFRE](https://github.com/sonertari/PFRE).
 - Information on hosts, interfaces, pf rules, states, and queues are provided in tabular form.
 - System, pf, and network can be monitored via graphs.
 - Logs can be viewed and downloaded on the web user interface. Compressed log files are supported.
@@ -35,7 +41,9 @@ The web user interface of PFFW helps you manage your firewall:
 - The web user interface supports English and Turkish.
 - The web user interface configuration pages are designed such that changes you may have made to the configuration files on the command line (such as comments you might have added) remain intact after you configure a module using the web user interface.
 
-![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
+PFFW uses the same design decisions and implementation as the [PFRE](https://github.com/sonertari/PFRE) project. See its README for details.
+
+![UI Design](https://github.com/sonertari/UTMFW/blob/master/screenshots/UIDesign.png)
 
 ## How to install
 
