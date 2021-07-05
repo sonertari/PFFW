@@ -10,8 +10,7 @@
 
 /bin/mkdir -p /var/tmp/pffw/
 
-/usr/bin/env PATH=$PATH:/usr/local/bin /var/www/htdocs/pffw/Installer/install.php -f
-# The line above should have been commented out after first boot
+touch /var/tmp/pffw/.starting_pffw
 
 echo '\nStarting PFFW services...'
 
@@ -40,4 +39,7 @@ fi
 
 banner pffw
 echo 'is ready...\n'
+
 echo -n "a~a." > /dev/speaker &
+
+rm /var/tmp/pffw/.starting_pffw

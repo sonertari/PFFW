@@ -508,6 +508,12 @@ class Model
 		return $this->GetNVP($this->PfRulesFile, 'ext_if');
 	}
 
+	function isWifiIf($if)
+	{
+		exec("ifconfig $if 2>/dev/null | grep -q \"^[[:space:]]*ieee80211:\"", $output, $retval);
+		return $retval === 0;
+	}
+
 	/**
 	 * Creates a system user.
 	 * 
@@ -2649,7 +2655,41 @@ class Model
 			);
 
 		if ($generate_info) {
-			exec("doas sh $MODEL_PATH/rrdgraph.sh -$start");
+			if (($intif= $this->_getIntIf()) !== FALSE) {
+				$intif= trim($intif, '"');
+			} else {
+				$intif= 'lan0';
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get internal interface name');
+			}
+
+			if (($extif= $this->_getExtIf()) !== FALSE) {
+				$extif= trim($extif, '"');
+			} else {
+				$extif= 'wan0';
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get external interface name');
+			}
+
+			// @attention Use $model, not $this here, otherwise $this is an instance of System class, which has its own _getPartitions() method
+			// Model has the _getPartitions() method we want
+			$model= new Model();
+			$partitions= $model->_getPartitions();
+
+			$disks= array();
+			foreach ($partitions as $part => $mdir) {
+				if (preg_match('|/dev/((\w+\d+)[a-z]+)|', $part, $match)) {
+					if (!in_array($match[2], $disks)) {
+						$disks[]= $match[2];
+					}
+				}
+			}
+
+			$disk= 'wd0';
+			if (count($disks) > 0) {
+				$disk= $disks[0];
+			}
+
+			exec("doas sh $MODEL_PATH/rrdgraph.sh -$start $intif $extif $disk", $output, $retval);
+			Error(implode("\n", $output));
 		}
 
 		$status= array();
@@ -2682,6 +2722,10 @@ class Model
 		$output['status']= $status;
 		if ($generate_info) {
 			$output['info']= $info;
+		}
+
+		if (file_exists('/var/tmp/pffw/.starting_pffw')) {
+			Error(_('System is starting up...'));
 		}
 
 		return Output(json_encode($output));

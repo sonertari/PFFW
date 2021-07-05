@@ -112,7 +112,7 @@ function Output($msg)
 		if ($Output === '') {
 			$Output= $msg;
 		}
-		else {
+		else if ($msg !== '') {
 			$Output.= "\n".$msg;
 		}
 		return TRUE;
@@ -134,7 +134,7 @@ function Error($msg)
 	if ($Error === '') {
 		$Error= $msg;
 	}
-	else {
+	else if ($msg !== '') {
 		$Error.= "\n".$msg;
 	}
 }

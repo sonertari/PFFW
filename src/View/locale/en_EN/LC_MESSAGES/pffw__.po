@@ -103,6 +103,9 @@ msgstr ""
 msgid "Enable config"
 msgstr ""
 
+msgid "Enable hostap on an interface"
+msgstr ""
+
 msgid "Enable notifier"
 msgstr ""
 
@@ -656,6 +659,9 @@ msgid "String wrong"
 msgstr ""
 
 msgid "System has no gateway"
+msgstr ""
+
+msgid "System is starting up..."
 msgstr ""
 
 msgid "System restart"

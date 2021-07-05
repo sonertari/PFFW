@@ -10,9 +10,13 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 ## Download
 
-The installation iso file for the amd64 arch is available for download at [pffw69\_20210616\_amd64.iso](https://drive.google.com/file/d/1lfMMeka5tIbo3ONcenMKJ9wXBwBv5HpJ/view?usp=sharing). Make sure the SHA256 checksum is correct: e033a3b296f66b3ce02b118dd9815289b0bc29f8960b2828367276e62aebe8c8.
+The PFFW project releases two installation files:
 
-You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file into a bootable USB image you can write to a USB stick. The only catch is that if the installation script cannot find the install sets, you should choose the disk option and that the disk partition is not mounted yet, and point it to the USB stick with the correct path to the install sets (the default path the script offers is the same path as in the image too, so you just hit Enter at that point).
+- The installation iso file for the amd64 arch is available for download at [pffw69\_20210616\_amd64.iso](https://drive.google.com/file/d/1lfMMeka5tIbo3ONcenMKJ9wXBwBv5HpJ/view?usp=sharing). Make sure the SHA256 checksum is correct: e033a3b296f66b3ce02b118dd9815289b0bc29f8960b2828367276e62aebe8c8.
+
+- The installation img file for the arm64 arch is available for download at [pffw69\_20210705\_arm64.img](https://drive.google.com/file/d/1lblsUSFTmv5dj2W3D_sOSL5hLGgig8nv/view?usp=sharing). Make sure the SHA256 checksum is correct: ea721c829aa5fb031455dbe01ea86a44359ecd114956f21777d2a70e8db49a54. The only arm64 platform supported is Raspberry Pi 4 Model B.
+
+You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
 
 ## Features
 
@@ -47,22 +51,19 @@ PFFW uses the same design decisions and implementation as the [PFRE](https://git
 
 ## How to install
 
-Download the installation iso file mentioned above and follow the instructions in the installation guide available in the iso file. Below are the same instructions.
+Download the installation iso or img file for your platform and follow the instructions in the installation guide available in the file. Below are the same instructions.
 
-A few notes about PFFW installation:
+### Installation Guide
 
-- Thanks to a modified auto-partitioner of OpenBSD, the disk can be partitioned with a recommended layout for PFFW, so most users don't need to use the label editor at all.
-- All install sets including siteXY.tgz are selected by default, so you cannot 'not' install PFFW by mistake.
-- OpenBSD installation questions are modified according to the needs of PFFW. For example, X11 related questions are never asked.
-- 512MB RAM and an 8GB HD should be enough.
+PFFW installation is very intuitive and easy, just follow the instructions on the screen and answer the questions asked. You are advised to accept the default answers to all the questions. In fact, the installation can be completed by accepting default answers all the way from the first question until the last. The only exceptions are network configuration, password setup, and installation disk selection.
 
-PFFW installation is very intuitive and easy, just follow the instructions on the screen and answer the questions asked. You are advised to accept the default answers to all the questions. In fact, the installation can be completed by accepting default answers all the way from the first question until the last. The only obvious exceptions are network configuration and password setup.
+Auto allocator will provide a partition layout recommended for your disk. Suggested partitioning should be suitable for most installations, simply accept it. Do not delete or modify the msdos partition (for arm64 installation).
 
-Auto allocator will provide a partition layout recommended for your disk. Suggested partitioning should be suitable for most installations, simply accept it.
-
-Make sure you configure two network interfaces. You will be asked to choose internal and external interfaces later on.
+Make sure you configure two network interfaces. You will be asked to choose internal and external interfaces later on. You can configure the internal wifi interface in Host AP mode.
 
 All of the install sets and software packages are selected by default, simply accept the selections.
+
+While installing using the img file, when the installation script asks the location for the install sets or the packages, you should choose the disk option and that the disk partition is not mounted yet, and then select the device name for the installation disk (usually sd0 or sd1, but type ? to see device info first). The default path for install sets and packages the script offers is the same path as in the img file too, so you just hit Enter at that point.
 
 If the installation script finds an already existing file which needs to be updated, it saves the old file as filename.orig.
 
@@ -74,50 +75,68 @@ Web interface user names are admin and user. Both are set to the same password y
 
 References:
 
-1. INSTALL.amd64 in the installation iso file.
-2. [Supported hardware](https://www.openbsd.org/amd64.html).
+1. INSTALL.amd64 in the installation iso file and INSTALL.arm64 in the installation img file.
+2. [Supported hardware for amd64](https://www.openbsd.org/amd64.html) and [supported hardware for arm64](https://www.openbsd.org/arm64.html).
 3. [OpenBSD installation guide](https://www.openbsd.org/faq/faq4.html).
+
+### Installation Tips
+
+A few notes about PFFW installation:
+
+- Thanks to a modified auto-partitioner of OpenBSD, the disk can be partitioned with a recommended layout for PFFW, so most users don't need to use the label editor at all.
+- All install sets including siteXY.tgz are selected by default, so you cannot 'not' install PFFW by mistake.
+- OpenBSD installation questions are modified according to the needs of PFFW. For example, X11 related questions are never asked.
+- 512MB RAM and an 8GB HD should be enough.
+- If you install on an SD card, make sure it is fast enough.
+- When you first try to log in to the WUI, ignore the certificate warning issued by your web browser and proceed to the WUI.
+- Make sure the date and time of the system is correct, otherwise after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
 
 ## How to build
 
-The purpose in this section is to build the installation iso file using the createiso script at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.9 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 6.9 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
-The createiso script:
+The create script:
 
 - Clones the git repo of the project to a tmp folder.
 - Generates gettext translations and doxygen documentation.
 - Prepares the webif and config packages and the site install set.
-- And finally creates the iso file.
+- And finally creates the iso file for the amd64 arch or the img file for the arm64 arch.
 
-However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence need to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run createiso, you need to do a couple of things:
+However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence need to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run the create scripts, you need to do a couple of things:
 
 - Install sets:
 	+ Obtain the sources of OpenBSD.
 	+ Patch the OpenBSD sources using the `patch-*` files under `openbsd/pffw`.
-	+ Create the UTMFW secret and public key pair to sign and verify the SHA256 checksums of the install sets, and copy them to their appropriate locations. The installation iso of PFFW uses the same install sets as UTMFW, hence the same secret key. If you want to use a different key pair, you should change the references to the UTMFW key pair in the source code as well.
+	+ Create the UTMFW secret and public key pair to sign and verify the SHA256 checksums of the install sets, and copy them to their appropriate locations. The installation iso and img files of PFFW use the same install sets as UTMFW, hence the same secret key. If you want to use a different key pair, you should change the references to the UTMFW key pair in the source code as well.
 	+ Build an OpenBSD release, as described in [release(8)](https://man.openbsd.org/release) or [faq5](https://www.openbsd.org/faq/faq5.html).
 	+ Copy the required install sets to the appropriate locations to fix the broken links in the sources.
 - Packages:
 	+ Download the required packages available on the OpenBSD mirrors.
 	+ Copy them to the appropriate locations to fix the broken links in the sources.
 
-Note that you can strip down xbase and xfont install sets to reduce the size of the iso file. Copy or link them to the appropriate locations under `openbsd/pffw`.
+Note that you can strip down xbase and xfont install sets to reduce the size of the iso and img files. Copy or link them to the appropriate locations under `openbsd/pffw`.
 
-Now you can run the createiso script which should produce an iso file in the same folder as itself.
+Now you can run the createiso or createimg script, which should produce an iso or img file, respectively, in the same folder as itself.
 
 ### Build steps
 
 The following are steps you can follow to build PFFW yourself. Some of these steps can be automated by a script. You can modify these steps to suit your needs.
 
-- Install OpenBSD:
+- Install OpenBSD amd64:
 	+ Download installXY.iso from an OpenBSD mirror
 	+ Create a new VM with 60GB disk, choose a size based on your needs
-	+ Add a separate 8GB disk for /dest, which will be needed to make release(8)
-	+ Start VM and install OpenBSD
+	+ Start the VM and install OpenBSD
+
+- Install OpenBSD arm64:
+	+ Download installXY.img from an OpenBSD mirror
+	+ Use a 32GB SD card, or choose a size based on your needs
+	+ Start the Raspberry Pi 4 or qemu-system-aarch64 and install OpenBSD
+
+- Configure OpenBSD:
 	+ Create a local user, after reboot add it to /etc/doas.conf
-	+ During installation mount the dest disk to /dest
+	+ Create a separate partition mounted on /dest, which will be needed to make release(8)
 	+ Add noperm to /dest in /etc/fstab
     + Make /dest owned by build:wobj and set its perms to 700
     + Create /dest/dest/ and /dest/rel/ folders
@@ -128,39 +147,44 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 	+ Bump the version number X.Y in the sources, if upgrading
 		+ cd/amd64/etc/boot.conf
+		+ cd/arm64/etc/boot.conf
 		+ meta/createiso
+		+ meta/createimg
 		+ meta/install.sub
 		+ src/create_po.sh
 		+ Doxyfile
 		+ README.md
 		+ src/lib/defs.php
 		+ cd/amd64/X.Y/
+		+ cd/arm64/X.Y/
 		+ openbsd/X.Y/
 		+ .po files under src/View/locale/
 
 	+ Bump the version number XY in the sources, if upgrading
 		+ README.md
 		+ openbsd/pffw/expat/amd64/xbaseXY.tgz
+		+ openbsd/pffw/expat/arm64/xbaseXY.tgz
 		+ openbsd/pffw/fonts/amd64/xfontXY.tgz
+		+ openbsd/pffw/fonts/arm64/xfontXY.tgz
 
-	+ Update based on the release date, project changes, and news, if upgrading
+	+ Update based on the version number, release date, project changes, and news, if upgrading
 		+ config/etc/motd
 		+ meta/root.mail
 		+ README.md
 
-	+ Update copyright if necessary
+	+ Update copyright year if necessary
 
 - Make sure the signify key pair for UTMFW is in the correct locations:
     + Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
     + Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
 
-- Update the packages:
+- Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 below:
 	+ Install the OpenBSD packages
 		+ Set the download mirror, use the existing cache if any
             ```
             export PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
             ```
-		+ Save the depends under PKG_CACHE, which will be used later on to update the packages in the iso file
+		+ Save the depends under PKG_CACHE, which will be used later on to update the packages in the iso and img files
             ```
             export PKG_CACHE=/var/db/pkg_pffw/
             ```
@@ -175,21 +199,29 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 - Update meta/install.sub:
     + Update the versions of the packages listed in THESETS
 
-- Make release(8):
+- Make release(8) for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 below:
     + Extract src.tar.gz and and sys.tar.gz under /usr/src/
     + Apply the patches under openbsd/pffw
 	+ Update the sources with the stable branch changes if any
-	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast computer
+	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast amd64 computer and about 55 hours on a Raspberry Pi 4
 		+ Build the kernel and reboot
 		+ Build the base system
-		+ Make the release, use the dest and rel folders created above: `export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/`
+		+ Make the release, use the dest and rel folders created above:
+            ```
+			export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/
+            ```
     + Copy the install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
 
 - Update the install sets:
 	+ Update the links for install sets under cd/amd64/X.Y/amd64 using the install sets under ~/OpenBSD/X.Y/amd64/ made above
+	+ Update the links for install sets under cd/arm64/X.Y/arm64 using the install sets under ~/OpenBSD/X.Y/arm64/ made above
 	+ Remove the old links
 	+ Copy the xbaseXY.tgz install set from installXY.iso to docs/expat/amd64/xbaseXY.tgz
+	+ Copy the xbaseXY.tgz install set from installXY.img to docs/expat/arm64/xbaseXY.tgz
 	+ Copy the xfontXY.tgz install set from installXY.iso to docs/fonts/amd64/xfontXY.tgz
+	+ Copy the xfontXY.tgz install set from installXY.img to docs/fonts/arm64/xfontXY.tgz
+	+ Copy the files under the BOOT partition of installXY.img for the arm64 arch to ~/OpenBSD/X.Y/arm64/BOOT/
+	+ Download and copy [the Broadcom wifi drivers](https://github.com/pftf/RPi4/tree/master/firmware/brcm) for Raspberry Pi 4 to ~/OpenBSD/X.Y/arm64/firmware/
 
 - Update the configuration files under config with the ones in the new versions of packages:
     + Also update Doxyfile if the doxygen version has changed
@@ -207,9 +239,9 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
     + Fix any issues caused by any API changes
 
 - Strip xbase and xfont:
-	+ Make sure the contents are the same as in the one in the old iso file, except for the version numbers
+	+ Make sure the contents are the same as in the files in the old iso and img files, except for the version numbers
 	+ SECURITY: Be very careful about the permissions of the directories and files in these install sets, they should be the same as the original files
 
-- Run the createiso script:
+- Run the create script:
 	+ Install gettext-tools and doxygen for translations and documentation
-	+ Run ./createiso under ~/pffw/
+	+ Run ./createiso or ./createimg under ~/pffw/

@@ -19,19 +19,33 @@
 # Some of the rrd graph options used here are borrowed from symon and pmacct 
 # rrd graph scripts.
 
-if [ $# -lt 1 ]; then
-	echo "$0: Not enough arguments [1]: $#"
+if [ $# -lt 4 ]; then
+	echo "$0: Not enough arguments [4]: $#"
 	exit 1
 fi
 
-START=$1
-
-GRAPHS_FOLDER="/var/www/htdocs/pffw/View/system/dashboard"
+GRAPHS_FOLDER="/tmp/pffw/dashboard"
+VIEW_GRAPHS_FOLDER="/var/www/htdocs/pffw/View/system"
 
 # Make sure the graphs output folder exists
-[[ ! -d $GRAPHS_FOLDER ]] && mkdir -p $GRAPHS_FOLDER
+[[ ! -d $GRAPHS_FOLDER ]] && mkdir -p $GRAPHS_FOLDER && ln -fs $GRAPHS_FOLDER $VIEW_GRAPHS_FOLDER
 # Go to the graphs output folder
 cd $GRAPHS_FOLDER
+
+if [[ -f cpu.png ]]; then
+    eval $(stat -s cpu.png)
+    TIMEDIFF=$(($(date "+%s")-$st_mtime))
+
+    if [[ $TIMEDIFF -lt 10 ]]; then
+	    echo "Will NOT generate dashboard graphs too frequently, last generate time < 10 sec: $TIMEDIFF"
+		exit 1
+    fi
+fi
+
+START=$1
+INT_IF=$2
+EXT_IF=$3
+DISK=$4
 
 # -i|--interlaced: "If images are interlaced they become visible on browsers more quickly."
 # -E|--slope-mode: "Some people favor a more 'organic' look for their graphs"
@@ -88,11 +102,11 @@ $RRDTOOL graph memory.png $GENERAL_OPTS $SIZE -s $START \
 
 $RRDTOOL graph diskio.png $GENERAL_OPTS $SIZE -s $START \
     -t "Disk I/O" \
-    DEF:rx=$SYMON_RRD_ROOT/io_wd0.rrd:rxfer:AVERAGE \
-    DEF:wx=$SYMON_RRD_ROOT/io_wd0.rrd:wxfer:AVERAGE \
-    DEF:seeks=$SYMON_RRD_ROOT/io_wd0.rrd:seeks:AVERAGE \
-    DEF:rb=$SYMON_RRD_ROOT/io_wd0.rrd:rbytes:AVERAGE \
-    DEF:wb=$SYMON_RRD_ROOT/io_wd0.rrd:wbytes:AVERAGE \
+    DEF:rx=$SYMON_RRD_ROOT/io_$DISK.rrd:rxfer:AVERAGE \
+    DEF:wx=$SYMON_RRD_ROOT/io_$DISK.rrd:wxfer:AVERAGE \
+    DEF:seeks=$SYMON_RRD_ROOT/io_$DISK.rrd:seeks:AVERAGE \
+    DEF:rb=$SYMON_RRD_ROOT/io_$DISK.rrd:rbytes:AVERAGE \
+    DEF:wb=$SYMON_RRD_ROOT/io_$DISK.rrd:wbytes:AVERAGE \
     CDEF:nwb=wb,-1,* \
     CDEF:nwx=wx,-1,* \
     CDEF:nodata=rx,UN,0,* \
@@ -131,11 +145,11 @@ $RRDTOOL graph dataxfer.png $GENERAL_OPTS $SIZE -s $START \
 
 $RRDTOOL graph intif.png $GENERAL_OPTS $SIZE -s $START \
     -t "Internal Interface" \
-    DEF:in=$SYMON_RRD_ROOT/if_em1.rrd:ibytes:AVERAGE \
-    DEF:out=$SYMON_RRD_ROOT/if_em1.rrd:obytes:AVERAGE \
-    DEF:inp=$SYMON_RRD_ROOT/if_em1.rrd:ipackets:AVERAGE \
-    DEF:outp=$SYMON_RRD_ROOT/if_em1.rrd:opackets:AVERAGE \
-    DEF:coll=$SYMON_RRD_ROOT/if_em1.rrd:collisions:AVERAGE \
+    DEF:in=$SYMON_RRD_ROOT/if_$INT_IF.rrd:ibytes:AVERAGE \
+    DEF:out=$SYMON_RRD_ROOT/if_$INT_IF.rrd:obytes:AVERAGE \
+    DEF:inp=$SYMON_RRD_ROOT/if_$INT_IF.rrd:ipackets:AVERAGE \
+    DEF:outp=$SYMON_RRD_ROOT/if_$INT_IF.rrd:opackets:AVERAGE \
+    DEF:coll=$SYMON_RRD_ROOT/if_$INT_IF.rrd:collisions:AVERAGE \
     CDEF:nodata=in,UN,0,* \
     CDEF:inb=in,8,* \
     CDEF:outb=out,8,* \
@@ -196,11 +210,11 @@ $RRDTOOL graph intif.png $GENERAL_OPTS $SIZE -s $START \
 
 $RRDTOOL graph extif.png $GENERAL_OPTS $SIZE -s $START \
     -t "External Interface" \
-    DEF:in=$SYMON_RRD_ROOT/if_em0.rrd:ibytes:AVERAGE \
-    DEF:out=$SYMON_RRD_ROOT/if_em0.rrd:obytes:AVERAGE \
-    DEF:inp=$SYMON_RRD_ROOT/if_em0.rrd:ipackets:AVERAGE \
-    DEF:outp=$SYMON_RRD_ROOT/if_em0.rrd:opackets:AVERAGE \
-    DEF:coll=$SYMON_RRD_ROOT/if_em0.rrd:collisions:AVERAGE \
+    DEF:in=$SYMON_RRD_ROOT/if_$EXT_IF.rrd:ibytes:AVERAGE \
+    DEF:out=$SYMON_RRD_ROOT/if_$EXT_IF.rrd:obytes:AVERAGE \
+    DEF:inp=$SYMON_RRD_ROOT/if_$EXT_IF.rrd:ipackets:AVERAGE \
+    DEF:outp=$SYMON_RRD_ROOT/if_$EXT_IF.rrd:opackets:AVERAGE \
+    DEF:coll=$SYMON_RRD_ROOT/if_$EXT_IF.rrd:collisions:AVERAGE \
     CDEF:nodata=in,UN,0,* \
     CDEF:inb=in,8,* \
     CDEF:outb=out,8,* \
