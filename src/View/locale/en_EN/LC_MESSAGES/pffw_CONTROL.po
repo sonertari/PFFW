@@ -86,6 +86,9 @@ msgstr ""
 msgid "Divert Packet"
 msgstr ""
 
+msgid "Down"
+msgstr ""
+
 msgid "Download"
 msgstr ""
 
@@ -231,6 +234,9 @@ msgid "Table"
 msgstr ""
 
 msgid "Timeout"
+msgstr ""
+
+msgid "Up"
 msgstr ""
 
 msgid "Upload"

@@ -12,9 +12,9 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases two installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw69\_20210706\_amd64.iso](https://drive.google.com/file/d/1nnO7D53UDn6Fev9arbOjUR5bgQsoGjgV/view?usp=sharing). Make sure the SHA256 checksum is correct: 69ff566bb0b05942c0569762b3c30b6764520c63ec0e16d33de18fb529f83173.
+- The installation iso file for the amd64 arch is available for download at [pffw69\_20210812\_amd64.iso](https://drive.google.com/file/d/1nnO7D53UDn6Fev9arbOjUR5bgQsoGjgV/view?usp=sharing). Make sure the SHA256 checksum is correct: 69ff566bb0b05942c0569762b3c30b6764520c63ec0e16d33de18fb529f83173.
 
-- The installation img file for the arm64 arch is available for download at [pffw69\_20210706\_arm64.img](https://drive.google.com/file/d/1CzeWVc9V_LpkPqbRk1Lz_thI-d2o3vD_/view?usp=sharing). Make sure the SHA256 checksum is correct: eced5339b5a3e4d5ff12b98b1d75ddd18f28039b06125891a86fb533bf48b3c0. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw69\_20210812\_arm64.img](https://drive.google.com/file/d/1CzeWVc9V_LpkPqbRk1Lz_thI-d2o3vD_/view?usp=sharing). Make sure the SHA256 checksum is correct: eced5339b5a3e4d5ff12b98b1d75ddd18f28039b06125891a86fb533bf48b3c0. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
 
@@ -23,8 +23,9 @@ You can follow the instructions on [this OpenBSD Journal article](https://undead
 PFFW includes the following software, alongside what is already available on a basic OpenBSD installation:
 
 - [PFRE](https://github.com/sonertari/PFRE): Packet Filter Rule Editor
-- Symon system monitoring software
-- ISC DNS server
+- Symon: System monitoring software
+- Collectd: System metrics collection engine
+- Dnsmasq: DNS forwarder
 - PHP
 
 ![Console](https://github.com/sonertari/PFFW/blob/master/screenshots/Console.png)
@@ -87,7 +88,7 @@ A few notes about PFFW installation:
 - All install sets including siteXY.tgz are selected by default, so you cannot 'not' install PFFW by mistake.
 - OpenBSD installation questions are modified according to the needs of PFFW. For example, X11 related questions are never asked.
 - 512MB RAM and an 8GB HD should be enough.
-- If you install on an SD card, make sure it is fast enough.
+- If you install on an SD card, make sure it is fast enough. If you install on a slow disk, but you have enough RAM, you can enable memory-based file system (MFS), which is the default.
 - When you first try to log in to the WUI, ignore the certificate warning issued by your web browser and proceed to the WUI.
 - Make sure the date and time of the system is correct, otherwise after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
 
@@ -114,6 +115,7 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 	+ Copy the required install sets to the appropriate locations to fix the broken links in the sources.
 - Packages:
 	+ Download the required packages available on the OpenBSD mirrors.
+	+ Create the packages which have been modified for PFFW: collectd (see the `ports` folder of UTMFW).
 	+ Copy them to the appropriate locations to fix the broken links in the sources.
 
 Note that you can strip down xbase and xfont install sets to reduce the size of the iso and img files. Copy or link them to the appropriate locations under `openbsd/pffw`.
@@ -148,8 +150,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Bump the version number X.Y in the sources, if upgrading
 		+ cd/amd64/etc/boot.conf
 		+ cd/arm64/etc/boot.conf
-		+ meta/createiso
-		+ meta/createimg
+		+ meta/create
 		+ meta/install.sub
 		+ src/create_po.sh
 		+ Doxyfile
@@ -176,6 +177,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 - Make sure the signify key pair for UTMFW is in the correct locations:
     + Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
+    + Copy utmfw-XY.pub to meta/etc/signify/
     + Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
 
 - Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 below:
@@ -188,13 +190,32 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
             ```
             export PKG_CACHE=/var/db/pkg_pffw/
             ```
-		+ isc-bind
+		+ dnsmasq
 		+ symon
 		+ symux
 		+ pftop
 		+ php, php-cgi, php-curl, php-pcntl
 
+	+ Build and create the PFFW packages
+		+ Extract ports.tar.gz under /usr/
+		+ Copy the port folder of collectd under ports in UTMFW to /usr/ports/sysutils
+		+ Install the pkg depends of collectd before making them, so that the ports system does not try to build and install them itself
+		+ Make the collectd packages
+		+ Sign the collectd packages using signify, for example:
+            ```
+            signify -Sz -s utmfw-XY.sec -m /usr/ports/packages/amd64/all/collectd-5.12.0p0.tgz -x ~/collectd-5.12.0p0.tgz
+            ```
+	+ Install the PFFW packages using their signed packages, to download their dependencies
+		+ Save the depends under PKG_CACHE
+            ```
+            export PKG_CACHE=/var/db/pkg_pffw/
+            ```
+		+ collectd
+
 	+ Update the links under cd/amd64/X.Y/packages/ with the OpenBSD packages saved under PKG_CACHE
+
+	+ Keep the links for
+		+ collectd
 
 - Update meta/install.sub:
     + Update the versions of the packages listed in THESETS

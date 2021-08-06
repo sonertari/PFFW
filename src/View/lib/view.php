@@ -48,13 +48,7 @@ class View
 	 */
 	public $Config= array();
 
-	var $genericREs= array(
-		'red' => array('\berror\b'),
-		'yellow' => array('\bwarning\b'),
-		'green' => array('\bsuccess'),
-		);
-
-	var $prioClasses= array(
+	private $prioClasses= array(
 		'EMERGENCY' => 'red',
 		'emergency' => 'red',
 		'ALERT' => 'red',
@@ -265,30 +259,39 @@ class View
 	 */
 	function ProcessStartStopRequests()
 	{
+		$generate_status= 0;
+
 		if (filter_has_var(INPUT_POST, 'Model')) {
 			if (filter_input(INPUT_POST, 'Model') == $this->Model) {
 				if (filter_has_var(INPUT_POST, 'Start')) {
 					$this->Restart();
+					$generate_status= 1;
 				}
 				else if (filter_has_var(INPUT_POST, 'Stop')) {
 					$this->Stop();
+					$generate_status= 1;
 				}
 			}
 		}
 		$this->Controller($Output, 'GetStatus');
+
+		return $generate_status;
 	}
 
 	/**
 	 * Displays module status, software version, Restart/Stop buttons, and process table.
 	 *
+	 * @param boolean $generate_status Force generate module status, do not use cached status, necessary after process start/stop
 	 * @param boolean $printcount Whether to print number of running processes too
 	 * @param boolean $showbuttons Show Start/Stop buttons
+	 * @param boolean $printprocs Whether to print the process table
+	 * @param boolean $showrestartbutton Show Restart button, for System Info page
 	 */
-	function PrintStatusForm($printcount= FALSE, $showbuttons= TRUE, $printprocs= TRUE, $showrestartbutton= FALSE)
+	function PrintStatusForm($generate_status= 0, $printcount= FALSE, $showbuttons= TRUE, $printprocs= TRUE, $showrestartbutton= FALSE)
 	{
 		global $IMG_PATH, $ADMIN, $Status2Images, $StatusTitles;
 
-		$this->Controller($output, 'GetModuleStatus');
+		$this->Controller($output, 'GetModuleStatus', $generate_status);
 
 		$status= json_decode($output[0], TRUE);
 
@@ -583,10 +586,7 @@ class View
 	{
 		global $LogConf;
 
-		$logstr= isset($LogConf[$this->Model]['HighlightLogs']['Col']) && isset($cols[$LogConf[$this->Model]['HighlightLogs']['Col']]) ?
-			$cols[$LogConf[$this->Model]['HighlightLogs']['Col']] : implode(' ', $cols);
-
-		$class= $this->getLogLineClass($logstr, $cols);
+		$class= $this->getLogLineClass($cols);
 		PrintLogCols($linenum, $cols, $lastlinenum, $class);
 	}
 
@@ -595,39 +595,34 @@ class View
 	 *
 	 * Keywords are obtained from arrays in $LogConf.
 	 *
-	 * @param string $logstr Log string to search for keywords
 	 * @param array $cols Parsed log line
 	 * @return string Log line color class.
 	 */
-	function getLogLineClass($logstr, $cols)
+	function getLogLineClass($cols)
 	{
 		global $LogConf;
 
-		$logREs= isset($LogConf[$this->Model]['HighlightLogs']['REs']) ? $LogConf[$this->Model]['HighlightLogs']['REs'] : $this->genericREs;
-
 		$class= '';
-		if (array_key_exists('Prio', $cols)) {
-			if (array_key_exists($cols['Prio'], $this->prioClasses)) {
-				$class= $this->prioClasses[$cols['Prio']];
-			}
+		if (array_key_exists('Prio', $cols) && array_key_exists($cols['Prio'], $this->prioClasses)) {
+			$class= $this->prioClasses[$cols['Prio']];
 		}
 
-		$done= FALSE;
-		foreach ($logREs as $color => $res) {
-			foreach ($res as $re) {
-				$r= Escape($re, '/');
-				if (preg_match("/$r/", $logstr)) {
-					$class= $color;
-					/// Exit on first match, i.e. precedence: red, yellow, green
-					$done= TRUE;
-					break;
+		if (isset($LogConf[$this->Model]['HighlightLogs']['Col']) && isset($LogConf[$this->Model]['HighlightLogs']['REs'])) {
+			// Make sure the log column exists, log rotation lines do not have module specific columns
+			if (isset($cols[$LogConf[$this->Model]['HighlightLogs']['Col']])) {
+				foreach ($LogConf[$this->Model]['HighlightLogs']['REs'] as $color => $res) {
+					foreach ($res as $re) {
+						$r= Escape($re, '/');
+						if (preg_match("/$r/", $cols[$LogConf[$this->Model]['HighlightLogs']['Col']])) {
+							$class= $color;
+							// Exit on first match, i.e. precedence: red, yellow, green
+							goto out;
+						}
+					}
 				}
 			}
-			if ($done) {
-				// Exit on first match
-				break;
-			}
 		}
+out:
 		return $class;
 	}
 

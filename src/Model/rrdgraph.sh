@@ -19,12 +19,12 @@
 # Some of the rrd graph options used here are borrowed from symon and pmacct 
 # rrd graph scripts.
 
-if [ $# -lt 4 ]; then
-	echo "$0: Not enough arguments [4]: $#"
+if [ $# -lt 5 ]; then
+	echo "$0: Not enough arguments [5]: $#"
 	exit 1
 fi
 
-GRAPHS_FOLDER="/tmp/pffw/dashboard"
+GRAPHS_FOLDER="/var/log/pffw/dashboard"
 VIEW_GRAPHS_FOLDER="/var/www/htdocs/pffw/View/system"
 
 # Make sure the graphs output folder exists
@@ -32,7 +32,9 @@ VIEW_GRAPHS_FOLDER="/var/www/htdocs/pffw/View/system"
 # Go to the graphs output folder
 cd $GRAPHS_FOLDER
 
-if [[ -f cpu.png ]]; then
+INTERVAL_CHANGED=$5
+
+if [[ $INTERVAL_CHANGED == 0 && -f cpu.png ]]; then
     eval $(stat -s cpu.png)
     TIMEDIFF=$(($(date "+%s")-$st_mtime))
 
@@ -61,7 +63,8 @@ GENERAL_OPTS="-i -E -x none -y none -g --border 0 -D -c CANVAS#eaedef11 -c BACK#
 # Default graph dimensions, except for the ping graph
 SIZE="-w 358 -h 130"
 
-SYMON_RRD_ROOT="/var/www/htdocs/pffw/View/symon/rrds/localhost"
+COLLECTD_RRD_ROOT="/var/log/pffw/collectd/rrd/localhost"
+SYMON_RRD_ROOT="/var/log/pffw/symon/rrds/localhost"
 
 RRDTOOL="/usr/local/bin/rrdtool"
 
@@ -338,15 +341,15 @@ $RRDTOOL graph loif.png $GENERAL_OPTS $SIZE -s $START \
     STACK:n90#0571B0:" <90%" \
     STACK:n100#000000:" <100%" >/dev/null
 
-# DNS Server
+# DNS Forwarder
 $RRDTOOL graph dns.png $GENERAL_OPTS $SIZE -s $START \
-    -t "CPU Load" \
-    DEF:uticks=$SYMON_RRD_ROOT/proc_named.rrd:uticks:AVERAGE \
-    DEF:sticks=$SYMON_RRD_ROOT/proc_named.rrd:sticks:AVERAGE \
-    DEF:iticks=$SYMON_RRD_ROOT/proc_named.rrd:iticks:AVERAGE \
-    AREA:uticks#008194:uticks \
-    STACK:sticks#da5400:sticks \
-    STACK:iticks#9932CC:iticks >/dev/null
+    -t "Queries" \
+    DEF:query=$COLLECTD_RRD_ROOT/tail-dnsmasq/derive-query.rrd:value:AVERAGE \
+    DEF:refused=$COLLECTD_RRD_ROOT/tail-dnsmasq/derive-refused.rrd:value:AVERAGE \
+    DEF:cached=$COLLECTD_RRD_ROOT/tail-dnsmasq/derive-cached.rrd:value:AVERAGE \
+    AREA:query#008194:query \
+    STACK:refused#da5400:refused \
+    STACK:cached#bf8700:cached >/dev/null
 
 # DHCP Server
 $RRDTOOL graph dhcpd.png $GENERAL_OPTS $SIZE -s $START \
@@ -387,4 +390,3 @@ $RRDTOOL graph httpd_cpu.png $GENERAL_OPTS $SIZE -s $START \
     AREA:uticks#008194:uticks \
     STACK:sticks#da5400:sticks \
     STACK:iticks#9932CC:iticks >/dev/null
-

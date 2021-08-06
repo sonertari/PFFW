@@ -23,17 +23,17 @@
  */
 
 /// Output and error redirect file.
-$TmpFile= '/var/tmp/pffw/ctlr.out';
+$TmpFile= PFFWDIR.'/out/ctlr.out';
 
 /// Return value redirect file.
-$RetvalFile= '/var/tmp/pffw/retval.out';
+$RetvalFile= PFFWDIR.'/out/retval.out';
 
 /// Matches model names to files. View provides the name only.
 $ModelFiles= array(
 	'system'			=> 'system.php',
 	'pf'				=> 'pf.php',
 	'dhcpd'				=> 'dhcpd.php',
-	'named'				=> 'named.php',
+	'dnsmasq'			=> 'dnsmasq.php',
 	'httpd'				=> 'httpd.php',
 	'httpdlogs'			=> 'httpdlogs.php',
 	'wui_syslog'		=> 'wuilogs.php',
@@ -42,6 +42,7 @@ $ModelFiles= array(
 	'ftp-proxy'			=> 'ftp-proxy.php',
 	'symon'				=> 'symon.php',
 	'symux'				=> 'symux.php',
+	'collectd'			=> 'collectd.php',
 	'monitoring'		=> 'monitoring.php',
 	'docs'				=> 'docs.php',
 	);
@@ -51,7 +52,7 @@ $Models= array(
 	'system'			=> 'System',
 	'pf'				=> 'Pf',
 	'dhcpd'				=> 'Dhcpd',
-	'named'				=> 'Named',
+	'dnsmasq'			=> 'Dnsmasq',
 	'httpd'				=> 'Httpd',
 	'httpdlogs'			=> 'Httpdlogs',
 	'wui_syslog'		=> 'Wuilogs',
@@ -60,6 +61,7 @@ $Models= array(
 	'ftp-proxy'			=> 'Ftpproxy',
 	'symon'				=> 'Symon',
 	'symux'				=> 'Symux',
+	'collectd'			=> 'Collectd',
 	'monitoring'		=> 'Monitoring',
 	'docs'				=> 'Docs',
 	);
@@ -154,6 +156,10 @@ $ArgTypes= array(
 	CONFNAME	=>	array(
 		'func'	=> 'IsStr',
 		'desc'	=> _('Not config name'),
+		),
+	MFSSIZE	=>	array(
+		'func'	=> 'IsMfsSize',
+		'desc'	=> _('Mfs size wrong'),
 		),
 );
 
@@ -302,6 +308,11 @@ function IsTailNumber($str)
 		/// Fixed in 6.4
 		return $str < 1000;
 	}
+}
+
+function IsMfsSize($str)
+{
+	return preg_match('/^\d+[kKmMgG]*$/', $str);
 }
 
 /**

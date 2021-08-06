@@ -79,27 +79,12 @@ class Openssh extends Model
 		return FALSE;
 	}
 
-	function _getModuleStatus($generate_info= FALSE, $start= 0)
+	function _getModuleInfo($start)
 	{
-		$status= parent::_getModuleStatus($generate_info, $start);
-
-		if ($generate_info) {
-			$accepted= 0;
-			$failed= 0;
-			$logs= $this->GetLastLogs('( Accepted | Failed )', $start);
-			if ($logs) {
-				foreach ($logs as $l) {
-					if ($l['Accepted']) {
-						$accepted++;
-					} else {
-						$failed++;
-					}
-				}
-			}
-			$status['info']['accepted']= $accepted;
-			$status['info']['failed']= $failed;
-		}
-		return $status;
+		return array(
+			'accepted'	=>	$this->getRrdValue('derive-accepted.rrd', $start, $result),
+			'failed'	=>	$this->getRrdValue('derive-failed.rrd', $start, $result),
+			);
 	}
 
 	function _getFileLineCount($file, $re= '', $needle= '', $month='', $day='', $hour='', $minute='')
@@ -166,9 +151,9 @@ class Openssh extends Model
 		return Output(json_encode($logs));
 	}
 	
-	function _getLiveLogs($file, $count, $re= '', $needle= '')
+	function _getLiveLogs($file, $count, $re= '', $needle= '', $reportFileExistResult= TRUE)
 	{
-		if (!$this->ValidateFile($file)) {
+		if (!$this->ValidateFile($file, $reportFileExistResult)) {
 			return FALSE;
 		}
 

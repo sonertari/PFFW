@@ -1,4 +1,4 @@
 # Layout to show pf usage
 
 group   name="Mbuf Statistics";
-graph   rrdfile=/var/www/htdocs/pffw/View/symon/rrds/localhost/mbuf.rrd, title="Kernel Memory Management for Networking Protocols";
+graph   rrdfile=/var/log/pffw/symon/rrds/localhost/mbuf.rrd, title="Kernel Memory Management for Networking Protocols";

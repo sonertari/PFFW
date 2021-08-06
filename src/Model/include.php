@@ -87,6 +87,7 @@ define('IPRANGE',		262144);
 define('TAIL',			524288);
 define('ASTERISK',		1048576);
 define('CONFNAME', 		2097152);
+define('MFSSIZE',		268435456);
 
 $Output= '';
 $Error= '';

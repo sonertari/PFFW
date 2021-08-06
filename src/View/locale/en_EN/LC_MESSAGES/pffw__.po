@@ -25,7 +25,25 @@ msgstr ""
 msgid "Bytes"
 msgstr ""
 
+msgid "Cannot determine the resolution in rrdfetch output"
+msgstr ""
+
 msgid "Cannot fork pfctl process"
+msgstr ""
+
+msgid "Cannot get MFS size"
+msgstr ""
+
+msgid "Cannot get contents of /etc/rc"
+msgstr ""
+
+msgid "Cannot get contents of /etc/sync.var"
+msgstr ""
+
+msgid "Cannot get mount MFS"
+msgstr ""
+
+msgid "Cannot get persistent MFS"
 msgstr ""
 
 msgid "Cannot install pf rule file"
@@ -136,6 +154,9 @@ msgstr ""
 msgid "Failed creating or attaching to message queue"
 msgstr ""
 
+msgid "Failed executing rrdfetch"
+msgstr ""
+
 msgid "Failed loading pf rules"
 msgstr ""
 
@@ -181,10 +202,7 @@ msgstr ""
 msgid "Get DHCP option"
 msgstr ""
 
-msgid "Get DNS forwarders"
-msgstr ""
-
-msgid "Get IP DNS listens on"
+msgid "Get MFS config"
 msgstr ""
 
 msgid "Get all stats"
@@ -224,6 +242,9 @@ msgid "Get if config"
 msgstr ""
 
 msgid "Get int_if"
+msgstr ""
+
+msgid "Get interface DNS forwarder listens on"
 msgstr ""
 
 msgid "Get line count"
@@ -361,6 +382,9 @@ msgstr ""
 msgid "Install pf rules"
 msgstr ""
 
+msgid "Interface up or down"
+msgstr ""
+
 msgid "Invalid inline rules, parser output"
 msgstr ""
 
@@ -392,6 +416,9 @@ msgid "Make system gateway static"
 msgstr ""
 
 msgid "Method does not exist"
+msgstr ""
+
+msgid "Mfs size wrong"
 msgstr ""
 
 msgid "Multiple values not allowed for"
@@ -478,6 +505,9 @@ msgstr ""
 msgid "Queue Length"
 msgstr ""
 
+msgid "RRD file does not exist"
+msgstr ""
+
 msgid "RSS"
 msgstr ""
 
@@ -529,10 +559,10 @@ msgstr ""
 msgid "Select log file"
 msgstr ""
 
-msgid "Set DNS forwarders"
+msgid "Set MFS"
 msgstr ""
 
-msgid "Set IP DNS listens on"
+msgid "Set MFS size"
 msgstr ""
 
 msgid "Set configuration"
@@ -551,6 +581,9 @@ msgid "Set force HTTPs"
 msgstr ""
 
 msgid "Set help boxes"
+msgstr ""
+
+msgid "Set interface DNS forwarder listens on"
 msgstr ""
 
 msgid "Set interfaces"
@@ -617,6 +650,9 @@ msgid "Set symon partitions"
 msgstr ""
 
 msgid "Set symon sensors"
+msgstr ""
+
+msgid "Set sync MFS"
 msgstr ""
 
 msgid "Set system clock"

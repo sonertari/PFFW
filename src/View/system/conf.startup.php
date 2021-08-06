@@ -37,9 +37,10 @@ require_once($VIEW_PATH.'/header.php');
 
 $ServiceDescs= array(
 	'/usr/local/sbin/php-fpm-8.0'	=> _TITLE2('PHP FastCGI Server'),
-	'/usr/local/sbin/named'			=> _TITLE2('DNS Server'),
+	'/usr/local/sbin/dnsmasq'		=> _TITLE2('DNS Forwarder'),
 	'/usr/local/libexec/symux'		=> _TITLE2('Symux System Monitoring'),
 	'/usr/local/libexec/symon'		=> _TITLE2('Symon System Monitoring'),
+	'/usr/local/sbin/collectd'		=> _TITLE2('Collectd System Statistics'),
 	'pf'							=> _TITLE2('Packet Filter'),
 	'httpd_flags'					=> _TITLE2('Web Server (WUI)'),
 	'slowcgi_flags'					=> _TITLE2('CGI Server'),

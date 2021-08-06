@@ -1,21 +1,21 @@
 # Copyright (C) 2004-2021 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2018-2020.
+# Soner Tari <sonertari@gmail.com>, 2018-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PFFW 6.9\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2019-04-07 15:40+0300\n"
+"PO-Revision-Date: 2021-08-07 19:38+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
-"Language: Turkish\n"
-"Language-Team: Turkish <sonertari@gmail.com>\n"
+"Language: tr\n"
+"Language-Team: Turkish <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 2.91.7\n"
+"X-Generator: Gtranslator 3.36.0\n"
 
 msgid ""
 "Analysis of statistical data may take a long time to process. Please be "
@@ -24,6 +24,21 @@ msgid ""
 msgstr ""
 "İstatistik verilerinin analizi uzun zaman alabilir. Lütfen sabırlı olun. "
 "Ayrıca, bu sayfayı sık yenilerseniz işlemci yükü fazlasıyla artabilir."
+
+msgid "Are you sure you want to <ACTION> the interface <IF>?"
+msgstr "<IF> arayüzünü <ACTION> istediğinizden emin misiniz?"
+
+msgid "Are you sure you want to disable MFS?"
+msgstr "MFS'i devre dışı bırakmak istediğinizden emin misiniz?"
+
+msgid "Are you sure you want to disable persistent MFS?"
+msgstr "Kalıcı MFS'i devre dışı bırakmak istediğinizden emin misiniz?"
+
+msgid "Are you sure you want to enable MFS?"
+msgstr "MFS'i etkinleştirmek istediğinizden emin misiniz?"
+
+msgid "Are you sure you want to enable persistent MFS?"
+msgstr "Kalıcı MFS'i etkinleştirmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to erase statistics files?"
 msgstr "İstatistik dosyalarını silmek istediğinizden emin misiniz?"
@@ -45,6 +60,9 @@ msgstr "Kayıtları döndürmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to set the date?"
 msgstr "Tarihi ayarlamak istediğinizden emin misiniz?"
+
+msgid "Are you sure you want to set the size of MFS?"
+msgstr "MFS boyutunu ayarlamak istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to start the <NAME>?"
 msgstr "<NAME>: başlatmak istediğinizden emin misiniz?"
@@ -151,8 +169,20 @@ msgstr "Kurulum sırasında bir hata oluştu"
 msgid "User password changed"
 msgstr "Kullanıcı parolası değiştirildi"
 
+msgid "delete"
+msgstr "silmek"
+
+msgid "disable"
+msgstr "devre dışı bırakmak"
+
+msgid "enable"
+msgstr "etkinleştirmek"
+
 msgid "pffw currently supports only admin and user usernames"
 msgstr "pffw şimdilik sadece admin ve user kullanıcı adlarını destekler"
+
+msgid "restart"
+msgstr "tekrar başlatmak"
 
 msgid "ruleset has errors"
 msgstr "kural listesinde hata var"

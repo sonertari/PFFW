@@ -64,9 +64,10 @@ class System extends Model
 		 */
 		$this->rcLocalServices= array(
 			'/usr/local/sbin/php-fpm-8.0',
-			'/usr/local/sbin/named',
+			'/usr/local/sbin/dnsmasq',
 			'/usr/local/libexec/symux',
 			'/usr/local/libexec/symon',
+			'/usr/local/sbin/collectd',
 			);
 
 		/// rc.conf.local module search strings and descriptions
@@ -225,8 +226,13 @@ class System extends Model
 					),
 
 				'NetStart'	=>	array(
-					'argv'	=>	array(),
+					'argv'	=>	array(NAME|NONE),
 					'desc'	=>	_('Restart network'),
+					),
+
+				'IfUpDown'	=>	array(
+					'argv'	=>	array(NAME, BOOL),
+					'desc'	=>	_('Interface up or down'),
 					),
 
 				'GetServiceStartStatus'=>	array(
@@ -354,6 +360,26 @@ class System extends Model
 					'argv'	=>	array(NAME),
 					'desc'	=>	_('Enable hostap on an interface'),
 					),
+
+				'GetMFSConfig'	=>	array(
+					'argv'	=>	array(),
+					'desc'	=>	_('Get MFS config'),
+					),
+
+				'SetMFS'	=>	array(
+					'argv'	=>	array(NAME),
+					'desc'	=>	_('Set MFS'),
+					),
+
+				'SetMFSSize'	=>	array(
+					'argv'	=>	array(MFSSIZE),
+					'desc'	=>	_('Set MFS size'),
+					),
+
+				'SetSyncMFS'	=>	array(
+					'argv'	=>	array(NAME),
+					'desc'	=>	_('Set sync MFS'),
+					),
 				)
 			);
 	}
@@ -450,6 +476,7 @@ class System extends Model
 				$nwid= array('', '', '');
 				$hostap= array('');
 				$wifi= array('');
+				$up= array('');
 
 				foreach ($contents as $line) {
 					if (preg_match("/^(inet|dhcp)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)$/", $line, $match)) {
@@ -499,8 +526,21 @@ class System extends Model
 				if ($this->isWifiIf($if)) {
 					$wifi= array('wifi');
 				}
-				return json_encode(array_merge(array_slice($inet, 1), $nwid, $hostap, $wifi));
+
+				if ($this->isIfUp($if)) {
+					$up= array('up');
+				}
+				return json_encode(array_merge(array_slice($inet, 1), $nwid, $hostap, $wifi, $up));
 			}
+		}
+		return FALSE;
+	}
+
+	function isIfUp($if)
+	{
+		exec("/sbin/ifconfig $if | grep \"[[:space:]]*flags=\"", $output, $retval);
+		if (preg_match('/(<UP,|\bUP\b)/', $output[0])) {
+			return TRUE;
 		}
 		return FALSE;
 	}
@@ -586,13 +626,14 @@ class System extends Model
 			$config['Myname']= trim($myname);
 		}
 	
+		$config['Mygate']= 'Unknown';
+		$config['StaticGateway']= FALSE;
 		if (($mygate= $this->_getStaticGateway()) !== FALSE) {
 			$config['Mygate']= trim($mygate);
 			$config['StaticGateway']= TRUE;
 		}
 		else if (($mygate= $this->_getDynamicGateway()) !== FALSE) {
 			$config['Mygate']= trim($mygate);
-			$config['StaticGateway']= FALSE;
 		}
 
 		if (($intif= $this->_getIntIf()) !== FALSE) {
@@ -616,31 +657,30 @@ class System extends Model
 		return Output(json_encode($config));
 	}
 
-	function _getModuleStatus($generate_info= FALSE, $start= 0)
+	function _getModuleInfo($start)
 	{
-		$status= parent::_getModuleStatus($generate_info, $start);
+		$info= array();
 
-		if ($generate_info) {
-			$uptime= $this->RunShellCommand('/usr/bin/uptime');
-			if (preg_match('/up (.*), (\d+) user.*/', $uptime, $match)) {
-				$status['info']['uptime']= $match[1];
-				$status['info']['users']= $match[2];
-			} else {
-				$status['info']['uptime']= '';
-				$status['info']['users']= '';
-			}
-
-			/// @attention Don't call $this->_getPartitions() instead, it needs an explode()
-			exec('/bin/df -h', $parts);
-			$partitions= array();
-			foreach ($parts as $p) {
-				if (preg_match('/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/', $p, $match)) {
-					$partitions[$match[6]]= $match[5];
-				}
-			}
-			$status['info']['partitions']= $partitions;
+		$uptime= $this->RunShellCommand('/usr/bin/uptime');
+		if (preg_match('/up (.*), (\d+) user.*/', $uptime, $match)) {
+			$info['uptime']= $match[1];
+			$info['users']= $match[2];
+		} else {
+			$info['uptime']= '';
+			$info['users']= '';
 		}
-		return $status;
+
+		/// @attention Don't call $this->_getPartitions() instead, it needs an explode()
+		exec('/bin/df -h', $parts);
+		$partitions= array();
+		foreach ($parts as $p) {
+			if (preg_match('/^(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s+(\S+)$/', $p, $match)) {
+				$partitions[$match[6]]= $match[5];
+			}
+		}
+		$info['partitions']= $partitions;
+
+		return $info;
 	}
 
 	/**
@@ -840,7 +880,7 @@ class System extends Model
 	}
 
 	/**
-	 * Deletes all graph files and recreates them if necessary.
+	 * Deletes all graph files and recreates them as necessary.
 	 * 
 	 * @return bool TRUE on success, FALSE on fail.
 	 */
@@ -850,9 +890,9 @@ class System extends Model
 
 		$result= TRUE;
 		// symon
-		exec("/bin/rm -f ${VIEW_PATH}/symon/cache/* 2>&1", $output, $retval);
+		exec("/bin/rm -f {$this->PFFWDIR}/symon/cache/* 2>&1", $output, $retval);
 		// Failing to clear the cache dir is not fatal
-		exec("/bin/rm -f ${VIEW_PATH}/symon/rrds/localhost/*.rrd 2>&1", $output, $retval);
+		exec("/bin/rm -f {$this->PFFWDIR}/symon/rrds/localhost/*.rrd 2>&1", $output, $retval);
 		if ($retval === 0) {
 			exec('/bin/sh /usr/local/share/examples/symon/c_smrrds.sh all 2>&1', $output, $retval);
 			if ($retval !== 0) {
@@ -863,7 +903,13 @@ class System extends Model
 			$result= FALSE;
 		}
 
-		exec("/bin/rm -f ${VIEW_PATH}/system/dashboard/* 2>&1", $output, $retval);
+		// collectd
+		exec("/bin/rm -rf {$this->PFFWDIR}/collectd/rrd/localhost/* 2>&1", $output, $retval);
+		if ($retval !== 0) {
+			$result= FALSE;
+		}
+
+		exec("/bin/rm -f {$this->PFFWDIR}/dashboard/* 2>&1", $output, $retval);
 		if ($retval !== 0) {
 			$result= FALSE;
 		}
@@ -883,7 +929,8 @@ class System extends Model
 	 */
 	function DeleteStats()
 	{
-		exec('/bin/rm -rf /var/tmp/pffw/* 2>&1', $output, $retval);
+		// Do not remove the base folders, but the folders and/or files under them
+		exec("/bin/rm -rf {$this->PFFWDIR}/logs/* {$this->PFFWDIR}/stats/* {$this->PFFWDIR}/out/* 2>&1", $output, $retval);
 		if ($retval === 0) {
 			return TRUE;
 		}
@@ -983,7 +1030,7 @@ class System extends Model
 		}
 		return Output($retval);
 	}
-	
+
 	/**
 	 * Restarts the network.
 	 * 
@@ -993,20 +1040,23 @@ class System extends Model
 	 * For example, if you change the IP address of int_if, you need to reload the rules;
 	 * otherwise, pf would still be running with rules using the old IP address of int_if.
 	 * 
+	 * @param string $if Interface name, or empty for both intif and extif.
 	 * @return bool TRUE on success, FALSE on fail.
 	 */
-	function NetStart()
+	function NetStart($if= '')
 	{
 		$cmd= array();
 
 		$intif= $this->_getIntIf();
 		if ($intif !== FALSE) {
 			$intif= trim($intif, '"');
-			if ($this->isWifiIf($intif)) {
-				// Clear all wifi configuration, ifconfig down or /etc/netstart don't clear them
-				$cmd[]= "/sbin/ifconfig $intif -mediaopt hostap -nwid -wpakey -nwkey 2>&1";
+			if ($if == '' || $if == $intif) {
+				if ($this->isWifiIf($intif)) {
+					// Clear all wifi configuration, ifconfig down or /etc/netstart don't clear them
+					$cmd[]= "/sbin/ifconfig $intif -mediaopt hostap -nwid -wpakey -nwkey 2>&1";
+				}
+				$cmd[]= "/sbin/ifconfig $intif down 2>&1";
 			}
-			$cmd[]= "/sbin/ifconfig $intif down 2>&1";
 		} else {
 			Error('Cannot get intif');
 		}
@@ -1015,20 +1065,25 @@ class System extends Model
 		$extif= $this->_getExtIf();
 		if ($extif !== FALSE) {
 			$extif= trim($extif, '"');
-			$cmd[]= "/sbin/ifconfig $extif down 2>&1";
+			if ($if == '' || $if == $extif) {
+				$cmd[]= "/sbin/ifconfig $extif down 2>&1";
+			}
 		} else {
 			Error('Cannot get extif');
 		}
 
 		// Refresh pf rules too
-		$cmd[]= "/bin/sh /etc/netstart 2>&1 && /sbin/pfctl -f $this->PfRulesFile 2>&1";
+		// Pass $if as arg, passing empty string is fine
+		$cmd[]= "/bin/sh /etc/netstart $if 2>&1 && /sbin/pfctl -f $this->PfRulesFile 2>&1";
 
-		// Delete the arp entry for the old gateway, in case the new gateway has the same IP address
-		// Otherwise, the system cannot reach the new gateway, continues to use the old ethernet address,
-		// ping, nslookup, or others don't work (extif becomes effectively down).
-		$gateway= $this->getSystemGateway();
-		if ($gateway !== '') {
-			$cmd[]= "/usr/sbin/arp -nd $gateway 2>&1";
+		if ($if == '' || $if == $extif) {
+			// Delete the arp entry for the old gateway, in case the new gateway has the same IP address
+			// Otherwise, the system cannot reach the new gateway, continues to use the old ethernet address,
+			// ping, nslookup, or others don't work (extif becomes effectively down).
+			$gateway= $this->getSystemGateway();
+			if ($gateway !== '') {
+				$cmd[]= "/usr/sbin/arp -nd $gateway 2>&1";
+			}
 		}
 
 		$cmdline= implode(' && ', $cmd);
@@ -1043,7 +1098,21 @@ class System extends Model
 		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Netstart failed: $errout");
 		return FALSE;
 	}
-	
+
+	function IfUpDown($if, $updown)
+	{
+		$updown= $updown ? 'up' : 'down';
+		exec("/sbin/ifconfig $if $updown 2>&1", $output, $retval);
+		$errout= implode("\n", $output);
+		Error($errout);
+
+		if ($retval === 0) {
+			return TRUE;
+		}
+		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "IfUpDown failed: $errout");
+		return FALSE;
+	}
+
 	/**
 	 * Reads all processes from ps output.
 	 *
@@ -1656,15 +1725,78 @@ class System extends Model
 	function EnableHostap($if)
 	{
 		$file= $this->confDir."hostname.".$if;
-		if (file_exists($file)) {
-			if (($contents= $this->GetFile($file)) !== FALSE) {
-				if (!preg_match("/mediaopt hostap/m", $contents, $match)) {
-					exec("/bin/echo 'mediaopt hostap' >>$file 2>&1", $output, $retval);
-					return TRUE;
-				}
+		if (($contents= $this->GetFile($file)) !== FALSE) {
+			if (!preg_match("/mediaopt hostap/m", $contents, $match)) {
+				exec("/bin/echo 'mediaopt hostap' >>$file 2>&1", $output, $retval);
+				return TRUE;
 			}
 		}
 		return FALSE;
+	}
+
+	function GetMFSConfig()
+	{
+		$retval= TRUE;
+
+		$MFSConfig= array(
+			'enable' => 'Unknown',
+			'size' => 'Unknown',
+			'sync' => 'Unknown',
+			);
+
+		$file= $this->confDir.'rc';
+		if (($contents= $this->GetFile($file)) !== FALSE) {
+			if (preg_match("/^USE_MFS=(yes|no)$/m", $contents, $match)) {
+				$MFSConfig['enable']= $match[1];
+			} else {
+				ERROR(_('Cannot get mount MFS'));
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get USE_MFS');
+				$retval= FALSE;
+			}
+			if (preg_match("/^MFS_SIZE=(\d+[kKmMgG]*)$/m", $contents, $match)) {
+				$MFSConfig['size']= $match[1];
+			} else {
+				ERROR(_('Cannot get MFS size'));
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get MFS_SIZE');
+				$retval= FALSE;
+			}
+		} else {
+			ERROR(_('Cannot get contents of /etc/rc'));
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot get contents of file: $file");
+			$retval= FALSE;
+		}
+
+		$file= $this->confDir.'sync.var';
+		if (($contents= $this->GetFile($file)) !== FALSE) {
+			if (preg_match("/^SYNC_MFS=(yes|no)$/m", $contents, $match)) {
+				$MFSConfig['sync']= $match[1];
+			} else {
+				ERROR(_('Cannot get persistent MFS'));
+				ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Cannot get SYNC_MFS');
+				$retval= FALSE;
+			}
+		} else {
+			ERROR(_('Cannot get contents of /etc/sync.var'));
+			ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Cannot get contents of file: $file");
+			$retval= FALSE;
+		}
+
+		return $retval ? Output(json_encode($MFSConfig)) : FALSE;
+	}
+
+	function SetMFS($value)
+	{
+		return $this->SetNVP('/etc/rc', 'USE_MFS', $value);
+	}
+
+	function SetMFSSize($value)
+	{
+		return $this->SetNVP('/etc/rc', 'MFS_SIZE', $value);
+	}
+
+	function SetSyncMFS($value)
+	{
+		return $this->SetNVP('/etc/sync.var', 'SYNC_MFS', $value);
 	}
 }
 ?>

@@ -26,7 +26,7 @@ $SavedLogConf= $LogConf;
 
 require_once($VIEW_PATH.'/httpd/httpd.php');
 require_once($VIEW_PATH.'/pf/pf.php');
-require_once($VIEW_PATH.'/named/include.php');
+require_once($VIEW_PATH.'/dnsmasq/include.php');
 require_once($VIEW_PATH.'/dhcpd/include.php');
 require_once($VIEW_PATH.'/ftp-proxy/include.php');
 require_once($VIEW_PATH.'/openssh/include.php');
@@ -47,20 +47,22 @@ if (filter_has_var(INPUT_GET, 'interval')) {
 }
 $_SESSION['system']['DashboardInterval']= $LastDashboardInterval;
 
+$IntervalChanged= 0;
+if ($StatusCheckInterval !== $DashboardIntervals2Seconds[$LastDashboardInterval]) {
+	$IntervalChanged= 1;
+}
+
 $ServiceStatus= array();
-if ($View->Controller($Output, 'GetServiceStatus', TRUE, $LastDashboardInterval)) {
+if ($View->Controller($Output, 'GetServiceStatus', 1, $LastDashboardInterval, $IntervalChanged)) {
 	$Output= json_decode($Output[0], TRUE);
 	$ServiceInfo= $Output['info'];
 	$ServiceStatus= $Output['status'];
 }
 
 $ModuleNames= array(
-	'snortinline' => 'snort',
-	'clamd' => 'clamav',
-	'freshclam' => 'clamav',
 	'symon' => 'monitoring',
 	'symux' => 'monitoring',
-	'pmacct' => 'monitoring',
+	'collectd' => 'monitoring',
 	);
 
 $SubmenuNames= array(
@@ -255,17 +257,18 @@ function DisplayModuleStatus($Module, $DisplayDashboardExtrasFunc= FALSE)
 				<?php
 				DisplayModuleStatus('pf', fn() => Pf::DisplayDashboardExtras());
 				DisplayModuleStatus('symon');
+				DisplayModuleStatus('symux');
 				?>
 			</table>
 		</td>
 		<td>
 			<table id="modulestatus">
 				<?php
-				DisplayModuleStatus('named', fn() => Named::DisplayDashboardExtras());
+				DisplayModuleStatus('dnsmasq', fn() => Dnsmasq::DisplayDashboardExtras());
 				DisplayModuleStatus('dhcpd', fn() => Dhcpd::DisplayDashboardExtras());
 				DisplayModuleStatus('ftp-proxy', fn() => Ftpproxy::DisplayDashboardExtras());
 				DisplayModuleStatus('httpd', fn() => Httpd::DisplayDashboardExtras());
-				DisplayModuleStatus('symux');
+				DisplayModuleStatus('collectd');
 				?>
 			</table>
 		</td>

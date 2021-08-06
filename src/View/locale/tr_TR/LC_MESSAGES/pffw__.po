@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: PFFW 6.9\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2021-02-10 16:20+0300\n"
+"PO-Revision-Date: 2021-08-07 19:48+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
-"Language: Turkish\n"
-"Language-Team: Turkish <sonertari@gmail.com>\n"
+"Language: tr\n"
+"Language-Team: Turkish <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,8 +44,26 @@ msgstr "Otomatik yapılandırma"
 msgid "Bytes"
 msgstr "Bayt"
 
+msgid "Cannot determine the resolution in rrdfetch output"
+msgstr "rrdfetch komutunun çıktısından çözünürlük belirlenemedi"
+
 msgid "Cannot fork pfctl process"
 msgstr "Pfctl süreci fork edilemedi"
+
+msgid "Cannot get MFS size"
+msgstr "MFS boyutu alınamadı"
+
+msgid "Cannot get contents of /etc/rc"
+msgstr "/etc/rc içeriği alınamadı"
+
+msgid "Cannot get contents of /etc/sync.var"
+msgstr "/etc/sync.var içeriği alınamadı"
+
+msgid "Cannot get mount MFS"
+msgstr "MFS yükleme ayarı alınamadı"
+
+msgid "Cannot get persistent MFS"
+msgstr "Kalıcı MFS ayarı alınamadı"
 
 msgid "Cannot install pf rule file"
 msgstr "Pf kural dosyası kurulamadı"
@@ -155,6 +173,9 @@ msgstr "Aşım"
 msgid "Failed creating or attaching to message queue"
 msgstr "Mesaj kuyruğu yaratılamadı veya bağlantı başarısız oldu"
 
+msgid "Failed executing rrdfetch"
+msgstr "rrdfetch komutu başarısız oldu"
+
 msgid "Failed loading pf rules"
 msgstr "Pf kural yüklemesi başarısız oldu"
 
@@ -200,11 +221,8 @@ msgstr "DHCP arayüzlerini getir"
 msgid "Get DHCP option"
 msgstr "DHCP seçeneğini getir"
 
-msgid "Get DNS forwarders"
-msgstr "DNS yönlendirmelerini getir"
-
-msgid "Get IP DNS listens on"
-msgstr "DNS sunucunun dinlediği IP adresini getir"
+msgid "Get MFS config"
+msgstr "MFS ayarlarını getir"
 
 msgid "Get all stats"
 msgstr "Tüm istatistikleri getir"
@@ -244,6 +262,9 @@ msgstr "Arayüz yapılandırmasını getir"
 
 msgid "Get int_if"
 msgstr "int_if'i getir"
+
+msgid "Get interface DNS forwarder listens on"
+msgstr "DNS ileticinin dinlediği arayüzü getir"
 
 msgid "Get line count"
 msgstr "Satır sayısını getir"
@@ -380,6 +401,9 @@ msgstr "Eklenme"
 msgid "Install pf rules"
 msgstr "Pf kurallarını kurma"
 
+msgid "Interface up or down"
+msgstr "Arayüzü aç veya kapat"
+
 msgid "Invalid inline rules, parser output"
 msgstr "Geçersiz satıriçi kurallar, işleme çıktısı"
 
@@ -412,6 +436,9 @@ msgstr "Sistem ağ geçidini sabit yap"
 
 msgid "Method does not exist"
 msgstr "Yöntem bulunamadı"
+
+msgid "Mfs size wrong"
+msgstr "Mfs boyutu hatalı"
 
 msgid "Multiple values not allowed for"
 msgstr "Birden fazla değer kullanılamaz"
@@ -497,6 +524,9 @@ msgstr "Proto"
 msgid "Queue Length"
 msgstr "Kuyruk Boyu"
 
+msgid "RRD file does not exist"
+msgstr "RRD dosya bulunamadı"
+
 msgid "RSS"
 msgstr "RSS"
 
@@ -548,11 +578,11 @@ msgstr "DURUM"
 msgid "Select log file"
 msgstr "Kayıt dosyası seç"
 
-msgid "Set DNS forwarders"
-msgstr "DNS yönlendirmelerini ayarla"
+msgid "Set MFS"
+msgstr "MFS'i ayarla"
 
-msgid "Set IP DNS listens on"
-msgstr "DNS sunucunun dinlediği IP adresini ayarla"
+msgid "Set MFS size"
+msgstr "MFS boyutunu ayarla"
 
 msgid "Set configuration"
 msgstr "Yapılandırmayı ayarla"
@@ -571,6 +601,9 @@ msgstr "HTTPs uygulamayı ayarla"
 
 msgid "Set help boxes"
 msgstr "Yardım kutularını ayarla"
+
+msgid "Set interface DNS forwarder listens on"
+msgstr "DNS ileticinin dinlediği arayüzü ayarla"
 
 msgid "Set interfaces"
 msgstr "Arayüzleri ayarla"
@@ -637,6 +670,9 @@ msgstr "Symon disk bölümlerini ayarla"
 
 msgid "Set symon sensors"
 msgstr "Symon sensörlerini ayarla"
+
+msgid "Set sync MFS"
+msgstr "MFS kaydetmeyi ayarla"
 
 msgid "Set system clock"
 msgstr "Sistem saatini ayarla"

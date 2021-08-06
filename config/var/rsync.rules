@@ -1,0 +1,20 @@
+- rsync.out
+- *.old
+- *.gif
+- *.out
+- *.pid
+- *.pipe
+- *.png
+- *.sock
+- *.socket
+- /pffw/.starting
+
+- /pffw/cache/***
+- /pffw/dashboard/***
+- /pffw/downloads/***
+- /pffw/logs/***
+- /pffw/out/***
+- /pffw/run/***
+- /pffw/stats/***
+- /pffw/symon/cache/***
+- /pffw/tmp/***

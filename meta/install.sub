@@ -393,10 +393,11 @@ makedev() {
 GetPkgDesc() {
 
 	case $1 in
-		isc-bind-*) 				pkgdesc="DNS Server" ;;
+		dnsmasq-*) 				pkgdesc="DNS Forwarder" ;;
 		symon-*) 				pkgdesc="System Monitoring" ;;
+		collectd-*) 			pkgdesc="System Statistics" ;;
 		pftop-*) 				pkgdesc="Packet Filter Monitoring" ;;
-		php-*) 				pkgdesc="PHP" ;;
+		php-*)					pkgdesc="PHP" ;;
 		$CW_WEBIF_TARFILE) 		pkgdesc="Web Administration Interface" ;;
 		$CW_CONFIG_TARFILE) 	pkgdesc="Configuration Files" ;;
 		*) 						return 1 ;;
@@ -618,6 +619,9 @@ __EOT
 			symon-*)	echo "Installing symux..."
 				pkg_add symux || _installerror=1
 				;;
+			collectd-*)	echo "Installing collectd plugins..."
+				pkg_add collectd-rrdtool || _installerror=1
+				;;
 			php-*)
 				ln -s /usr/local/bin/php-8.0 /usr/local/bin/php
 				pkg_add php-pcntl || _installerror=1
@@ -628,6 +632,10 @@ __EOT
 			;;
 
 		$CW_CONFIG_TARFILE)
+			# rsync is used by the modified rc scripts to sync the mfs /var/log to disk
+			echo "Installing rsync..."
+			pkg_add rsync || _installerror=1
+
 			[[ ! -d $DESTDIR ]] && mkdir -p $DESTDIR
 			[[ ! -d $DESTDIR ]] && (echo "No such directory: $DESTDIR"; INSTALL_ERROR=1; continue)
 
@@ -651,16 +659,13 @@ __EOT
 			_mtreedir=$DESTDIR/etc/mtree
 			[[ ! -d $_mtreedir ]] && mkdir -p $_mtreedir
 			cp $MTREE $_mtreedir
-
-			# Otherwise named gives permission denied errors
-			chown -R _bind:_bind $DESTDIR/var/named/ || _installerror=1
 			;;
 
 		$CW_WEBIF_TARFILE)
 			resp=y
 			_webifparent=$ROOTDIR/var/www/htdocs
 			_webifdir=$ROOTDIR/var/www/htdocs/pffw
-			
+
 			[[ -d $_webifdir ]] && mv $_webifdir $_webifdir.orig
 			[[ ! -d $_webifparent ]] && mkdir -p $_webifparent
 			ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxf - -C $_webifparent || _installerror=1
@@ -964,17 +969,17 @@ install_sets() {
 }
 
 finish_up() {
-	/sbin/ldconfig /usr/local/lib /usr/X11R6/lib/ || INSTALL_ERROR=1
+	echo "Updating ld.so hints..."
+	/sbin/ldconfig /usr/local/lib /usr/X11R6/lib || INSTALL_ERROR=1
 
 	if [[ -f /var/www/htdocs/pffw/Installer/install.php ]]; then
 		echo "Running post-install script..."
 		/usr/local/bin/php /var/www/htdocs/pffw/Installer/install.php || INSTALL_ERROR=1
 	fi
 
-	# The symon configuration which require the use of sysctl should be run on first start, see ApplyConfig() in Installer/lib.php
-	echo '/usr/bin/env PATH=$PATH:/usr/local/bin /var/www/htdocs/pffw/Installer/install.php -a' >>/etc/rc.firsttime
-	echo '/bin/echo "Creating symon rrd files..."' >>/etc/rc.firsttime
-	echo '/bin/sh /usr/local/share/examples/symon/c_smrrds.sh all' >>/etc/rc.firsttime
+	# Update mandoc.db to avoid bogus entry errors
+	echo "\nUpdating mandoc.db ..."
+	/usr/sbin/makewhatis /usr/share/man || INSTALL_ERROR=1
 
 	if [ $INSTALL_ERROR -eq 1 ]; then
 		cat <<__EOT
@@ -1036,8 +1041,9 @@ CDDEVS=$(scan_dmesg "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}")
 [[ -z $CDDEVS ]] && CDDEVS="cd0,cd1,cd2"
 
 # Selected sets will be installed in the order they are listed in $THESETS.
-THESETS="isc-bind-9.16.10v2.tgz \
+THESETS="dnsmasq-2.85.tgz \
 		symon-2.88p6.tgz \
+		collectd-5.12.0p0.tgz \
 		pftop-0.7p19.tgz \
 		php-8.0.3.tgz \
 		$CW_WEBIF_TARFILE \

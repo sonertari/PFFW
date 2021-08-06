@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: PFFW 6.9\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2021-02-11 18:30+0300\n"
+"PO-Revision-Date: 2021-08-07 19:32+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
-"Language: Turkish\n"
-"Language-Team: Turkish <sonertari@gmail.com>\n"
+"Language: tr\n"
+"Language-Team: Turkish <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -47,9 +47,6 @@ msgstr "OpenSSH'in işlemci yükü"
 msgid "CPU load of the DHCP Server"
 msgstr "DHCP sunucunun işlemci yükü"
 
-msgid "CPU load of the DNS Server"
-msgstr "DNS sunucunun işlemci yükü"
-
 msgid "CPU load of the FTP Proxy"
 msgstr "FTP vekilin işlemci yükü"
 
@@ -59,20 +56,14 @@ msgstr "Web Arayüzünün işlemci yükü"
 msgid "CPU load of the system"
 msgstr "Sistemin işlemci yükü"
 
-msgid "Current number of hosts on the system ARP table"
-msgstr "Sistemin ARP tablosundaki cihaz sayısı"
-
-msgid "Current number of leases assigned to clients by the DHCP Server"
-msgstr "DHCP sunucu tarafından istemcilere atanan kiralamaların sayısı"
-
-msgid "Current number of states"
-msgstr "Durumların sayısı"
+msgid "Collectd System Statistics"
+msgstr "Collectd Sistem İstatistikleri"
 
 msgid "DHCP Server"
 msgstr "DHCP Sunucu"
 
-msgid "DNS Server"
-msgstr "DNS Sunucu"
+msgid "DNS Forwarder"
+msgstr "DNS İletici"
 
 msgid "Dashboard"
 msgstr "Gösterge paneli"
@@ -91,9 +82,6 @@ msgstr "FTP Vekil"
 
 msgid "Failed login attempts to the SSH Server"
 msgstr "SSH sunucuya yapılan başarısız giriş denemeleri"
-
-msgid "Forwarders"
-msgstr "İletilenler"
 
 msgid "GROUP"
 msgstr "GRUP"
@@ -137,6 +125,15 @@ msgstr "Ad sunucusu"
 msgid "Network Time"
 msgstr "Ağ Zamanı"
 
+msgid "Number of hosts on the system ARP table"
+msgstr "Sistemin ARP tablosundaki cihaz sayısı"
+
+msgid "Number of leases assigned to clients by the DHCP Server"
+msgstr "DHCP sunucu tarafından istemcilere atanan kiralamaların sayısı"
+
+msgid "Number of states"
+msgstr "Durumların sayısı"
+
 msgid "PHP FastCGI Server"
 msgstr "PHP FastCGI Sunucu"
 
@@ -163,6 +160,9 @@ msgstr "Günün mesajını yazdır"
 
 msgid "Protocol"
 msgstr "Protokol"
+
+msgid "Queries handled by the DNS forwarder"
+msgstr "DNS iletici tarafından işlenen sorgular"
 
 msgid "STARTED"
 msgstr "BAŞLANGIÇ"

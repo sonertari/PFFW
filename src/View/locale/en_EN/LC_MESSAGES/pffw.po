@@ -26,9 +26,6 @@ msgstr ""
 msgid "1 week"
 msgstr ""
 
-msgid "1 year"
-msgstr ""
-
 msgid "10 mins"
 msgstr ""
 
@@ -38,15 +35,6 @@ msgstr ""
 msgid "15 minute average"
 msgstr ""
 
-msgid "3 days"
-msgstr ""
-
-msgid "3 hours"
-msgstr ""
-
-msgid "3 months"
-msgstr ""
-
 msgid "30 mins"
 msgstr ""
 
@@ -54,9 +42,6 @@ msgid "5 mins"
 msgstr ""
 
 msgid "5 minute average"
-msgstr ""
-
-msgid "6 hours"
 msgstr ""
 
 msgid "6 months"
@@ -187,6 +172,9 @@ msgstr ""
 msgid "Archives"
 msgstr ""
 
+msgid "Are you sure you want to <ACTION> the interface <IF>?"
+msgstr ""
+
 msgid "Are you sure you want to <BUTTON_VALUE> secure HTTP?"
 msgstr ""
 
@@ -200,6 +188,18 @@ msgid "Are you sure you want to delete the rule?"
 msgstr ""
 
 msgid "Are you sure you want to delete the rules file?"
+msgstr ""
+
+msgid "Are you sure you want to disable MFS?"
+msgstr ""
+
+msgid "Are you sure you want to disable persistent MFS?"
+msgstr ""
+
+msgid "Are you sure you want to enable MFS?"
+msgstr ""
+
+msgid "Are you sure you want to enable persistent MFS?"
 msgstr ""
 
 msgid "Are you sure you want to erase statistics files?"
@@ -221,6 +221,9 @@ msgid "Are you sure you want to rotate the logs?"
 msgstr ""
 
 msgid "Are you sure you want to set the date?"
+msgstr ""
+
+msgid "Are you sure you want to set the size of MFS?"
 msgstr ""
 
 msgid "Are you sure you want to start the <NAME>?"
@@ -291,24 +294,17 @@ msgid ""
 "Buttons on this page should help you apply the new configuration system-wide "
 "when you change certain system settings or hardware.\n"
 "\n"
-"The web user interface stores statistics under /var/tmp/pffw folder. The "
+"The web user interface stores statistics under /var/log/pffw folder. The "
 "statistics are updated incrementally when new messages are appended to log "
 "files. When user selects a compressed log file for viewing or statistics, "
-"its uncompressed copy is saved under the same folder also. This strategy "
+"its uncompressed copy is saved under the same folder too. This strategy "
 "greatly improves the performance of Statistics and Logs pages, and enables "
 "other features of the web user interface. Since these statistics and "
 "uncompressed log files may take up a lot of disk space, you are advised to "
-"keep your /var partition as large as possible."
+"have a large partition holding /var/log."
 msgstr ""
 
 msgid "By default, FTP proxy logs connections but not all connection details."
-msgstr ""
-
-msgid ""
-"By default, a simple DNS configuration is provided; only one forwarders is "
-"configured, which you can modify on this page. There are no zone records "
-"defined, and caching is disabled. However, you can obtain a full-featured "
-"DNS server by modifying configuration files."
 msgstr ""
 
 msgid "Bytes"
@@ -329,9 +325,6 @@ msgstr ""
 msgid "CPU load of the DHCP Server"
 msgstr ""
 
-msgid "CPU load of the DNS Server"
-msgstr ""
-
 msgid "CPU load of the FTP Proxy"
 msgstr ""
 
@@ -350,13 +343,37 @@ msgstr ""
 msgid "CTLR Logs"
 msgstr ""
 
+msgid "Cached queries"
+msgstr ""
+
 msgid "Cancel"
+msgstr ""
+
+msgid "Cannot determine the resolution in rrdfetch output"
 msgstr ""
 
 msgid "Cannot fork pfctl process"
 msgstr ""
 
 msgid "Cannot generate rule"
+msgstr ""
+
+msgid "Cannot get MFS configuration"
+msgstr ""
+
+msgid "Cannot get MFS size"
+msgstr ""
+
+msgid "Cannot get contents of /etc/rc"
+msgstr ""
+
+msgid "Cannot get contents of /etc/sync.var"
+msgstr ""
+
+msgid "Cannot get mount MFS"
+msgstr ""
+
+msgid "Cannot get persistent MFS"
 msgstr ""
 
 msgid "Cannot install pf rule file"
@@ -408,6 +425,12 @@ msgstr ""
 msgid "Code"
 msgstr ""
 
+msgid "Collectd"
+msgstr ""
+
+msgid "Collectd System Statistics"
+msgstr ""
+
 msgid "Comment"
 msgstr ""
 
@@ -438,15 +461,6 @@ msgstr ""
 msgid "Current Password"
 msgstr ""
 
-msgid "Current number of hosts on the system ARP table"
-msgstr ""
-
-msgid "Current number of leases assigned to clients by the DHCP Server"
-msgstr ""
-
-msgid "Current number of states"
-msgstr ""
-
 msgid "DHCP"
 msgstr ""
 
@@ -469,12 +483,10 @@ msgstr ""
 msgid "DNS"
 msgstr ""
 
-msgid "DNS Server"
+msgid "DNS Forwarder"
 msgstr ""
 
-msgid ""
-"DNS server logs all name lookups. You should see many requests from the "
-"system itself along with those from internal clients."
+msgid "DNS forwarder logs all queries."
 msgstr ""
 
 msgid "DPort"
@@ -633,6 +645,9 @@ msgstr ""
 msgid "Domains"
 msgstr ""
 
+msgid "Down"
+msgstr ""
+
 msgid "Download"
 msgstr ""
 
@@ -762,6 +777,9 @@ msgstr ""
 msgid "Failed downloading, cannot generate pf rules"
 msgstr ""
 
+msgid "Failed executing rrdfetch"
+msgstr ""
+
 msgid "Failed loading"
 msgstr ""
 
@@ -846,15 +864,6 @@ msgstr ""
 msgid "Force HTTPs"
 msgstr ""
 
-msgid ""
-"Forwarder is the IP address of a DNS server that the system itself queries. "
-"In simple setups, this is usually the IP address of a DSL modem which "
-"functions as gateway to the Internet."
-msgstr ""
-
-msgid "Forwarders"
-msgstr ""
-
 msgid "Fragment"
 msgstr ""
 
@@ -903,10 +912,7 @@ msgstr ""
 msgid "Get DHCP option"
 msgstr ""
 
-msgid "Get DNS forwarders"
-msgstr ""
-
-msgid "Get IP DNS listens on"
+msgid "Get MFS config"
 msgstr ""
 
 msgid "Get all stats"
@@ -946,6 +952,9 @@ msgid "Get if config"
 msgstr ""
 
 msgid "Get int_if"
+msgstr ""
+
+msgid "Get interface DNS forwarder listens on"
 msgstr ""
 
 msgid "Get line count"
@@ -1180,6 +1189,21 @@ msgid ""
 msgstr ""
 
 msgid ""
+"If there is enough memeory on the system, mounting /var/log on a memory-"
+"based file system can improve the performance of the system, especially if "
+"the disk is slow. These settings configure /var/log as MFS.\n"
+"\n"
+"If you enable MFS, /var/log is mounted as MFS on the next boot.\n"
+"\n"
+"If you enable persistent MFS, the system starts syncing /var/log to disk, "
+"periodically and during shutdown, so that its contents are not lost and can "
+"be used after reboot. Note that syncing /var/log to disk may take some "
+"time.\n"
+"\n"
+"You are advised to choose an MFS size of at least 1024m."
+msgstr ""
+
+msgid ""
 "If you are not seeing as many number of lines as you were expecting, this "
 "may be because the log file has turned over and put in a compressed archive "
 "file.\n"
@@ -1198,6 +1222,9 @@ msgid ""
 "SMP kernel. If this page does not display multiple graphs, one for each CPU, "
 "after you switch to the SMP kernel, go to system configuration pages, apply "
 "automatic configuration, and reinitialize graph files."
+msgstr ""
+
+msgid "In the last <INTERVAL> seconds."
 msgstr ""
 
 msgid ""
@@ -1259,6 +1286,9 @@ msgid "Interface"
 msgstr ""
 
 msgid "Interface Binding"
+msgstr ""
+
+msgid "Interface up or down"
 msgstr ""
 
 msgid "Interfaces"
@@ -1532,10 +1562,16 @@ msgstr ""
 msgid "Memory usage"
 msgstr ""
 
+msgid "Memory-based file system"
+msgstr ""
+
 msgid "Method does not exist"
 msgstr ""
 
 msgid "Methods"
+msgstr ""
+
+msgid "Mfs size wrong"
 msgstr ""
 
 msgid "Min"
@@ -1711,6 +1747,12 @@ msgstr ""
 msgid "Number of Processes"
 msgstr ""
 
+msgid "Number of hosts on the system ARP table"
+msgstr ""
+
+msgid "Number of leases assigned to clients by the DHCP Server"
+msgstr ""
+
 msgid "Number of lines"
 msgstr ""
 
@@ -1720,6 +1762,9 @@ msgstr ""
 msgid ""
 "Number of servers to start initially --- should be a reasonable ballpark "
 "figure."
+msgstr ""
+
+msgid "Number of states"
 msgstr ""
 
 msgid "Number wrong"
@@ -1929,6 +1974,9 @@ msgstr ""
 msgid "Quantum"
 msgstr ""
 
+msgid "Queries handled by the DNS forwarder"
+msgstr ""
+
 msgid "Query types"
 msgstr ""
 
@@ -1942,6 +1990,9 @@ msgid "Queues"
 msgstr ""
 
 msgid "Quick"
+msgstr ""
+
+msgid "RRD file does not exist"
 msgstr ""
 
 msgid "RSS"
@@ -2163,10 +2214,10 @@ msgstr ""
 msgid "Session Timeout"
 msgstr ""
 
-msgid "Set DNS forwarders"
+msgid "Set MFS"
 msgstr ""
 
-msgid "Set IP DNS listens on"
+msgid "Set MFS size"
 msgstr ""
 
 msgid "Set configuration"
@@ -2185,6 +2236,9 @@ msgid "Set force HTTPs"
 msgstr ""
 
 msgid "Set help boxes"
+msgstr ""
+
+msgid "Set interface DNS forwarder listens on"
 msgstr ""
 
 msgid "Set interfaces"
@@ -2251,6 +2305,9 @@ msgid "Set symon partitions"
 msgstr ""
 
 msgid "Set symon sensors"
+msgstr ""
+
+msgid "Set sync MFS"
 msgstr ""
 
 msgid "Set system clock"
@@ -2379,9 +2436,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-msgid "Status Check Interval"
-msgstr ""
-
 msgid "Stop "
 msgstr ""
 
@@ -2483,13 +2537,17 @@ msgid ""
 "TCP Keep Alive and Use DNS options may help you resolve some issues."
 msgstr ""
 
+msgid ""
+"The DNS forwarder sends all queries to the name servers in /etc/resolv.conf."
+msgstr ""
+
 msgid "The Firebase API key for the project, i.e. the Android application."
 msgstr ""
 
-msgid "The IP address that the DNS server listens on."
+msgid "The URL of the Firebase notification service."
 msgstr ""
 
-msgid "The URL of the Firebase notification service."
+msgid "The interface that the DNS forwarder binds to listen for queries."
 msgstr ""
 
 msgid ""
@@ -2636,15 +2694,6 @@ msgstr ""
 msgid ""
 "This is the system name. If you change the hostname, use automatic "
 "configuration button to apply it system-wide, and reboot the system."
-msgstr ""
-
-msgid ""
-"This is the time interval in seconds to check module statuses for displaying."
-msgstr ""
-
-msgid ""
-"This name server is a BIND 9 compatible DNS server, which runs in a chroot "
-"jail."
 msgstr ""
 
 msgid ""
@@ -2795,6 +2844,9 @@ msgstr ""
 msgid "Unsupported interface configuration"
 msgstr ""
 
+msgid "Up"
+msgstr ""
+
 msgid "Update mail aliases"
 msgstr ""
 
@@ -2933,6 +2985,9 @@ msgid ""
 "in system time may cause system malfunction.</b>"
 msgstr ""
 
+msgid "You should restart the DNS forwarder for the changes to take effect."
+msgstr ""
+
 msgid ""
 "You should take into account that there may be computers with static IP "
 "addresses or using BOOTP protocol, and choose a range accordingly."
@@ -2962,7 +3017,13 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
+msgid "disable"
+msgstr ""
+
 msgid "disabled"
+msgstr ""
+
+msgid "enable"
 msgstr ""
 
 msgid "enabled"
@@ -3011,6 +3072,9 @@ msgid "milliseconds"
 msgstr ""
 
 msgid "modified"
+msgstr ""
+
+msgid "mount as mfs"
 msgstr ""
 
 msgid "move to"
@@ -3064,6 +3128,9 @@ msgstr ""
 msgid "os name or macro"
 msgstr ""
 
+msgid "persist mfs"
+msgstr ""
+
 msgid "pffw currently supports only admin and user usernames"
 msgstr ""
 
@@ -3071,6 +3138,9 @@ msgid "primary"
 msgstr ""
 
 msgid "protocol"
+msgstr ""
+
+msgid "restart"
 msgstr ""
 
 msgid "ruleset has errors"
@@ -3083,6 +3153,9 @@ msgid "secondary"
 msgstr ""
 
 msgid "secs"
+msgstr ""
+
+msgid "set mfs size"
 msgstr ""
 
 msgid "set serial to"

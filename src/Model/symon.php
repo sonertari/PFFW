@@ -30,7 +30,7 @@ class Symon extends Monitoring
 	public $User= '_symon';
 	
 	private $layoutsPath= '/var/www/htdocs/pffw/View/symon/layouts';
-	private $rrdsPath= '/var/www/htdocs/pffw/View/symon/rrds/localhost';
+	private $rrdsPath= PFFWDIR.'/symon/rrds/localhost';
 	
 	public $VersionCmd= '/usr/local/libexec/symon -v 2>&1';
 
@@ -168,7 +168,7 @@ class Symon extends Monitoring
 		$proclist= array(
 			'httpd',
 			'sshd',
-			'named',
+			'dnsmasq',
 			'dhcpd',
 			'ftp-proxy',
 		);
@@ -246,7 +246,7 @@ class Symon extends Monitoring
 
 	function GetGraph($file)
 	{
-		$graphFile= "/var/www/htdocs/pffw/View/symon/cache/$file";
+		$graphFile= "{$this->PFFWDIR}/symon/cache/$file";
 		$base64Graph= '';
 
 		if (file_exists($graphFile)) {

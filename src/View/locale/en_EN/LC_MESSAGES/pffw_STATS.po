@@ -16,6 +16,9 @@ msgstr ""
 msgid "Blocked requests"
 msgstr ""
 
+msgid "Cached queries"
+msgstr ""
+
 msgid "Client"
 msgstr ""
 
@@ -74,6 +77,9 @@ msgid "Packet types"
 msgstr ""
 
 msgid "Query types"
+msgstr ""
+
+msgid "Reason"
 msgstr ""
 
 msgid "Requests by date"

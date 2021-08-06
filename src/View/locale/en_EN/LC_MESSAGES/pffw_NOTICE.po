@@ -4,6 +4,21 @@ msgid ""
 "increase considerably."
 msgstr ""
 
+msgid "Are you sure you want to <ACTION> the interface <IF>?"
+msgstr ""
+
+msgid "Are you sure you want to disable MFS?"
+msgstr ""
+
+msgid "Are you sure you want to disable persistent MFS?"
+msgstr ""
+
+msgid "Are you sure you want to enable MFS?"
+msgstr ""
+
+msgid "Are you sure you want to enable persistent MFS?"
+msgstr ""
+
 msgid "Are you sure you want to erase statistics files?"
 msgstr ""
 
@@ -23,6 +38,9 @@ msgid "Are you sure you want to rotate the logs?"
 msgstr ""
 
 msgid "Are you sure you want to set the date?"
+msgstr ""
+
+msgid "Are you sure you want to set the size of MFS?"
 msgstr ""
 
 msgid "Are you sure you want to start the <NAME>?"
@@ -122,7 +140,19 @@ msgstr ""
 msgid "User password changed"
 msgstr ""
 
+msgid "delete"
+msgstr ""
+
+msgid "disable"
+msgstr ""
+
+msgid "enable"
+msgstr ""
+
 msgid "pffw currently supports only admin and user usernames"
+msgstr ""
+
+msgid "restart"
 msgstr ""
 
 msgid "ruleset has errors"

@@ -79,6 +79,9 @@ msgstr ""
 msgid "CRITICAL"
 msgstr ""
 
+msgid "Cannot get MFS configuration"
+msgstr ""
+
 msgid "Category"
 msgstr ""
 
@@ -89,6 +92,9 @@ msgid "Click to search in the stats"
 msgstr ""
 
 msgid "Code"
+msgstr ""
+
+msgid "Collectd"
 msgstr ""
 
 msgid "Comment"
@@ -112,7 +118,7 @@ msgstr ""
 msgid "DHCP Server"
 msgstr ""
 
-msgid "DNS Server"
+msgid "DNS Forwarder"
 msgstr ""
 
 msgid "DPort"
@@ -322,6 +328,9 @@ msgstr ""
 msgid "If"
 msgstr ""
 
+msgid "In the last <INTERVAL> seconds."
+msgstr ""
+
 msgid "Inline Rules"
 msgstr ""
 
@@ -443,6 +452,9 @@ msgid "Mbuf Statistics"
 msgstr ""
 
 msgid "Memory Usage"
+msgstr ""
+
+msgid "Memory-based file system"
 msgstr ""
 
 msgid "Min"
@@ -763,9 +775,6 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-msgid "Status Check Interval"
-msgstr ""
-
 msgid "Stopped"
 msgstr ""
 
@@ -889,7 +898,13 @@ msgstr ""
 msgid "modified"
 msgstr ""
 
+msgid "mount as mfs"
+msgstr ""
+
 msgid "negated"
+msgstr ""
+
+msgid "persist mfs"
 msgstr ""
 
 msgid "primary"
@@ -899,6 +914,9 @@ msgid "secondary"
 msgstr ""
 
 msgid "secs"
+msgstr ""
+
+msgid "set mfs size"
 msgstr ""
 
 msgid "set serial to"

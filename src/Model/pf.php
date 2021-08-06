@@ -212,26 +212,11 @@ class Pf extends Model
 		}
 	}
 
-	function _getModuleStatus($generate_info= FALSE, $start= 0)
+	function _getModuleInfo($start)
 	{
-		$status= parent::_getModuleStatus($generate_info, $start);
-
-		if ($generate_info) {
-			$status['info']['states']= $this->_getStateCount();
-
-			/// @attention _getPfInfo() is more expensive than counting the states in the pftop output
-			//$info= $this->_getPfInfo();
-			//if ($info !== FALSE) {
-			//	foreach ($info as $i) {
-			//		// current entries                    18012
-			//		if (preg_match('/current entries\s+(\d+)/', $i, $match)) {
-			//			$status['info']['states']= $match[1];
-			//			break;
-			//		}
-			//	}
-			//}
-		}
-		return $status;
+		/// @todo Should we get more status info from pfctl -s info output?
+		// For example, the memory counter seems important: 'memory could not be allocated'
+		return array('states'	=>	$this->_getStateCount());
 	}
 
 	/**
@@ -1097,11 +1082,11 @@ class Pf extends Model
 		return $this->formatDateHourRegexpDayLeadingZero($month, $day, $hour, $minute);
 	}
 
-	function _getLiveLogs($file, $count, $re= '', $needle= '')
+	function _getLiveLogs($file, $count, $re= '', $needle= '', $reportFileExistResult= TRUE)
 	{
 		global $TCPDUMP;
 		
-		if (!$this->ValidateFile($file)) {
+		if (!$this->ValidateFile($file, $reportFileExistResult)) {
 			return FALSE;
 		}
 
@@ -1137,16 +1122,26 @@ class Pf extends Model
 
 	function _getStateCount($re= '')
 	{
-		// Skip header lines by grepping for In or Out
-		// Empty $re is not an issue for grep, greps all
-		$cmd= "$this->pftopCmd | /usr/bin/egrep -a 'In|Out'";
-		if ($re !== '') {
-			$re= escapeshellarg($re);
-			$cmd.= " | /usr/bin/grep -a -E $re";
-		}
-		$cmd.= ' | /usr/bin/wc -l';
-		// OpenBSD wc returns with leading blanks
-		return trim($this->RunShellCommand($cmd));
+		/// @todo pfctl may take too long to return
+//		if ($re == '') {
+//			$ce= exec('/sbin/pfctl -s info | grep "current entries"', $output, $retval);
+//			if ($retval === 0) {
+//				if (preg_match('/current entries\s+(\d+)/', $ce, $match)) {
+//					return $match[1];
+//				}
+//			}
+//		} else {
+			// Skip header lines by grepping for In or Out
+			// Empty $re is not an issue for grep, greps all
+			$cmd= "$this->pftopCmd | /usr/bin/egrep -a 'In|Out'";
+			if ($re !== '') {
+				$re= escapeshellarg($re);
+				$cmd.= " | /usr/bin/grep -a -E $re";
+			}
+			$cmd.= ' | /usr/bin/wc -l';
+			// OpenBSD wc returns with leading blanks
+			return trim($this->RunShellCommand($cmd));
+//		}
 	}
 
 	/**

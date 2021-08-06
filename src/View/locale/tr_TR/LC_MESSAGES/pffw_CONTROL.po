@@ -105,6 +105,9 @@ msgstr "Yön Değiştirme"
 msgid "Divert Packet"
 msgstr "Paket Yön Değiştirme"
 
+msgid "Down"
+msgstr "Kapat"
+
 msgid "Download"
 msgstr "İndir"
 
@@ -254,6 +257,9 @@ msgstr "Tablo"
 
 msgid "Timeout"
 msgstr "Zaman Aşımları"
+
+msgid "Up"
+msgstr "Aç"
 
 msgid "Upload"
 msgstr "Karşıya Yükle"

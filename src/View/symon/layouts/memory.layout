@@ -1,2 +1,2 @@
 group	name="Memory Usage";
-graph	rrdfile=/var/www/htdocs/pffw/View/symon/rrds/localhost/mem.rrd, title="Memory Usage";
+graph	rrdfile=/var/log/pffw/symon/rrds/localhost/mem.rrd, title="Memory Usage";

@@ -26,8 +26,8 @@ $symon['layout_dir']='/symon';
 /* running OpenBSD, apache not chrooted:*/
 $symon['rrdtool_path']='/usr/local/bin/rrdtool';
 $SYMON_PATH= dirname(__FILE__);
-$symon['cache_dir']=$SYMON_PATH.'/cache';
-$symon['host_tree']=$SYMON_PATH.'/rrds';
+$symon['cache_dir']='/var/log/pffw/symon/cache';
+$symon['host_tree']='/var/log/pffw/symon/rrds';
 $symon['layout_dir']=$SYMON_PATH.'/layouts';
 
 /* running FreeBSD, apache not chrooted: 

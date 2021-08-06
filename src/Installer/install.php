@@ -70,9 +70,10 @@ if ($View->Controller($Output, 'GetConfig')) {
 			EnableHostap();
 			CreateUsers();
 			GenerateSSLKeyPair();
+			ConfigMFS();
 		}
 		
-		if (ApplyConfig($Auto)) {
+		if (ApplyConfig()) {
 			$msg= 'Successfully configured the system';
 			echo $msg.".\n";
 			wui_syslog(LOG_INFO, __FILE__, __FUNCTION__, __LINE__, $msg);

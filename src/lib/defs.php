@@ -23,13 +23,15 @@
  */
 
 /// Project version.
-define('VERSION', '6.9.2');
+define('VERSION', '6.9.3');
 
 $ROOT= dirname(dirname(dirname(__FILE__)));
 $SRC_ROOT= dirname(dirname(__FILE__));
 
 $VIEW_PATH= $SRC_ROOT . '/View';
 $MODEL_PATH= $SRC_ROOT . '/Model';
+
+define('PFFWDIR', '/var/log/pffw');
 
 /// Syslog priority strings.
 $LOG_PRIOS= array(
@@ -258,40 +260,46 @@ $StatsConf = array(
 				),
 			),
 		),
-    'named' => array(
+    'dnsmasq' => array(
 		'Total' => array(
 			'Title' => _STATS('All queries'),
 			'Cmd' => '/bin/cat <LF>',
-			'Needle' => '( query)',
-			'SearchRegexpPrefix' => '([[:blank:]]+)',
+			'SearchRegexpPrefix' => '([[:blank:]]+|\[)',
+			'SearchRegexpPostfix' => '([[:blank:]]+|\]|\[)',
 			'BriefStats' => array(
 				'Date' => _STATS('Requests by date'),
 				'Domain' => _STATS('Domains'),
 				'IP' => _STATS('IPs querying'),
 				'Type' => _STATS('Query types'),
-				'Reason' => _STATS('Failure reason'),
+				'Reason' => _STATS('Reason'),
 				),
 			'Counters' => array(),
 			),
 		'Queries' => array(
 			'Title' => _STATS('All queries'),
-			'Needle' => '( query: )',
+			'Needle' => '( query\[)',
 			'Color' => '#01466b',
 			'NVPs' => array(
 				'Domain' => _STATS('Domains'),
 				'IP' => _STATS('IPs querying'),
 				'Type' => _STATS('Query types'),
+				'Reason' => _STATS('Reason'),
 				),
 			),
 		'Failures' => array(
 			'Title' => _STATS('Failed queries'),
-			'Needle' => '( query failed )',
+			'Needle' => '( REFUSED$)',
 			'Color' => 'Red',
 			'NVPs' => array(
-				'Domain' => _STATS('Domains'),
-				'IP' => _STATS('IPs querying'),
-				'Type' => _STATS('Query types'),
-				'Reason' => _STATS('Failure reason'),
+				'Reason' => _STATS('Reason'),
+				),
+			),
+		'Cached' => array(
+			'Title' => _STATS('Cached queries'),
+			'Needle' => '( cached )',
+			'Color' => 'Yellow',
+			'NVPs' => array(
+				'Reason' => _STATS('Reason'),
 				),
 			),
 		),
@@ -402,12 +410,26 @@ $ModelsToStat= array(
 	'system' => _TITLE('System'),
 	'pf' => _TITLE('Packet Filter'),
 	'dhcpd' => _TITLE('DHCP Server'),
-	'named' => _TITLE('DNS Server'),
+	'dnsmasq' => _TITLE('DNS Forwarder'),
 	'openssh' => _TITLE('OpenSSH'),
 	'ftp-proxy' => _TITLE('FTP Proxy'),
 	'httpd' => _TITLE('Web User Interface'),
 	'symon' => _TITLE('Symon'),
 	'symux' => _TITLE('Symux'),
+	'collectd' => _TITLE('Collectd'),
+	);
+
+$DashboardIntervals2Seconds= array(
+	'1min' => 60,
+	'5min' => 300,
+	'10min' => 600,
+	'30min' => 1800,
+	'1hour' => 3600,
+	'12hour' => 43200,
+	'1day' => 86400,
+	'1week' => 604800,
+	'1month' => 2592000,
+	'6month' => 15552000,
 	);
 
 $PF_CONFIG_PATH= '/etc/pfre';

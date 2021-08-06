@@ -1,4 +1,4 @@
 # Layout to show pf usage
 
 group	name="Data Transfer";
-graph   rrdfile=/var/www/htdocs/pffw/View/symon/rrds/localhost/pf.rrd, title="Data Transfer";
+graph   rrdfile=/var/log/pffw/symon/rrds/localhost/pf.rrd, title="Data Transfer";

@@ -38,7 +38,7 @@ function PrintHelpWindow($msg, $width= 'auto', $type= 'INFO')
  * 
  * @return bool TRUE on success, FALSE on fail.
  */
-function ApplyConfig($auto)
+function ApplyConfig()
 {
 	global $Config, $View;
 
@@ -62,36 +62,32 @@ function ApplyConfig($auto)
 		if (!$View->Controller($output, 'SetIntnet', $lancidr)) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting pf internal net: $lancidr");
 		}
-		
-		$View->Model= 'named';
-		if (! $View->Controller($output, 'SetListenOn', $lanip)) {
-			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting listen-on: $lanip");
+
+		$View->Model= 'dnsmasq';
+		if (! $View->Controller($output, 'SetListenOn', $lanif)) {
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting listen-on: $lanif");
 		}
-		
-		if (!$View->Controller($output, 'SetForwarders', $mygate)) {
-			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting forwarders: $mygate");
-		}
-		
+
 		$View->Model= 'system';
 		$host= "$lanip	$myname ".explode(".", $myname)[0];
 		if (!$View->Controller($output, 'AddHost', $host)) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting hosts: $host");
 		}
-		
+
 		if (!$View->Controller($output, 'SetManCgiHome', $lanip)) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting man.cgi home: $lanip");
 		}
-		
+
 		$View->Model= 'dhcpd';
 		ComputeDhcpdIpRange($lanip, $lannet, $lanbc, $min, $max);
 		if (!$View->Controller($output, 'SetDhcpdConf', $lanip, $lanmask, $lannet, $lanbc, $min, $max)) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting dhcpd configuration: $lanip, $lanmask, $lannet, $lanbc, $min, $max");
 		}
-		
+
 		if (!$View->Controller($output, 'AddIf', $lanif)) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Failed setting dhcpd interface: $lanif");
 		}
-		
+
 		$View->Model= 'symon';
 		if (!$View->Controller($output, 'SetCpus')) {
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon cpus');
@@ -105,16 +101,12 @@ function ApplyConfig($auto)
 			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon partitions');
 		}
 
-		/// @attention There is an issue with sysctl on OpenBSD 5.9; it does not return on chrooted install environment
-		// Hence, the following symon configuration which require the use of sysctl should be run during normal operation instead
-		if ($auto) {
-			if (!$View->Controller($output, 'SetSensors')) {
-				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon sensors');
-			}
+		if (!$View->Controller($output, 'SetSensors')) {
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon sensors');
+		}
 
-			if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
-				wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
-			}
+		if (!$View->Controller($output, 'SetConf', $lanif, $wanif)) {
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed setting symon conf');
 		}
 
 		return TRUE;
@@ -279,7 +271,7 @@ function GetIfSelection()
 
 		$warn= PrintIfConfig($lanif, $wanif);
 		
-		$selection= readline2('Type done to accept or press enter to try again: ');
+		$selection= readline2("Type 'done' to accept or press enter to try again: ");
 		if ($selection === 'done') {
 			break;
 		}
@@ -343,6 +335,8 @@ function EnableHostap()
 	exec("ifconfig $intif 2>/dev/null | grep -q \"^[[:space:]]*ieee80211:\"", $output, $retval);
 
 	if ($retval === 0) {
+		echo "\nInternal interface $intif is a Wi-fi interface";
+
 		$driver= rtrim($intif, '0..9');
 		$selection= ReadSelection("\nEnable hostap on $intif (make sure $driver(4) supports Host AP mode)? [yes] ", array('yes', 'no'));
 		if ($selection === '' || $selection === 'yes') {
@@ -419,7 +413,7 @@ function CreateUsers()
 					wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: admin');
 					// Update user password
 					if ($View->Controller($output, 'CreateUser', 'user', $sha1Passwd, 1001)) {
-						echo "Successfully created WUI users: 'admin' and 'user'.\n\n";
+						echo "\nSuccessfully created WUI users: 'admin' and 'user'.\n";
 						wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: user');
 					}
 					else {
@@ -456,6 +450,8 @@ function GenerateSSLKeyPair()
 	$n= readline2("Set serial to? [1] ");
 	if (preg_match('/^\d{1,4}$/', $n)) {
 		$serial= $n;
+	} else if ($n !== '') {
+		echo "\nInvalid serial\n";
 	}
 	echo "Setting serial to $serial\n";
 
@@ -463,6 +459,86 @@ function GenerateSSLKeyPair()
 		wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'Failed generating ssl key pair');
 	}
 	echo "\nYou can generate the SSL key pair on the WUI too.\n";
+}
+
+function ConfigMFS()
+{
+	global $View;
+
+	// In case
+	$View->Model= 'system';
+
+	echo "\nIf the system has enough memory, you can mount /var/log as MFS";
+	$selection= ReadSelection("\nEnable MFS? [yes] ", array('yes', 'no'));
+
+	if ($selection === '') {
+		$selection= 'yes';
+	}
+
+	if (!$View->Controller($Output, 'SetMFS', $selection)) {
+		$msg= "Failed setting MFS to $selection";
+		wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $msg);
+		echo "\n$msg.\n";
+	} else {
+		if ($selection == 'yes') {
+			echo "\nMFS /var/log enabled.\n";
+		} else {
+			echo "\nMFS /var/log disabled.\n";
+		}
+	}
+
+	$MFSConfig= FALSE;
+	if ($View->Controller($Output, 'GetMFSConfig')) {
+		$MFSConfig= json_decode($Output[0], TRUE);
+	}
+
+	if (!$MFSConfig) {
+		echo "\nCannot configure MFS\n";
+		return;
+	}
+
+	$mfs_enabled= $MFSConfig['enable'] == 'yes';
+
+	if ($mfs_enabled) {
+		$size= $MFSConfig['size'];
+
+		echo "\nMFS size of 1024m or more is recommended\n";
+
+		$s= readline2("Set MFS size to (you can use k/m/g or K/M/G suffix)? [$size] ");
+		if (preg_match('/^\d+[kKmMgG]*$/', $s)) {
+			$size= $s;
+		} else if ($s !== '') {
+			echo "\nInvalid MFS size\n";
+		}
+		echo "\nSetting MFS size to $size\n";
+
+		if (!$View->Controller($Output, 'SetMFSSize', $size)) {
+			$msg= "Failed setting MFS size to $size";
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $msg);
+			echo "\n$msg.\n";
+		}
+
+		echo "\nMFS /var/log can be set to persist, so its contents are not lost on shutdown\n";
+		echo "Note that syncing /var/log to disk can take some time";
+		$selection= ReadSelection("\nEnable persistent MFS? [yes] ", array('yes', 'no'));
+
+		if ($selection === '') {
+			$selection= 'yes';
+		}
+
+		if (!$View->Controller($Output, 'SetSyncMFS', $selection)) {
+			$msg= "Failed setting sync MFS to $selection";
+			wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, $msg);
+			echo "\n$msg.\n";
+		} else {
+			if ($selection == 'yes') {
+				echo "\nPersistent MFS enabled.\n";
+			} else {
+				echo "\nPersistent MFS disabled.\n";
+			}
+		}
+	}
+	echo "\n";
 }
 
 /**

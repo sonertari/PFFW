@@ -1,30 +1,21 @@
 # Copyright (C) 2004-2021 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2009, 2017-2020.
+# Soner Tari <sonertari@gmail.com>, 2009-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PFFW 6.9\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2020-05-25 16:43+0300\n"
+"PO-Revision-Date: 2021-08-07 19:41+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
-"Language: Turkish\n"
-"Language-Team: Turkish <sonertari@gmail.com>\n"
+"Language: tr\n"
+"Language-Team: Turkish <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 2.91.7\n"
-
-msgid ""
-"Forwarder is the IP address of a DNS server that the system itself queries. "
-"In simple setups, this is usually the IP address of a DSL modem which "
-"functions as gateway to the Internet."
-msgstr ""
-"Yönlendirilen adres sistemin kendisinin sorguladığı bir DNS sunucu IP "
-"adresidir. Basit kurulumlarda İnternet'e geçit sağlayan bir DSL modemin IP "
-"adresidir."
+"X-Generator: Gtranslator 3.36.0\n"
 
 msgid "No default banner path"
 msgstr "Varsayılan bir afiş yolu ayarlar."
@@ -41,8 +32,8 @@ msgstr "QuietMode ve FascistLogging seçeneklerini kapatır."
 msgid "Override default of no subsystems"
 msgstr "Altsistem kullanılmamasını sağlayan öndeğeri değiştirir."
 
-msgid "The IP address that the DNS server listens on."
-msgstr "DNS sunucunun dinlediği IP adresi."
+msgid "The interface that the DNS forwarder binds to listen for queries."
+msgstr "DNS ileticinin sorguları dinlemek için bağlandığı arayüz."
 
 msgid ""
 "The strategy used for options in the default sshd_config shipped with "

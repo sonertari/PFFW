@@ -28,9 +28,6 @@ msgstr ""
 msgid "CPU load of the DHCP Server"
 msgstr ""
 
-msgid "CPU load of the DNS Server"
-msgstr ""
-
 msgid "CPU load of the FTP Proxy"
 msgstr ""
 
@@ -40,19 +37,13 @@ msgstr ""
 msgid "CPU load of the system"
 msgstr ""
 
-msgid "Current number of hosts on the system ARP table"
-msgstr ""
-
-msgid "Current number of leases assigned to clients by the DHCP Server"
-msgstr ""
-
-msgid "Current number of states"
+msgid "Collectd System Statistics"
 msgstr ""
 
 msgid "DHCP Server"
 msgstr ""
 
-msgid "DNS Server"
+msgid "DNS Forwarder"
 msgstr ""
 
 msgid "Dashboard"
@@ -71,9 +62,6 @@ msgid "FTP Proxy"
 msgstr ""
 
 msgid "Failed login attempts to the SSH Server"
-msgstr ""
-
-msgid "Forwarders"
 msgstr ""
 
 msgid "GROUP"
@@ -118,6 +106,15 @@ msgstr ""
 msgid "Network Time"
 msgstr ""
 
+msgid "Number of hosts on the system ARP table"
+msgstr ""
+
+msgid "Number of leases assigned to clients by the DHCP Server"
+msgstr ""
+
+msgid "Number of states"
+msgstr ""
+
 msgid "PHP FastCGI Server"
 msgstr ""
 
@@ -143,6 +140,9 @@ msgid "Print Motd"
 msgstr ""
 
 msgid "Protocol"
+msgstr ""
+
+msgid "Queries handled by the DNS forwarder"
 msgstr ""
 
 msgid "STARTED"

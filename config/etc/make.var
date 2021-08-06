@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# Creates and populates the /var/log/pffw directory structure
+# Creates rrd files for symon
+
+BASEDIR=/var/log/pffw
+
+[[ ! -d $BASEDIR ]] && mkdir $BASEDIR
+
+[[ ! -d $BASEDIR/cache ]] && mkdir $BASEDIR/cache
+
+[[ ! -d $BASEDIR/collectd ]] && mkdir $BASEDIR/collectd
+[[ ! -d $BASEDIR/collectd/fifo ]] && mkdir $BASEDIR/collectd/fifo
+[[ ! -d $BASEDIR/collectd/rrd ]] && mkdir $BASEDIR/collectd/rrd
+
+[[ ! -d $BASEDIR/out ]] && mkdir $BASEDIR/out
+
+[[ ! -d $BASEDIR/symon ]] && mkdir $BASEDIR/symon
+
+if [[ ! -d $BASEDIR/symon/cache ]]; then
+	mkdir $BASEDIR/symon/cache
+	chmod 777 $BASEDIR/symon/cache
+fi
+
+if [[ ! -d $BASEDIR/symon/rrds ]]; then
+	mkdir $BASEDIR/symon/rrds
+	chmod 755 $BASEDIR/symon/rrds
+fi
+
+if [[ ! -d $BASEDIR/symon/rrds/localhost ]]; then
+	mkdir $BASEDIR/symon/rrds/localhost
+	chmod 755 $BASEDIR/symon/rrds/localhost
+	echo "Creating symon rrd files..."
+	sh /usr/local/share/examples/symon/c_smrrds.sh all
+fi
+
+[[ ! -d $BASEDIR/run ]] && mkdir $BASEDIR/run
+
+[[ ! -d $BASEDIR/tmp ]] && mkdir $BASEDIR/tmp
+chmod 1777 $BASEDIR/tmp
+
