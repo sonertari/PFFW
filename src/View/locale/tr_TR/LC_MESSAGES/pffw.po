@@ -1,10 +1,10 @@
 # Copyright (C) 2004-2021 Soner Tari, The UTMFW project
 # This file is distributed under the same license as UTMFW.
-# Soner Tari <sonertari@gmail.com>, 2018-2020.
+# Soner Tari <sonertari@gmail.com>, 2018-2021.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.9\n"
+"Project-Id-Version: PFFW 7.0\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2019-04-07 16:05+0300\n"
@@ -92,7 +92,7 @@ msgid ""
 "connected to this web user interface, and use the network restart button on "
 "this page, do not forget to change the URL on your web browser accordingly.\n"
 "\n"
-"It is not advised to configure the internal interface as dhcp."
+"It is not advised to configure the internal interface as dhcp/autoconf."
 msgstr ""
 "<b>Otomatik yapılandırma tuşunu kullanarak ağ ayarlarını sistem geneline "
 "uygulayın.</b>\n"
@@ -101,7 +101,7 @@ msgstr ""
 "tekrar başlatırsanız web tarayıcınızın adres çubuğundaki URL'yi buna göre "
 "değiştirmeyi unutmayın.\n"
 "\n"
-"İç ağ arayüzünü dhcp olarak yapılandırmanız tavsiye edilmez."
+"İç ağ arayüzünü dhcp/autoconf olarak yapılandırmanız tavsiye edilmez."
 
 msgid "ACCEPTED"
 msgstr "BAŞARILI"
@@ -395,11 +395,17 @@ msgstr "İptal"
 msgid "Cannot determine the resolution in rrdfetch output"
 msgstr "rrdfetch komutunun çıktısından çözünürlük belirlenemedi"
 
-msgid "Cannot fork pfctl process"
-msgstr "Pfctl süreci fork edilemedi"
+msgid "Cannot find default route"
+msgstr "Öndeğerli yönlendirme adresi bulunamadı"
+
+msgid "Cannot fork process"
+msgstr "Süreç fork edilemedi"
 
 msgid "Cannot generate rule"
 msgstr "Kural üretilemiyor"
+
+msgid "Cannot generate rules"
+msgstr "Kurallar üretilemiyor"
 
 msgid "Cannot get MFS configuration"
 msgstr "MFS ayarları alınamadı"
@@ -419,17 +425,20 @@ msgstr "MFS yükleme ayarı alınamadı"
 msgid "Cannot get persistent MFS"
 msgstr "Kalıcı MFS ayarı alınamadı"
 
-msgid "Cannot install pf rule file"
-msgstr "Pf kural dosyası kurulamadı"
+msgid "Cannot install rule file"
+msgstr "Kural dosyası kurulamadı"
 
-msgid "Cannot load pf rules"
-msgstr "Pf kuralları yüklenemedi"
+msgid "Cannot load rules"
+msgstr "Kurallar yüklenemedi"
 
-msgid "Cannot remove tmp pf file"
-msgstr "Geçici pf dosyası silinemedi"
+msgid "Cannot parse rules"
+msgstr "Kurallar işlenemiyor"
 
-msgid "Cannot write to tmp pf file"
-msgstr "Geçici pf dosyasına yazılamadı"
+msgid "Cannot remove tmp file"
+msgstr "Geçici dosya silinemedi"
+
+msgid "Cannot write to tmp file"
+msgstr "Geçici dosyaya yazılamadı"
 
 msgid "Category"
 msgstr "Sınıf"
@@ -600,8 +609,8 @@ msgstr "Bilgisayar sil"
 msgid "Delete notifier user"
 msgstr "Uyarı kullanıcısı sil"
 
-msgid "Delete pf rule file"
-msgstr "Pf kural dosyası silme"
+msgid "Delete rule file"
+msgstr "Kural dosyasını sil"
 
 msgid "Delete rules file"
 msgstr "Kural dosyasını sil"
@@ -840,8 +849,8 @@ msgstr "Yükleme işlemi başarısız oldu"
 msgid "Failed loading main pf rules"
 msgstr "Ana pf kurallarının yüklenmesi başarısız oldu"
 
-msgid "Failed loading pf rules"
-msgstr "Pf kural yüklemesi başarısız oldu"
+msgid "Failed loading rules"
+msgstr "Kural yüklemesi başarısız oldu"
 
 msgid "Failed login attempts to the SSH Server"
 msgstr "SSH sunucuya yapılan başarısız giriş denemeleri"
@@ -858,8 +867,8 @@ msgstr "Pfctl komutu başarısız oldu"
 msgid "Failed saving"
 msgstr "Kayıt işlemi başarısız oldu"
 
-msgid "Failed testing pf rules"
-msgstr "Pf kurallarının testi başarısız oldu"
+msgid "Failed testing rules"
+msgstr "Kuralların testi başarısız oldu"
 
 msgid "Failed testing ruleset"
 msgstr "Kural listesinin testi başarısız oldu"
@@ -948,11 +957,11 @@ msgstr "Üret"
 msgid "Generate SSL key pair"
 msgstr "SSL anahtarını üret"
 
-msgid "Generate pf rule"
-msgstr "Pf kural üretimi"
+msgid "Generate rule"
+msgstr "Kural üretimi"
 
-msgid "Generate pf rules"
-msgstr "Pf kural listesi üretimi"
+msgid "Generate rules"
+msgstr "Kural listesi üretimi"
 
 msgid "Generate with errors"
 msgstr "Hatalara rağmen üret"
@@ -1047,12 +1056,6 @@ msgstr "Pf bellek bilgisini getir"
 msgid "Get pf queue info"
 msgstr "Pf kuyruk bilgisini getir"
 
-msgid "Get pf rule files"
-msgstr "Pf kural dosyalarını getir"
-
-msgid "Get pf rules"
-msgstr "Pf kurallarını getir"
-
 msgid "Get pf rules info"
 msgstr "Pf kural bilgisini getir"
 
@@ -1073,6 +1076,12 @@ msgstr "Tekrar yükleme süresini getir"
 
 msgid "Get remote time"
 msgstr "Uzaktaki zamanı getir"
+
+msgid "Get rule files"
+msgstr "Kural dosyalarını getir"
+
+msgid "Get rules"
+msgstr "Kuralları getir"
 
 msgid "Get service start status"
 msgstr "Servis başlatma durumunu getir"
@@ -1386,8 +1395,8 @@ msgstr "Kur"
 msgid "Install as main ruleset"
 msgstr "Ana kural listesi olarak kur"
 
-msgid "Install pf rules"
-msgstr "Pf kurallarını kurma"
+msgid "Install rules"
+msgstr "Kural kurulumu"
 
 msgid "Installed successfully"
 msgstr "Başarıyla kuruldu"
@@ -1704,6 +1713,9 @@ msgstr "Bellek kullanımı"
 msgid "Memory-based file system"
 msgstr "Bellek tabanlı dosya sistemi"
 
+msgid "Merges separated comments"
+msgstr "Ayrılmış yorumları birleştirir"
+
 msgid "Method does not exist"
 msgstr "Yöntem bulunamadı"
 
@@ -1777,13 +1789,13 @@ msgid "Network Time"
 msgstr "Ağ Zamanı"
 
 msgid ""
-"Network interfaces are listed here. You can configure an interface as dhcp "
-"or inet. Changes made here do not take effect until you restart the network "
-"or reboot the system."
+"Network interfaces are listed here. You can configure an interface as dhcp/"
+"autoconf or inet. Changes made here do not take effect until you restart the "
+"network or reboot the system."
 msgstr ""
-"Burada ağ arayüzleri listelenmektedir. Arayüzleri dhcp veya inet olarak "
-"ayarlayabilirsiniz. Burada yaptığınız değişiklikler ağı veya sistemi tekrar "
-"başlatana kadar geçerli olmazlar."
+"Burada ağ arayüzleri listelenmektedir. Arayüzleri dhcp/autoconf veya inet "
+"olarak ayarlayabilirsiniz. Burada yaptığınız değişiklikler ağı veya sistemi "
+"tekrar başlatana kadar geçerli olmazlar."
 
 msgid "New Password"
 msgstr "Yeni Parola"
@@ -1828,9 +1840,6 @@ msgstr "Böyle bir dosya yok"
 
 msgid "Not JSON encoded string"
 msgstr "JSON ile kodlanmış bir metin değil"
-
-msgid "Not a valid password"
-msgstr "Geçerli bir parola değil"
 
 msgid "Not asterisk"
 msgstr "Asterisk değil"
@@ -2080,8 +2089,14 @@ msgstr "Sayfa başlangıç satırı"
 msgid "Parent"
 msgstr "Veli"
 
+msgid "Parse"
+msgstr "İşle"
+
 msgid "Parse Error"
 msgstr "İşleme Hatası"
+
+msgid "Parse rules"
+msgstr "Kuralları işle"
 
 msgid "Partitions"
 msgstr "Disk Bölümleri"
@@ -2091,9 +2106,6 @@ msgstr "Disk Bölüm Kullanımları"
 
 msgid "Password"
 msgstr "Parola"
-
-msgid "Passwords do not match"
-msgstr "Parolalar uyuşmuyor"
 
 msgid "Permit Empty Passwords"
 msgstr "Boş şifrelere izin ver"
@@ -2398,6 +2410,9 @@ msgstr "Uyarıları gönder."
 msgid "Sensors"
 msgstr "Sensörler"
 
+msgid "Separate"
+msgstr "Ayır"
+
 msgid "Serial Number"
 msgstr "Seri Numarası"
 
@@ -2636,9 +2651,6 @@ msgstr "İstatistik ve açılmış kayıt dosyaları"
 msgid "Status"
 msgstr "Durum"
 
-msgid "Stop"
-msgstr "Durdur"
-
 msgid "Stop "
 msgstr "Durdur"
 
@@ -2732,8 +2744,8 @@ msgstr "Kuyruk sayısı yanlış"
 msgid "Temperature"
 msgstr "Sıcaklık"
 
-msgid "Test pf rules"
-msgstr "Pf kurallarını test et"
+msgid "Test rules"
+msgstr "Kuralları test et"
 
 msgid ""
 "Thanks to OpenSSH, remote root login to the system is permitted by default. "
@@ -3063,8 +3075,8 @@ msgstr "Saat"
 msgid "Time server"
 msgstr "Zaman sunucu"
 
-msgid "Timed out running pfctl command"
-msgstr "Pfctl komutu zaman aşımına uğradı"
+msgid "Timed out running command"
+msgstr "Komut zaman aşımına uğradı"
 
 msgid "Timeout"
 msgstr "Zaman Aşımları"
@@ -3128,6 +3140,9 @@ msgstr "KULLANICI"
 
 msgid "USERS"
 msgstr "KULLNC"
+
+msgid "Uncomment"
+msgstr "Yorumu Kaldır"
 
 msgid "Unconfigure an interface"
 msgstr "Arayüzünün yapılandırmasını kaldır"

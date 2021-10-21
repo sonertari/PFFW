@@ -23,7 +23,7 @@
  */
 
 /// Project version.
-define('VERSION', '6.9.3');
+define('VERSION', '7.0');
 
 $ROOT= dirname(dirname(dirname(__FILE__)));
 $SRC_ROOT= dirname(dirname(__FILE__));
@@ -433,7 +433,7 @@ $DashboardIntervals2Seconds= array(
 	);
 
 $PF_CONFIG_PATH= '/etc/pfre';
-$TMP_PATH= '/tmp';
+$TMP_PATH= '/var/log/pffw/tmp';
 
 $TEST_DIR_PATH= '';
 /// @attention Necessary to set to '/pffw' instead of '' to fix $ROOT . $TEST_DIR_SRC in model.php

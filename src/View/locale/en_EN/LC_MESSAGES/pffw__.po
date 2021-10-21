@@ -28,7 +28,10 @@ msgstr ""
 msgid "Cannot determine the resolution in rrdfetch output"
 msgstr ""
 
-msgid "Cannot fork pfctl process"
+msgid "Cannot find default route"
+msgstr ""
+
+msgid "Cannot fork process"
 msgstr ""
 
 msgid "Cannot get MFS size"
@@ -46,16 +49,16 @@ msgstr ""
 msgid "Cannot get persistent MFS"
 msgstr ""
 
-msgid "Cannot install pf rule file"
+msgid "Cannot install rule file"
 msgstr ""
 
-msgid "Cannot load pf rules"
+msgid "Cannot load rules"
 msgstr ""
 
-msgid "Cannot remove tmp pf file"
+msgid "Cannot remove tmp file"
 msgstr ""
 
-msgid "Cannot write to tmp pf file"
+msgid "Cannot write to tmp file"
 msgstr ""
 
 msgid "Check if process running"
@@ -88,7 +91,7 @@ msgstr ""
 msgid "Delete notifier user"
 msgstr ""
 
-msgid "Delete pf rule file"
+msgid "Delete rule file"
 msgstr ""
 
 msgid "Dest"
@@ -157,7 +160,7 @@ msgstr ""
 msgid "Failed executing rrdfetch"
 msgstr ""
 
-msgid "Failed loading pf rules"
+msgid "Failed loading rules"
 msgstr ""
 
 msgid "Failed removing message queue"
@@ -166,7 +169,7 @@ msgstr ""
 msgid "Failed running pfctl command"
 msgstr ""
 
-msgid "Failed testing pf rules"
+msgid "Failed testing rules"
 msgstr ""
 
 msgid "Failed validating command line"
@@ -187,10 +190,10 @@ msgstr ""
 msgid "Generate SSL key pair"
 msgstr ""
 
-msgid "Generate pf rule"
+msgid "Generate rule"
 msgstr ""
 
-msgid "Generate pf rules"
+msgid "Generate rules"
 msgstr ""
 
 msgid "Get DHCP IP range"
@@ -283,12 +286,6 @@ msgstr ""
 msgid "Get pf queue info"
 msgstr ""
 
-msgid "Get pf rule files"
-msgstr ""
-
-msgid "Get pf rules"
-msgstr ""
-
 msgid "Get pf rules info"
 msgstr ""
 
@@ -308,6 +305,12 @@ msgid "Get reload rate"
 msgstr ""
 
 msgid "Get remote time"
+msgstr ""
+
+msgid "Get rule files"
+msgstr ""
+
+msgid "Get rules"
 msgstr ""
 
 msgid "Get service start status"
@@ -379,7 +382,7 @@ msgstr ""
 msgid "Inserted"
 msgstr ""
 
-msgid "Install pf rules"
+msgid "Install rules"
 msgstr ""
 
 msgid "Interface up or down"
@@ -494,6 +497,9 @@ msgid "Packets"
 msgstr ""
 
 msgid "Parse Error"
+msgstr ""
+
+msgid "Parse rules"
 msgstr ""
 
 msgid "Prepare file for download"
@@ -709,13 +715,13 @@ msgstr ""
 msgid "Tail number wrong"
 msgstr ""
 
-msgid "Test pf rules"
+msgid "Test rules"
 msgstr ""
 
 msgid "The process is taking too long, thus will run in the background."
 msgstr ""
 
-msgid "Timed out running pfctl command"
+msgid "Timed out running command"
 msgstr ""
 
 msgid "Too many args"

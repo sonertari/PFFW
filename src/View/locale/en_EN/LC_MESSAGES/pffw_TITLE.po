@@ -457,6 +457,9 @@ msgstr ""
 msgid "Memory-based file system"
 msgstr ""
 
+msgid "Merges separated comments"
+msgstr ""
+
 msgid "Min"
 msgstr ""
 
@@ -703,6 +706,9 @@ msgstr ""
 msgid "Selected"
 msgstr ""
 
+msgid "Separate"
+msgstr ""
+
 msgid "Serial Number"
 msgstr ""
 
@@ -830,6 +836,9 @@ msgid "UPTIME"
 msgstr ""
 
 msgid "USERS"
+msgstr ""
+
+msgid "Uncomment"
 msgstr ""
 
 msgid "Unknown"

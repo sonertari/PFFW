@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.9\n"
+"Project-Id-Version: PFFW 7.0\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2021-08-07 19:34+0300\n"
@@ -476,6 +476,9 @@ msgstr "Bellek Kullanımı"
 msgid "Memory-based file system"
 msgstr "Bellek tabanlı dosya sistemi"
 
+msgid "Merges separated comments"
+msgstr "Ayrılmış yorumları birleştirir"
+
 msgid "Min"
 msgstr "En az"
 
@@ -722,6 +725,9 @@ msgstr "Seçenek Türünü Seçin"
 msgid "Selected"
 msgstr "Seçili"
 
+msgid "Separate"
+msgstr "Ayır"
+
 msgid "Serial Number"
 msgstr "Seri Numarası"
 
@@ -850,6 +856,9 @@ msgstr "SÜRE"
 
 msgid "USERS"
 msgstr "KULLNC"
+
+msgid "Uncomment"
+msgstr "Yorumu Kaldır"
 
 msgid "Unknown"
 msgstr "Bilinmeyen"

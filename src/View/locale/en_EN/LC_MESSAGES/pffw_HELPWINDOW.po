@@ -6,7 +6,7 @@ msgid ""
 "connected to this web user interface, and use the network restart button on "
 "this page, do not forget to change the URL on your web browser accordingly.\n"
 "\n"
-"It is not advised to configure the internal interface as dhcp."
+"It is not advised to configure the internal interface as dhcp/autoconf."
 msgstr ""
 
 msgid "All monitoring processes write to the same log file."

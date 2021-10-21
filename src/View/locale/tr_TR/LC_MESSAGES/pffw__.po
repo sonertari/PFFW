@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.9\n"
+"Project-Id-Version: PFFW 7.0\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2021-08-07 19:48+0300\n"
@@ -47,8 +47,11 @@ msgstr "Bayt"
 msgid "Cannot determine the resolution in rrdfetch output"
 msgstr "rrdfetch komutunun çıktısından çözünürlük belirlenemedi"
 
-msgid "Cannot fork pfctl process"
-msgstr "Pfctl süreci fork edilemedi"
+msgid "Cannot find default route"
+msgstr "Öndeğerli yönlendirme adresi bulunamadı"
+
+msgid "Cannot fork process"
+msgstr "Süreç fork edilemedi"
 
 msgid "Cannot get MFS size"
 msgstr "MFS boyutu alınamadı"
@@ -65,17 +68,17 @@ msgstr "MFS yükleme ayarı alınamadı"
 msgid "Cannot get persistent MFS"
 msgstr "Kalıcı MFS ayarı alınamadı"
 
-msgid "Cannot install pf rule file"
-msgstr "Pf kural dosyası kurulamadı"
+msgid "Cannot install rule file"
+msgstr "Kural dosyası kurulamadı"
 
-msgid "Cannot load pf rules"
-msgstr "Pf kuralları yüklenemedi"
+msgid "Cannot load rules"
+msgstr "Kurallar yüklenemedi"
 
-msgid "Cannot remove tmp pf file"
-msgstr "Geçici pf dosyası silinemedi"
+msgid "Cannot remove tmp file"
+msgstr "Geçici dosya silinemedi"
 
-msgid "Cannot write to tmp pf file"
-msgstr "Geçici pf dosyasına yazılamadı"
+msgid "Cannot write to tmp file"
+msgstr "Geçici dosyaya yazılamadı"
 
 msgid "Check if process running"
 msgstr "Sürecin çalıştığını kontrol et"
@@ -107,8 +110,8 @@ msgstr "Bilgisayar sil"
 msgid "Delete notifier user"
 msgstr "Uyarı kullanıcısı sil"
 
-msgid "Delete pf rule file"
-msgstr "Pf kural dosyası silme"
+msgid "Delete rule file"
+msgstr "Kural dosyasını sil"
 
 msgid "Dest"
 msgstr "Hedef"
@@ -176,8 +179,8 @@ msgstr "Mesaj kuyruğu yaratılamadı veya bağlantı başarısız oldu"
 msgid "Failed executing rrdfetch"
 msgstr "rrdfetch komutu başarısız oldu"
 
-msgid "Failed loading pf rules"
-msgstr "Pf kural yüklemesi başarısız oldu"
+msgid "Failed loading rules"
+msgstr "Kural yüklemesi başarısız oldu"
 
 msgid "Failed removing message queue"
 msgstr "Mesaj kuyruğunun silinmesi başarısız oldu"
@@ -185,8 +188,8 @@ msgstr "Mesaj kuyruğunun silinmesi başarısız oldu"
 msgid "Failed running pfctl command"
 msgstr "Pfctl komutu başarısız oldu"
 
-msgid "Failed testing pf rules"
-msgstr "Pf kurallarının testi başarısız oldu"
+msgid "Failed testing rules"
+msgstr "Kuralların testi başarısız oldu"
 
 msgid "Failed validating command line"
 msgstr "Komut satırı doğrulaması başarısız oldu"
@@ -206,11 +209,11 @@ msgstr "Dosya yolu yanlış"
 msgid "Generate SSL key pair"
 msgstr "SSL anahtarını üret"
 
-msgid "Generate pf rule"
-msgstr "Pf kural üretimi"
+msgid "Generate rule"
+msgstr "Kural üretimi"
 
-msgid "Generate pf rules"
-msgstr "Pf kural listesi üretimi"
+msgid "Generate rules"
+msgstr "Kural listesi üretimi"
 
 msgid "Get DHCP IP range"
 msgstr "DHCP IP aralığını getir"
@@ -302,12 +305,6 @@ msgstr "Pf bellek bilgisini getir"
 msgid "Get pf queue info"
 msgstr "Pf kuyruk bilgisini getir"
 
-msgid "Get pf rule files"
-msgstr "Pf kural dosyalarını getir"
-
-msgid "Get pf rules"
-msgstr "Pf kurallarını getir"
-
 msgid "Get pf rules info"
 msgstr "Pf kural bilgisini getir"
 
@@ -328,6 +325,12 @@ msgstr "Tekrar yükleme süresini getir"
 
 msgid "Get remote time"
 msgstr "Uzaktaki zamanı getir"
+
+msgid "Get rule files"
+msgstr "Kural dosyalarını getir"
+
+msgid "Get rules"
+msgstr "Kuralları getir"
 
 msgid "Get service start status"
 msgstr "Servis başlatma durumunu getir"
@@ -398,8 +401,8 @@ msgstr "Grafikleri sıfırla"
 msgid "Inserted"
 msgstr "Eklenme"
 
-msgid "Install pf rules"
-msgstr "Pf kurallarını kurma"
+msgid "Install rules"
+msgstr "Kural kurulumu"
 
 msgid "Interface up or down"
 msgstr "Arayüzü aç veya kapat"
@@ -514,6 +517,9 @@ msgstr "Paketler"
 
 msgid "Parse Error"
 msgstr "İşleme Hatası"
+
+msgid "Parse rules"
+msgstr "Kuralları işle"
 
 msgid "Prepare file for download"
 msgstr "Dosyayı indirme için hazırla"
@@ -728,14 +734,14 @@ msgstr "Sistem kapatma"
 msgid "Tail number wrong"
 msgstr "Kuyruk sayısı yanlış"
 
-msgid "Test pf rules"
-msgstr "Pf kurallarını test et"
+msgid "Test rules"
+msgstr "Kuralları test et"
 
 msgid "The process is taking too long, thus will run in the background."
 msgstr "Sürecin işlemesi uzun zaman aldığından arka planda çalıştırılacaktır."
 
-msgid "Timed out running pfctl command"
-msgstr "Pfctl komutu zaman aşımına uğradı"
+msgid "Timed out running command"
+msgstr "Komut zaman aşımına uğradı"
 
 msgid "Too many args"
 msgstr "Argüman sayısı fazla"

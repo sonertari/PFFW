@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PFFW 6.9\n"
+"Project-Id-Version: PFFW 7.0\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
 "PO-Revision-Date: 2021-08-07 19:38+0300\n"
@@ -84,6 +84,12 @@ msgstr "Otomatik yapılandırma başarısız oldu."
 msgid "Cannot generate rule"
 msgstr "Kural üretilemiyor"
 
+msgid "Cannot generate rules"
+msgstr "Kurallar üretilemiyor"
+
+msgid "Cannot parse rules"
+msgstr "Kurallar işlenemiyor"
+
 msgid "ERROR"
 msgstr "HATA"
 
@@ -126,14 +132,8 @@ msgstr "Geçersiz kural numarası"
 msgid "Main pf rules reloaded"
 msgstr "Ana pf kuralları yeniden yüklendi"
 
-msgid "Not a valid password"
-msgstr "Geçerli bir parola değil"
-
 msgid "Page start line"
 msgstr "Sayfa başlangıç satırı"
-
-msgid "Passwords do not match"
-msgstr "Parolalar uyuşmuyor"
 
 msgid "Rule test failed without an error message"
 msgstr "Kural testi hata mesajı vermeden başarısız oldu"

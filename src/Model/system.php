@@ -479,7 +479,7 @@ class System extends Model
 				$up= array('');
 
 				foreach ($contents as $line) {
-					if (preg_match("/^(inet|dhcp)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)$/", $line, $match)) {
+					if (preg_match("/^(inet|dhcp|autoconf)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)$/", $line, $match)) {
 						$inet= $match;
 						// OpenBSD 6.6 onwards uses hex if mask in hostname.if file
 						// Convert if mask from hex to ip: 0xffffff00 -> 255.255.255.0
@@ -741,7 +741,7 @@ class System extends Model
 	 * Sets system interface configuration.
 	 *
 	 * @param string $if Interface name.
-	 * @param string $type inet or dhcp only.
+	 * @param string $type inet or dhcp|autoconf only.
 	 * @param string $ip IP address.
 	 * @param string $mask Netmask.
 	 * @param string $bc Broadcast address.
@@ -779,9 +779,9 @@ class System extends Model
 
 		// @todo Args passed to this function are validated by the Controller, but we can implement some semantic validation too
 		if (preg_match("/^inet\s*$Re_Ip\s*[x0-9a-f]+\s*($Re_Ip|).*$/m", $ifconf)
-			|| preg_match('/^dhcp\s*NONE\s*NONE\s*NONE.*$/m', $ifconf)
-			|| preg_match('/^dhcp$/m', $ifconf)
-			|| preg_match('/dhcp/m', $ifconf) && ($hostap === '')) {
+			|| preg_match('/^(dhcp|autoconf)\s*NONE\s*NONE\s*NONE.*$/m', $ifconf)
+			|| preg_match('/^(dhcp|autoconf)$/m', $ifconf)
+			|| preg_match('/(dhcp|autoconf)/m', $ifconf) && ($hostap === '')) {
 			/// @attention Need a new line char at the end of hostname.if, otherwise /etc/netstart fails
 			/// Since file_put_contents() removes the last new line char, we append a PHP_EOL.
 			return file_put_contents($this->confDir.'hostname.'.$if, $ifconf.PHP_EOL);
@@ -1072,10 +1072,6 @@ class System extends Model
 			Error('Cannot get extif');
 		}
 
-		// Refresh pf rules too
-		// Pass $if as arg, passing empty string is fine
-		$cmd[]= "/bin/sh /etc/netstart $if 2>&1 && /sbin/pfctl -f $this->PfRulesFile 2>&1";
-
 		if ($if == '' || $if == $extif) {
 			// Delete the arp entry for the old gateway, in case the new gateway has the same IP address
 			// Otherwise, the system cannot reach the new gateway, continues to use the old ethernet address,
@@ -1086,17 +1082,60 @@ class System extends Model
 			}
 		}
 
+		// Pass $if as arg, passing empty string is fine
+		$cmd[]= "/bin/sh /etc/netstart $if 2>&1";
+
+		// /etc/netstart does not up (autoconf?) ifs on OpenBSD 7.0 anymore
+		if ($intif !== FALSE) {
+			if ($if == '' || $if == $intif) {
+				$cmd[]= "/sbin/ifconfig $intif up 2>&1";
+			}
+		}
+
+		if ($extif !== FALSE) {
+			if ($if == '' || $if == $extif) {
+				$cmd[]= "/sbin/ifconfig $extif up 2>&1";
+			}
+		}
+
 		$cmdline= implode(' && ', $cmd);
 
 		exec($cmdline, $output, $retval);
 		$errout= implode("\n", $output);
 		Error($errout);
 
+		// Refresh pf rules too
+		$retval&= $this->reloadPfRules();
+
 		if ($retval === 0) {
 			return TRUE;
 		}
 		ctlr_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, "Netstart failed: $errout");
 		return FALSE;
+	}
+
+	function reloadPfRules()
+	{
+		$cmd= "/sbin/route -n show | grep -q ^default";
+		$count= 0;
+		while ($count++ < 10) {
+			exec($cmd, $output, $retval);
+			if ($retval === 0) {
+				break;
+			}
+			exec('/bin/sleep ' . self::PROC_STAT_SLEEP_TIME);
+		}
+
+		if ($retval !== 0) {
+			Error(_('Cannot find default route'));
+		}
+
+		$cmd= "/sbin/pfctl -f $this->PfRulesFile 2>&1";
+
+		exec($cmd, $output, $retval);
+		$errout= implode("\n", $output);
+		Error($errout);
+		return $retval;
 	}
 
 	function IfUpDown($if, $updown)

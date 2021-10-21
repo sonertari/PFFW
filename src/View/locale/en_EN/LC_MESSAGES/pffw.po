@@ -73,7 +73,7 @@ msgid ""
 "connected to this web user interface, and use the network restart button on "
 "this page, do not forget to change the URL on your web browser accordingly.\n"
 "\n"
-"It is not advised to configure the internal interface as dhcp."
+"It is not advised to configure the internal interface as dhcp/autoconf."
 msgstr ""
 
 msgid "ACCEPTED"
@@ -352,10 +352,16 @@ msgstr ""
 msgid "Cannot determine the resolution in rrdfetch output"
 msgstr ""
 
-msgid "Cannot fork pfctl process"
+msgid "Cannot find default route"
+msgstr ""
+
+msgid "Cannot fork process"
 msgstr ""
 
 msgid "Cannot generate rule"
+msgstr ""
+
+msgid "Cannot generate rules"
 msgstr ""
 
 msgid "Cannot get MFS configuration"
@@ -376,16 +382,19 @@ msgstr ""
 msgid "Cannot get persistent MFS"
 msgstr ""
 
-msgid "Cannot install pf rule file"
+msgid "Cannot install rule file"
 msgstr ""
 
-msgid "Cannot load pf rules"
+msgid "Cannot load rules"
 msgstr ""
 
-msgid "Cannot remove tmp pf file"
+msgid "Cannot parse rules"
 msgstr ""
 
-msgid "Cannot write to tmp pf file"
+msgid "Cannot remove tmp file"
+msgstr ""
+
+msgid "Cannot write to tmp file"
 msgstr ""
 
 msgid "Category"
@@ -546,7 +555,7 @@ msgstr ""
 msgid "Delete notifier user"
 msgstr ""
 
-msgid "Delete pf rule file"
+msgid "Delete rule file"
 msgstr ""
 
 msgid "Delete rules file"
@@ -786,7 +795,7 @@ msgstr ""
 msgid "Failed loading main pf rules"
 msgstr ""
 
-msgid "Failed loading pf rules"
+msgid "Failed loading rules"
 msgstr ""
 
 msgid "Failed login attempts to the SSH Server"
@@ -804,7 +813,7 @@ msgstr ""
 msgid "Failed saving"
 msgstr ""
 
-msgid "Failed testing pf rules"
+msgid "Failed testing rules"
 msgstr ""
 
 msgid "Failed testing ruleset"
@@ -894,10 +903,10 @@ msgstr ""
 msgid "Generate SSL key pair"
 msgstr ""
 
-msgid "Generate pf rule"
+msgid "Generate rule"
 msgstr ""
 
-msgid "Generate pf rules"
+msgid "Generate rules"
 msgstr ""
 
 msgid "Generate with errors"
@@ -993,12 +1002,6 @@ msgstr ""
 msgid "Get pf queue info"
 msgstr ""
 
-msgid "Get pf rule files"
-msgstr ""
-
-msgid "Get pf rules"
-msgstr ""
-
 msgid "Get pf rules info"
 msgstr ""
 
@@ -1018,6 +1021,12 @@ msgid "Get reload rate"
 msgstr ""
 
 msgid "Get remote time"
+msgstr ""
+
+msgid "Get rule files"
+msgstr ""
+
+msgid "Get rules"
 msgstr ""
 
 msgid "Get service start status"
@@ -1276,7 +1285,7 @@ msgstr ""
 msgid "Install as main ruleset"
 msgstr ""
 
-msgid "Install pf rules"
+msgid "Install rules"
 msgstr ""
 
 msgid "Installed successfully"
@@ -1565,6 +1574,9 @@ msgstr ""
 msgid "Memory-based file system"
 msgstr ""
 
+msgid "Merges separated comments"
+msgstr ""
+
 msgid "Method does not exist"
 msgstr ""
 
@@ -1638,9 +1650,9 @@ msgid "Network Time"
 msgstr ""
 
 msgid ""
-"Network interfaces are listed here. You can configure an interface as dhcp "
-"or inet. Changes made here do not take effect until you restart the network "
-"or reboot the system."
+"Network interfaces are listed here. You can configure an interface as dhcp/"
+"autoconf or inet. Changes made here do not take effect until you restart the "
+"network or reboot the system."
 msgstr ""
 
 msgid "New Password"
@@ -1895,7 +1907,13 @@ msgstr ""
 msgid "Parent"
 msgstr ""
 
+msgid "Parse"
+msgstr ""
+
 msgid "Parse Error"
+msgstr ""
+
+msgid "Parse rules"
 msgstr ""
 
 msgid "Partitions"
@@ -2200,6 +2218,9 @@ msgid "Send notifications."
 msgstr ""
 
 msgid "Sensors"
+msgstr ""
+
+msgid "Separate"
 msgstr ""
 
 msgid "Serial Number"
@@ -2529,7 +2550,7 @@ msgstr ""
 msgid "Temperature"
 msgstr ""
 
-msgid "Test pf rules"
+msgid "Test rules"
 msgstr ""
 
 msgid ""
@@ -2763,7 +2784,7 @@ msgstr ""
 msgid "Time server"
 msgstr ""
 
-msgid "Timed out running pfctl command"
+msgid "Timed out running command"
 msgstr ""
 
 msgid "Timeout"
@@ -2827,6 +2848,9 @@ msgid "USER"
 msgstr ""
 
 msgid "USERS"
+msgstr ""
+
+msgid "Uncomment"
 msgstr ""
 
 msgid "Unconfigure an interface"
