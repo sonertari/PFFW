@@ -12,9 +12,9 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases two installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw70\_20211021\_amd64.iso](https://drive.google.com/file/d/1usDYECDgJ1Yh0NfgGRL0NBkpr4gZ_Mm7/view?usp=sharing). Make sure the SHA256 checksum is correct: 9fcd3c6d04cf3a2d616e005ce5d1517340b8d26ddc77f6fac3aacc821aa9e26f.
+- The installation iso file for the amd64 arch is available for download at [pffw70\_20211024\_amd64.iso](https://drive.google.com/file/d/1bB-pX-BiKEQkXgLUzx0iWoFitOJYwPtQ/view?usp=sharing). Make sure the SHA256 checksum is correct: 32e16d899e93e01fd3b980d5d2c65dc90a48cd5c5982af359fca214f9ce27cd5.
 
-- The installation img file for the arm64 arch is available for download at [pffw70\_20211021\_arm64.img](https://drive.google.com/file/d/1KYoJpLr3w8LaD5giV65NOBd9_sNTBL3y/view?usp=sharing). Make sure the SHA256 checksum is correct: a6c8128b5a7a0867ad3787bc984d8a350e28f5d554c6f6fd071c59b26bc668ac. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw70\_20211024\_arm64.img](https://drive.google.com/file/d/1gbHr5Kcb9NgabWSHy-OsCNa2dcwo3Ztc/view?usp=sharing). Make sure the SHA256 checksum is correct: 49c255d7cf0f4e5e67af15c3716982687cd4449e3fe60b5ddb8f88cfa6c34c50. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
 
