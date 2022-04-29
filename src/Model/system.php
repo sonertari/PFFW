@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2021 Soner Tari
+ * Copyright (C) 2004-2022 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -63,7 +63,7 @@ class System extends Model
 		 * the lines like the 3rd one above.
 		 */
 		$this->rcLocalServices= array(
-			'/usr/local/sbin/php-fpm-8.0',
+			'/usr/local/sbin/php-fpm-8.1',
 			'/usr/local/sbin/dnsmasq',
 			'/usr/local/libexec/symux',
 			'/usr/local/libexec/symon',
@@ -441,7 +441,7 @@ class System extends Model
 	 */
 	function GetNameServer()
 	{
-		return Output($this->SearchFile($this->confDir.'resolv.conf', "/^\h*nameserver\h*([^#]*)\h*$/m"));
+		return Output($this->SearchFile($this->confDir.'resolv.conf', "/^\h*nameserver\h*([^#]*)\h*/m"));
 	}
 
 	/**
@@ -515,8 +515,8 @@ class System extends Model
 					// inet 192.168.0.1 0xffffff00
 					// nwid mynwid wpakey mykey
 					// mediaopt hostap
-					else if (preg_match('/nwid\s+(\S+)\s*(\S*)\s*(\S*)/', $line, $match)) {
-						$nwid= array($match[1], $match[2], $match[3]);
+					else if (preg_match('/(nwid|join)\s+(\S+)\s*(\S*)\s*(\S*)/', $line, $match)) {
+						$nwid= array($match[2], $match[3], $match[4]);
 					}
 					else if (preg_match('/mediaopt (hostap)/', $line, $match)) {
 						$hostap= array($match[1]);
@@ -910,6 +910,11 @@ class System extends Model
 		}
 
 		exec("/bin/rm -f {$this->PFFWDIR}/dashboard/* 2>&1", $output, $retval);
+		if ($retval !== 0) {
+			$result= FALSE;
+		}
+
+		exec("/bin/rm -f {$this->PFFWDIR}/cache/* 2>&1", $output, $retval);
 		if ($retval !== 0) {
 			$result= FALSE;
 		}

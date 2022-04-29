@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2021 Soner Tari
+ * Copyright (C) 2004-2022 Soner Tari
  *
  * This file is part of PFRE.
  *
@@ -34,7 +34,7 @@ define('RE_ID', "^$RE_ID$");
 $RE_MACRO_VAR= '\$' . $RE_ID;
 
 /// @todo What are possible macro values?
-define('RE_MACRO_VALUE', '^((\w|\$)[\w_.\/\-*]{0,49}|)$');
+define('RE_MACRO_VALUE', '^((\w|\$|\(|!)[\w_.\/\-*\(\)]{0,49}|)$');
 
 $RE_IF_NAME= '\w{1,20}';
 $RE_IF_MODIF= '(|:(0|broadcast|network|peer))';

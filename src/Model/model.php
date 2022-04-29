@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2021 Soner Tari
+ * Copyright (C) 2004-2022 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -244,6 +244,11 @@ class Model
 				'GetLiveLogs'	=>	array(
 					'argv'	=>	array(FILEPATH, TAIL, REGEXP|NONE),
 					'desc'	=>	_('Get tail'),
+					),
+
+				'GetLastLogs'	=>	array(
+					'argv'	=>	array(FILEPATH, TAIL),
+					'desc'	=>	_('Get last logs'),
 					),
 
 				'GetAllStats'=>	array(
@@ -1418,7 +1423,7 @@ class Model
 		$cmd.= " | /usr/bin/tail -$count";
 
 		exec($cmd, $output, $retval);
-		
+
 		$logs= array();
 		foreach ($output as $line) {
 			unset($cols);
@@ -1427,6 +1432,24 @@ class Model
 			}
 		}
 		return $logs;
+	}
+
+	function GetLastLogs($file, $count)
+	{
+		exec("/usr/bin/tail -$count $file", $output, $retval);
+
+		if (!$this->ValidateFileExists($file, TRUE)) {
+			return FALSE;
+		}
+
+		$logs= array();
+		foreach ($output as $line) {
+			unset($cols);
+			if ($this->ParseLogLine($line, $cols)) {
+				$logs[]= $cols;
+			}
+		}
+		return Output(json_encode($logs));
 	}
 
 	/**
@@ -1816,10 +1839,7 @@ class Model
 	{
 		global $MaxFileSizeToProcess;
 
-		if (!file_exists($file)) {
-			if ($reportFileExistResult) {
-				Error(_('File does not exit').': '.$file);
-			}
+		if (!$this->ValidateFileExists($file, $reportFileExistResult)) {
 			return FALSE;
 		}
 
@@ -1827,6 +1847,17 @@ class Model
 		if ($filestat['size'] > $MaxFileSizeToProcess*1000000) {
 			$error_msg= preg_replace('/<SIZE>/', $MaxFileSizeToProcess, _('File too large, will not process files larger than <SIZE> MB'));
 			Error("$error_msg: $file = ".$filestat['size']);
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	function ValidateFileExists($file, $reportFileExistResult= TRUE)
+	{
+		if (!file_exists($file)) {
+			if ($reportFileExistResult) {
+				Error(_('File does not exit').': '.$file);
+			}
 			return FALSE;
 		}
 		return TRUE;

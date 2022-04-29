@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2021 Soner Tari
+ * Copyright (C) 2004-2022 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -199,7 +199,7 @@ require_once($VIEW_PATH.'/header.php');
 										</tr>
 										<tr>
 											<td class="iftitle">ip</td>
-											<td class="ifs"><input type="text" name="InterfaceIP" style="width: 100px;" maxlength="15" value="<?php echo $IfIp ?>" placeholder="<?php echo $IfIp2 ?>"/></td>
+											<td class="ifs"><input type="text" name="InterfaceIP" style="width: 100px;" maxlength="15" value="<?php echo $IfIp ?>" placeholder="<?php echo $IfIp2 ?>"/> <?php echo ($IfIp != $IfIp2 ? $IfIp2 : '') ?></td>
 										</tr>
 										<tr>
 											<td class="iftitle">netmask</td>

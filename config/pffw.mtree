@@ -51,10 +51,10 @@ smtpd.conf		type=file mode=0644 uname=root gname=wheel
 ..	#etc/mail
 pfre			type=dir mode=0755 uname=root gname=wheel
 ..	#etc/pfre
-php-8.0			type=dir mode=0755 uname=root gname=wheel
+php-8.1			type=dir mode=0755 uname=root gname=wheel
 curl.ini		type=file mode=0644 uname=root gname=wheel
 pcntl.ini		type=file mode=0644 uname=root gname=wheel
-..	#etc/php-8.0
+..	#etc/php-8.1
 collectd.conf		type=file mode=0640 uname=root gname=_collectd
 dnsmasq.conf		type=file mode=0644 uname=root gname=wheel
 dhcpd.conf		type=file mode=0644 uname=root gname=wheel
@@ -64,7 +64,7 @@ make.var		type=file mode=0644 uname=root gname=wheel
 motd			type=file mode=0664 uname=root gname=wheel
 newsyslog.conf		type=file mode=0644 uname=root gname=wheel
 pf.conf			type=file mode=0600 uname=root gname=wheel
-php-8.0.ini		type=file mode=0644 uname=root gname=wheel
+php-8.1.ini		type=file mode=0644 uname=root gname=wheel
 php-fpm.conf		type=file mode=0644 uname=root gname=wheel
 rc			type=file mode=0644 uname=root gname=wheel
 rc.conf.local		type=file mode=0644 uname=root gname=wheel

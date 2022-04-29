@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2021 Soner Tari
+ * Copyright (C) 2004-2022 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -65,6 +65,8 @@ PrintLiveLogHeaderForm($LinesPerPage, $SearchRegExp);
 
 	$Logs= array();
 	if ($View->Controller($Output, 'GetLiveLogs', $LogFile, $LinesPerPage, $SearchRegExp)) {
+		$Logs= json_decode($Output[0], TRUE);
+	} else if ($View->Controller($Output, 'GetLastLogs', $LogFile, $LinesPerPage)) {
 		$Logs= json_decode($Output[0], TRUE);
 	}
 

@@ -12,9 +12,9 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases two installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw70\_20211024\_amd64.iso](https://drive.google.com/file/d/1bB-pX-BiKEQkXgLUzx0iWoFitOJYwPtQ/view?usp=sharing). Make sure the SHA256 checksum is correct: 32e16d899e93e01fd3b980d5d2c65dc90a48cd5c5982af359fca214f9ce27cd5.
+- The installation iso file for the amd64 arch is available for download at [pffw71\_20220508\_amd64.iso](https://drive.google.com/file/d/1bB-pX-BiKEQkXgLUzx0iWoFitOJYwPtQ/view?usp=sharing). Make sure the SHA256 checksum is correct: 32e16d899e93e01fd3b980d5d2c65dc90a48cd5c5982af359fca214f9ce27cd5.
 
-- The installation img file for the arm64 arch is available for download at [pffw70\_20211024\_arm64.img](https://drive.google.com/file/d/1gbHr5Kcb9NgabWSHy-OsCNa2dcwo3Ztc/view?usp=sharing). Make sure the SHA256 checksum is correct: 49c255d7cf0f4e5e67af15c3716982687cd4449e3fe60b5ddb8f88cfa6c34c50. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw71\_20220508\_arm64.img](https://drive.google.com/file/d/1gbHr5Kcb9NgabWSHy-OsCNa2dcwo3Ztc/view?usp=sharing). Make sure the SHA256 checksum is correct: 49c255d7cf0f4e5e67af15c3716982687cd4449e3fe60b5ddb8f88cfa6c34c50. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
 
@@ -92,11 +92,11 @@ A few notes about PFFW installation:
 - 512MB RAM and an 8GB HD should be enough.
 - If you install on an SD card, make sure it is fast enough. If you install on a slow disk, but you have enough RAM, you can enable memory-based file system (MFS), which is the default.
 - When you first try to log in to the WUI, ignore the certificate warning issued by your web browser and proceed to the WUI.
-- Make sure the date and time of the system is correct, otherwise after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
+- Make sure the date and time of the system is correct during both installation and normal operation. Set the system time to GMT time, not local time, before starting the installation, because the timezone of the system during installation is assumed to be GMT. Select the correct timezone during installation. For example, if your timezone is Turkey (GMT+3) and the current local time is 12:00 PM, then set the system time to 9:00 AM before starting the installation. Otherwise, after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.0 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.1 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -182,7 +182,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
     + Copy utmfw-XY.pub to meta/etc/signify/
     + Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
 
-- Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 below:
+- Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 (or aarch64 for PKG_PATH) below:
 	+ Install the OpenBSD packages
 		+ Set the download mirror, use the existing cache if any
             ```
@@ -255,6 +255,17 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
     + Produce pf.conf.html from pf.conf(5) using man2web
     + Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
 
+- Update the PHP version numbers in the sources, both php and php-fpm, if upgrading PHP:
+	+ config/etc/php-X.Y/
+	+ config/etc/php-X.Y.ini
+	+ config/pffw.files
+	+ config/pffw.mtree
+	+ meta/install.sub
+	+ config/etc/rc.local
+	+ config/etc/syslog.conf
+	+ src/Model/system.php
+	+ src/View/system/conf.startup.php
+
 - Update phpseclib to its new version if any:
     + Merge the PFFW changes from the previous version
 
@@ -263,7 +274,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 - Strip xbase and xfont:
 	+ Make sure the contents are the same as in the files in the old iso and img files, except for the version numbers
-	+ SECURITY: Be very careful about the permissions of the directories and files in these install sets, they should be the same as the original files
+	+ SECURITY: Be very careful with the permissions of the directories and files in these install sets, they should be the same as the original files
 
 - Run the create script:
 	+ Install gettext-tools and doxygen for translations and documentation

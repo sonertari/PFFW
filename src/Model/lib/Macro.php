@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2021 Soner Tari
+ * Copyright (C) 2004-2022 Soner Tari
  *
  * This file is part of PFRE.
  *
@@ -69,8 +69,6 @@ class Macro extends Rule
 	{
 		$this->str= preg_replace('/{/', ' { ', $this->str);
 		$this->str= preg_replace('/}/', ' } ', $this->str);
-		$this->str= preg_replace('/\(/', ' ( ', $this->str);
-		$this->str= preg_replace('/\)/', ' ) ', $this->str);
 		$this->str= preg_replace('/,/', ' , ', $this->str);
 		$this->str= preg_replace('/=/', ' = ', $this->str);
 		$this->str= preg_replace('/"/', '', $this->str);
