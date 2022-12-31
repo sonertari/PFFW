@@ -12,9 +12,9 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases two installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw71\_20220508\_amd64.iso](https://drive.google.com/file/d/1THo7AJWPO9b_W_t2d9vrukWWkUM7EtYf/view?usp=sharing). Make sure the SHA256 checksum is correct: 307526b70f46a2d84aa451efd1aaa7d33a8674f15b1a223c500ad1248f072e75.
+- The installation iso file for the amd64 arch is available for download at [pffw72\_20221231\_amd64.iso](https://drive.google.com/file/d/1THo7AJWPO9b_W_t2d9vrukWWkUM7EtYf/view?usp=sharing). Make sure the SHA256 checksum is correct: 307526b70f46a2d84aa451efd1aaa7d33a8674f15b1a223c500ad1248f072e75.
 
-- The installation img file for the arm64 arch is available for download at [pffw71\_20220508\_arm64.img](https://drive.google.com/file/d/1-MXhxoH-c2f5gBDrpYfNOt7zXTTAXNNi/view?usp=sharing). Make sure the SHA256 checksum is correct: fd34381aa9c6a6779026177984d1de5137d1e01aa6b27cfd0cd9a9c765c89d6f. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw72\_20221231\_arm64.img](https://drive.google.com/file/d/1-MXhxoH-c2f5gBDrpYfNOt7zXTTAXNNi/view?usp=sharing). Make sure the SHA256 checksum is correct: fd34381aa9c6a6779026177984d1de5137d1e01aa6b27cfd0cd9a9c765c89d6f. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
 
@@ -92,11 +92,11 @@ A few notes about PFFW installation:
 - 512MB RAM and an 8GB HD should be enough.
 - If you install on an SD card, make sure it is fast enough. If you install on a slow disk, but you have enough RAM, you can enable memory-based file system (MFS), which is the default.
 - When you first try to log in to the WUI, ignore the certificate warning issued by your web browser and proceed to the WUI.
-- Make sure the date and time of the system is correct during both installation and normal operation. Set the system time to GMT time, not local time, before starting the installation, because the timezone of the system during installation is assumed to be GMT. Select the correct timezone during installation. For example, if your timezone is Turkey (GMT+3) and the current local time is 12:00 PM, then set the system time to 9:00 AM before starting the installation. Otherwise, after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
+- Make sure the date and time of the system is correct during both installation and normal operation, and select the correct timezone during installation. Otherwise, after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.1 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.2 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -135,15 +135,15 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 - Install OpenBSD arm64:
 	+ Download installXY.img from an OpenBSD mirror
-	+ Use a 32GB SD card, or choose a size based on your needs
+	+ Use a 32GB SD card or USB flash memory, or choose a size based on your needs
 	+ Start the Raspberry Pi 4 or qemu-system-aarch64 and install OpenBSD
 
 - Configure OpenBSD:
 	+ Create a local user, after reboot add it to /etc/doas.conf
 	+ Create a separate partition mounted on /dest, which will be needed to make release(8)
 	+ Add noperm to /dest in /etc/fstab
-    + Make /dest owned by build:wobj and set its perms to 700
-    + Create /dest/dest/ and /dest/rel/ folders
+	+ Make /dest owned by build:wobj and set its perms to 700
+	+ Create /dest/dest/ and /dest/rel/ folders
 
 - Fetch the PFFW sources and update if upgrading:
 	+ Install git
@@ -178,20 +178,20 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Update copyright year if necessary
 
 - Make sure the signify key pair for UTMFW is in the correct locations:
-    + Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
-    + Copy utmfw-XY.pub to meta/etc/signify/
-    + Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
+	+ Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
+	+ Copy utmfw-XY.pub to meta/etc/signify/
+	+ Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
 
 - Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 (or aarch64 for PKG_PATH) below:
 	+ Install the OpenBSD packages
 		+ Set the download mirror, use the existing cache if any
-            ```
-            export PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
-            ```
+			```
+			export PKG_PATH=/var/db/pkg_cache/:https://cdn.openbsd.org/pub/OpenBSD/X.Y/packages/amd64/
+			```
 		+ Save the depends under PKG_CACHE, which will be used later on to update the packages in the iso and img files
-            ```
-            export PKG_CACHE=/var/db/pkg_pffw/
-            ```
+			```
+			export PKG_CACHE=/var/db/pkg_pffw/
+			```
 		+ dnsmasq
 		+ symon
 		+ symux
@@ -204,14 +204,14 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ Install the pkg depends of collectd before making them, so that the ports system does not try to build and install them itself
 		+ Make the collectd packages
 		+ Sign the collectd packages using signify, for example:
-            ```
-            signify -Sz -s utmfw-XY.sec -m /usr/ports/packages/amd64/all/collectd-5.12.0p0.tgz -x ~/collectd-5.12.0p0.tgz
-            ```
+			```
+			signify -Sz -s utmfw-XY.sec -m /usr/ports/packages/amd64/all/collectd-5.12.0p0.tgz -x ~/collectd-5.12.0p0.tgz
+			```
 	+ Install the PFFW packages using their signed packages, to download their dependencies
 		+ Save the depends under PKG_CACHE
-            ```
-            export PKG_CACHE=/var/db/pkg_pffw/
-            ```
+			```
+			export PKG_CACHE=/var/db/pkg_pffw/
+			```
 		+ collectd
 
 	+ Update the links under cd/amd64/X.Y/packages/ with the OpenBSD packages saved under PKG_CACHE
@@ -220,20 +220,20 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ collectd
 
 - Update meta/install.sub:
-    + Update the versions of the packages listed in THESETS
+	+ Update the versions of the packages listed in THESETS
 
 - Make release(8) for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 below:
-    + Extract src.tar.gz and and sys.tar.gz under /usr/src/
-    + Apply the patches under openbsd/pffw
+	+ Extract src.tar.gz and and sys.tar.gz under /usr/src/
+	+ Apply the patches under openbsd/pffw
 	+ Update the sources with the stable branch changes if any
 	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast amd64 computer and about 55 hours on a Raspberry Pi 4
 		+ Build the kernel and reboot
 		+ Build the base system
 		+ Make the release, use the dest and rel folders created above:
-            ```
+			```
 			export DESTDIR=/dest/dest/ RELEASEDIR=/dest/rel/
-            ```
-    + Copy the install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
+			```
+	+ Copy the install sets under /dest/rel/ to ~/OpenBSD/X.Y/amd64/
 
 - Update the install sets:
 	+ Update the links for install sets under cd/amd64/X.Y/amd64 using the install sets under ~/OpenBSD/X.Y/amd64/ made above
@@ -247,13 +247,13 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Download and copy [the Broadcom wifi drivers](https://github.com/pftf/RPi4/tree/master/firmware/brcm) for Raspberry Pi 4 to ~/OpenBSD/X.Y/arm64/firmware/
 
 - Update the configuration files under config with the ones in the new versions of packages:
-    + Also update Doxyfile if the doxygen version has changed
+	+ Also update Doxyfile if the doxygen version has changed
 
 - Update PFRE:
-    + Update PFRE to the current version, support changes in pf if any
-    + Create and install the man2web package
-    + Produce pf.conf.html from pf.conf(5) using man2web
-    + Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
+	+ Update PFRE to the current version, support changes in pf if any
+	+ Create and install the man2web package
+	+ Produce pf.conf.html from pf.conf(5) using man2web
+	+ Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
 
 - Update the PHP version numbers in the sources, both php and php-fpm, if upgrading PHP:
 	+ config/etc/php-X.Y/
@@ -267,10 +267,10 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ src/View/system/conf.startup.php
 
 - Update phpseclib to its new version if any:
-    + Merge the PFFW changes from the previous version
+	+ Merge the PFFW changes from the previous version
 
 - Update d3js to its new version if any:
-    + Fix any issues caused by any API changes
+	+ Fix any issues caused by any API changes
 
 - Strip xbase and xfont:
 	+ Make sure the contents are the same as in the files in the old iso and img files, except for the version numbers

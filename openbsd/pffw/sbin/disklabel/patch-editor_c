@@ -1,5 +1,5 @@
---- editor.c.orig	Fri Nov 29 22:09:57 2019
-+++ editor.c	Fri Nov 29 22:10:40 2019
+--- editor.c.orig	Sun Sep  4 01:59:25 2022
++++ editor.c	Mon Dec 26 00:29:31 2022
 @@ -88,24 +88,20 @@
  
  /* entries for swap and var are changed by editor_allocspace() */
@@ -8,10 +8,10 @@
 -	{   MEG(80),       MEG(256),  10, "swap"	},
 -	{  MEG(120),         GIG(4),   8, "/tmp"	},
 -	{   MEG(80),         GIG(4),  13, "/var"	},
--	{ MEG(1500),         GIG(6),  10, "/usr"	},
+-	{ MEG(1500),        GIG(30),  10, "/usr"	},
 -	{  MEG(384),         GIG(1),   3, "/usr/X11R6"	},
 -	{    GIG(1),        GIG(20),  15, "/usr/local"	},
--	{ MEG(1300),         GIG(2),   2, "/usr/src"	},
+-	{ MEG(1500),         GIG(3),   2, "/usr/src"	},
 -	{    GIG(5),         GIG(6),   4, "/usr/obj"	},
 -	{    GIG(1),       GIG(300),  30, "/home"	}
 +	{    GIG(1),         GIG(2),  10, "/"		},

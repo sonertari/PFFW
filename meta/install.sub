@@ -1010,7 +1010,7 @@ __EOT
 # #######################################################################
 # Initial actions common to both installs and upgrades.
 # #######################################################################
-VERSION='7.1'
+VERSION='7.2'
 ARCH=$(/usr/bin/machine)
 
 VMAJ=${VERSION%%\.*}
@@ -1041,11 +1041,11 @@ CDDEVS=$(scan_dmesg "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}")
 [[ -z $CDDEVS ]] && CDDEVS="cd0,cd1,cd2"
 
 # Selected sets will be installed in the order they are listed in $THESETS.
-THESETS="dnsmasq-2.86.tgz \
+THESETS="dnsmasq-2.86p0.tgz \
 		symon-2.88p6.tgz \
 		collectd-5.12.0p0.tgz \
 		pftop-0.7p19.tgz \
-		php-8.1.4p1.tgz \
+		php-8.1.10p0.tgz \
 		$CW_WEBIF_TARFILE \
 		$CW_CONFIG_TARFILE"
 
