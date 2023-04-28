@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2022 Soner Tari
+ * Copyright (C) 2004-2023 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -63,7 +63,7 @@ class System extends Model
 		 * the lines like the 3rd one above.
 		 */
 		$this->rcLocalServices= array(
-			'/usr/local/sbin/php-fpm-8.1',
+			'/usr/local/sbin/php-fpm-8.2',
 			'/usr/local/sbin/dnsmasq',
 			'/usr/local/libexec/symux',
 			'/usr/local/libexec/symon',

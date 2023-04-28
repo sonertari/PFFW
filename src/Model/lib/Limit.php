@@ -1,6 +1,6 @@
 <?php 
 /*
- * Copyright (C) 2004-2022 Soner Tari
+ * Copyright (C) 2004-2023 Soner Tari
  *
  * This file is part of PFRE.
  *
@@ -43,6 +43,14 @@ class Limit extends Rule
 			'method' => 'parseLimit',
 			'params' => array(),
 			),
+		'pktdelay_pkts' => array(
+			'method' => 'parseLimit',
+			'params' => array(),
+			),
+		'anchors' => array(
+			'method' => 'parseLimit',
+			'params' => array(),
+			),
 		);
 
 	protected $typeLimit= array(
@@ -61,6 +69,12 @@ class Limit extends Rule
 					'regex' => RE_NUM,
 					),
 				'table-entries' => array(
+					'regex' => RE_NUM,
+					),
+				'pktdelay_pkts' => array(
+					'regex' => RE_NUM,
+					),
+				'anchors' => array(
 					'regex' => RE_NUM,
 					),
 				),

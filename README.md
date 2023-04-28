@@ -12,11 +12,11 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases two installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw72\_20221231\_amd64.iso](https://drive.google.com/file/d/1yMtECbxKC3ymSQjxCzCscHGrYhGPpyj2/view?usp=share_link). Make sure the SHA256 checksum is correct: 35075ded52f88f0fb6af82ff0df8c2145cab851c5dd6214c2fde53a7492af39f.
+- The installation iso file for the amd64 arch is available for download at [pffw73\_20230430\_amd64.iso](https://drive.google.com/file/d/1yMtECbxKC3ymSQjxCzCscHGrYhGPpyj2/view?usp=share_link). Make sure the SHA256 checksum is correct: 35075ded52f88f0fb6af82ff0df8c2145cab851c5dd6214c2fde53a7492af39f.
 
-- The installation img file for the arm64 arch is available for download at [pffw72\_20221231\_arm64.img](https://drive.google.com/file/d/1qk3D1Lzc8Ffej8Iqym7KX4meeIqMbF5m/view?usp=share_link). Make sure the SHA256 checksum is correct: 46db0237eec3c49ec44aefc5f1f385199a9aa0cb1c50006235c4e284386f6236. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw73\_20230430\_arm64.img](https://drive.google.com/file/d/1qk3D1Lzc8Ffej8Iqym7KX4meeIqMbF5m/view?usp=share_link). Make sure the SHA256 checksum is correct: 46db0237eec3c49ec44aefc5f1f385199a9aa0cb1c50006235c4e284386f6236. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
-You can follow the instructions on [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
+You can follow the instructions in [this OpenBSD Journal article](https://undeadly.org/cgi?action=article;sid=20140225072408) to convert the installation iso file for the amd64 arch into a bootable image you can write on a USB drive or an SD card.
 
 ## Features
 
@@ -96,7 +96,7 @@ A few notes about PFFW installation:
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.2 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.3 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -142,8 +142,12 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Create a local user, after reboot add it to /etc/doas.conf
 	+ Create a separate partition mounted on /dest, which will be needed to make release(8)
 	+ Add noperm to /dest in /etc/fstab
-	+ Make /dest owned by build:wobj and set its perms to 700
 	+ Create /dest/dest/ and /dest/rel/ folders
+	+ Make /dest owned by build:wobj and set its perms to 700
+		```
+		doas chown -R build:wobj /dest
+		doas chmod -R 700 /dest
+		```
 
 - Fetch the PFFW sources and update if upgrading:
 	+ Install git
@@ -170,7 +174,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ openbsd/pffw/fonts/amd64/xfontXY.tgz
 		+ openbsd/pffw/fonts/arm64/xfontXY.tgz
 
-	+ Update based on the version number, release date, project changes, and news, if upgrading
+	+ Update the version number, release date, project changes, and news, if upgrading
 		+ config/etc/motd
 		+ meta/root.mail
 		+ README.md
