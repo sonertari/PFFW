@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2023 Soner Tari
+ * Copyright (C) 2004-2024 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -65,5 +65,5 @@ $NotifierUsers= '[]';
 $NotifierFilters= '[]';
 
 /// Wait notifier for this many seconds before giving up.
-$NotifierTimeout= 10;
+$NotifierTimeout= 30;
 ?>

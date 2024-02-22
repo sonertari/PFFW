@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2023 Soner Tari
+ * Copyright (C) 2004-2024 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -118,8 +118,8 @@ class Symon extends Monitoring
 	{
 		/// @todo See the new OpenBSD installer to get this and sensors paths
 		$ncpu= 1;
-		if (($hwncpu= $this->_getSysCtl('hw.ncpu')) !== FALSE) {
-			if (preg_match('|^hw.ncpu=(\d+)$|ms', $hwncpu, $match)) {
+		if (($hwncpu= $this->_getSysCtl('hw.ncpuonline')) !== FALSE) {
+			if (preg_match('|^hw.ncpuonline=(\d+)$|ms', $hwncpu, $match)) {
 				$ncpu= $match[1];
 			}
 		}
@@ -260,8 +260,8 @@ class Symon extends Monitoring
 	function SetCpus()
 	{
 		$ncpu= 1;
-		if (($hwncpu= $this->_getSysCtl('hw.ncpu')) !== FALSE) {
-			if (preg_match('|^hw.ncpu=(\d+)$|ms', $hwncpu, $match)) {
+		if (($hwncpu= $this->_getSysCtl('hw.ncpuonline')) !== FALSE) {
+			if (preg_match('|^hw.ncpuonline=(\d+)$|ms', $hwncpu, $match)) {
 				$ncpu= $match[1];
 			}
 		}

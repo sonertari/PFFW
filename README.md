@@ -12,11 +12,11 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases three installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw73\_20230430\_amd64.iso](https://drive.google.com/file/d/187zPER5mZd2lKTVblCQS0HW6CIo7hgIf/view?usp=share_link). Make sure the SHA256 checksum is correct: 93692e1a71d484c53573e6a77f725e320a58954af9257abe3af228bb5d28ad1c.
+- The installation iso file for the amd64 arch is available for download at [pffw74\_20240219\_amd64.iso](https://drive.google.com/file/d/187zPER5mZd2lKTVblCQS0HW6CIo7hgIf/view?usp=share_link). Make sure the SHA256 checksum is correct: 93692e1a71d484c53573e6a77f725e320a58954af9257abe3af228bb5d28ad1c.
 
-- The installation img file for the amd64 arch is available for download at [pffw73\_20230430\_amd64.img](https://drive.google.com/file/d/1nck37ZRnbG81N1frv7jA1eoa8madqPE8/view?usp=share_link). Make sure the SHA256 checksum is correct: bb8bb69fce4bb3d0a031c740eba894e8126c0b51d62f566a0f0d036d7348b05a.
+- The installation img file for the amd64 arch is available for download at [pffw74\_20240219\_amd64.img](https://drive.google.com/file/d/1nck37ZRnbG81N1frv7jA1eoa8madqPE8/view?usp=share_link). Make sure the SHA256 checksum is correct: bb8bb69fce4bb3d0a031c740eba894e8126c0b51d62f566a0f0d036d7348b05a.
 
-- The installation img file for the arm64 arch is available for download at [pffw73\_20230430\_arm64.img](https://drive.google.com/file/d/1JkSLlZ0MvcGNY4QOjcl9t6mMh5Gp3r1Q/view?usp=share_link). Make sure the SHA256 checksum is correct: 37afa742c58edebb01bbb026580c4f436bfe2ada60a8ec9ddb98ee95f757e590. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw74\_20240219\_arm64.img](https://drive.google.com/file/d/1JkSLlZ0MvcGNY4QOjcl9t6mMh5Gp3r1Q/view?usp=share_link). Make sure the SHA256 checksum is correct: 37afa742c58edebb01bbb026580c4f436bfe2ada60a8ec9ddb98ee95f757e590. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 ## Features
 
@@ -96,7 +96,7 @@ A few notes about PFFW installation:
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.3 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.4 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -230,7 +230,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Extract src.tar.gz and and sys.tar.gz under /usr/src/
 	+ Apply the patches under openbsd/pffw
 	+ Update the sources with the stable branch changes if any
-	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast amd64 computer and about 55 hours on a Raspberry Pi 4
+	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast amd64 computer and longer than 60 hours on a Raspberry Pi 4
 		+ Build the kernel and reboot
 		+ Build the base system
 		+ Make the release, use the dest and rel folders created above:
@@ -247,6 +247,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Copy the xbaseXY.tgz install set from installXY.img to docs/expat/arm64/xbaseXY.tgz
 	+ Copy the xfontXY.tgz install set from installXY.iso to docs/fonts/amd64/xfontXY.tgz
 	+ Copy the xfontXY.tgz install set from installXY.img to docs/fonts/arm64/xfontXY.tgz
+	+ Copy the files under the BOOT partition of installXY.img for the amd64 arch to ~/OpenBSD/X.Y/amd64/BOOT/
 	+ Copy the files under the BOOT partition of installXY.img for the arm64 arch to ~/OpenBSD/X.Y/arm64/BOOT/
 	+ Download and copy [the Broadcom wifi drivers](https://github.com/pftf/RPi4/tree/master/firmware/brcm) for Raspberry Pi 4 to ~/OpenBSD/X.Y/arm64/firmware/
 

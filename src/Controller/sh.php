@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /*
- * Copyright (C) 2004-2023 Soner Tari
+ * Copyright (C) 2004-2024 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -98,7 +98,8 @@ if (!ValidateCommand($ArgV, $Locale, $View, $Command, TRUE, $Model)) {
 $cwd= dirname(__FILE__);
 
 // Run the ctlr using doas and passing -n for no arg validation, as we have already done that above
-exec("/usr/bin/doas $cwd/ctlr.php -n ".escapeshellarg($args)." 2>&1", $encoded, $retval);
+// Remove errout (redirect to /dev/null), otherwise breaks json encoded output
+exec("/usr/bin/doas $cwd/ctlr.php -n ".escapeshellarg($args)." 2>/dev/null", $encoded, $retval);
 // There must be only one element in $encoded array, but do not miss the others if any
 $encoded= implode(' ', $encoded);
 echo $encoded;
