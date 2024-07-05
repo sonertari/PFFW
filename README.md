@@ -12,11 +12,11 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases three installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw74\_20240225\_amd64.iso](https://drive.google.com/file/d/13hYrsxMB5AvpLx6jHGG_oTHqGN0nNjxm/view?usp=share_link). Make sure the SHA256 checksum is correct: aeb9f81a368bd0f87b294ea17b2b44fad0e8d431d1d25ebbbc1dc1872a834547.
+- The installation iso file for the amd64 arch is available for download at [pffw75\_20240707\_amd64.iso](https://drive.google.com/file/d/13hYrsxMB5AvpLx6jHGG_oTHqGN0nNjxm/view?usp=share_link). Make sure the SHA256 checksum is correct: aeb9f81a368bd0f87b294ea17b2b44fad0e8d431d1d25ebbbc1dc1872a834547.
 
-- The installation img file for the amd64 arch is available for download at [pffw74\_20240225\_amd64.img](https://drive.google.com/file/d/1GJ71Xi5f1AwZ1aKePC4v_QK3RsLw7r-Z/view?usp=share_link). Make sure the SHA256 checksum is correct: 66e233f41e8c978a2b1b6f131b732ecd19ef492c6dfdf93f6d82f6fbf75cf822.
+- The installation img file for the amd64 arch is available for download at [pffw75\_20240707\_amd64.img](https://drive.google.com/file/d/1GJ71Xi5f1AwZ1aKePC4v_QK3RsLw7r-Z/view?usp=share_link). Make sure the SHA256 checksum is correct: 66e233f41e8c978a2b1b6f131b732ecd19ef492c6dfdf93f6d82f6fbf75cf822.
 
-- The installation img file for the arm64 arch is available for download at [pffw74\_20240225\_arm64.img](https://drive.google.com/file/d/1Qrz0NY2nQ_FgJ7xlcYlD3BLx2CKZ9YK4/view?usp=share_link). Make sure the SHA256 checksum is correct: ed2cbb1ca6fbc4cf47e1af7d007bd49a142c69142636f504e6c748885884c43b. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw75\_20240707\_arm64.img](https://drive.google.com/file/d/1Qrz0NY2nQ_FgJ7xlcYlD3BLx2CKZ9YK4/view?usp=share_link). Make sure the SHA256 checksum is correct: ed2cbb1ca6fbc4cf47e1af7d007bd49a142c69142636f504e6c748885884c43b. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 ## Features
 
@@ -183,8 +183,10 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 - Make sure the signify key pair for UTMFW is in the correct locations:
 	+ Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
-	+ Copy utmfw-XY.pub to meta/etc/signify/
-	+ Copy utmfw-XY.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
+	+ Copy utmfw-XY.pub to docs/signify/utmfw-XY-pkg.pub
+	+ Copy utmfw-XY.sec to docs/signify/utmfw-XY-pkg.sec
+	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to meta/etc/signify/
+	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
 
 - Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 (or aarch64 for PKG_PATH) below:
 	+ Install the OpenBSD packages
@@ -209,7 +211,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ Make the collectd packages
 		+ Sign the collectd packages using signify, for example:
 			```
-			signify -Sz -s utmfw-XY.sec -m /usr/ports/packages/amd64/all/collectd-5.12.0p0.tgz -x ~/collectd-5.12.0p0.tgz
+			signify -Sz -s utmfw-XY-pkg.sec -m /usr/ports/packages/amd64/all/collectd-5.12.0p0.tgz -x ~/collectd-5.12.0p0.tgz
 			```
 	+ Install the PFFW packages using their signed packages, to download their dependencies
 		+ Save the depends under PKG_CACHE
