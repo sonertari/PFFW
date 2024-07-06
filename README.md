@@ -12,11 +12,11 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 The PFFW project releases three installation files:
 
-- The installation iso file for the amd64 arch is available for download at [pffw75\_20240707\_amd64.iso](https://drive.google.com/file/d/13hYrsxMB5AvpLx6jHGG_oTHqGN0nNjxm/view?usp=share_link). Make sure the SHA256 checksum is correct: aeb9f81a368bd0f87b294ea17b2b44fad0e8d431d1d25ebbbc1dc1872a834547.
+- The installation iso file for the amd64 arch is available for download at [pffw75\_20240705\_amd64.iso](https://drive.google.com/file/d/142CrWqtMKf__zCJNq0rnxmyEpCR0R5UM/view?usp=sharing). Make sure the SHA256 checksum is correct: 09f323e55360825f84bf4ed4c45130eb6bd983996b9dc92766c88b643ead9937.
 
-- The installation img file for the amd64 arch is available for download at [pffw75\_20240707\_amd64.img](https://drive.google.com/file/d/1GJ71Xi5f1AwZ1aKePC4v_QK3RsLw7r-Z/view?usp=share_link). Make sure the SHA256 checksum is correct: 66e233f41e8c978a2b1b6f131b732ecd19ef492c6dfdf93f6d82f6fbf75cf822.
+- The installation img file for the amd64 arch is available for download at [pffw75\_20240705\_amd64.img](https://drive.google.com/file/d/1xHRroeYWY3joHhQA0cYdK-eGXrtvvr84/view?usp=sharing). Make sure the SHA256 checksum is correct: 43c48e0f99db59dc7ec9f0fb0c4306b75f2690d408a24daac55274a236b24000.
 
-- The installation img file for the arm64 arch is available for download at [pffw75\_20240707\_arm64.img](https://drive.google.com/file/d/1Qrz0NY2nQ_FgJ7xlcYlD3BLx2CKZ9YK4/view?usp=share_link). Make sure the SHA256 checksum is correct: ed2cbb1ca6fbc4cf47e1af7d007bd49a142c69142636f504e6c748885884c43b. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- The installation img file for the arm64 arch is available for download at [pffw75\_20240705\_arm64.img](https://drive.google.com/file/d/1gfFUniwMTytD8Feuypujm9aQEBcV-NyA/view?usp=sharing). Make sure the SHA256 checksum is correct: efdef3876106474c7ccbe2fc70e909f31859d6bc01584e557297d8d459a3c6d0. The only arm64 platform supported is Raspberry Pi 4 Model B.
 
 ## Features
 
