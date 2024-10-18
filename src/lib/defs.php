@@ -23,7 +23,7 @@
  */
 
 /// Project version.
-define('VERSION', '7.5');
+define('VERSION', '7.6');
 
 $ROOT= dirname(dirname(dirname(__FILE__)));
 $SRC_ROOT= dirname(dirname(__FILE__));
@@ -56,17 +56,18 @@ $ALL_USERS= array_merge($ADMIN, $USER);
  * Locale definitions used by both View and Controller.
  *
  * It is recommended that all translations use UTF-8 codeset.
+ * @attention Do not translate the values for 'Name' here, we translate them when we use them in code
  *
  * @param string Name Title string
  * @param string Codeset Locale codeset
  */
 $LOCALES = array(
     'en_EN' => array(
-        'Name' => _('English'),
+        'Name' => 'English',
         'Codeset' => 'UTF-8'
 		),
     'tr_TR' => array(
-        'Name' => _('Turkish'),
+        'Name' => 'Turkish',
         'Codeset' => 'UTF-8'
 		),
 	);

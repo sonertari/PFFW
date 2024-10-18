@@ -116,7 +116,11 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 								}
 								?>
 								<li<?php echo $LiStyle ?>>
-									<a href="<?php echo $TopMenuName ?>.php"<?php echo $AStyle ?>><?php echo _($TopMenuConf['Name']) ?></a>
+									<a href="<?php echo $TopMenuName ?>.php"<?php echo $AStyle ?>>
+										<span class="menuwithimage"><?php echo _($TopMenuConf['Name']) ?></span>
+										<!-- Add this invisible menu.png to set the height of top menu to the same height as the navigation menu -->
+										<img src="/images/menu.png" name="Menu" alt="Menu" align="absmiddle" width="0" height="22" style="visibility: hidden;">
+									</a>
 									<?php
 									if (isset($TopMenuConf['SubMenu'])) {
 										?>
@@ -213,7 +217,13 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 									<a href="/info/docs.php"><?php echo _MENU('Documentation') ?></a>
 								</li>
 								<li>
-									<a href="#"><?php echo _MENU('Language') ?></a>
+									<?php
+									$LanguageMenuTitle= _MENU('Language');
+									if ($_SESSION['Locale'] !== 'en_EN') {
+										$LanguageMenuTitle.= ' (Language)';
+									}
+									?>
+									<a href="#"><?php echo $LanguageMenuTitle ?></a>
 									<ul>
 										<?php
 										foreach ($LOCALES as $Locale => $Conf) {
@@ -223,11 +233,9 @@ define('SELECTED_A_STYLE', ' style="color: white;"');
 												$LiStyle= ACTIVE_LI_STYLE;
 												$AStyle= ACTIVE_A_STYLE;
 											}
+											$LocaleDisplayName= _($Conf['Name']);
 											if ($_SESSION['Locale'] !== 'en_EN') {
-												$LocaleDisplayName= _($Conf['Name']).' ('.$Conf['Name'].')';
-											}
-											else {
-												$LocaleDisplayName= _($Conf['Name']);
+												$LocaleDisplayName.= ' ('.$Conf['Name'].')';
 											}
 											?>
 											<li<?php echo $LiStyle ?>>

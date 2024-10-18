@@ -1,6 +1,6 @@
 # PFFW
 
-PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web User Interface (WUI) for monitoring and configuration. You can also use the Android application [A4PFFW](https://github.com/sonertari/A4PFFW), which can display the notifications sent from PFFW, and the Windows application [W4PFFW](https://github.com/sonertari/W4PFFW) for monitoring.
+PFFW is a pf firewall running on OpenBSD. PFFW is expected to be used on production systems. The PFFW project provides a Web User Interface (WUI) for monitoring and configuration. You can also use the Android application [A4PFFW](https://github.com/sonertari/A4PFFW) and the Windows application [W4PFFW](https://github.com/sonertari/W4PFFW) for monitoring.
 
 PFFW is the stripped-down version of [UTMFW](https://github.com/sonertari/UTMFW) without the UTM features.
 
@@ -10,13 +10,29 @@ You can find a couple of screenshots on the [wiki](https://github.com/sonertari/
 
 ## Download
 
-The PFFW project releases three installation files:
+PFFW runs on amd64 and arm64 architectures. So, the PFFW project releases installation files in iso and img formats for those architectures.
 
-- The installation iso file for the amd64 arch is available for download at [pffw75\_20240705\_amd64.iso](https://drive.google.com/file/d/142CrWqtMKf__zCJNq0rnxmyEpCR0R5UM/view?usp=sharing). Make sure the SHA256 checksum is correct: 09f323e55360825f84bf4ed4c45130eb6bd983996b9dc92766c88b643ead9937.
+Amd64:
 
-- The installation img file for the amd64 arch is available for download at [pffw75\_20240705\_amd64.img](https://drive.google.com/file/d/1xHRroeYWY3joHhQA0cYdK-eGXrtvvr84/view?usp=sharing). Make sure the SHA256 checksum is correct: 43c48e0f99db59dc7ec9f0fb0c4306b75f2690d408a24daac55274a236b24000.
+- [pffw76\_20241022\_amd64.iso](https://drive.google.com/file/d/1QEVb6CHf17J9Ym3eyoADuWkLkhd7mqh7/view?usp=sharing)
+	+ SHA256 checksum: 428aed10f093f4f699ea33389f6deccad8165396aead4714078980b52e4e9063
+	+ Tested on VMware
 
-- The installation img file for the arm64 arch is available for download at [pffw75\_20240705\_arm64.img](https://drive.google.com/file/d/1gfFUniwMTytD8Feuypujm9aQEBcV-NyA/view?usp=sharing). Make sure the SHA256 checksum is correct: efdef3876106474c7ccbe2fc70e909f31859d6bc01584e557297d8d459a3c6d0. The only arm64 platform supported is Raspberry Pi 4 Model B.
+- [pffw76\_20241022\_amd64.img](https://drive.google.com/file/d/1_fJqJEkgHJgQXxCvwhiQ9fUe3keJ6Igs/view?usp=sharing)
+	+ SHA256 checksum: 65984cabc178a75f0c563a6afa0d533ccac335bf29466e2cf31dce8353ab12fd
+	+ Tested on bare hardware
+
+Arm64:
+
+- [pffw76\_20241022\_arm64.iso](https://drive.google.com/file/d/1mwMk1B8AE4mOZ7hTlNInnkz8lWl0kL__/view?usp=sharing)
+	+ SHA256 checksum: d5769b4e371d21f6c72b3ff1f5c31166cfac6c760495f02a8612712d0b4272a4
+	+ Tested on UTM for macOS
+
+- [pffw76\_20241022\_arm64.img](https://drive.google.com/file/d/11x1peAUuMZy1Z7PmcMR4vmRuF35GyrBJ/view?usp=sharing)
+	+ SHA256 checksum: 5c4c2c0bd93b963cd51294c3958066ed491829ff7cb09f60275346e903cf6bc5
+	+ Tested on Raspberry Pi 4 Model B
+
+Make sure the SHA256 checksums are correct.
 
 ## Features
 
@@ -105,7 +121,7 @@ The create script:
 - Clones the git repo of the project to a tmp folder.
 - Generates gettext translations and doxygen documentation.
 - Prepares the webif and config packages and the site install set.
-- And finally creates the iso file for the amd64 arch or the img file for the arm64 arch.
+- And finally creates the iso or img file for the amd64 or the arm64 arch.
 
 However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence need to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run the create scripts, you need to do a couple of things:
 
@@ -142,7 +158,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Create a local user, after reboot add it to /etc/doas.conf
 	+ Create a separate partition mounted on /dest, which will be needed to make release(8)
 	+ Add noperm to /dest in /etc/fstab
-	+ Create /dest/dest/ and /dest/rel/ folders
+	+ Create the /dest/dest/ and /dest/rel/ folders
 	+ Make /dest owned by build:wobj and set its perms to 700
 		```
 		doas chown -R build:wobj /dest
@@ -186,7 +202,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Copy utmfw-XY.pub to docs/signify/utmfw-XY-pkg.pub
 	+ Copy utmfw-XY.sec to docs/signify/utmfw-XY-pkg.sec
 	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to meta/etc/signify/
-	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), to verify install sets during installation
+	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), which is used to verify the install sets during installation
 
 - Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 (or aarch64 for PKG_PATH) below:
 	+ Install the OpenBSD packages
@@ -244,6 +260,8 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 - Update the install sets:
 	+ Update the links for install sets under cd/amd64/X.Y/amd64 using the install sets under ~/OpenBSD/X.Y/amd64/ made above
 	+ Update the links for install sets under cd/arm64/X.Y/arm64 using the install sets under ~/OpenBSD/X.Y/arm64/ made above
+	+ Copy eficdboot from installXY.iso or cdXY.iso for the amd64 arch and create a link to it in cd/amd64/X.Y/amd64
+	+ Copy cdbr from installXY.iso or cdXY.iso for the arm64 arch and create a link to it in cd/arm64/X.Y/arm64
 	+ Remove the old links
 	+ Copy the xbaseXY.tgz install set from installXY.iso to docs/expat/amd64/xbaseXY.tgz
 	+ Copy the xbaseXY.tgz install set from installXY.img to docs/expat/arm64/xbaseXY.tgz
@@ -260,7 +278,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Update PFRE to the current version, support changes in pf if any
 	+ Create and install the man2web package
 	+ Produce pf.conf.html from pf.conf(5) using man2web
-	+ Merge PFRE changes from the previous pf.conf.html, most importantly the anchors
+	+ Merge the PFRE changes from the previous pf.conf.html, most importantly the anchors
 
 - Update the PHP version numbers in the sources, both php and php-fpm, if upgrading PHP:
 	+ config/etc/php-X.Y/
