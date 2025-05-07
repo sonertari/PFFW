@@ -14,21 +14,21 @@ PFFW runs on amd64 and arm64 architectures. So, the PFFW project releases instal
 
 Amd64:
 
-- [pffw76\_20241022\_amd64.iso](https://drive.google.com/file/d/1QEVb6CHf17J9Ym3eyoADuWkLkhd7mqh7/view?usp=sharing)
+- [pffw77\_20250507\_amd64.iso](https://drive.google.com/file/d/1QEVb6CHf17J9Ym3eyoADuWkLkhd7mqh7/view?usp=sharing)
 	+ SHA256 checksum: 428aed10f093f4f699ea33389f6deccad8165396aead4714078980b52e4e9063
 	+ Tested on VMware
 
-- [pffw76\_20241022\_amd64.img](https://drive.google.com/file/d/1_fJqJEkgHJgQXxCvwhiQ9fUe3keJ6Igs/view?usp=sharing)
+- [pffw77\_20250507\_amd64.img](https://drive.google.com/file/d/1_fJqJEkgHJgQXxCvwhiQ9fUe3keJ6Igs/view?usp=sharing)
 	+ SHA256 checksum: 65984cabc178a75f0c563a6afa0d533ccac335bf29466e2cf31dce8353ab12fd
 	+ Tested on bare hardware
 
 Arm64:
 
-- [pffw76\_20241022\_arm64.iso](https://drive.google.com/file/d/1mwMk1B8AE4mOZ7hTlNInnkz8lWl0kL__/view?usp=sharing)
+- [pffw77\_20250507\_arm64.iso](https://drive.google.com/file/d/1mwMk1B8AE4mOZ7hTlNInnkz8lWl0kL__/view?usp=sharing)
 	+ SHA256 checksum: d5769b4e371d21f6c72b3ff1f5c31166cfac6c760495f02a8612712d0b4272a4
 	+ Tested on UTM for macOS
 
-- [pffw76\_20241022\_arm64.img](https://drive.google.com/file/d/11x1peAUuMZy1Z7PmcMR4vmRuF35GyrBJ/view?usp=sharing)
+- [pffw77\_20250507\_arm64.img](https://drive.google.com/file/d/11x1peAUuMZy1Z7PmcMR4vmRuF35GyrBJ/view?usp=sharing)
 	+ SHA256 checksum: 5c4c2c0bd93b963cd51294c3958066ed491829ff7cb09f60275346e903cf6bc5
 	+ Tested on Raspberry Pi 4 Model B
 
@@ -49,7 +49,6 @@ PFFW includes the following software, alongside what is already available on a b
 The web user interface of PFFW helps you manage your firewall:
 
 - Dashboard displays an overview of system status using graphs and statistics counters. You can click on those graphs and counters to go to their details on the web user interface.
-- Notifier sends the system status as Firebase push notifications to the Android application, [A4PFFW](https://github.com/sonertari/A4PFFW).
 - System, network, and service configuration can be achieved on the web user interface.
 - Pf rules are maintained using [PFRE](https://github.com/sonertari/PFRE).
 - Information on hosts, interfaces, pf rules, states, and queues are provided in tabular form.
@@ -105,14 +104,18 @@ A few notes about PFFW installation:
 - Thanks to a modified auto-partitioner of OpenBSD, the disk can be partitioned with a recommended layout for PFFW, so most users don't need to use the label editor at all.
 - All install sets including siteXY.tgz are selected by default, so you cannot 'not' install PFFW by mistake.
 - OpenBSD installation questions are modified according to the needs of PFFW. For example, X11 related questions are never asked.
-- 512MB RAM and an 8GB HD should be enough.
+- 512MB RAM should be enough, but more is better if you enable MFS.
+- A 16GB disk should be enough.
 - If you install on an SD card, make sure it is fast enough. If you install on a slow disk, but you have enough RAM, you can enable memory-based file system (MFS), which is the default.
+- If the system fails to boot after intallation, try the following while partitioning the disk:
+	+ Choose GPT, not Whole or OpenBSD. For example, this may happen on amd64 bare hardware with a USB disk.
+	+ Reinit the disk to update its MBR. For example, this may happen on Raspberry Pi 4 with a USB disk previously partitioned with GPT.
 - When you first try to log in to the WUI, ignore the certificate warning issued by your web browser and proceed to the WUI.
 - Make sure the date and time of the system is correct during both installation and normal operation, and select the correct timezone during installation. Otherwise, after fixing the date and time of the system during normal operation, the system statistics and monitoring programs may stop updating the RRD files due to significant time difference since last update. So you may need to delete the statistics files and reinit the RRD files using the WUI, and restart either the statistics and monitoring programs or the system.
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.4 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.7 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -150,9 +153,9 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Start the VM and install OpenBSD
 
 - Install OpenBSD arm64:
-	+ Download installXY.img from an OpenBSD mirror
-	+ Use a 32GB SD card or USB flash memory, or choose a size based on your needs
-	+ Start the Raspberry Pi 4 or qemu-system-aarch64 and install OpenBSD
+	+ Download installXY.img or installXY.iso from an OpenBSD mirror
+	+ Use a 32GB SD card, USB flash memory, or disk, or choose a size based on your needs
+	+ Start the Raspberry Pi 4 or qemu-system-aarch64 or UTM for macOS, and install OpenBSD
 
 - Configure OpenBSD:
 	+ Create a local user, after reboot add it to /etc/doas.conf
@@ -195,14 +198,14 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ meta/root.mail
 		+ README.md
 
-	+ Update copyright year if necessary
+	+ Update the copyright year if necessary
 
 - Make sure the signify key pair for UTMFW is in the correct locations:
 	+ Save utmfw-XY.pub and utmfw-XY.sec to docs/signify
-	+ Copy utmfw-XY.pub to docs/signify/utmfw-XY-pkg.pub
+	+ Copy utmfw-XY.pub to docs/signify/utmfw-XY-pkg.pub, note the new name with the pkg suffix, otherwise the pkg utility complains if we use the same file name for packages too
 	+ Copy utmfw-XY.sec to docs/signify/utmfw-XY-pkg.sec
 	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to meta/etc/signify/
-	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), which is used to verify the install sets during installation
+	+ Copy utmfw-XY.pub and utmfw-XY-pkg.pub to /etc/signify/, the utmfw-XY.pub file is copied into the bsd.rd file while making release(8), which is used to verify the install sets during installation, and the utmfw-XY-pkg.pub file is used to sign and verify the packages created below
 
 - Update the packages for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 (or aarch64 for PKG_PATH) below:
 	+ Install the OpenBSD packages
@@ -219,11 +222,12 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		+ symux
 		+ pftop
 		+ php, php-cgi, php-curl, php-pcntl
+		+ rsync
 
 	+ Build and create the PFFW packages
 		+ Extract ports.tar.gz under /usr/
 		+ Copy the port folder of collectd under ports in UTMFW to /usr/ports/sysutils
-		+ Install the pkg depends of collectd before making them, so that the ports system does not try to build and install them itself
+		+ Install the pkg dependencies of collectd before making it, so that the ports system does not try to build and install them itself
 		+ Make the collectd packages
 		+ Sign the collectd packages using signify, for example:
 			```
@@ -246,8 +250,15 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 - Make release(8) for the amd64 arch, then do the same for the arm64 arch replacing amd64 with arm64 below:
 	+ Extract src.tar.gz and and sys.tar.gz under /usr/src/
-	+ Apply the patches under openbsd/pffw
+	+ Apply the unified patch-src or the individual patches under openbsd/utmfw
+		```
+		patch -p1 <patch-src
+		```
 	+ Update the sources with the stable branch changes if any
+		```
+		cvs -d anoncvs@anoncvs.spacehopper.org:/cvs -q up -Pd -rOPENBSD_X_Y
+		```
+	+ Download and copy [the Broadcom wifi drivers](https://github.com/pftf/RPi4/tree/master/firmware/brcm) for Raspberry Pi 4 to /etc/firmware/
 	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast amd64 computer and longer than 60 hours on a Raspberry Pi 4
 		+ Build the kernel and reboot
 		+ Build the base system
@@ -267,7 +278,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 	+ Copy the xbaseXY.tgz install set from installXY.img to docs/expat/arm64/xbaseXY.tgz
 	+ Copy the xfontXY.tgz install set from installXY.iso to docs/fonts/amd64/xfontXY.tgz
 	+ Copy the xfontXY.tgz install set from installXY.img to docs/fonts/arm64/xfontXY.tgz
-	+ Copy the files under the BOOT partition of installXY.img for the amd64 arch to ~/OpenBSD/X.Y/amd64/BOOT/
+	+ Copy BOOTIA32.EFI and BOOTX64.EFI for the amd64 arch to ~/OpenBSD/X.Y/amd64/BOOT/efi/boot/
 	+ Copy the files under the BOOT partition of installXY.img for the arm64 arch to ~/OpenBSD/X.Y/arm64/BOOT/
 	+ Download and copy [the Broadcom wifi drivers](https://github.com/pftf/RPi4/tree/master/firmware/brcm) for Raspberry Pi 4 to ~/OpenBSD/X.Y/arm64/firmware/
 

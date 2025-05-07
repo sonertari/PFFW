@@ -1,13 +1,10 @@
-From sonertari@gmail.com Tue Oct 22 07:06:00 EET 2024
+From sonertari@gmail.com Wed May  7 07:07:00 EET 2025
 Return-Path: root
-Date: Oct 22 07:06:00 EET 2024
+Date: May  7 07:07:00 EET 2025
 From: sonertari@gmail.com (Soner Tari)
 To: root
-Subject: Welcome to PFFW 7.6!
+Subject: Welcome to PFFW 7.7!
 
-Highlights of this release are:
-- OpenBSD 7.6-stable
-- Iso installer for arm64 arch
-- Deprecated legacy push notifications removed
-- Variety of fixes and improvements
+This release updates PFFW to OpenBSD 7.7 and includes variety of fixes and 
+improvements
 
