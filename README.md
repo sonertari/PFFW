@@ -14,22 +14,22 @@ PFFW runs on amd64 and arm64 architectures. So, the PFFW project releases instal
 
 Amd64:
 
-- [pffw77\_20250507\_amd64.iso](https://drive.google.com/file/d/1QEVb6CHf17J9Ym3eyoADuWkLkhd7mqh7/view?usp=sharing)
-	+ SHA256 checksum: 428aed10f093f4f699ea33389f6deccad8165396aead4714078980b52e4e9063
+- [pffw77\_20250507\_amd64.iso](https://drive.google.com/file/d/17NMxOpBklnzlNAm0Kz0VHyDxhqKd0qCp/view?usp=sharing)
+	+ SHA256 checksum: 70f163c2fef34dbd3bac05d48f006c1b2f62547aa7051593597168c760b350c2
 	+ Tested on VMware
 
-- [pffw77\_20250507\_amd64.img](https://drive.google.com/file/d/1_fJqJEkgHJgQXxCvwhiQ9fUe3keJ6Igs/view?usp=sharing)
-	+ SHA256 checksum: 65984cabc178a75f0c563a6afa0d533ccac335bf29466e2cf31dce8353ab12fd
+- [pffw77\_20250507\_amd64.img](https://drive.google.com/file/d/1crnOCNWMI9WNobGKyWmhW4267G5zDdWf/view?usp=sharing)
+	+ SHA256 checksum: be53694f1ab14de0bb70511788c4ce9aea31232fad4eaf502704b46c35225769
 	+ Tested on bare hardware
 
 Arm64:
 
-- [pffw77\_20250507\_arm64.iso](https://drive.google.com/file/d/1mwMk1B8AE4mOZ7hTlNInnkz8lWl0kL__/view?usp=sharing)
-	+ SHA256 checksum: d5769b4e371d21f6c72b3ff1f5c31166cfac6c760495f02a8612712d0b4272a4
+- [pffw77\_20250508\_arm64.iso](https://drive.google.com/file/d/1z2Yz-G1TW5HzVuIq7UnApv0-p5TQrZiX/view?usp=sharing)
+	+ SHA256 checksum: eb6e2e864d2061eb43b1927d8478db966436478f76967148b4360a013ce78f2f
 	+ Tested on UTM for macOS
 
-- [pffw77\_20250507\_arm64.img](https://drive.google.com/file/d/11x1peAUuMZy1Z7PmcMR4vmRuF35GyrBJ/view?usp=sharing)
-	+ SHA256 checksum: 5c4c2c0bd93b963cd51294c3958066ed491829ff7cb09f60275346e903cf6bc5
+- [pffw77\_20250508\_arm64.img](https://drive.google.com/file/d/11hS1x8925dVhEuqNhssTcRsqCm7UTnz9/view?usp=sharing)
+	+ SHA256 checksum: 07e1734bc0b8a3cf81ab809c6a57d0b213a79b57c65b2b4340458cb47bc8b591
 	+ Tested on Raspberry Pi 4 Model B
 
 Make sure the SHA256 checksums are correct.
