@@ -14,21 +14,21 @@ PFFW runs on amd64 and arm64 architectures. So, the PFFW project releases instal
 
 Amd64:
 
-- [pffw77\_20250507\_amd64.iso](https://drive.google.com/file/d/17NMxOpBklnzlNAm0Kz0VHyDxhqKd0qCp/view?usp=sharing)
+- [pffw78\_20251111\_amd64.iso](https://drive.google.com/file/d/17NMxOpBklnzlNAm0Kz0VHyDxhqKd0qCp/view?usp=sharing)
 	+ SHA256 checksum: 70f163c2fef34dbd3bac05d48f006c1b2f62547aa7051593597168c760b350c2
 	+ Tested on VMware
 
-- [pffw77\_20250507\_amd64.img](https://drive.google.com/file/d/1crnOCNWMI9WNobGKyWmhW4267G5zDdWf/view?usp=sharing)
+- [pffw78\_20251111\_amd64.img](https://drive.google.com/file/d/1crnOCNWMI9WNobGKyWmhW4267G5zDdWf/view?usp=sharing)
 	+ SHA256 checksum: be53694f1ab14de0bb70511788c4ce9aea31232fad4eaf502704b46c35225769
 	+ Tested on bare hardware
 
 Arm64:
 
-- [pffw77\_20250508\_arm64.iso](https://drive.google.com/file/d/1z2Yz-G1TW5HzVuIq7UnApv0-p5TQrZiX/view?usp=sharing)
+- [pffw78\_20251111\_arm64.iso](https://drive.google.com/file/d/1z2Yz-G1TW5HzVuIq7UnApv0-p5TQrZiX/view?usp=sharing)
 	+ SHA256 checksum: eb6e2e864d2061eb43b1927d8478db966436478f76967148b4360a013ce78f2f
 	+ Tested on UTM for macOS
 
-- [pffw77\_20250508\_arm64.img](https://drive.google.com/file/d/11hS1x8925dVhEuqNhssTcRsqCm7UTnz9/view?usp=sharing)
+- [pffw78\_20251111\_arm64.img](https://drive.google.com/file/d/11hS1x8925dVhEuqNhssTcRsqCm7UTnz9/view?usp=sharing)
 	+ SHA256 checksum: 07e1734bc0b8a3cf81ab809c6a57d0b213a79b57c65b2b4340458cb47bc8b591
 	+ Tested on Raspberry Pi 4 Model B
 
@@ -93,7 +93,7 @@ Web interface user names are admin and user. Both are set to the same password y
 
 References:
 
-1. INSTALL.amd64 in the installation iso file and INSTALL.arm64 in the installation img file.
+1. INSTALL.amd64 and INSTALL.arm64 in the installation files.
 2. [Supported hardware for amd64](https://www.openbsd.org/amd64.html) and [supported hardware for arm64](https://www.openbsd.org/arm64.html).
 3. [OpenBSD installation guide](https://www.openbsd.org/faq/faq4.html).
 
@@ -115,7 +115,7 @@ A few notes about PFFW installation:
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.7 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.8 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -126,11 +126,11 @@ The create script:
 - Prepares the webif and config packages and the site install set.
 - And finally creates the iso or img file for the amd64 or the arm64 arch.
 
-However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence need to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run the create scripts, you need to do a couple of things:
+However, the source tree has links to OpenBSD install sets and packages, which should be broken, hence need to be fixed when you first obtain the sources. Make sure you see those broken links now. So, before you can run the create script, you need to do a couple of things:
 
 - Install sets:
 	+ Obtain the sources of OpenBSD.
-	+ Patch the OpenBSD sources using the `patch-*` files under `openbsd/pffw`.
+	+ Patch the OpenBSD sources using the `patch-*` files under `openbsd/utmfw`. Note that PFFW uses a symlink to the openbsd folder in the UTMFW sources.
 	+ Create the UTMFW secret and public key pair to sign and verify the SHA256 checksums of the install sets, and copy them to their appropriate locations. The installation iso and img files of PFFW use the same install sets as UTMFW, hence the same secret key. If you want to use a different key pair, you should change the references to the UTMFW key pair in the source code as well.
 	+ Build an OpenBSD release, as described in [release(8)](https://man.openbsd.org/release) or [faq5](https://www.openbsd.org/faq/faq5.html).
 	+ Copy the required install sets to the appropriate locations to fix the broken links in the sources.
@@ -139,7 +139,7 @@ However, the source tree has links to OpenBSD install sets and packages, which s
 	+ Create the packages which have been modified for PFFW: collectd (see the `ports` folder of UTMFW).
 	+ Copy them to the appropriate locations to fix the broken links in the sources.
 
-Note that you can strip down xbase and xfont install sets to reduce the size of the iso and img files. Copy or link them to the appropriate locations under `openbsd/pffw`.
+Note that you can strip down xbase and xfont install sets to reduce the size of the iso and img files. Copy or link them to the appropriate locations under `openbsd/utmfw`.
 
 Now you can run the createiso or createimg script, which should produce an iso or img file, respectively, in the same folder as itself.
 
@@ -188,10 +188,10 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 	+ Bump the version number XY in the sources, if upgrading
 		+ README.md
-		+ openbsd/pffw/expat/amd64/xbaseXY.tgz
-		+ openbsd/pffw/expat/arm64/xbaseXY.tgz
-		+ openbsd/pffw/fonts/amd64/xfontXY.tgz
-		+ openbsd/pffw/fonts/arm64/xfontXY.tgz
+		+ openbsd/utmfw/expat/amd64/xbaseXY.tgz
+		+ openbsd/utmfw/expat/arm64/xbaseXY.tgz
+		+ openbsd/utmfw/fonts/amd64/xfontXY.tgz
+		+ openbsd/utmfw/fonts/arm64/xfontXY.tgz
 
 	+ Update the version number, release date, project changes, and news, if upgrading
 		+ config/etc/motd

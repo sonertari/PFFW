@@ -1,11 +1,11 @@
-# Doxyfile 1.13.2
+# Doxyfile 1.14.0
 
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "PF Firewall"
-PROJECT_NUMBER         = 7.7
+PROJECT_NUMBER         = 7.8
 PROJECT_BRIEF          =
 PROJECT_LOGO           =
 PROJECT_ICON           =
@@ -215,6 +215,7 @@ GENERATE_ECLIPSEHELP   = NO
 ECLIPSE_DOC_ID         = org.doxygen.Project
 DISABLE_INDEX          = NO
 GENERATE_TREEVIEW      = YES
+PAGE_OUTLINE_PANEL     = YES
 FULL_SIDEBAR           = NO
 ENUM_VALUES_PER_LINE   = 4
 SHOW_ENUM_VALUES       = NO
@@ -340,6 +341,7 @@ COLLABORATION_GRAPH    = YES
 GROUP_GRAPHS           = YES
 UML_LOOK               = NO
 UML_LIMIT_NUM_FIELDS   = 10
+UML_MAX_EDGE_LABELS    = 10
 DOT_UML_DETAILS        = NO
 DOT_WRAP_THRESHOLD     = 17
 TEMPLATE_RELATIONS     = NO

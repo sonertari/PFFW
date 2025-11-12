@@ -1,4 +1,4 @@
-#	$OpenBSD: rc,v 1.580 2025/04/07 14:49:26 deraadt Exp $
+#	$OpenBSD: rc,v 1.586 2025/09/17 10:13:15 deraadt Exp $
 
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console is the
@@ -72,14 +72,20 @@ wsconsctl_conf() {
 	done
 }
 
-# Push the old seed into the kernel, create a future seed  and create a seed
-# file for the boot-loader.
-random_seed() {
-	dd if=/var/db/host.random of=/dev/random bs=65536 count=1 status=none
-	chmod 600 /var/db/host.random
-	dd if=/dev/random of=/var/db/host.random bs=65536 count=1 status=none
-	dd if=/dev/random of=/etc/random.seed bs=512 count=1 status=none
-	chmod 600 /etc/random.seed
+# Push the old seed into the kernel and create future seeds for the bootloader,
+# the installer and rc(8).
+store_random() {
+	local _bootseed=/etc/random.seed _hostseed=/var/db/host.random
+
+	dd if=$_hostseed of=/dev/random bs=65536 count=1 status=none
+
+	dd if=/dev/random of=$_bootseed bs=512   count=1 status=none
+	dd if=/dev/random of=$_hostseed bs=65536 count=1 status=none
+
+	# Removal of the sticky bit indicates the file has fresh contents for
+	# use by a subsequent bootloader (who sets the sticky bit to prevent
+	# content reuse).
+	chmod u=rw-t,go= $_bootseed $_hostseed
 }
 
 # Populate net.inet.(tcp|udp).baddynamic with the contents of /etc/services so
@@ -157,9 +163,7 @@ make_keys() {
 	    (read sz fp comm type && echo "sshd: $type $fp")
 
 	if [[ ! -f /etc/soii.key ]]; then
-		openssl rand -hex 16 > /etc/soii.key &&
-		    chmod 600 /etc/soii.key && sysctl -q \
-		    "net.inet6.ip6.soiikey=$(</etc/soii.key)"
+		openssl rand -hex 16 > /etc/soii.key && chmod 600 /etc/soii.key
 	fi
 }
 
@@ -291,6 +295,26 @@ run_upgrade_script() {
 	rm -f /etc/rc.$_suffix.run
 }
 
+# If system still has old 16-partition disklabel, create fallback device nodes
+# for the root filesystem to allow repair in a future kernel with 64-partition
+# disklabel.  This is important if root isn't on sd0 or wd0.  When things fail:
+#   fsck /dev/rrootdisk
+#   mount -uw /dev/rootdisk /
+#   cd /dev && ./MAKEDEV redodisks
+rootdisk_nodes() {
+	if [ $(sysctl -n kern.maxpartitions) = 16 ]; then
+		_rootdev=$(mount | grep ' / ' | cut -d' ' -f1)
+		_maj=$(stat -f "%Hr" $_rootdev)
+		_min=$(stat -f "%Lr" $_rootdev)
+		_rrootdev=$(echo $_rootdev | sed -e 's,dev/,dev/r,')
+		_rmaj=$(stat -f "%Hr" $_rrootdev)
+		_min=$((_min / 16 * 64))
+		rm -f /dev/rrootdisk /dev/rootdisk
+		mknod -m 600 /dev/rrootdisk c $_rmaj $_min
+		mknod -m 600 /dev/rootdisk b $_maj $_min
+	fi
+}
+
 # Check filesystems, optionally by using a fsck(8) flag.
 # Usage: do_fsck [-flag]
 do_fsck() {
@@ -351,12 +375,8 @@ _rc_parse_conf
 # - execute the rc.d scripts specified by $pkg_scripts in reverse order
 # - bring carp interfaces down gracefully
 if [[ $1 == shutdown ]]; then
-	if echo 2>/dev/null >>/var/db/host.random ||
-	    echo 2>/dev/null >>/etc/random.seed; then
-		random_seed
-	else
-		echo warning: cannot write random seed to disk
-	fi
+	store_random 2>/dev/null ||
+		echo 'warning: cannot write random seed to disk'
 
 	# If we are in secure level 0, assume single user mode.
 	if (($(sysctl -n kern.securelevel) == 0)); then
@@ -419,6 +439,8 @@ chmod og-rwx /bsd
 ln -fh /bsd /bsd.booted
 
 rm -f /fastboot
+
+rootdisk_nodes
 
 LOG=/var/log
 LOG_SYNC=/var/log.sync
@@ -535,7 +557,7 @@ sh /etc/netstart
 
 start_daemon unwind >/dev/null 2>&1
 
-random_seed
+store_random
 
 wait_reorder_libs
 
@@ -577,7 +599,7 @@ if [[ $pf != NO ]]; then
 fi
 
 echo -n 'starting early daemons:'
-start_daemon syslogd ldattach pflogd nsd unbound ntpd
+start_daemon syslogd ldattach bpflogd pflogd nsd unbound ntpd
 start_daemon iscsid isakmpd iked sasyncd ldapd npppd
 echo '.'
 

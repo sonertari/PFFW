@@ -1010,7 +1010,7 @@ __EOT
 # #######################################################################
 # Initial actions common to both installs and upgrades.
 # #######################################################################
-VERSION='7.7'
+VERSION='7.8'
 ARCH=$(/usr/bin/machine)
 
 VMAJ=${VERSION%%\.*}
@@ -1045,7 +1045,7 @@ THESETS="dnsmasq-2.91.tgz \
 		symon-2.89p0.tgz \
 		collectd-5.12.0p0.tgz \
 		pftop-0.7p19.tgz \
-		php-8.4.5.tgz \
+		php-8.4.13p0.tgz \
 		$CW_WEBIF_TARFILE \
 		$CW_CONFIG_TARFILE"
 

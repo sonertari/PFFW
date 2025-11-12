@@ -3928,7 +3928,8 @@ class File_X509
                     array(
                         'version' => 'v1',
                         'subject' => $this->dn,
-                        'subjectPKInfo' => $publicKey
+                        'subjectPKInfo' => $publicKey,
+                        'attributes' => array()
                     ),
                     'signatureAlgorithm' => array('algorithm' => $signatureAlgorithm),
                     'signature'          => false // this is going to be overwritten later
@@ -4087,11 +4088,11 @@ class File_X509
         $version = isset($tbsCertList['version']) ? $tbsCertList['version'] : 0;
         if (!$version) {
             if (!empty($tbsCertList['crlExtensions'])) {
-                $version = 1; // v2.
+                $version = 'v2'; // v2.
             } elseif (!empty($tbsCertList['revokedCertificates'])) {
                 foreach ($tbsCertList['revokedCertificates'] as $cert) {
                     if (!empty($cert['crlEntryExtensions'])) {
-                        $version = 1; // v2.
+                        $version = 'v2'; // v2.
                     }
                 }
             }

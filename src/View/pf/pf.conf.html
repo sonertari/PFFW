@@ -68,10 +68,10 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
            include "/etc/pf/sub.filter.conf"
 
 <a name="Macro"></a>
-     Macros can be defined that will later be expanded in context.  Macro
-     names must start with a letter, digit, or underscore, and may contain any
-     of those characters.  Macro names may not be reserved words (for example
-     <span class="bold">pass</span>, <span class="bold">in</span>, <span class="bold">out</span>).  Macros are not expanded inside quotes.
+     A macro is defined with a command of the form <span class="underline">name</span>=<span class="underline">value</span>.  The macro <span class="underline">name</span>
+     can contain letters, digits, and underscores and cannot be a reserved
+     word (for example, <span class="bold">pass</span>, <span class="bold">in</span>, or <span class="bold">out</span>).  Within unquoted arguments, the
+     string $<span class="underline">name</span> is later expanded to <span class="underline">value</span>.
 
      For example:
 
@@ -2296,7 +2296,7 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
 <span class="bold">HISTORY</span>
      The <span class="bold">pf.conf</span> file format first appeared in OpenBSD 3.0.
 
-OpenBSD 7.7                     April 15, 2024                     OpenBSD 7.7
+OpenBSD 7.8                      July 7, 2025                       PF.CONF(5)
 </pre>
 </body>
 </html>

@@ -28,7 +28,7 @@ fi
 echo "ARCH= $ARCH"
 
 ROOT_PATH=$(pwd)
-VERSION='7.7'
+VERSION='7.8'
 SUBVERSION=_$(date +%Y%m%d)
 VMAJ=${VERSION%%\.*}
 VMIN=${VERSION##*\.}
@@ -60,7 +60,7 @@ CD_PATH=cd/${ARCH}
 INSTALL_SETS_PATH=${VERSION}/${ARCH}
 SYS_ID="OpenBSD ${VERSION} ${ARCH}"
 VOL_ID="PFFW ${VERSION}${SUBVERSION} ${ARCH}"
-PREP_ID="Soner Tari <sonertari@gmail.org>"
+PREP_ID="Soner Tari <sonertari@gmail.com>"
 PUBLISH_ID="Copyright (C) 2025 Soner Tari, The PFFW project"
 APP_ID="PFFW is a pf firewall running on OpenBSD ${VERSION}"
 
