@@ -14,22 +14,22 @@ PFFW runs on amd64 and arm64 architectures. So, the PFFW project releases instal
 
 Amd64:
 
-- [pffw78\_20251111\_amd64.iso](https://drive.google.com/file/d/17NMxOpBklnzlNAm0Kz0VHyDxhqKd0qCp/view?usp=sharing)
-	+ SHA256 checksum: 70f163c2fef34dbd3bac05d48f006c1b2f62547aa7051593597168c760b350c2
+- [pffw78\_20251112\_amd64.iso](https://drive.google.com/file/d/1UqnwIfMH6iqGeILidGcX-MSt1VaduY1E/view?usp=sharing)
+	+ SHA256 checksum: 3667ac73cc20bfd49100fe32c513051fc63a7c5995d7a3727db77a71f5107c40
 	+ Tested on VMware
 
-- [pffw78\_20251111\_amd64.img](https://drive.google.com/file/d/1crnOCNWMI9WNobGKyWmhW4267G5zDdWf/view?usp=sharing)
-	+ SHA256 checksum: be53694f1ab14de0bb70511788c4ce9aea31232fad4eaf502704b46c35225769
+- [pffw78\_20251112\_amd64.img](https://drive.google.com/file/d/1Z8GdZX26RPk2CAdwqIhHzDfqkHwi6kn8/view?usp=sharing)
+	+ SHA256 checksum: b8737d00109823bb943b5fbb9764b62cef3474fcbd9ae141d0b4cdc797f41e70
 	+ Tested on bare hardware
 
 Arm64:
 
-- [pffw78\_20251111\_arm64.iso](https://drive.google.com/file/d/1z2Yz-G1TW5HzVuIq7UnApv0-p5TQrZiX/view?usp=sharing)
-	+ SHA256 checksum: eb6e2e864d2061eb43b1927d8478db966436478f76967148b4360a013ce78f2f
+- [pffw78\_20251112\_arm64.iso](https://drive.google.com/file/d/15nCZT9iS9lme8tqvc01E_yXJg_PIzL83/view?usp=sharing)
+	+ SHA256 checksum: 1d98440731c38ba675dec91c02b3d5741e140c64fd92dbc927261d81318d16e8
 	+ Tested on UTM for macOS
 
-- [pffw78\_20251111\_arm64.img](https://drive.google.com/file/d/11hS1x8925dVhEuqNhssTcRsqCm7UTnz9/view?usp=sharing)
-	+ SHA256 checksum: 07e1734bc0b8a3cf81ab809c6a57d0b213a79b57c65b2b4340458cb47bc8b591
+- [pffw78\_20251112\_arm64.img](https://drive.google.com/file/d/16Tmt73Sn-fITNKVE9xXVhJkTWcK7bW-0/view?usp=sharing)
+	+ SHA256 checksum: cc8c07b0d74fbeb7d5ecb2e0d77495d5280a7aa666522c09335f1d194903908a
 	+ Tested on Raspberry Pi 4 Model B
 
 Make sure the SHA256 checksums are correct.
@@ -259,6 +259,7 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 		cvs -d anoncvs@anoncvs.spacehopper.org:/cvs -q up -Pd -rOPENBSD_X_Y
 		```
 	+ Download and copy [the Broadcom wifi drivers](https://github.com/pftf/RPi4/tree/master/firmware/brcm) for Raspberry Pi 4 to /etc/firmware/
+		+ During installation and first boot, fw_update downloads and overwrites the bwfm firmware under /etc/firmware/. If you have problems with the bwfm wifi interface, for example in hostap mode, you are advised to revert to the firmware at the link provided here.
 	+ Follow the instructions in release(8), this step takes about 6 hours on a relatively fast amd64 computer and longer than 60 hours on a Raspberry Pi 4
 		+ Build the kernel and reboot
 		+ Build the base system
