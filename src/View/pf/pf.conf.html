@@ -58,7 +58,7 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
      commenting out multi-line text: the comment is effective until the end of
      the entire block.
 
-     Argument names not beginning with a letter, digit, or underscore must be
+     Arguments not beginning with a letter, digit, or underscore must be
      quoted.
 
 <a name="Include"></a>
@@ -467,6 +467,22 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
              will drop 20% of incoming ICMP packets:
 
                    block in proto icmp probability 20%
+
+     <span class="bold">state</span> <span class="bold">limiter</span> <span class="underline">name</span> [<span class="bold">(limiter</span> <span class="bold">options)</span>]
+             Use the specified state limiter to restrict the creation of
+             states by this rule.  By default if capacity is not available,
+             the packet gets blocked and ruleset evaluation stops.  Use
+             <span class="bold">no-match</span> option to change default behavior such rule is ignored
+             and ruleset evaluation continues with next rule.  See the <span class="underline">State</span>
+             <span class="underline">Limiters</span> section for more information.
+
+     <span class="bold">source</span> <span class="bold">limiter</span> <span class="underline">name</span> [<span class="bold">(limiter</span> <span class="bold">options)</span>]
+             Use the specified source limiter to restrict the creation of
+             states by this rule.  By default if capacity is not available,
+             the packet gets blocked and ruleset evaluation stops.  Use
+             <span class="bold">no-match</span> option to change default behavior such rule is ignored
+             and ruleset evaluation continues with next rule.  See the <span class="underline">Source</span>
+             <span class="underline">Limiters</span> section for more information.
 
 <a name="prio"></a>
      <span class="bold">prio</span> <span class="underline">number</span>
@@ -1603,6 +1619,115 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
 
            pass in proto tcp from any to any port www synproxy state
 
+   <span class="bold">State</span> <span class="bold">Limiters</span>
+     State limiters provide a mechanism to limit the number of states created,
+     or the rate of state creation, by a set of rules.  State limiters are
+     configured and loaded with the main ruleset, but can be used by rules in
+     any anchor.  The overall number of states is still subject to the limit
+     set with <span class="bold">set</span> <span class="bold">limit</span> <span class="bold">states</span>, but the number of states created by a subset
+     of rules can be provided by a state limiter.
+
+     A state limiter is configured with the following statement:
+
+     <span class="bold">state</span> <span class="bold">limiter</span> <span class="underline">name</span>
+           Each state limiter is identified by a unique name.
+
+     State limiters support the following configuration:
+
+     <span class="bold">id</span> <span class="underline">number</span>
+           A unique identifier between 1 and 255.  This configuration is
+           required.
+     <span class="bold">limit</span> <span class="underline">number</span>
+           Specify the maximum number of states.  This configuration is
+           required.
+     <span class="bold">rate</span> <span class="underline">number</span>/<span class="underline">seconds</span>
+           Limit the rate at which states can be created over a time interval.
+           The connection rate is an approximation calculated as a moving
+           average.
+
+     Pass rules can specify a state limiter using the <span class="bold">state</span> <span class="bold">limiter</span> <span class="underline">name</span>
+     option.  If the number of states allowed has hit the limit, the pass rule
+     does not match and ruleset evaluation continues past it.
+
+     An example use case for a state limiter is to restrict the number of
+     connections allowed to a service that is accessible via multiple
+     protocols, e.g. a DNS server that can be accessed by both TCP and UDP on
+     port 53, DNS-over-TLS on TCP port 853, and DNS-over-HTTPS on TCP port 443
+     can be limited to 1000 concurrent connections:
+
+           state limiter "dns-server" id 1 limit 1000
+
+           pass in proto { tcp udp } to port domain state limiter "dns-server"
+           pass in proto tcp to port { 853 443 } state limiter "dns-server"
+
+   <span class="bold">Source</span> <span class="bold">Limiters</span>
+     Source limiters apply limits on the number of states, or the rate of
+     state creation, for connections coming from a source address or network
+     for a set of rules.  Source limiters are configured and loaded with the
+     main ruleset, but can be used by rules in any anchor.  The overall number
+     of states is still subject to the limit set with <span class="bold">set</span> <span class="bold">limit</span> <span class="bold">states</span>, but
+     limits on states for a subset of source addresses and rules can be
+     provided with source limiters.
+
+     Source address entries in source pools are created on demand, and are
+     used to account for the states created for each source address or
+     network.  A source limiter specifies the maximum number of source address
+     entries it will track, and can be configured to mask bits in network
+     prefixes to have source entries cover larger portions of the address
+     space if needed.
+
+     A source limiter is configured with the following statement:
+
+     <span class="bold">source</span> <span class="bold">limiter</span> <span class="underline">name</span>
+           Each source limiter is uniquely identified by the specified name.
+
+     Source limiter support the following configuration:
+
+     <span class="bold">id</span> <span class="underline">number</span>
+           A unique identifier between 1 and 255.  This configuration is
+           required.
+     <span class="bold">entries</span> <span class="underline">number</span>
+           Specify the maximum number of source address entries.  This
+           configuration is required.
+     <span class="bold">limit</span> <span class="underline">number</span>
+           Specify the maximum number of states for each source address entry.
+           This configuration is required.
+     <span class="bold">rate</span> <span class="underline">number</span>/<span class="underline">seconds</span>
+           Limit the rate at which states can be created by each source
+           address entry over a time interval.  The connection rate is an
+           approximation calculated as a moving average.
+     <span class="bold">inet</span> <span class="bold">mask</span> <span class="underline">prefixlen</span>
+           Mask IPv4 source addresses using the prefix length specified with
+           <span class="underline">prefixlen</span> when creating an address entry.  The default IPv4 prefix
+           length is 32 bits.
+     <span class="bold">inet6</span> <span class="bold">mask</span> <span class="underline">prefixlen</span>
+           Mask IPv6 source addresses using the prefix length specified with
+           <span class="underline">prefixlen</span> when creating an address entry.  The default IPv6 prefix
+           length is 128 bits.
+     <span class="bold">table</span> <span class="bold">&lt;</span><span class="underline">table</span>&gt; <span class="bold">above</span> <span class="underline">hwm</span> [<span class="bold">below</span> <span class="underline">lwm</span>]
+           Add the address to the specified <span class="underline">table</span> when the number of states
+           goes above the <span class="underline">hwm</span> high water mark.  The address will be removed
+           from the table when the number of states drops below the <span class="underline">lwm</span> low
+           water mark.  The default low water mark is 0.
+
+     Pass rules can specify a source limiter using the <span class="bold">source</span> <span class="bold">limiter</span> <span class="underline">name</span>
+     option.
+
+     An example use for a source limiter is the mitigation of denial of
+     service caused by the exhaustion of firewall resources by network or port
+     scans from outside the network.  The states created by any one scanner
+     from any one source address can be limited to avoid impacting other
+     sources.  Below, up to 10000 IPv4 hosts and IPv6 /64 networks from the
+     external network are each limited to a maximum of 1000 connections, and
+     are rate limited to creating 100 states over a 10 second interval:
+
+           source limiter "internet" id 1 entries 10000 \
+                   limit 1000 rate 100/10 \
+                   inet6 mask 64
+
+           block in on egress
+           pass in on egress source limiter "internet"
+
 <a name="State"></a>
    <span class="bold">Stateful</span> <span class="bold">Tracking</span> <span class="bold">Options</span>
      A number of options related to stateful tracking can be applied on a per-
@@ -2141,7 +2266,11 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
                       "set delay" number |
                       "set prio" ( number | "(" number [ [ "," ] number ] ")" ) |
                       "set queue" ( string | "(" string [ [ "," ] string ] ")" ) |
-                      "rtable" number | "probability" number"%" | "prio" number |
+                      "rtable" number | "probability" number"%" |
+                      "state limiter" name |
+                      "state limiter" name "(" limiter-opts ")" |
+                      "source limiter" name |
+                      "source limiter" name "(" limiter-opts ")" | "prio" number |
                       "af-to" af "from" ( redirhost | "{" redirhost-list "}" )
                       [ "to" ( redirhost | "{" redirhost-list "}" ) ] |
                       "binat-to" ( redirhost | "{" redirhost-list "}" )
@@ -2280,6 +2409,8 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
                       "source-hash" [ ( hex-key | string-key ) ] )
                       [ "sticky-address" ]
 
+     limiter-opts   = "block" | "no-match"
+
      include        = "include" filename
 
 <span class="bold">FILES</span>
@@ -2296,7 +2427,7 @@ PF.CONF(5)                    File Formats Manual                   PF.CONF(5)
 <span class="bold">HISTORY</span>
      The <span class="bold">pf.conf</span> file format first appeared in OpenBSD 3.0.
 
-OpenBSD 7.8                      July 7, 2025                       PF.CONF(5)
+OpenBSD 7.9                    January 18, 2026                     PF.CONF(5)
 </pre>
 </body>
 </html>

@@ -1433,7 +1433,7 @@ class Crypt_RSA
 
                 return $components;
             case CRYPT_RSA_PUBLIC_FORMAT_OPENSSH:
-                $parts = explode(' ', $key, 3);
+                $parts = preg_split("#[\t ]+#", $key);
 
                 $key = isset($parts[1]) ? base64_decode($parts[1]) : false;
                 if ($key === false) {
@@ -1494,12 +1494,16 @@ class Crypt_RSA
                 }
                 // add <xml></xml> to account for "dangling" tags like <BitStrength>...</BitStrength> that are sometimes added
                 if (!xml_parse($xml, '<xml>' . $key . '</xml>')) {
-                    xml_parser_free($xml);
+                    if (is_resource($xml) && function_exists('xml_parser_free')) {
+                        xml_parser_free($xml);
+                    }
                     unset($xml);
                     return false;
                 }
 
-                xml_parser_free($xml);
+                if (is_resource($xml) && function_exists('xml_parser_free')) {
+                    xml_parser_free($xml);
+                }
                 unset($xml);
 
                 return isset($this->components['modulus']) && isset($this->components['publicExponent']) ? $this->components : false;
@@ -2922,7 +2926,7 @@ class Crypt_RSA
         $db = $ps . chr(1) . $salt;
         $dbMask = $this->_mgf1($h, $emLen - $this->hLen - 1);
         $maskedDB = $db ^ $dbMask;
-        $maskedDB[0] = ~chr(0xFF << ($emBits & 7)) & $maskedDB[0];
+        $maskedDB[0] = ~chr(256 - (1 << ($emBits & 7))) & $maskedDB[0];
         $em = $maskedDB . $h . chr(0xBC);
 
         return $em;
@@ -2958,13 +2962,13 @@ class Crypt_RSA
 
         $maskedDB = substr($em, 0, -$this->hLen - 1);
         $h = substr($em, -$this->hLen - 1, $this->hLen);
-        $temp = chr(0xFF << ($emBits & 7));
+        $temp = chr(256 - (1 << ($emBits & 7)));
         if ((~$maskedDB[0] & $temp) != $temp) {
             return false;
         }
         $dbMask = $this->_mgf1($h, $emLen - $this->hLen - 1);
         $db = $maskedDB ^ $dbMask;
-        $db[0] = ~chr(0xFF << ($emBits & 7)) & $db[0];
+        $db[0] = ~chr(256 - (1 << ($emBits & 7))) & $db[0];
         $temp = $emLen - $this->hLen - $sLen - 2;
         if (substr($db, 0, $temp) != str_repeat(chr(0), $temp) || ord($db[$temp]) != 1) {
             return false;

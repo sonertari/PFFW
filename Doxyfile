@@ -1,11 +1,11 @@
-# Doxyfile 1.14.0
+# Doxyfile 1.15.0
 
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "PF Firewall"
-PROJECT_NUMBER         = 7.8
+PROJECT_NUMBER         = 7.9
 PROJECT_BRIEF          =
 PROJECT_LOGO           =
 PROJECT_ICON           =
@@ -49,6 +49,7 @@ OPTIMIZE_OUTPUT_VHDL   = NO
 OPTIMIZE_OUTPUT_SLICE  = NO
 EXTENSION_MAPPING      =
 MARKDOWN_SUPPORT       = YES
+MARKDOWN_STRICT        = YES
 TOC_INCLUDE_HEADINGS   = 0
 MARKDOWN_ID_STYLE      = DOXYGEN
 AUTOLINK_SUPPORT       = YES

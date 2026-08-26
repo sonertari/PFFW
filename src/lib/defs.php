@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2004-2025 Soner Tari
+ * Copyright (C) 2004-2026 Soner Tari
  *
  * This file is part of UTMFW.
  *
@@ -23,7 +23,7 @@
  */
 
 /// Project version.
-define('VERSION', '7.8');
+define('VERSION', '7.9');
 
 $ROOT= dirname(dirname(dirname(__FILE__)));
 $SRC_ROOT= dirname(dirname(__FILE__));

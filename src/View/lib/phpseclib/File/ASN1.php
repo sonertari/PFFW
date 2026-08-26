@@ -1275,6 +1275,10 @@ class File_ASN1
      */
     function _decodeOID($content)
     {
+        if (!defined('PHP_INT_SIZE')) {
+            define('PHP_INT_SIZE', 4);
+        }
+
         static $eighty;
         if (!$eighty) {
             $eighty = new Math_BigInteger(80);
@@ -1284,8 +1288,8 @@ class File_ASN1
         $pos = 0;
         $len = strlen($content);
         // see https://github.com/openjdk/jdk/blob/2deb318c9f047ec5a4b160d66a4b52f93688ec42/src/java.base/share/classes/sun/security/util/ObjectIdentifier.java#L55
-        if ($len > 4096) {
-            //user_error('Object Identifier size is limited to 4096 bytes');
+        if ($len > 128) {
+            //user_error('Object Identifier size is limited to 128 bytes');
             return false;
         }
 
@@ -1294,13 +1298,21 @@ class File_ASN1
         }
 
         $n = new Math_BigInteger();
+        $subn = $numBytes = 0;
         while ($pos < $len) {
             $temp = ord($content[$pos++]);
-            $n = $n->bitwise_leftShift(7);
-            $n = $n->bitwise_or(new Math_BigInteger($temp & 0x7F));
-            if (~$temp & 0x80) {
-                $oid[] = $n;
-                $n = new Math_BigInteger();
+            $subn <<= 7;
+            $subn |= ($temp & 0x7F);
+            $numBytes++;
+            $endByte = ~$temp & 0x80;
+            if ($numBytes === PHP_INT_SIZE || $endByte) {
+                $n = $n->bitwise_leftShift($numBytes * 7);
+                $n = $n->bitwise_or(new Math_BigInteger($subn));
+                $subn = $numBytes = 0;
+                if ($endByte) {
+                    $oid[] = $n;
+                    $n = new Math_BigInteger();
+                }
             }
         }
         $part1 = array_shift($oid);

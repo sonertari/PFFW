@@ -14,21 +14,21 @@ PFFW runs on amd64 and arm64 architectures. So, the PFFW project releases instal
 
 Amd64:
 
-- [pffw78\_20251112\_amd64.iso](https://drive.google.com/file/d/1UqnwIfMH6iqGeILidGcX-MSt1VaduY1E/view?usp=sharing)
+- [pffw79\_20260830\_amd64.iso](https://drive.google.com/file/d/1UqnwIfMH6iqGeILidGcX-MSt1VaduY1E/view?usp=sharing)
 	+ SHA256 checksum: 3667ac73cc20bfd49100fe32c513051fc63a7c5995d7a3727db77a71f5107c40
 	+ Tested on VMware
 
-- [pffw78\_20251112\_amd64.img](https://drive.google.com/file/d/1Z8GdZX26RPk2CAdwqIhHzDfqkHwi6kn8/view?usp=sharing)
+- [pffw79\_20260830\_amd64.img](https://drive.google.com/file/d/1Z8GdZX26RPk2CAdwqIhHzDfqkHwi6kn8/view?usp=sharing)
 	+ SHA256 checksum: b8737d00109823bb943b5fbb9764b62cef3474fcbd9ae141d0b4cdc797f41e70
 	+ Tested on bare hardware
 
 Arm64:
 
-- [pffw78\_20251112\_arm64.iso](https://drive.google.com/file/d/15nCZT9iS9lme8tqvc01E_yXJg_PIzL83/view?usp=sharing)
+- [pffw79\_20260830\_arm64.iso](https://drive.google.com/file/d/15nCZT9iS9lme8tqvc01E_yXJg_PIzL83/view?usp=sharing)
 	+ SHA256 checksum: 1d98440731c38ba675dec91c02b3d5741e140c64fd92dbc927261d81318d16e8
 	+ Tested on UTM for macOS
 
-- [pffw78\_20251112\_arm64.img](https://drive.google.com/file/d/16Tmt73Sn-fITNKVE9xXVhJkTWcK7bW-0/view?usp=sharing)
+- [pffw79\_20260830\_arm64.img](https://drive.google.com/file/d/16Tmt73Sn-fITNKVE9xXVhJkTWcK7bW-0/view?usp=sharing)
 	+ SHA256 checksum: cc8c07b0d74fbeb7d5ecb2e0d77495d5280a7aa666522c09335f1d194903908a
 	+ Tested on Raspberry Pi 4 Model B
 
@@ -115,7 +115,7 @@ A few notes about PFFW installation:
 
 ## How to build
 
-The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.8 and have installed git, gettext, and doxygen on it.
+The purpose in this section is to build the installation iso or img file using the createiso or createimg script, respectively, at the root of the project source tree. You are expected to be doing these on an OpenBSD 7.9 and have installed git, gettext, and doxygen on it.
 
 ### Build summary
 
@@ -159,6 +159,10 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 
 - Configure OpenBSD:
 	+ Create a local user, after reboot add it to /etc/doas.conf
+		```
+		permit nopass keepenv soner as root
+		```
+
 	+ Create a separate partition mounted on /dest, which will be needed to make release(8)
 	+ Add noperm to /dest in /etc/fstab
 	+ Create the /dest/dest/ and /dest/rel/ folders
@@ -309,9 +313,9 @@ The following are steps you can follow to build PFFW yourself. Some of these ste
 - Update d3js to its new version if any:
 	+ Fix any issues caused by any API changes
 
-- Strip xbase and xfont:
-	+ Make sure the contents are the same as in the files in the old iso and img files, except for the version numbers
-	+ SECURITY: Be very careful with the permissions of the directories and files in these install sets, they should be the same as the original files
+- OPTIONAL: Strip xfont:
+	+ Make sure the contents are the same as in the files in the old iso and img files
+	+ SECURITY: Be very careful with the permissions of the directories and files in this install set, they should be the same as in the original file
 
 - Run the create script:
 	+ Install gettext-tools and doxygen for translations and documentation
