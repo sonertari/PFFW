@@ -388,7 +388,7 @@ function readline2($prompt= '')
 }
 
 /**
- * Create admin and user.
+ * Create users.
  *
  * Password should have at least 8 alphanumeric chars.
  */
@@ -399,8 +399,8 @@ function CreateUsers()
 	// In case
 	$View->Model= 'system';
 	
-	echo "\nPassword for WUI users 'admin' and 'user'\n";
-	echo "To use the WUI, log in as 'admin' or 'user' with this password\n";
+	echo "\nPassword for WUI user 'admin'\n";
+	echo "To use the WUI, log in as 'admin' with this password\n";
 	echo "You can change user passwords on the WUI:\n";
 	
 	while (TRUE) {
@@ -417,15 +417,7 @@ function CreateUsers()
 				// Update admin password
 				if ($View->Controller($output, 'CreateUser', 'admin', $sha1Passwd, 1000)) {
 					wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: admin');
-					// Update user password
-					if ($View->Controller($output, 'CreateUser', 'user', $sha1Passwd, 1001)) {
-						echo "\nSuccessfully created WUI users: 'admin' and 'user'.\n";
-						wui_syslog(LOG_NOTICE, __FILE__, __FUNCTION__, __LINE__, 'User created: user');
-					}
-					else {
-						echo "\nUser create failed: user.\n";
-						wui_syslog(LOG_ERR, __FILE__, __FUNCTION__, __LINE__, 'User create failed: user');
-					}
+					echo "\nSuccessfully created WUI user: 'admin'.\n";
 				}
 				else {
 					echo "\nUser create failed: admin.\n";

@@ -22,7 +22,7 @@
 /** @file
  * Login shell for users.
  *
- * We set the login shells of admin and user users to sh.php.
+ * We set the login shell of admin user to sh.php.
  *
  * Using a shell script to pass args to the Controller commands would expand
  * those args, hence could cause security issues.

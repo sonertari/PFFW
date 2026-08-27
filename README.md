@@ -57,7 +57,6 @@ The web user interface of PFFW helps you manage your firewall:
 - Statistics collected over logs are displayed in bar charts and top lists. Bar charts and top lists are clickable, so you don't need to touch your keyboard to search anything on the statistics pages. You can view the top lists on pie charts too. Statistics over compressed log files are supported.
 - The web user interface provides many help boxes and windows, which can be disabled.
 - Man pages of OpenBSD and installed software can be accessed and searched on the web user interface.
-- There are two users who can log in to the web user interface. Unprivileged user does not have access rights to configuration pages, thus cannot interfere with system settings, and cannot even change user password (i.e. you can safely give the unprivileged user's password to your boss).
 - The web user interface supports English and Turkish.
 - The web user interface configuration pages are designed such that changes you may have made to the configuration files on the command line (such as comments you might have added) remain intact after you configure a module using the web user interface.
 
@@ -89,7 +88,7 @@ Installation logs can be found under the /root directory.
 
 You can access the web administration interface using the IP address of the system's internal interface you have selected during installation. You can log in to the system over ssh from internal network.
 
-Web interface user names are admin and user. Both are set to the same password you provide during installation.
+The web interface user is admin. It is set to the password you provide during installation.
 
 References:
 
