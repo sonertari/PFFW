@@ -46,6 +46,9 @@ msgstr ""
 msgid "Anchor"
 msgstr ""
 
+msgid "Anchors"
+msgstr ""
+
 msgid "And <COUNT> others not shown."
 msgstr ""
 
@@ -581,6 +584,9 @@ msgid "Pfctl Timeout"
 msgstr ""
 
 msgid "Physical Memory"
+msgstr ""
+
+msgid "Pktdelay pkts"
 msgstr ""
 
 msgid "Prio"

@@ -155,7 +155,7 @@ msgstr ""
 msgid "enable"
 msgstr ""
 
-msgid "pffw currently supports only admin and user usernames"
+msgid "pffw currently supports only admin username"
 msgstr ""
 
 msgid "restart"

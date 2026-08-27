@@ -157,6 +157,9 @@ msgstr ""
 msgid "Anchor"
 msgstr ""
 
+msgid "Anchors"
+msgstr ""
+
 msgid "And <COUNT> others not shown."
 msgstr ""
 
@@ -720,9 +723,6 @@ msgstr ""
 msgid "Enforce TOS"
 msgstr ""
 
-msgid "English"
-msgstr ""
-
 msgid "Enter blank lines here"
 msgstr ""
 
@@ -1089,13 +1089,11 @@ msgid "Help Boxes"
 msgstr ""
 
 msgid ""
-"Here you can change the web administration interface passwords for admin and "
+"Here you can change the web administration interface password for admin "
 "user. Passwords should have at least 8 alphanumeric characters.\n"
 "\n"
-"Admin can change the user password without knowing the current user "
-"password. But if you forget the admin password, you should login to the "
-"system as root and run the following on the command line to set the password "
-"to soner123:\n"
+"If you forget the admin password, you should login to the system as root and "
+"run the following on the command line to set the password to soner123:\n"
 "<code>/usr/bin/chpass -a \"admin:$(/usr/bin/encrypt `/bin/echo -n soner123 | "
 "sha1 -`):1000:1000::0:0:PFFW admin:/var/empty:/var/www/htdocs/pffw/"
 "Controller/sh.php\"</code>"
@@ -1727,9 +1725,6 @@ msgstr ""
 msgid "Notifications"
 msgstr ""
 
-msgid "Notifier"
-msgstr ""
-
 msgid "Notifier API Key"
 msgstr ""
 
@@ -1951,6 +1946,9 @@ msgid ""
 msgstr ""
 
 msgid "Physical Memory"
+msgstr ""
+
+msgid "Pktdelay pkts"
 msgstr ""
 
 msgid "Port"
@@ -2829,9 +2827,6 @@ msgstr ""
 msgid "Transfer"
 msgstr ""
 
-msgid "Turkish"
-msgstr ""
-
 msgid "Turn off service"
 msgstr ""
 
@@ -3158,7 +3153,7 @@ msgstr ""
 msgid "persist mfs"
 msgstr ""
 
-msgid "pffw currently supports only admin and user usernames"
+msgid "pffw currently supports only admin username"
 msgstr ""
 
 msgid "primary"

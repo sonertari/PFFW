@@ -7,15 +7,15 @@ msgstr ""
 "Project-Id-Version: PFFW 7.9\n"
 "Report-Msgid-Bugs-To: sonertari@gmail.com\n"
 "POT-Creation-Date: 2009-11-11 16:21+0200\n"
-"PO-Revision-Date: 2021-08-07 19:34+0300\n"
+"PO-Revision-Date: 2026-08-27 14:48+0300\n"
 "Last-Translator: Soner Tari <sonertari@gmail.com>\n"
-"Language: tr\n"
 "Language-Team: Turkish <>\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Gtranslator 3.36.0\n"
+"X-Generator: Poedit 3.4.2\n"
 
 msgid "1 minute average"
 msgstr "1 dakikalık ortalama"
@@ -64,6 +64,9 @@ msgstr "Seçeneklere İzin Ver"
 
 msgid "Anchor"
 msgstr "Çapa"
+
+msgid "Anchors"
+msgstr "Çapalar"
 
 msgid "And <COUNT> others not shown."
 msgstr "Ve <COUNT> adet gösterilmeyen var."
@@ -601,6 +604,9 @@ msgstr "Pfctl Zaman Aşımı"
 
 msgid "Physical Memory"
 msgstr "Fiziksel Bellek"
+
+msgid "Pktdelay pkts"
+msgstr "Pkt geciktirme paketleri"
 
 msgid "Prio"
 msgstr "Önc"

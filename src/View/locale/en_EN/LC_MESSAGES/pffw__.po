@@ -133,9 +133,6 @@ msgstr ""
 msgid "Enable notifier SSL verify peer"
 msgstr ""
 
-msgid "English"
-msgstr ""
-
 msgid "Erase statistics files"
 msgstr ""
 
@@ -728,9 +725,6 @@ msgid "Timed out running command"
 msgstr ""
 
 msgid "Too many args"
-msgstr ""
-
-msgid "Turkish"
 msgstr ""
 
 msgid "Turn off service"
